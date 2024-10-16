@@ -1,0 +1,117 @@
+/* Components/CardSelector/CardSelector.module.css */
+.cardSelector {
+  margin: 20px 0;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.cardList {
+  display: flex;
+  flex-wrap: wrap; /* Adjust if you want cards to wrap */
+  gap: 10px; /* Space between cards */
+}
+
+.card {
+  background-color: rgb(247, 249, 253);
+  border-radius: 20px;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(20% - 40px);
+  transition: background-color 0.3s;
+  flex: 0 0 auto;
+  border: 1px solid rgb(247, 249, 253);
+}
+
+.card.selected {
+  border: 1px solid rgb(118, 232, 249);
+  background-color: #fff;
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: start;
+}
+
+.cardText {
+  flex: 1;
+}
+
+.card-selector {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cardSelectorWrapper {
+  display: flex;
+  overflow: auto;
+  gap: 15px;
+  padding-bottom: 50px;
+  margin-top: 30px;
+}
+.cardContent span {
+  background: linear-gradient(
+    -45deg,
+    rgb(0, 218, 246) 0%,
+    rgb(17, 159, 251) 59%,
+    rgb(33, 100, 255) 100%
+  );
+  padding: 5px;
+  color: #fff;
+  border-radius: 20px;
+
+  font-size: 12px;
+}
+.cardContent h5 {
+  color: #00214c;
+  font-weight: 400;
+}
+.cardSelectorWrapper .icon img {
+  width: 30px;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  object-fit: contain;
+  height: 30px;
+}
+.card.selected .icon img {
+  background-color: rgb(247, 249, 253);
+}
+.card:hover {
+  background-color: #00d9f5;
+}
+.card:hover h5 {
+  color: #fff;
+}
+
+.cardContent svg {
+  background-color: #fff;
+  padding: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 20px;
+  margin-left: 10px;
+}
+.card.selected .cardContent svg {
+  background-color: rgb(247, 249, 253);
+}
+.card .cardContent svg:first-of-type {
+  display: none;
+}
+.card.selected .cardContent svg:first-of-type {
+  display: block;
+}
+.card.selected .cardContent svg:last-of-type {
+  display: none;
+}
+.cardSelector_aiPicks {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
