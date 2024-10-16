@@ -14,6 +14,8 @@ const TabContent = ({ activeTab }) => {
             return <p>This is the content for My Auctions</p>;
         case 'My Support':
             return <p>This is the content for My Support</p>;
+        case 'Edit Profile':
+            return <p>This is the content for Edit Profile</p>;
         case 'Sellers Central':
             return (
                 <>
