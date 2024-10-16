@@ -15,14 +15,34 @@ add_action('wp_enqueue_scripts', 'enqueue_react_app');
 
 function enqueue_react_app()
 {
-    // Update the path according to your plugin's structure
-    $plugin_url = plugin_dir_url(__FILE__);
+    $plugin_dir = plugin_dir_path(__FILE__) . 'build/static/';
 
-    // Load the main CSS file
-    wp_enqueue_style('react-app-style', $plugin_url . 'build/static/css/main.dc4d6ff2.css', array(), time());
+    // Dynamically get the hashed CSS and JS files
+    $js_files = glob($plugin_dir . 'js/main*.js');
+    $css_files = glob($plugin_dir . 'css/main*.css');
 
-    // Load the main JavaScript file
-    wp_enqueue_script('react-app-script', $plugin_url . 'build/static/js/main.e09ca73f.js', array(), time(), true);
+    if (!empty($js_files)) {
+        // Extract the relative URL for JS
+        $js_file = str_replace(plugin_dir_path(__FILE__), '', $js_files[0]);
+        wp_enqueue_script(
+            'my-react-app-js',
+            plugins_url($js_file, __FILE__),
+            array(),
+            filemtime($js_files[0]),
+            true
+        );
+    }
+
+    if (!empty($css_files)) {
+        // Extract the relative URL for CSS
+        $css_file = str_replace(plugin_dir_path(__FILE__), '', $css_files[0]);
+        wp_enqueue_style(
+            'my-react-app-css',
+            plugins_url($css_file, __FILE__),
+            array(),
+            filemtime($css_files[0])
+        );
+    }
 }
 
 // function seller_dashboard_enqueue_assets()
@@ -86,10 +106,10 @@ add_shortcode('tests', 'test');
 function test()
 {
     ob_start();
-    ?>
+?>
     <div id="root"></div>
 
-    <?php
+<?php
     return ob_get_clean();
 }
 
