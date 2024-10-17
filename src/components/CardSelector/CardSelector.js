@@ -21,21 +21,38 @@ const CardSelector = ({ items }) => {
             {items.map((item, index) => (
                 <div
                     key={index}
-                    className={`${styles.card} ${selectedItems.includes(item) ? styles.selected : ''}`}
+                    className={`${styles.card} ${!item.icon ? styles.tagsItemsCards : ''} ${selectedItems.includes(item) ? styles.selected : ''}`}
                     onClick={() => toggleSelect(item)}
                 >
                     <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>
-                        <h5>{item.title}</h5>
-                        <div className={styles.cardSelector_aiPicks}>
-                            <span>{item.subtitle}</span>
-                            <RxCross2 />
-                            <GoPlus />
+                        {/* Conditionally render for tagsItems */}
+                        {!item.icon ? (
+                            <>
+                                <div className={styles.cardSelector_aiPicks}>
+                                    <GoPlus />
+                                    <RxCross2 />
+                                </div>
+                                <h5>{item.title}</h5>
+                                <span>{item.subtitle}</span>
+                            </>
+                        ) : (
+                            <>
+                                <h5>{item.title}</h5>
+                                <div className={styles.cardSelector_aiPicks}>
+                                    <span>{item.subtitle}</span>
+                                    <RxCross2 />
+                                    <GoPlus />
+                                </div>
+                            </>
+                        )}
+                    </div>
 
+                    {/* Conditionally render the icon only if item.icon exists */}
+                    {item.icon && (
+                        <div className={styles.icon}>
+                            <img src={item.icon} alt={`${item.title} icon`} />
                         </div>
-                    </div>
-                    <div className={styles.icon}>
-                        <img src={item.icon} alt={`${item.title} icon`} />
-                    </div>
+                    )}
                 </div>
             ))}
         </div>

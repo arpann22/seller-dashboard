@@ -638,9 +638,9 @@ body {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  width: 400px;
-  max-width: 80%;
   position: relative;
+  max-height: 80%;
+  overflow: auto;
 }
 
 .closeIcon {
@@ -665,6 +665,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-weight: 600;
 }
 .editProfilePopup input {
   padding: 15px;

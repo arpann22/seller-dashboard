@@ -41,6 +41,15 @@ const industryItems = [
     { title: 'Industry 4', subtitle: 'AI-PICK', icon: addDomaintitleImage },
     { title: 'Industry 4', subtitle: 'AI-PICK', icon: addDomaintitleImage },
 ];
+const tagsItems = [
+    { title: 'Modern', subtitle: 'AI-PICK' },
+    { title: 'Online Marketplace', subtitle: 'AI-PICK' },
+    { title: 'Marketing', subtitle: 'AI-PICK' },
+    { title: 'Community', subtitle: 'AI-PICK' },
+    { title: 'Online Marketplace', subtitle: 'AI-PICK' },
+    { title: 'Marketing', subtitle: 'AI-PICK' },
+    { title: 'Community', subtitle: 'AI-PICK' },
+]
 const SellerCentralTabContent = ({ activeInnerTab }) => {
     const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
     const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
@@ -184,6 +193,8 @@ const SellerCentralTabContent = ({ activeInnerTab }) => {
                                             <h5>Page Trust Score</h5>
                                             <p>64</p>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -303,7 +314,13 @@ const SellerCentralTabContent = ({ activeInnerTab }) => {
                     {/* domain description */}
                     <div className={`${styles.cardSelectorWrapper} ${styles.dashboard_section_margin}`}>
                         <h3>Domain Description</h3>
+                        <div className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+                            <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                            <h4>Tags</h4>
 
+                        </div>
+                        <div className='description_tags_wrapper'>
+                            <CardSelector items={tagsItems} /></div>
                     </div>
 
                     {/* industries */}

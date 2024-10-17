@@ -115,3 +115,9 @@
   align-items: center;
   margin-top: 10px;
 }
+.tagsItemsCards .cardContent {
+  flex-direction: row;
+}
+.description_tags_wrapper {
+  background-color: #000;
+}
