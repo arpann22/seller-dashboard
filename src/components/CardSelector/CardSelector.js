@@ -29,8 +29,8 @@ const CardSelector = ({ items }) => {
                         {!item.icon ? (
                             <>
                                 <div className={styles.cardSelector_aiPicks}>
-                                    <GoPlus />
                                     <RxCross2 />
+                                    <GoPlus />
                                 </div>
                                 <h5>{item.title}</h5>
                                 <span>{item.subtitle}</span>

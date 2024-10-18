@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
 // import React from 'react';
 import styles from './Tabs.module.css'; // Import styles
+import cardstyles from '../CardSelector/CardSelector.module.css';
 import addDomaintitleImage from './images/add-domain-pre-image.png'
 import mediaSetupIcon from './images/media_setup_icon.png'
 import attachAudioimg from './images/attach_audio_img.png'
 import domain_img from './images/chatseek.com.png'
+import add_product_icon from './images/add_product.png'
+import save_draft_icon from './images/save_draft.png'
 import { FaPlay } from "react-icons/fa";
 import { IoIosPause } from "react-icons/io";
 import profileImage from './images/profile.jpg';
@@ -17,8 +20,9 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import CardSelector from '../CardSelector/CardSelector.js';
 // import categories_icon from './images.categories-icon.png';
 import categories_icon from './images/categories-icon.png'
-
-
+import { FaCircle } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
+import { FiMail } from "react-icons/fi";
 
 
 
@@ -314,12 +318,12 @@ const SellerCentralTabContent = ({ activeInnerTab }) => {
                     {/* domain description */}
                     <div className={`${styles.cardSelectorWrapper} ${styles.dashboard_section_margin}`}>
                         <h3>Domain Description</h3>
-                        <div className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+                        <div className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
                             <img src={mediaSetupIcon} alt="Media Setup Icon" />
                             <h4>Tags</h4>
 
                         </div>
-                        <div className='description_tags_wrapper'>
+                        <div className={cardstyles.description_tags_wrapper}>
                             <CardSelector items={tagsItems} /></div>
                     </div>
 
@@ -334,6 +338,17 @@ const SellerCentralTabContent = ({ activeInnerTab }) => {
                         <CardSelector items={industryItems} />
                     </div>
 
+                    <div className={styles.save_button_wrappers}>
+                        <button className={styles.add_product_button}>
+                            <span className={styles.icon}><img src={add_product_icon} alt="Add Product Icon" /></span>
+                            <span>Add Product</span>
+                        </button>
+
+                        <button className={styles.save_draft_button}>
+                            <span className={styles.icon}><img src={save_draft_icon} alt="Save Draft Icon" /></span>
+                            <span>Save Draft</span>
+                        </button>
+                    </div>
 
                 </>
 
@@ -347,7 +362,117 @@ const SellerCentralTabContent = ({ activeInnerTab }) => {
         case 'Domains':
             return <p>This is the content for Domains</p>;
         case 'Manage Offers':
-            return <p>This is the content for Manage Offers</p>;
+            return (
+                <>
+
+                    <div className={styles.offers_tab_recent_offer_wrap}>
+                        <div className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+                            <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                            <h4>Recent Offers</h4>
+                        </div>
+                        <div>
+                            <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+                                <div className={styles.recentOffers_card}>
+                                    <div className={styles.recentOffers_card_image}>
+                                        <img src={domain_img}></img>
+                                    </div>
+                                    <div className={styles.recentOffers_card_titles}>
+                                        <p>Product</p>
+                                        <h5>debugbot.com</h5>
+                                    </div>
+                                    <div className={styles.recentOffers_card_details}>
+                                        <p>Offer Amount</p>
+                                        <h6>$5000</h6>
+                                    </div>
+                                </div>
+                                <div className={styles.recentOffers_card}>
+                                    <div className={styles.recentOffers_card_image}>
+                                        <img src={domain_img}></img>
+                                    </div>
+                                    <div className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}>
+                                        <p className='online'>Customer Online
+                                            <FaCircle />
+                                        </p>
+                                        <h5>Charles Bedford</h5>
+                                    </div>
+                                    <div className={styles.recentOffers_card_details}>
+                                        <p>Offer Expiry</p>
+                                        <h6>Oct 20, 2024</h6>
+                                    </div>
+                                </div>
+                                <div className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}>
+
+                                    <div className={styles.recentOffers_card_titles}>
+                                        <p>Status</p>
+                                        <h5 className={`${styles.offer_status} ${styles.pending}`}>
+                                            <FaCircle />
+                                            Pending</h5>
+                                    </div>
+                                    <div className={styles.recentOffers_card_details}>
+                                        <FaPlus />
+                                        <FiMail />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+                                    <div className={styles.recentOffers_card}>
+                                        <div className={styles.recentOffers_card_image}>
+                                            <img src={domain_img}></img>
+                                        </div>
+                                        <div className={styles.recentOffers_card_titles}>
+                                            <p>Product</p>
+                                            <h5>debugbot.com</h5>
+                                        </div>
+                                        <div className={styles.recentOffers_card_details}>
+                                            <p>Offer Amount</p>
+                                            <h6>$5000</h6>
+                                        </div>
+                                    </div>
+                                    <div className={styles.recentOffers_card}>
+                                        <div className={styles.recentOffers_card_image}>
+                                            <img src={domain_img}></img>
+                                        </div>
+                                        <div className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}>
+                                            <p className='online'>Customer Online
+                                                <FaCircle />
+                                            </p>
+                                            <h5>Charles Bedford</h5>
+                                        </div>
+                                        <div className={styles.recentOffers_card_details}>
+                                            <p>Offer Expiry</p>
+                                            <h6>Oct 20, 2024</h6>
+                                        </div>
+                                    </div>
+                                    <div className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}>
+
+                                        <div className={styles.recentOffers_card_titles}>
+                                            <p>Status</p>
+                                            <h5 className={`${styles.offer_status} ${styles.countered}`}>
+                                                <FaCircle />
+                                                Countered</h5>
+                                        </div>
+                                        <div className={styles.recentOffers_card_details}>
+                                            <FaPlus />
+                                            <FiMail />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div >
+
+                    <div className={styles.offers_tab_offer_wrap}>
+                        <div className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+                            <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                            <h4>Offers</h4>
+                        </div>
+
+
+                    </div>
+
+                </>
+            );
         case 'Wallet/Banking':
             return <p>This is the content for Wallet/Banking</p>;
         default:
