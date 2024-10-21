@@ -9,7 +9,7 @@ import logoutIcon from "./images/logout.png";
 import addDomainsIcon from "./images/add-domain-icon.png";
 import UserDetails from "./UserDetails";
 
-const Tabs = () => {
+const Tabs = ({ userData, setUserData }) => {
   // Main tabs
   const tabs = [
     { label: "My Orders", icon: myOrderIcon },
@@ -61,15 +61,16 @@ const Tabs = () => {
     <div className={`${styles.tabs} ${styles.ws_container}`}>
       <div className={styles.tabs_lists}>
         {/* Profile Section */}
-        <UserDetails />
+        <UserDetails userData={userData} setUserData={setUserData} />
         {/* Main Tab Buttons */}
         <div className={styles.tabLabels}>
           {tabs.map((tab) => (
             <button
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
-                }`}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                tab.label === activeTab ? styles.active : ""
+              }`}
               role="tab" // Accessibility role
               aria-selected={tab.label === activeTab} // Accessibility attribute
             >
@@ -98,7 +99,11 @@ const Tabs = () => {
 
       {/* Render TabContent based on active main tab */}
       <div className={styles.tabContent}>
-        <TabContent activeTab={activeTab} />
+        <TabContent
+          activeTab={activeTab}
+          userData={userData}
+          setUserData={setUserData}
+        />
       </div>
 
       {/* Seller Central Inner Tabs */}
@@ -109,9 +114,11 @@ const Tabs = () => {
               <button
                 key={tab.label}
                 onClick={() => setSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
-                  } ${tab.label === "Add New Domain" ? styles.specialButton : ""
-                  }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                  sellerCentralTab === tab.label ? styles.active : ""
+                } ${
+                  tab.label === "Add New Domain" ? styles.specialButton : ""
+                }`}
               >
                 <img
                   src={tab.icon}

@@ -6,8 +6,8 @@ import { AiOutlineClose } from "react-icons/ai"; // Import close icon
 import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
 
-export default function UserDetails() {
-  const [userData, setUserData] = useState({});
+export default function UserDetails({ userData, setUserData }) {
+  // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [successMessage, setSuccessMessage] = useState(""); // Success message state
@@ -24,7 +24,7 @@ export default function UserDetails() {
 
   useEffect(() => {
     // Fetch API data
-    fetch("http://localhost:10038/wp-json/wstr/v1/login", {
+    fetch("http://webstarter.local//wp-json/wstr/v1/login", {
       method: "GET",
       credentials: "include", // Include cookies for authentication
     })
@@ -123,7 +123,7 @@ export default function UserDetails() {
 
     // Send the form data to the server
     fetch(
-      `http://localhost:10038/wp-json/wstr/v1/update-user/${userData.id}`,
+      `http://webstarter.local//wp-json/wstr/v1/update-user/${userData.id}`,
       {
         method: "POST",
         // headers: {
