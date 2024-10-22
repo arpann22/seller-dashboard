@@ -97,7 +97,7 @@ export default function Orders({ userData }) {
                   </td>
                   <td>{order.meta._order_status[0]}</td>
                   <td>
-                    {order.meta._currency_symbol[0]}
+                    {order.meta._currency_symbol?.[0]}
                     {order.meta._order_total[0]}
                   </td>
                   <td>
