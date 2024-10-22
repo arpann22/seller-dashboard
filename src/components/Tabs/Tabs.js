@@ -132,7 +132,10 @@ const Tabs = ({ userData, setUserData }) => {
 
           {/* Render content for the selected inner tab */}
           <div className={styles.innerTabContent}>
-            <SellerCentralTabContent activeInnerTab={sellerCentralTab} />
+            <SellerCentralTabContent
+              activeInnerTab={sellerCentralTab}
+              userData={userData}
+            />
           </div>
         </>
       )}
