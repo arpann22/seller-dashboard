@@ -7,6 +7,7 @@ import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
 
 export default function UserDetails({ userData, setUserData }) {
+  const currentUrl = window.location.origin;
   // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -24,7 +25,7 @@ export default function UserDetails({ userData, setUserData }) {
 
   useEffect(() => {
     // Fetch API data
-    fetch("http://localhost:10038/wp-json/wstr/v1/login", {
+    fetch(`${currentUrl}/wp-json/wstr/v1/login`, {
       method: "GET",
       credentials: "include", // Include cookies for authentication
     })
@@ -122,19 +123,16 @@ export default function UserDetails({ userData, setUserData }) {
     // To check the contents of FormData:
 
     // Send the form data to the server
-    fetch(
-      `http://localhost:10038/wp-json/wstr/v1/update-user/${userData.id}`,
-      {
-        method: "POST",
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   // "X-WP-Nonce": wpApiSettings.nonce, // Uncomment this if using nonce for authentication
-        // },
-        credentials: "include", // Include cookies to send authentication information
-        // body: JSON.stringify(requestData),
-        body: formSubmissionData,
-      }
-    )
+    fetch(`${currentUrl}/wp-json/wstr/v1/update-user/${userData.id}`, {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   // "X-WP-Nonce": wpApiSettings.nonce, // Uncomment this if using nonce for authentication
+      // },
+      credentials: "include", // Include cookies to send authentication information
+      // body: JSON.stringify(requestData),
+      body: formSubmissionData,
+    })
       .then((response) => {
         if (!response.ok) {
           return response.json().then((errorData) => {

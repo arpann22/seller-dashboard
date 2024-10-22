@@ -123,18 +123,18 @@ function test()
 // add_action('admin_enqueue_scripts', 'enqueue_tinymce_for_react');
 
 
-function enqueue_tinymce_for_react()
-{
-    // Enqueue the WordPress default TinyMCE scripts
-    wp_enqueue_script('wp-tinymce');
+// function enqueue_tinymce_for_react()
+// {
+//     // Enqueue the WordPress default TinyMCE scripts
+//     wp_enqueue_script('wp-tinymce');
 
-    // Enqueue your custom TinyMCE initialization script
-    wp_enqueue_script(
-        'my-tinymce-init',
-        plugins_url('src/components/Tabs/my-tinymce-init.js', __FILE__), // Adjust the path as necessary
-        array('wp-tinymce'), // Dependency
-        null, // Version number
-        true // Load in footer
-    );
-}
-add_action('admin_enqueue_scripts', 'enqueue_tinymce_for_react');
+//     // Enqueue your custom TinyMCE initialization script
+//     wp_enqueue_script(
+//         'my-tinymce-init',
+//         plugins_url('src/components/Tabs/my-tinymce-init.js', __FILE__), // Adjust the path as necessary
+//         array('wp-tinymce'), // Dependency
+//         null, // Version number
+//         true // Load in footer
+//     );
+// }
+// add_action('admin_enqueue_scripts', 'enqueue_tinymce_for_react');

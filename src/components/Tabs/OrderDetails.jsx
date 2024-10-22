@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
-
-const url = "http://localhost:10038/wp-json/wp/v2/domain/";
+const currentUrl = window.location.origin;
+const url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
 const extractDomainId = (serializedString) => {
   const match = serializedString.match(/s:\d+:"(\d+)";/);
@@ -52,22 +52,31 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
     <>
       {/* Modal Structure */}
       {isModalOpen && (
-        <div className={styles.my_orders_modal_overlay} onClick={() => setIsModalOpen(false)}>
+        <div
+          className={styles.my_orders_modal_overlay}
+          onClick={() => setIsModalOpen(false)}
+        >
           <div
             className={styles.modal_content}
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
           >
-            <span className={styles.modal_close} onClick={() => setIsModalOpen(false)}>
+            <span
+              className={styles.modal_close}
+              onClick={() => setIsModalOpen(false)}
+            >
               &times;
             </span>
             <div className={styles.order_details_popup}>
               <p>
                 Order #{order.id} was placed on{" "}
-                {new Date(order.meta._date_created[0]).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}{" "}
+                {new Date(order.meta._date_created[0]).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  }
+                )}{" "}
                 and is currently {order.meta._order_status[0]}.
               </p>
               <h2>Order details</h2>
@@ -98,7 +107,8 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
               <h2>Billing address</h2>
               <div>
                 <p>
-                  {order.meta._billing_first_name[0]} {order.meta._billing_last_name[0]}
+                  {order.meta._billing_first_name[0]}{" "}
+                  {order.meta._billing_last_name[0]}
                 </p>
                 <p>{order.meta._billing_city[0]}</p>
                 <p>{order.meta._billing_address_1[0]}</p>
