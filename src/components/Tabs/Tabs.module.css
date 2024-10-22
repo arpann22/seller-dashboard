@@ -1011,3 +1011,144 @@ body {
 .payment_status_wrapper .tab_content {
   padding: 0 20px;
 }
+/* my orders popup */
+/* Modal overlay */
+.my_orders_modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content box */
+.modal_content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Close button */
+.modal_close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal_close:hover {
+  color: #00d9f5;
+}
+
+/* Modal fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Order details popup */
+.order_details_popup {
+  margin-top: 10px;
+}
+
+.order_details_popup h2 {
+  margin: 20px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.order_details_popup p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666;
+}
+
+/* Table inside modal */
+.order_details_popup table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order_details_popup th,
+.order_details_popup td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.order_details_popup th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.order_details_popup td {
+  font-size: 16px;
+  color: #333;
+}
+
+.order_details_popup tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.my_orders_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.my_orders_table thead {
+  background-color: #f8f8f8;
+}
+
+.my_orders_table th,
+.my_orders_table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.my_orders_table th {
+  font-weight: bold;
+}
+
+.my_orders_table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.my_orders_table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.my_orders_table tbody tr td button {
+  background-color: #00d9f5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}

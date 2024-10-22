@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 import OrderDetails from "./OrderDetails";
+import styles from "./Tabs.module.css"; // Import styles
 
 export default function Orders({ userData }) {
-  const url = "http://webstarter.local/wp-json/wstr/v1/orders/";
-  const order_url = "http://webstarter.local/wp-json/wp/v2/domain_order/";
+  const url = "http://localhost:10038/wp-json/wstr/v1/orders/";
+  const order_url = "http://localhost:10038/wp-json/wp/v2/domain_order/";
 
   const [orderIds, setOrderIds] = useState([]);
   const [error, setError] = useState("");
-
-  const [orderDetails, setOrderDetails] = useState([]); // for order details
-
-  const [modalOpen, setModalOpen] = useState(true); // for modal open
-
-  const [getOrder, setOrder] = useState("");
-
+  const [orderDetails, setOrderDetails] = useState([]); // Store all order details
+  const [modalOpen, setModalOpen] = useState(false); // Modal is initially closed
+  const [selectedOrder, setSelectedOrder] = useState(null); // To track which order is selected
   const [isLoading, setIsLoading] = useState(true);
-  //    for fetching order ids through api
+
+  // Fetch order IDs through API based on the user's ID
   useEffect(() => {
     if (userData.id) {
       async function fetchOrderIds() {
         try {
-          const res = await fetch(`${url}` + userData.id);
+          const res = await fetch(`${url}${userData.id}`);
           if (!res.ok) {
             const errorData = await res.json();
-            // console.log(errorData.message);
             setError(errorData.message);
           } else {
             const data = await res.json();
@@ -31,35 +28,29 @@ export default function Orders({ userData }) {
             setIsLoading(false);
           }
         } catch (err) {
-          //   console.log(err.message);
-          //   console.log("err" + err);
           setError(err.message);
         }
-        //   console.log(data);
       }
 
       fetchOrderIds();
     }
   }, [userData.id]);
 
+  // Fetch all order details based on the order IDs
   useEffect(() => {
     if (orderIds.length > 0) {
       async function fetchAllOrderDetails() {
         try {
-          // Map all order ID fetches into promises
           const orderDetailsPromises = orderIds.map(async (orderId) => {
-            const res = await fetch(`${order_url}` + orderId);
+            const res = await fetch(`${order_url}${orderId}`);
             if (!res.ok) {
               const errorData = await res.json();
               throw new Error(errorData.message);
             }
-            return res.json(); // return the order data
+            return res.json(); // Return the order data
           });
 
-          // Wait for all promises to resolve
           const allOrderDetails = await Promise.all(orderDetailsPromises);
-
-          // Set all order details at once
           setOrderDetails(allOrderDetails);
         } catch (err) {
           setError(err.message);
@@ -73,11 +64,12 @@ export default function Orders({ userData }) {
   if (error) {
     return <div>{error}</div>;
   }
+
   return (
     <div>
       {!isLoading && (
         <div>
-          <table>
+          <table className={styles.my_orders_table}>
             <thead>
               <tr>
                 <th>Order</th>
@@ -87,10 +79,9 @@ export default function Orders({ userData }) {
                 <th>Actions</th>
               </tr>
             </thead>
-
             <tbody>
               {orderDetails.map((order) => (
-                <tr>
+                <tr key={order.id}>
                   <td>{order.id}</td>
                   <td>
                     {new Date(order.meta._date_created[0]).toLocaleDateString(
@@ -107,11 +98,11 @@ export default function Orders({ userData }) {
                   <td>
                     <button
                       onClick={() => {
-                        setOrder(order);
-                        setModalOpen(false);
+                        setSelectedOrder(order); // Set the selected order
+                        setModalOpen(true); // Open the modal
                       }}
                     >
-                      view{" "}
+                      View
                     </button>
                   </td>
                 </tr>
@@ -120,7 +111,15 @@ export default function Orders({ userData }) {
           </table>
         </div>
       )}
-      {!modalOpen && <OrderDetails order={getOrder} />}
+
+      {/* Only show the OrderDetails component when modalOpen is true */}
+      {modalOpen && (
+        <OrderDetails
+          order={selectedOrder}
+          isModalOpen={modalOpen}
+          setIsModalOpen={setModalOpen}
+        />
+      )}
     </div>
   );
 }
