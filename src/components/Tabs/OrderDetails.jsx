@@ -91,15 +91,24 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                   <tbody>
                     <tr>
                       <td>{domainDetails?.title?.rendered || "N/A"}</td>
-                      <td>{order.meta._order_total[0]}</td>
+                      <td>
+                        {order.meta._currency_symbol[0]}
+                        {order.meta._order_total[0]}
+                      </td>
                     </tr>
                     <tr>
                       <td>Subtotal:</td>
-                      <td>{order.meta._order_subtotal[0]}</td>
+                      <td>
+                        {order.meta._currency_symbol[0]}
+                        {order.meta._order_subtotal[0]}
+                      </td>
                     </tr>
                     <tr>
                       <td>Total:</td>
-                      <td>{order.meta._order_total[0]}</td>
+                      <td>
+                        {order.meta._currency_symbol[0]}
+                        {order.meta._order_total[0]}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
