@@ -5,11 +5,10 @@ const extractDomainId = (serializedString) => {
   return match ? match[1] : null;
 };
 export default function OrderDetails({ order }) {
-  //   console.log(order);
   const domainIdString = order.meta._domain_ids[0];
   const domainId = extractDomainId(domainIdString);
   const [domainDetails, setDomainDetails] = useState({});
-  //   console.log(domainTitle);
+
   useEffect(() => {
     async function get_domain() {
       const res = await fetch(`${url}` + domainId);

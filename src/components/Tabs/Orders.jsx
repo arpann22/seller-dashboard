@@ -13,6 +13,8 @@ export default function Orders({ userData }) {
   const [modalOpen, setModalOpen] = useState(true); // for modal open
 
   const [getOrder, setOrder] = useState("");
+
+  const [isLoading, setIsLoading] = useState(true);
   //    for fetching order ids through api
   useEffect(() => {
     if (userData.id) {
@@ -26,6 +28,7 @@ export default function Orders({ userData }) {
           } else {
             const data = await res.json();
             setOrderIds(data);
+            setIsLoading(false);
           }
         } catch (err) {
           //   console.log(err.message);
@@ -72,49 +75,51 @@ export default function Orders({ userData }) {
   }
   return (
     <div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Order</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Total</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {orderDetails.map((order) => (
+      {!isLoading && (
+        <div>
+          <table>
+            <thead>
               <tr>
-                <td>{order.id}</td>
-                <td>
-                  {new Date(order.meta._date_created[0]).toLocaleDateString(
-                    "en-US",
-                    {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    }
-                  )}
-                </td>
-                <td>{order.meta._order_status[0]}</td>
-                <td>{order.meta._order_total[0]}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setOrder(order);
-                      setModalOpen(false);
-                    }}
-                  >
-                    view{" "}
-                  </button>
-                </td>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            <tbody>
+              {orderDetails.map((order) => (
+                <tr>
+                  <td>{order.id}</td>
+                  <td>
+                    {new Date(order.meta._date_created[0]).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )}
+                  </td>
+                  <td>{order.meta._order_status[0]}</td>
+                  <td>{order.meta._order_total[0]}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setOrder(order);
+                        setModalOpen(false);
+                      }}
+                    >
+                      view{" "}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {!modalOpen && <OrderDetails order={getOrder} />}
     </div>
   );

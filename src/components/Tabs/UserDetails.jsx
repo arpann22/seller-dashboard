@@ -24,7 +24,7 @@ export default function UserDetails({ userData, setUserData }) {
 
   useEffect(() => {
     // Fetch API data
-    fetch("http://webstarter.local//wp-json/wstr/v1/login", {
+    fetch("http://webstarter.local/wp-json/wstr/v1/login", {
       method: "GET",
       credentials: "include", // Include cookies for authentication
     })
