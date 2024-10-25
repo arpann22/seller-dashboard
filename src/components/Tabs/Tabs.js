@@ -9,14 +9,21 @@ import logoutIcon from "./images/logout.png";
 import addDomainsIcon from "./images/add-domain-icon.png";
 import UserDetails from "./UserDetails";
 
+
+const homeUrl = window.location.origin;
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs
   const tabs = [
-    { label: "My Orders", icon: myOrderIcon },
-    { label: "My Offers", icon: myOrderIcon },
-    { label: "My Auctions", icon: editProfileIcon },
-    { label: "My Support", icon: editProfileIcon },
-    { label: "Sellers Central", icon: editProfileIcon },
+    // { label: "My Orders", icon: myOrderIcon },
+    // { label: "My Offers", icon: myOrderIcon },
+    // { label: "My Auctions", icon: editProfileIcon },
+    // { label: "My Support", icon: editProfileIcon },
+    // { label: "Sellers Central", icon: editProfileIcon },
+    { label: "My Orders", icon: myOrderIcon, link: `${homeUrl}/my-orders` },
+    { label: "My Offers", icon: myOrderIcon, link: `${homeUrl}/my-offers` },
+    { label: "My Auctions", icon: editProfileIcon, link: `${homeUrl}/my-auctions` },
+    { label: "My Support", icon: editProfileIcon, link: `${homeUrl}/my-support` },
+    { label: "Sellers Central", icon: editProfileIcon, link: `${homeUrl}/sellers-central` },
   ];
 
   // State management
@@ -68,9 +75,8 @@ const Tabs = ({ userData, setUserData }) => {
             <button
               key={tab.label}
               onClick={() => setActiveTab(tab.label)}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                tab.label === activeTab ? styles.active : ""
-              }`}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
+                }`}
               role="tab" // Accessibility role
               aria-selected={tab.label === activeTab} // Accessibility attribute
             >
@@ -114,11 +120,9 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => setSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                  sellerCentralTab === tab.label ? styles.active : ""
-                } ${
-                  tab.label === "Add New Domain" ? styles.specialButton : ""
-                }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
+                  } ${tab.label === "Add New Domain" ? styles.specialButton : ""
+                  }`}
               >
                 <img
                   src={tab.icon}

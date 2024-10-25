@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
-const currentUrl = window.location.origin;
+const currentUrl = 'https://new-webstarter.codepixelz.tech/';
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 
 const extractDomainId = (serializedString) => {
