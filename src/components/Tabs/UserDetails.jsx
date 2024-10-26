@@ -259,7 +259,7 @@ export default function UserDetails({ userData, setUserData }) {
                 />
                 <span>Add your profile picture</span>
               </label>
-              <div>
+              <div className={styles.edit_password_wrapper}>
                 <h2>Password Changed</h2>
                 <label>
                   Current Password (leave blank to leave unchanged)
