@@ -32,6 +32,7 @@ import available_balance_right_icon from "./images/available_balance_right_icon.
 import paypal_icon from "./images/paypal_icon.png";
 import bank_transfer_icon from "./images/bank_transfer_icon.png";
 import Domains from "./Domains.jsx";
+import { FaCheckCircle } from "react-icons/fa";
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -129,7 +130,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
             </div>
           </div>
           <div
-            className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_section_margin}`}
+            className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
           >
             <div
               className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -234,7 +235,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
             className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex}`}
           >
             <div
-              className={`${styles.domain_appraisal_wrapper} ${styles.dashboard_section_margin}`}
+              className={styles.domain_appraisal_wrapper}
             >
               <div
                 className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -275,7 +276,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
             {/* pricing setup */}
             {/* Pricing Setup Section */}
             <div
-              className={`${styles.pricing_setup_wrapper} ${styles.dashboard_section_margin}`}
+              className={styles.pricing_setup_wrapper}
             >
               <div
                 className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -314,9 +315,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                   </div>
                   <div className={styles.toggle_button} onClick={handleToggle}>
                     <div
-                      className={`${styles.toggle_switch} ${
-                        isSalePriceEnabled ? styles.on : styles.off
-                      }`}
+                      className={`${styles.toggle_switch} ${isSalePriceEnabled ? styles.on : styles.off
+                        }`}
                     >
                       <div className={styles.toggle_indicator}>
                         <RxCross2 />
@@ -374,9 +374,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                   onClick={handleLeaseToOwnToggle}
                 >
                   <div
-                    className={`${styles.toggle_switch} ${
-                      isLeaseToOwnEnabled ? styles.on : styles.off
-                    }`}
+                    className={`${styles.toggle_switch} ${isLeaseToOwnEnabled ? styles.on : styles.off
+                      }`}
                   >
                     <div className={styles.toggle_indicator}>
                       <RxCross2 />
@@ -399,9 +398,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                   onClick={handleAcceptOffersToggle}
                 >
                   <div
-                    className={`${styles.toggle_switch} ${
-                      isAcceptOffersEnabled ? styles.on : styles.off
-                    }`}
+                    className={`${styles.toggle_switch} ${isAcceptOffersEnabled ? styles.on : styles.off
+                      }`}
                   >
                     <div className={styles.toggle_indicator}>
                       <RxCross2 />
@@ -414,7 +412,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
           </div>
 
           {/* categories */}
-          <div className={`${styles.cardSelectorWrapper}`}>
+          <div className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}>
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
@@ -427,7 +425,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
 
           {/* domain description */}
           <div
-            className={`${styles.cardSelectorWrapper} ${styles.dashboard_section_margin}`}
+            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
           >
             <h3>Domain Description</h3>
             <div
@@ -454,20 +452,20 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
           </div>
 
           <div className={styles.save_button_wrappers}>
-            <button className={styles.add_product_button}>
+            <button className={`${styles.add_product_button} ${styles.hover_white_dark}`}>
               <span className={styles.icon}>
                 <img src={add_product_icon} alt="Add Product Icon" />
               </span>
               <span>Add Product</span>
             </button>
 
-            <button className={styles.save_draft_button}>
+            <button className={`${styles.save_draft_button} ${styles.hover_white}`}>
               <span className={styles.icon}>
                 <img src={save_draft_icon} alt="Save Draft Icon" />
               </span>
               <span>Save Draft</span>
             </button>
-          </div>
+          </div >
         </>
       );
 
@@ -554,9 +552,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -621,7 +618,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                 ))}
               </div>
             </div>
-          </div>
+          </div >
 
           <div className={styles.offers_tab_offer_wrap}>
             <div
@@ -654,9 +651,9 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                 </div>
                 <div>
                   <h5>Account Balance</h5>
-                  <h3>
+                  <h2>
                     205,700 <span>USD</span>
-                  </h3>
+                  </h2>
                 </div>
                 <div
                   className={`${styles.available_balance_card_footer} ${styles.ws_flex}`}
@@ -686,19 +683,22 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
               <div className={styles.paymentMethodcard_section}>
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 1 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""}`}
                 >
                   <input
                     type="radio"
                     name="paymentMethod"
                     value="paypal"
                     checked={selectedCard === 1}
-                    onChange={() => handleCardSelect(1)} // Handle selection change
-                    className={styles.radio_input} // Add a class for styling the radio button
+                    onChange={() => handleCardSelect(1)}
+                    className={styles.radio_input}
                   />
                   <div className={styles.card_content}>
+                    {selectedCard === 1 && (
+                      <span className={styles.check_icon}>
+                        <FaCheckCircle />
+                      </span>
+                    )}
                     <img
                       src={paypal_icon}
                       alt="Paypal Icon"
@@ -708,39 +708,40 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
                       <h4>Paypal</h4>
                       <p>Connect your Paypal Account</p>
                     </div>
-                    <button className={styles.edit_profile_button}>
-                      Edit Email
-                    </button>
+                    <button className={styles.edit_profile_button}>Edit Email</button>
+
                   </div>
                 </label>
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 2 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""}`}
                 >
                   <input
                     type="radio"
                     name="paymentMethod"
-                    value="paypal2"
+                    value="bankTransfer"
                     checked={selectedCard === 2}
-                    onChange={() => handleCardSelect(2)} // Handle selection change
+                    onChange={() => handleCardSelect(2)}
                     className={styles.radio_input}
                   />
                   <div className={styles.card_content}>
+                    {selectedCard === 2 && (
+                      <span className={styles.check_icon}>
+                        <FaCheckCircle />
+                      </span>
+                    )}
                     <img
                       src={bank_transfer_icon}
-                      alt="Paypal Icon"
+                      alt="Bank Transfer Icon"
                       className={styles.card_image}
                     />
                     <div>
                       <h4>Bank Transfer</h4>
                       <p>Connect your Bank Account</p>
                     </div>
-                    <button className={styles.edit_profile_button}>
-                      Bank Settings
-                    </button>
+                    <button className={styles.edit_profile_button}>Bank Settings</button>
+
                   </div>
                 </label>
               </div>
