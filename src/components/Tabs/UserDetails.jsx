@@ -7,7 +7,8 @@ import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
 
 export default function UserDetails({ userData, setUserData }) {
-  const currentUrl = 'https://new-webstarter.codepixelz.tech/';
+  // const currentUrl = "https://new-webstarter.codepixelz.tech/";
+  const currentUrl = window.location.origin;
   // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -299,7 +300,9 @@ export default function UserDetails({ userData, setUserData }) {
                   </p>
                 )}
               </div>
-              <button type="submit" className="hover-white">Save Changes</button>
+              <button type="submit" className="hover-white">
+                Save Changes
+              </button>
             </form>
             {/* {formData} */}
           </div>
