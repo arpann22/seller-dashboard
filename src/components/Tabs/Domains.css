@@ -1,0 +1,26 @@
+.dashboard_domain_cards .ws-card-contents img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+}
+.dashboard_small_margin {
+  margin: 30px 0;
+}
+.dashboard_domain_cards .ws-card-inner-contents {
+  align-items: self-start;
+}
+.dashboard_domain_cards .ws-card-img img {
+  border-radius: 20px 20px 0 0;
+}
+.dashboard_domain_cards {
+  border-radius: 20px;
+}
+.dashboard_active_domain_wrapper,
+.dashboard_draft_domain_wrapper {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+}
+.dashboard_domains_wrapper h4 {
+  font-weight: 600;
+}

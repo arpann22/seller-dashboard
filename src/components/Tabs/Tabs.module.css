@@ -31,7 +31,7 @@ body {
 /* global styles end */
 .tabs {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 .justify_space_between {
@@ -828,6 +828,7 @@ body {
   border-radius: 50%;
   height: 40px;
   width: 40px;
+  cursor: pointer;
 }
 .offer_status_cards .recentOffers_card_details {
   display: flex;
