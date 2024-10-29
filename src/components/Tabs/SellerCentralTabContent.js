@@ -37,7 +37,7 @@ const handleReset = () => {
 const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
-  const [content, setContent] = useState("");
+
   const editorRef = useRef(null);
   const [activeTab, setActiveTab] = useState("active");
   // Function to toggle the expanded state for each card

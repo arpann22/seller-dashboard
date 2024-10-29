@@ -52,7 +52,7 @@ export default function AddDomain({ styles }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
-
+  const [content, setContent] = useState("");
   const handleToggle = () => {
     setIsSalePriceEnabled(!isSalePriceEnabled);
   };
