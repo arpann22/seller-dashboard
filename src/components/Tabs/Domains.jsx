@@ -82,6 +82,14 @@ export default function Domains({ userData }) {
       domain._embedded && domain._embedded["wp:featuredmedia"]
         ? domain._embedded["wp:featuredmedia"][0].source_url
         : null;
+    const da_pa = domain.meta._da_pa?.[0] || 0;
+    let da = 0;
+    let pa = 0;
+    if (da_pa) {
+      const splitDaPa = da_pa.split("/");
+      da = parseInt(splitDaPa[0]);
+      pa = parseInt(splitDaPa[1]);
+    }
 
     return (
       <div
@@ -102,24 +110,25 @@ export default function Domains({ userData }) {
             <div className="progress-text">
               <div
                 role="progressbar"
-                aria-valuenow="1"
+                aria-valuenow={pa}
                 aria-valuemin="0"
                 aria-valuemax="100"
-                style={{ "--value": 1 }}
+                style={{ "--value": pa }}
               ></div>
             </div>
             <div className="progress-title">
               <h6>Page Trust</h6>
             </div>
           </div>
+
           <div className="circular-progress domain-trust">
             <div className="progress-text">
               <div
                 role="progressbar"
-                aria-valuenow="1"
+                aria-valuenow={da}
                 aria-valuemin="0"
                 aria-valuemax="100"
-                style={{ "--value": 1 }}
+                style={{ "--value": da }}
               ></div>
             </div>
             <div className="progress-title">
@@ -135,7 +144,6 @@ export default function Domains({ userData }) {
             alt={domain.title.rendered}
           />
         </div>
-
         {/* Card Contents */}
         <div className="ws-card-contents ws-flex">
           <Logo
