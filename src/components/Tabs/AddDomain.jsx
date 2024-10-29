@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import addDomaintitleImage from "./images/add-domain-pre-image.png";
 import attachAudioimg from "./images/attach_audio_img.png";
 import profileImage from "./images/profile.jpg";
@@ -20,6 +20,9 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import CardSelector from "../CardSelector/CardSelector.js";
 import categories_icon from "./images/categories-icon.png";
 import cardstyles from "../CardSelector/CardSelector.module.css";
+
+const currentUrl = window.location.origin;
+
 export default function AddDomain({ styles }) {
   const cardItems = [
     { title: "Card 1", subtitle: "AI-PICK", icon: addDomaintitleImage },
@@ -53,6 +56,9 @@ export default function AddDomain({ styles }) {
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
   const [content, setContent] = useState("");
+
+  const [domainName, setDomainName] = useState("");
+
   const handleToggle = () => {
     setIsSalePriceEnabled(!isSalePriceEnabled);
   };
@@ -66,6 +72,34 @@ export default function AddDomain({ styles }) {
   const handleEditorChange = (newContent) => {
     setContent(newContent);
   };
+
+  const [apidata, setApiData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  // sunder jss
+  const handleGenerate = async (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/domain_fields?domain_name=${domainName}`
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message);
+      }
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err.msg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div
@@ -83,8 +117,15 @@ export default function AddDomain({ styles }) {
         <div
           className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
         >
-          <input type="text"></input>
-          <input type="submit" value="Generate"></input>
+          <form onSubmit={handleGenerate}>
+            <input
+              type="text"
+              value={domainName}
+              onChange={(e) => setDomainName(e.target.value)}
+              required
+            />
+            <input type="submit" value="Generate"></input>
+          </form>
         </div>
       </div>
       <div

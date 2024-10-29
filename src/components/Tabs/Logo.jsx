@@ -46,11 +46,7 @@ export default function LogoImage({
     logoUrl.media_details?.sizes?.thumbnail?.source_url || featuredImageUrl;
   return (
     <div>
-      {imageUrl ? (
-        <img src={imageUrl} alt={domain_title || "Image"} />
-      ) : (
-        "No image available"
-      )}
+      {imageUrl ? <img src={imageUrl} alt={domain_title || "Image"} /> : ""}
     </div>
   );
 }
