@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import styles from "./Tabs.module.css"; // Import styles
 import "./Domains.css";
 import active_domains_icon from "./images/active-domains-icon.png";
+import domain_drafts_icon from "./images/domain_drafts_icon.png";
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
@@ -174,7 +175,9 @@ export default function Domains({ userData }) {
           <img src={active_domains_icon}></img>
           <h4>Active Domains</h4>
         </div>
-        <div className={styles.dashboard_small_margin}>
+        <div
+          className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
+        >
           {domains.map(renderDomainCard)}
         </div>
       </div>
@@ -184,10 +187,12 @@ export default function Domains({ userData }) {
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
         >
-          <img src={active_domains_icon}></img>
+          <img src={domain_drafts_icon}></img>
           <h4>Draft Domains</h4>
         </div>
-        <div className={styles.dashboard_small_margin}>
+        <div
+          className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
+        >
           {draftDomains.map(renderDomainCard)}
         </div>
       </div>

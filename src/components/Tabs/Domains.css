@@ -24,3 +24,9 @@
 .dashboard_domains_wrapper h4 {
   font-weight: 600;
 }
+.dashboard_domains_cards_wrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 30px;
+}

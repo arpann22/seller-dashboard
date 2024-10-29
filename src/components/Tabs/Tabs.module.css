@@ -833,6 +833,7 @@ body {
 .offer_status_cards .recentOffers_card_details {
   display: flex;
   gap: 10px;
+  cursor: pointer;
 }
 /* offfer sections tabs */
 .offers_tab_offer_wrap {
@@ -978,6 +979,7 @@ body {
 }
 .available_balance_card h6 {
   color: #9b9b9b;
+  font-weight: 500;
 }
 .available_balance_card h5 {
   font-size: 14px;
