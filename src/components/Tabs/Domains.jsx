@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LogoImage from "./LogoImage";
+import Logo from "./Logo";
 import styles from "./Tabs.module.css"; // Import styles
 import "./Domains.css";
 import active_domains_icon from "./images/active-domains-icon.png";
@@ -137,7 +137,7 @@ export default function Domains({ userData }) {
 
         {/* Card Contents */}
         <div className="ws-card-contents ws-flex">
-          <LogoImage
+          <Logo
             logoImageId={logoImageId}
             domain_title={domain.title.rendered}
             featuredImageUrl={featuredImageUrl}

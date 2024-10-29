@@ -8,7 +8,7 @@ export default function LogoImage({
   const currentUrl = window.location.origin;
 
   const [logoUrl, setLogoUrl] = useState({});
-  const [isLoading, setIsLoading] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function LogoImage({
         }
       }
     }
-    return fetchLogoImageUrl();
+    fetchLogoImageUrl();
   }, [logoImageId]);
 
   if (errorMessage) {
