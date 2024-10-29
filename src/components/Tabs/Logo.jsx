@@ -29,6 +29,8 @@ export default function LogoImage({
         } finally {
           setIsLoading(false);
         }
+      } else {
+        setIsLoading(false); // Set loading to false if logoImageId is invalid
       }
     }
     fetchLogoImageUrl();
