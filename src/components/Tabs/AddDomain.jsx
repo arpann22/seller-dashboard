@@ -124,7 +124,11 @@ export default function AddDomain({ styles }) {
               onChange={(e) => setDomainName(e.target.value)}
               required
             />
-            <input type="submit" value="Generate"></input>
+            <input
+              type="submit"
+              value="Generate"
+              class="hover_white_dark"
+            ></input>
           </form>
         </div>
       </div>
