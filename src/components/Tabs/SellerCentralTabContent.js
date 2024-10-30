@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 // import React from 'react';
 import styles from "./Tabs.module.css"; // Import styles
-
+import Sales from './Sales';
 import mediaSetupIcon from "./images/media_setup_icon.png";
 
 import domain_img from "./images/chatseek.com.png";
@@ -62,7 +62,10 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
     case "Dashboard":
       return <p>This is the content for Dashboard</p>;
     case "Sales":
-      return <p>This is the content for Sales</p>;
+      return (
+        <>
+          <Sales />;</>
+      )
     case "Domains":
       return (
         <>
@@ -146,9 +149,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -278,9 +280,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
               <div className={styles.paymentMethodcard_section}>
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 1 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"
@@ -313,9 +314,8 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 2 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"

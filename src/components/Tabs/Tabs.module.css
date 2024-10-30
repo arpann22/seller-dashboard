@@ -187,11 +187,12 @@ body {
 }
 .tabs_list_footer li:last-child {
   border-top: 1px solid #edf0f7;
-  padding: 30px 0;
+  padding: 30px 10px;
 }
 .tabs_list_footer li {
   color: #67748e;
   padding: 10px;
+  padding-bottom: 30px;
 }
 .tabs_list_footer {
   padding: 0 30px;
@@ -1205,4 +1206,8 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5px;
+}
+/* sales deatils */
+.dashboard_sales_details .offerSorts {
+  margin-left: auto;
 }
