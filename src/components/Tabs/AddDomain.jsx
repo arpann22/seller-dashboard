@@ -96,6 +96,30 @@ export default function AddDomain({ styles }) {
     }
   };
 
+  // fetching category
+  const [category, setCategory] = useState();
+  const [catError, setCatError] = useState("");
+  const [catLoading, setCatLoading] = useState(true);
+  useEffect(() => {
+    async function fetchCategory() {
+      try {
+        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_cat/`);
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        console.log(data);
+        setCategory(data);
+      } catch (err) {
+        setCatError(err.message);
+      } finally {
+        setCatLoading(false);
+      }
+    }
+    fetchCategory();
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -417,8 +441,13 @@ export default function AddDomain({ styles }) {
           <img src={mediaSetupIcon} alt="Media Setup Icon" />
           <h4>Categories</h4>
         </div>
-
-        <CardSelector items={cardItems} />
+        {catError ? (
+          catError
+        ) : catLoading ? (
+          catLoading
+        ) : (
+          <CardSelector items={category} />
+        )}
       </div>
 
       {/* domain description */}
