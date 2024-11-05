@@ -30,3 +30,25 @@
   overflow-x: auto;
   padding-bottom: 30px;
 }
+.ws-cards-container-noHover {
+  width: calc(25% - 30px);
+}
+.ws-cards-container-noHover .ws-card-contents img {
+  height: 50px !important;
+  width: 50px !important;
+  border-radius: 10px;
+}
+.ws-cards-container-add-domain .ws-card-img img {
+  padding: 50px;
+  object-fit: contain !important;
+}
+.ws-cards-container-add-domain .ws-card-contents,
+.ws-cards-container-add-domain .ws-card-img {
+  border: 2px dashed #edf0f7;
+}
+.ws-cards-container-add-domain .ws-card-img {
+  border-radius: 15px 15px 0 0;
+}
+.ws-card-contents h5 {
+  font-weight: 500;
+}

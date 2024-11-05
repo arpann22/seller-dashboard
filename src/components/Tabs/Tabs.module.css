@@ -181,6 +181,12 @@ body.page-id-5782 {
   gap: 15px;
   align-items: center;
 }
+button.button_icon_wrapper:hover {
+  background-color: #00d9f5;
+  font-weight: 600;
+  color: #001f3e;
+  border-radius: 40px;
+}
 .button_icon_wrapper img {
   background-color: #f3f5fa;
   border-radius: 50px;
@@ -340,6 +346,7 @@ body.page-id-5782 {
   cursor: pointer;
   height: 20px;
   border-radius: 100px;
+  padding: 20px;
 }
 .media_content_wrapper {
   border: 1px solid #edf0f7;
@@ -1180,7 +1187,7 @@ body.page-id-5782 {
 }
 
 .my_orders_table thead {
-  background-color: #f8f8f8;
+  /* background-color: #f8f8f8; */
 }
 
 .my_orders_table th,
@@ -1194,11 +1201,11 @@ body.page-id-5782 {
 }
 
 .my_orders_table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #f4f4f4;
 }
 
 .my_orders_table tbody tr:hover {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
 }
 
 .my_orders_table tbody tr td button {
@@ -1210,7 +1217,7 @@ body.page-id-5782 {
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 5px;
+  border-radius: 20px;
 }
 /* sales deatils */
 .dashboard_sales_details .offerSorts {

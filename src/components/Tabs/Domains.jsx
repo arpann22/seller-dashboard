@@ -4,6 +4,8 @@ import styles from "./Tabs.module.css"; // Import styles
 import "./Domains.css";
 import active_domains_icon from "./images/active-domains-icon.png";
 import domain_drafts_icon from "./images/domain_drafts_icon.png";
+import plus_bg_icon from "./images/plus-bg-icon.png";
+import domains_add_domain_img from "./images/domains_add_domain_img.png";
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
@@ -92,84 +94,86 @@ export default function Domains({ userData }) {
     }
 
     return (
-      <div
-        className="ws-cards-container swiper-slide dashboard_domain_cards"
-        key={domain.id}
-      >
-        {/* Premium Icon */}
-        <div className="premium_icon">
-          <img
-            src="/wp-content/plugins/card-block/images/diamond.png"
-            alt="Diamond Icon"
-          />
-        </div>
+      <>
+        <div
+          className="ws-cards-container swiper-slide dashboard_domain_cards"
+          key={domain.id}
+        >
+          {/* Premium Icon */}
+          <div className="premium_icon">
+            <img
+              src="/wp-content/plugins/card-block/images/diamond.png"
+              alt="Diamond Icon"
+            />
+          </div>
 
-        {/* Hover Charts */}
-        <div className="ws_card_hover_charts ws_flex">
-          <div className="circular-progress page-trust">
-            <div className="progress-text">
-              <div
-                role="progressbar"
-                aria-valuenow={pa}
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={{ "--value": pa }}
-              ></div>
+          {/* Hover Charts */}
+          <div className="ws_card_hover_charts ws_flex">
+            <div className="circular-progress page-trust">
+              <div className="progress-text">
+                <div
+                  role="progressbar"
+                  aria-valuenow={pa}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  style={{ "--value": pa }}
+                ></div>
+              </div>
+              <div className="progress-title">
+                <h6>Page Trust</h6>
+              </div>
             </div>
-            <div className="progress-title">
-              <h6>Page Trust</h6>
+
+            <div className="circular-progress domain-trust">
+              <div className="progress-text">
+                <div
+                  role="progressbar"
+                  aria-valuenow={da}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  style={{ "--value": da }}
+                ></div>
+              </div>
+              <div className="progress-title">
+                <h6>Domain Trust</h6>
+              </div>
             </div>
           </div>
 
-          <div className="circular-progress domain-trust">
-            <div className="progress-text">
-              <div
-                role="progressbar"
-                aria-valuenow={da}
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style={{ "--value": da }}
-              ></div>
-            </div>
-            <div className="progress-title">
-              <h6>Domain Trust</h6>
+          {/* Card Image */}
+          <div className="ws-card-img">
+            <img
+              src={featuredImageUrl || "default-image.png"}
+              alt={domain.title.rendered}
+            />
+          </div>
+          {/* Card Contents */}
+          <div className="ws-card-contents ws-flex">
+            <Logo
+              logoImageId={logoImageId}
+              domain_title={domain.title.rendered}
+              featuredImageUrl={featuredImageUrl}
+            />
+            <span className="ws-card-inner-contents">
+              <h5>
+                <a href={`${currentUrl}/domain/${domain.slug}`}>
+                  {domain.title.rendered}
+                </a>
+              </h5>
+              <div className="ws_card_price_wrapper ws_flex gap_10">
+                <p className="regular_price">${regularPrice.toFixed(2)}</p>
+                <p className="sale_price">${salePrice.toFixed(2)}</p>
+              </div>
+            </span>
+            <div className="ws-card-likes">
+              <h6>
+                <span>{favouriteCount}</span>
+                <i className="fa-solid fa-heart"></i>
+              </h6>
             </div>
           </div>
         </div>
-
-        {/* Card Image */}
-        <div className="ws-card-img">
-          <img
-            src={featuredImageUrl || "default-image.png"}
-            alt={domain.title.rendered}
-          />
-        </div>
-        {/* Card Contents */}
-        <div className="ws-card-contents ws-flex">
-          <Logo
-            logoImageId={logoImageId}
-            domain_title={domain.title.rendered}
-            featuredImageUrl={featuredImageUrl}
-          />
-          <span className="ws-card-inner-contents">
-            <h5>
-              <a href={`${currentUrl}/domain/${domain.slug}`}>
-                {domain.title.rendered}
-              </a>
-            </h5>
-            <div className="ws_card_price_wrapper ws_flex gap_10">
-              <p className="regular_price">${regularPrice.toFixed(2)}</p>
-              <p className="sale_price">${salePrice.toFixed(2)}</p>
-            </div>
-          </span>
-          <div className="ws-card-likes">
-            <h6>
-              <span>{favouriteCount}</span>
-              <i className="fa-solid fa-heart"></i>
-            </h6>
-          </div>
-        </div>
-      </div>
+      </>
     );
   };
 
@@ -187,6 +191,26 @@ export default function Domains({ userData }) {
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
         >
           {domains.map(renderDomainCard)}
+          {/* stataic add domain  */}
+          <div className="ws-cards-container-noHover swiper-slide dashboard_domain_cards ws-cards-container-add-domain">
+            {/* Card Image */}
+            <div className="ws-card-img">
+              <img src={domains_add_domain_img} />
+            </div>
+            <div className="ws-card-contents ws-flex">
+              <div>
+                <img src={plus_bg_icon} />
+              </div>
+              <span className="ws-card-inner-contents">
+                <h5>
+                  <h5>Add new Domain !</h5>
+                </h5>
+                <div className="ws_card_price_wrapper ws_flex gap_10">
+                  <p>Start Earning</p>
+                </div>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
