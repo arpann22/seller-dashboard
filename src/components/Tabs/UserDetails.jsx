@@ -290,12 +290,18 @@ export default function UserDetails({ userData, setUserData }) {
                   />
                 </label>
                 {errorMessage && (
-                  <p style={{ color: "red", fontWeight: "bold" }}>
+                  <p
+                    class="error_msg"
+                    style={{ color: "red", fontWeight: "bold" }}
+                  >
                     {errorMessage}
                   </p>
                 )}
                 {successMessage && (
-                  <p style={{ color: "green", fontWeight: "bold" }}>
+                  <p
+                    class="success_msg"
+                    style={{ color: "green", fontWeight: "bold" }}
+                  >
                     {successMessage}
                   </p>
                 )}

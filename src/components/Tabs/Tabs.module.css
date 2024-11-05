@@ -25,7 +25,7 @@
 /* body.page-id-5284 {
   background-color: #f9fbfe;
 } */
-body {
+body.page-id-5782 {
   background-color: #f9fbfe;
 }
 /* global styles end */
@@ -117,6 +117,7 @@ body {
   max-width: 1360px;
   margin: auto;
   padding: 0 20px;
+  margin-top: 40px;
 }
 .dashboard_section_margin {
   margin: 80px 0;
