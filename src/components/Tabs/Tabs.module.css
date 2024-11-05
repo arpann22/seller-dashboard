@@ -159,7 +159,7 @@ body {
   margin-left: 20px;
   color: #999999;
   border: 1px solid #edf0f7;
-  padding: 20px 32px;
+  padding: 12px 32px;
   border-radius: 40px;
   width: 84px;
   height: 60px;
@@ -187,11 +187,12 @@ body {
 }
 .tabs_list_footer li:last-child {
   border-top: 1px solid #edf0f7;
-  padding: 30px 0;
+  padding: 30px 10px;
 }
 .tabs_list_footer li {
   color: #67748e;
   padding: 10px;
+  padding-bottom: 30px;
 }
 .tabs_list_footer {
   padding: 0 30px;
@@ -266,15 +267,15 @@ body {
   border-radius: 50px;
   background-color: #00214c;
   color: #fff;
-  border: transparent;
+  border: 1px solid;
   padding: 15px 20px;
   position: absolute;
-  right: 30px;
+  right: 40px;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 .add_domain_wrapper {
-  max-width: 850px;
+  max-width: 950px;
   width: 100%;
   margin: auto;
   text-align: center;
@@ -435,9 +436,12 @@ body {
 }
 .pronounc_add svg {
   background: #fff;
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 50%;
   color: #00214c;
+  height: 15px;
+  width: 15px;
+  padding: 0;
 }
 .pronounc_add.active {
   border: 1px solid rgb(118, 232, 249);
@@ -601,7 +605,7 @@ body {
   padding: 30px 20px;
 }
 .date_fields_wrapper {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .date_fields_wrapper input {
   width: auto;
@@ -611,7 +615,7 @@ body {
   font-size: 13px;
 }
 .toggle_section {
-  padding: 20px;
+  padding: 30px 20px;
   border-bottom: 1px solid rgb(237, 240, 247);
   justify-content: space-between;
 }
@@ -1064,6 +1068,7 @@ body {
 }
 .payment_status_wrapper .tab_content {
   padding: 0 20px;
+  padding-bottom: 20px;
 }
 /* my orders popup */
 /* Modal overlay */
@@ -1205,4 +1210,8 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5px;
+}
+/* sales deatils */
+.dashboard_sales_details .offerSorts {
+  margin-left: auto;
 }
