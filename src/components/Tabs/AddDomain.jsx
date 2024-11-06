@@ -22,7 +22,6 @@ import categories_icon from "./images/categories-icon.png";
 import cardstyles from "../CardSelector/CardSelector.module.css";
 
 const currentUrl = window.location.origin;
-
 export default function AddDomain({ styles }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
@@ -44,7 +43,81 @@ export default function AddDomain({ styles }) {
   // const handleEditorChange = (newContent) => {
   //   setContent(newContent);
   // };
+  // progress scores
+  const CircularProgressCard = ({
+    title,
+    value,
+    onChange,
+    strokeColor,
+    label,
+  }) => {
+    const radius = 50;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDasharray = (value / 100) * circumference;
+    const strokeDashoffset =
+      value > 0 ? circumference - strokeDasharray : circumference;
 
+    return (
+      <div
+        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} `}
+      >
+        <div>
+          <h5>{title}</h5>
+          <input
+            type="number"
+            value={value}
+            onChange={(e) =>
+              onChange(Math.max(0, Math.min(100, Number(e.target.value))))
+            } // Clamp between 0 and 100
+            className={styles.input_field}
+          />
+        </div>
+        <div className="circular-progress">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            {/* Background Circle - Light Gray */}
+            <circle
+              cx="60"
+              cy="60"
+              r={radius}
+              fill="none"
+              stroke="#f3f5fa"
+              strokeWidth="10"
+            />
+            {/* Progress Circle */}
+            <circle
+              cx="60"
+              cy="60"
+              r={radius}
+              fill="none"
+              stroke={strokeColor} // Dynamic color for each card
+              strokeWidth="10"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
+              strokeLinecap="round"
+            />
+            {/* Display Value with Label */}
+            <text
+              x="50%"
+              y="50%"
+              alignmentBaseline="middle"
+              textAnchor="middle"
+              fontSize="20"
+              fill="#333"
+            >
+              {value} {label}
+            </text>
+          </svg>
+        </div>
+      </div>
+    );
+  };
+
+  const [pageTrustScore, setPageTrustScore] = useState(64);
+  const [domainAge, setDomainAge] = useState(30);
+  const [domainTrustScore, setDomainTrustScore] = useState(50);
+  const [domainLength, setDomainLength] = useState(80);
+
+  // progress scores end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   // sunder jss
@@ -331,10 +404,41 @@ export default function AddDomain({ styles }) {
               </div>
               <div className={styles.domain_appraisal_body_wrapper}>
                 <div className={styles.domain_appraisal_body_cards}>
-                  <div className={styles.domain_appraisal_body_card}>
-                    <h5>Page Trust Score</h5>
-                    <p>64</p>
-                  </div>
+                  {/* Page Trust Score */}
+                  <CircularProgressCard
+                    title="Page Trust Score"
+                    value={pageTrustScore}
+                    onChange={setPageTrustScore}
+                    strokeColor="#f5b903" // Yellow color for Page Trust Score
+                    label="of 100"
+                  />
+
+                  {/* Domain Age */}
+                  <CircularProgressCard
+                    title="Domain Age"
+                    value={domainAge}
+                    onChange={setDomainAge}
+                    strokeColor="#00cd97" // Green color for Domain Age
+                    label="Years"
+                  />
+
+                  {/* Domain Trust Score */}
+                  <CircularProgressCard
+                    title="Domain Trust Score"
+                    value={domainTrustScore}
+                    onChange={setDomainTrustScore}
+                    strokeColor="#00d9f5" // Blue color for Domain Trust Score
+                    label="of 100"
+                  />
+
+                  {/* Domain Length */}
+                  <CircularProgressCard
+                    title="Domain Length"
+                    value={domainLength}
+                    onChange={setDomainLength}
+                    strokeColor="#f00073" // Pink color for Domain Length
+                    label="Letters"
+                  />
                 </div>
               </div>
             </div>

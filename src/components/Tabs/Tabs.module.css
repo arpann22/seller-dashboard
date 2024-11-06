@@ -663,6 +663,7 @@ button.button_icon_wrapper:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 .editProfilePopup button {
   background-color: #00d9f5;
@@ -1227,4 +1228,50 @@ button.button_icon_wrapper:hover {
 /* sales deatils */
 .dashboard_sales_details .offerSorts {
   margin-left: auto;
+}
+/* progess score add domains */
+
+.input_field {
+  padding: 8px;
+  margin-top: 10px;
+}
+
+.circular_progress {
+  margin-top: 20px;
+  width: 120px; /* Ensure this is the same size as the SVG */
+  height: 120px; /* Ensure this is the same size as the SVG */
+  position: relative; /* Ensures proper placement of SVG */
+  display: inline-block; /* Keeps the SVG contained properly */
+}
+
+.progress_percentage {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+.domain_appraisal_body_wrapper {
+  background-color: #f7f9fd;
+  padding: 40px;
+}
+.domain_appraisal_body_wrapper .domain_appraisal_body_cards {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.domain_appraisal_body_wrapper input {
+  border: 1px solid #e1e7ff;
+  border-radius: 40px;
+  padding: 15px;
+  margin-top: 15px;
+  max-width: 100px;
+}
+.domain_appraisal_body_card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 25px;
+  width: calc(50% - 10px);
+  gap: 15px;
+  justify-content: space-between;
 }
