@@ -32,6 +32,11 @@
 }
 .ws-cards-container-noHover {
   width: calc(25% - 30px);
+  border: 1px solid #edf0f7;
+  border-radius: 15px;
+}
+.ws-cards-container-noHover .ws-card-img img {
+  border-radius: 15px 15px 0 0;
 }
 .ws-cards-container-noHover .ws-card-contents img {
   height: 50px !important;
@@ -51,4 +56,30 @@
 }
 .ws-card-contents h5 {
   font-weight: 500;
+}
+.domains_hover_buttons div {
+  background: #00d9f5;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  padding: 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.domains_hover_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 100px;
+  top: 90px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+.ws-cards-container-noHover:hover .domains_hover_buttons {
+  display: flex;
+}
+.ws_cards_domains_active_draft:hover {
+  border: 1px solid #00d9f5;
 }

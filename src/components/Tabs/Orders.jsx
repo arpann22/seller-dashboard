@@ -103,6 +103,7 @@ export default function Orders({ userData }) {
                   </td>
                   <td>
                     <button
+                      className={styles.hover_white}
                       onClick={() => {
                         setSelectedOrder(order); // Set the selected order
                         setModalOpen(true); // Open the modal

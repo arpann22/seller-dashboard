@@ -382,6 +382,7 @@ button.button_icon_wrapper:hover {
   background-image: url("images/media_setup_last_card.png");
   justify-content: end;
   text-align: center;
+  background-repeat: no-repeat;
 }
 .media_setup_last_card .media_setup_contents_footer a {
   background-color: #00d9f5;
@@ -390,6 +391,7 @@ button.button_icon_wrapper:hover {
   border-radius: 50px;
   text-decoration: none;
   font-weight: 500;
+  border: 1px solid;
 }
 .media_setup_last_card h5 span {
   color: #f00073;
@@ -730,12 +732,12 @@ button.button_icon_wrapper:hover {
   border-radius: 50px;
   padding: 20px 100px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   cursor: pointer;
 }
 .save_button_wrappers img {
-  width: 15px;
+  width: 22px;
   padding: 3px;
 }
 .save_button_wrappers button:first-child {
@@ -851,6 +853,7 @@ button.button_icon_wrapper:hover {
 .offers_tab_offer_wrap {
   background-color: #fff;
   margin: 20px 0;
+  border-radius: 15px;
 }
 .offers_tab_offer_wrap .add_domain_media_setup_tile_wrapper {
   border-bottom: 1px solid #edf0f7;
@@ -883,7 +886,8 @@ button.button_icon_wrapper:hover {
 .offer_tabs_navs li.active img {
   background-color: #fff;
 }
-.offer_tabs_navs li.active {
+.offer_tabs_navs li.active,
+.offer_tabs_navs li:hover {
   background-color: #00d9f5;
 }
 .extra_column_wrapper {
@@ -1197,7 +1201,7 @@ button.button_icon_wrapper:hover {
 }
 
 .my_orders_table th {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .my_orders_table tbody tr:nth-child(even) {
@@ -1212,12 +1216,13 @@ button.button_icon_wrapper:hover {
   background-color: #00d9f5;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 8px 24px;
   text-align: center;
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 20px;
+  border: 1px solid;
 }
 /* sales deatils */
 .dashboard_sales_details .offerSorts {

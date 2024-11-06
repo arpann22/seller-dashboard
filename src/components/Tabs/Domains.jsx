@@ -6,6 +6,8 @@ import active_domains_icon from "./images/active-domains-icon.png";
 import domain_drafts_icon from "./images/domain_drafts_icon.png";
 import plus_bg_icon from "./images/plus-bg-icon.png";
 import domains_add_domain_img from "./images/domains_add_domain_img.png";
+import add_product_icon from "./images/add_product.png";
+import save_draft_icon from "./images/save_draft.png";
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
@@ -96,7 +98,7 @@ export default function Domains({ userData }) {
     return (
       <>
         <div
-          className="ws-cards-container swiper-slide dashboard_domain_cards"
+          className="swiper-slide ws-cards-container-noHover p_relative ws_cards_domains_active_draft"
           key={domain.id}
         >
           {/* Premium Icon */}
@@ -107,36 +109,16 @@ export default function Domains({ userData }) {
             />
           </div>
 
-          {/* Hover Charts */}
-          <div className="ws_card_hover_charts ws_flex">
-            <div className="circular-progress page-trust">
-              <div className="progress-text">
-                <div
-                  role="progressbar"
-                  aria-valuenow={pa}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  style={{ "--value": pa }}
-                ></div>
-              </div>
-              <div className="progress-title">
-                <h6>Page Trust</h6>
-              </div>
+          {/* Hover buttons */}
+          <div class="domains_hover_buttons">
+            <div>
+              <img src={add_product_icon} />
             </div>
-
-            <div className="circular-progress domain-trust">
-              <div className="progress-text">
-                <div
-                  role="progressbar"
-                  aria-valuenow={da}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  style={{ "--value": da }}
-                ></div>
-              </div>
-              <div className="progress-title">
-                <h6>Domain Trust</h6>
-              </div>
+            <div>
+              <img src={save_draft_icon} />
+            </div>
+            <div>
+              <img src={add_product_icon} />
             </div>
           </div>
 
@@ -226,6 +208,21 @@ export default function Domains({ userData }) {
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
         >
           {draftDomains.map(renderDomainCard)}
+          {/* static card */}
+          <div
+            className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_last_card}`}
+          >
+            {/* <img src={media_setup_last_card} alt="attach audio image" className={styles.media_image} /> */}
+            <div className={styles.media_setup_contents_footer}>
+              <h5>
+                Get Your <span>FREE </span> Custom Logo in Just 72 Hours!
+              </h5>
+
+              <a href="#" class="hover_white">
+                Get Started
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
