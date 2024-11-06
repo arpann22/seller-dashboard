@@ -27,7 +27,7 @@ export default function AddDomain({ styles }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
 
   const [domainName, setDomainName] = useState("");
 
@@ -41,9 +41,9 @@ export default function AddDomain({ styles }) {
   const handleAcceptOffersToggle = () => {
     setAcceptOffersEnabled((prevState) => !prevState);
   };
-  const handleEditorChange = (newContent) => {
-    setContent(newContent);
-  };
+  // const handleEditorChange = (newContent) => {
+  //   setContent(newContent);
+  // };
 
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +60,7 @@ export default function AddDomain({ styles }) {
         throw new Error(errorData.message);
       }
       const data = await res.json();
+      setApiData(apidata);
     } catch (err) {
       console.log(err.msg);
     } finally {
@@ -137,10 +138,29 @@ export default function AddDomain({ styles }) {
     fetchTags();
   }, []);
 
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedIndustries, setSelectedIndustries] = useState([]);
+  const [formData, setFormData] = useState({
+    regular_price: "",
+    sale_price: "",
+    start_date: "",
+    end_date: "",
+  });
+
   function handelFormSubmit(e) {
     e.preventDefault();
+    const taxnomy = {
+      categories: selectedCategories,
+      tags: selectedTags,
+      industries: selectedIndustries,
+    };
+    const lease_to_own = isLeaseToOwnEnabled;
+    const offer = isAcceptOffersEnabled;
+    console.log("lease: ", lease_to_own);
+    console.log("offer: ", offer);
 
-    console.log("sdfds");
+    console.log("Submitted Data:", formData);
   }
   if (isLoading) {
     return <div>Loading...</div>;
@@ -339,6 +359,13 @@ export default function AddDomain({ styles }) {
                 type="number"
                 id="regularPrice"
                 className={styles.input_field}
+                value={formData.regular_price}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    regular_price: e.target.value,
+                  })
+                }
                 placeholder="Enter regular price"
                 min="0" // Prevent negative values
               />
@@ -378,6 +405,10 @@ export default function AddDomain({ styles }) {
                   id="salePrice"
                   className={styles.input_field}
                   placeholder="Enter sale price"
+                  value={formData.sale_price}
+                  onChange={(e) =>
+                    setFormData({ ...formData, sale_price: e.target.value })
+                  }
                   min="0" // Prevent negative values
                   disabled={!isSalePriceEnabled}
                 />
@@ -391,6 +422,10 @@ export default function AddDomain({ styles }) {
                   <input
                     type="date"
                     id="startSale"
+                    value={formData.start_date}
+                    onChange={(e) =>
+                      setFormData({ ...formData, start_date: e.target.value })
+                    }
                     className={styles.input_field}
                   />
                 </div>
@@ -398,6 +433,10 @@ export default function AddDomain({ styles }) {
                   <label htmlFor="endSale">End Sale</label>
                   <input
                     type="date"
+                    value={formData.end_date}
+                    onChange={(e) =>
+                      setFormData({ ...formData, end_date: e.target.value })
+                    }
                     id="endSale"
                     className={styles.input_field}
                   />
@@ -473,7 +512,11 @@ export default function AddDomain({ styles }) {
           ) : catLoading ? (
             catLoading
           ) : (
-            <CardSelector items={category} />
+            <CardSelector
+              items={category}
+              selectedItems={selectedCategories}
+              setSelectedItems={setSelectedCategories}
+            />
           )}
         </div>
 
@@ -495,7 +538,11 @@ export default function AddDomain({ styles }) {
             ) : tagLoading ? (
               tagLoading
             ) : (
-              <CardSelector items={tags} />
+              <CardSelector
+                items={tags}
+                selectedItems={selectedTags}
+                setSelectedItems={setSelectedTags}
+              />
             )}
           </div>
         </div>
@@ -515,7 +562,11 @@ export default function AddDomain({ styles }) {
           ) : industryLoading ? (
             industryLoading
           ) : (
-            <CardSelector items={industry} />
+            <CardSelector
+              items={industry}
+              selectedItems={selectedIndustries}
+              setSelectedItems={setSelectedIndustries}
+            />
           )}
         </div>
 

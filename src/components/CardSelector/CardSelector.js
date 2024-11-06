@@ -5,16 +5,18 @@ import tabstyles from "../Tabs/Tabs.module.css";
 import { RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 
-const CardSelector = ({ items }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+const CardSelector = ({ items, selectedItems, setSelectedItems }) => {
+  // const [selectedItems, setSelectedItems] = useState([]);
   const [imageUrls, setImageUrls] = useState({});
 
   const toggleSelect = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(selectedItems.filter((i) => i !== item));
     } else {
-      setSelectedItems([...selectedItems, item]);
+      setSelectedItems([...selectedItems, item]); // for passing whole item data
+      // setSelectedItems([...selectedItems, item.id]); // for only
     }
+    // console.log(selectedItems);
   };
 
   const fetchImageUrl = async (imageId) => {
