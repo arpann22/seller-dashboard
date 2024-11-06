@@ -22,7 +22,7 @@ import categories_icon from "./images/categories-icon.png";
 import cardstyles from "../CardSelector/CardSelector.module.css";
 
 const currentUrl = window.location.origin;
-export default function AddDomain({ styles }) {
+export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
@@ -112,15 +112,39 @@ export default function AddDomain({ styles }) {
     );
   };
 
-  const [pageTrustScore, setPageTrustScore] = useState(64);
-  const [domainAge, setDomainAge] = useState(30);
-  const [domainTrustScore, setDomainTrustScore] = useState(50);
-  const [domainLength, setDomainLength] = useState(80);
+  const [pageTrustScore, setPageTrustScore] = useState(0);
+  const [domainAge, setDomainAge] = useState(0);
+  const [domainTrustScore, setDomainTrustScore] = useState(0);
+  const [domainLength, setDomainLength] = useState(0);
 
   // progress scores end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [postStatus, setPostStatus] = useState("");
+
   // sunder jss
+  function ageToDecimal(ageString) {
+    if (!ageString) {
+      return 0;
+    }
+    // Regular expression to match "X years Y days" with optional whitespace and pluralization
+    const regex = /(\d+)\s*years?\s*(\d+)\s*days?/i;
+    const match = ageString.match(regex);
+
+    if (!match) {
+      throw new Error("Invalid age format. Please use 'X years Y days'.");
+    }
+
+    const years = parseInt(match[1], 10);
+    const days = parseInt(match[2], 10);
+
+    // Assuming a year has 365 days
+    const decimalAge = years + days / 365;
+
+    // Optionally, round to two decimal places
+    return Math.round(decimalAge * 100) / 100;
+  }
+
   const handleGenerate = async (e) => {
     setIsLoading(true);
     e.preventDefault();
@@ -133,7 +157,17 @@ export default function AddDomain({ styles }) {
         throw new Error(errorData.message);
       }
       const data = await res.json();
-      setApiData(apidata);
+
+      const da_pa = data[0].da_pa.split("/");
+      const da = da_pa[0];
+      const pa = da_pa[1];
+      const age = ageToDecimal(data[0].age);
+
+      setApiData(data);
+      setDomainLength(data[0].length);
+      da ? setDomainTrustScore(da) : setDomainTrustScore(0);
+      pa ? setPageTrustScore(pa) : setPageTrustScore(0);
+      setDomainAge(age);
     } catch (err) {
       console.log(err.msg);
     } finally {
@@ -221,7 +255,7 @@ export default function AddDomain({ styles }) {
     end_date: "",
   });
 
-  function handelFormSubmit(e) {
+  async function handelFormSubmit(e) {
     e.preventDefault();
     const taxnomy = {
       categories: selectedCategories,
@@ -230,10 +264,35 @@ export default function AddDomain({ styles }) {
     };
     const lease_to_own = isLeaseToOwnEnabled;
     const offer = isAcceptOffersEnabled;
-    console.log("lease: ", lease_to_own);
-    console.log("offer: ", offer);
+    const page_trust = pageTrustScore;
+    const domain_trust = domainTrustScore;
+    const domain_age = domainAge;
+    const domain_length = domainLength;
+    const domain_name = domainName;
+    const author = userData.id;
+    const domainInfo = {
+      title: domain_name,
+      status: postStatus,
+      author: 6,
+    };
+    // fetch()
 
-    console.log("Submitted Data:", formData);
+    try {
+      const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/JSON",
+        },
+        body: JSON.stringify(domainInfo),
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+      console.log("response data ", data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   if (isLoading) {
     return <div>Loading...</div>;
@@ -677,6 +736,7 @@ export default function AddDomain({ styles }) {
         <div className={styles.save_button_wrappers}>
           <button
             type="submit"
+            onClick={() => setPostStatus("publish")}
             className={`${styles.add_product_button} ${styles.hover_white_dark}`}
           >
             <span className={styles.icon}>
@@ -686,6 +746,7 @@ export default function AddDomain({ styles }) {
           </button>
 
           <button
+            onClick={() => setPostStatus("draft")}
             className={`${styles.save_draft_button} ${styles.hover_white}`}
           >
             <span className={styles.icon}>
