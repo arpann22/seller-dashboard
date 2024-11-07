@@ -371,6 +371,9 @@ button.button_icon_wrapper:hover {
 }
 .media_content_wrapper.media_card_no_padding img {
   width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  margin: 0;
 }
 .media_content_wrapper.media_card_no_padding .media_setup_contents_footer {
   padding: 20px;

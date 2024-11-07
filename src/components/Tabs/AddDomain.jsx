@@ -118,6 +118,18 @@ export default function AddDomain({ styles, userData }) {
   const [domainLength, setDomainLength] = useState(0);
   const [da_pa, setDaPa] = useState();
   // progress scores end
+
+  // upload logo handler
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    }
+  };
+  // upload logo handler end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [postStatus, setPostStatus] = useState("");
@@ -424,18 +436,22 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
             >
               <img
-                src={domain_img}
-                alt="attach audio image"
+                src={selectedImage || domain_img}
+                alt="attach logo image"
                 className={styles.media_image}
               />
               <div className={styles.media_setup_contents_footer}>
                 <div className={styles.text_column}>
-                  <h5>Your Heading Here</h5>
-                  <p>Your paragraph content here.</p>
+                  <h5>Show Off your Brand!</h5>
+                  <p>Upload your Logo to Customize!</p>
                 </div>
 
-                <div className={styles.audio_column}>
-                  <input type="file" accept="audio/*" />
+                <div className={styles.image_column}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
                 </div>
               </div>
             </div>
@@ -561,7 +577,7 @@ export default function AddDomain({ styles, userData }) {
 
             {/* Sale Price Input with Toggle */}
             <div
-              className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} `}
+              className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column}`}
             >
               <div
                 className={`${styles.ws_flex} ${styles.salePrice_heading_wrapper}`}
@@ -585,6 +601,7 @@ export default function AddDomain({ styles, userData }) {
                   </div>
                 </div>
               </div>
+
               <div
                 className={`${styles.sale_price_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
@@ -597,10 +614,11 @@ export default function AddDomain({ styles, userData }) {
                   onChange={(e) =>
                     setFormData({ ...formData, sale_price: e.target.value })
                   }
-                  min="0" // Prevent negative values
+                  min="0"
                   disabled={!isSalePriceEnabled}
                 />
               </div>
+
               {/* Date Input Fields */}
               <div
                 className={`${styles.date_fields_wrapper} ${styles.ws_flex} ${styles.gap_10}`}
@@ -615,18 +633,20 @@ export default function AddDomain({ styles, userData }) {
                       setFormData({ ...formData, start_date: e.target.value })
                     }
                     className={styles.input_field}
+                    disabled={!isSalePriceEnabled} // Disable based on toggle
                   />
                 </div>
                 <div className={`${styles.date_field} ${styles.flex_column}`}>
                   <label htmlFor="endSale">End Sale</label>
                   <input
                     type="date"
+                    id="endSale"
                     value={formData.end_date}
                     onChange={(e) =>
                       setFormData({ ...formData, end_date: e.target.value })
                     }
-                    id="endSale"
                     className={styles.input_field}
+                    disabled={!isSalePriceEnabled} // Disable based on toggle
                   />
                 </div>
               </div>
