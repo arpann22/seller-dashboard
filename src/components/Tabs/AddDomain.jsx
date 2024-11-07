@@ -121,14 +121,6 @@ export default function AddDomain({ styles, userData }) {
 
   // upload logo handler
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
-    }
-  };
   // upload logo handler end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -267,8 +259,31 @@ export default function AddDomain({ styles, userData }) {
     end_date: "",
   });
 
-  // for getting selected category id so that can be send via post request
+  // for image and audio
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null); // For the actual file object
+  const [audioFile, setAudioFile] = useState(null);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+      setImageFile(file); // File object for API request
+    }
+  };
+
+  const handleAudioChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setAudioFile(file); // Store audio file for API request
+    }
+  };
+  // getting tld from domain name
+  function getTLD(domain) {
+    const parts = domain.split(".");
+    return parts.length > 1 ? `.${parts[parts.length - 1]}` : null;
+  }
+  // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
 
@@ -292,27 +307,97 @@ export default function AddDomain({ styles, userData }) {
     }
 
     const lease_to_own = isLeaseToOwnEnabled;
-    const offer = isAcceptOffersEnabled;
+    const offer = isAcceptOffersEnabled ? "yes" : "no";
     const page_trust = pageTrustScore.toString();
     const domain_trust = domainTrustScore.toString();
     const da_pa = domain_trust.concat("/", page_trust);
-    const domain_age = domainAge;
-    const domain_length = domainLength;
     const domain_name = domainName;
-    const author = userData.id;
 
+    let imageId = null;
+    let audioMediaId = null;
+    // Step 1: Upload the image to the media library if there's an image file
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+
+      try {
+        const mediaResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
+          method: "POST",
+          // headers: {
+          //   Authorization: `Bearer YOUR_ACCESS_TOKEN`, // Replace with your access token
+          // },
+          body: formData,
+        });
+
+        if (!mediaResponse.ok) {
+          throw new Error("Image upload failed");
+        }
+
+        const mediaData = await mediaResponse.json();
+        imageId = mediaData.id; // Get the media ID for the uploaded image
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        return;
+      }
+    }
+
+    // Step 2: Upload audio file if it exists
+
+    if (audioFile) {
+      const formData = new FormData();
+      formData.append("file", audioFile);
+      try {
+        const audioResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
+          method: "POST",
+          // headers: {
+          //   Authorization: `Bearer YOUR_ACCESS_TOKEN`,
+          // },
+          body: formData,
+        });
+        const audioData = await audioResponse.json();
+        audioMediaId = audioData.id; // Get audio media ID
+      } catch (error) {
+        console.error("Audio upload failed:", error);
+      }
+    }
+    console.log(domainLength);
+    // meta: {
+    //   _thumbnail_id: imageId,
+    //   _age: domainAge,
+    //   _length: domainLength,
+    //   _da_pa: da_pa,
+    //   _pronounce_audio: audioMediaId,
+    //   _logo_image: imageId,
+    //   _regular_price: formData.regular_price,
+    //   _sale_price: formData.sale_price,
+    //   _sale_start_date: formData.start_date,
+    //   _sale_end_date: formData.end_date,
+    //   _stock_status: "instock",
+    //   _enable_offer: offer,
+    //   _tld: getTLD(domainName),
+    //   _lease_to_own: lease_to_own,
+    // },
+    console.log(offer);
     const domainInfo = {
-      title: domain_name,
+      title: domainName,
       status: postStatus,
-      author: 6,
-      meta: {},
+      author: userData.id,
+      meta: {
+        _thumbnail_id: imageId,
+        // _length: domainLength,
+        // _enable_offers: offer.toString(),
+        _enable_offers: "hjelll",
+      },
       domain_industry: industryIds,
       domain_cat: categoryIds,
       domain_tag: tagIds,
+      featured_media: imageId,
     };
-    // console.log(taxnomy);
-    return;
-    // fetch()
+    // Separate metadata into its own object
+    // const metaData = {
+    //   _enable_offers: offer.toString(),
+    //   // Add other metadata fields here if needed
+    // };
 
     try {
       const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
@@ -321,6 +406,10 @@ export default function AddDomain({ styles, userData }) {
           "Content-Type": "Application/JSON",
         },
         body: JSON.stringify(domainInfo),
+        // body: JSON.stringify({
+        //   ...domainInfo,
+        //   meta: metaData,
+        // }),
       });
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -392,7 +481,11 @@ export default function AddDomain({ styles, userData }) {
                 </div>
 
                 <div className={styles.audio_column}>
-                  <input type="file" accept="audio/*" />
+                  <input
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleAudioChange}
+                  />
                 </div>
               </div>
             </div>
