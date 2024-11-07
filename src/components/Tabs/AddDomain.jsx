@@ -116,7 +116,7 @@ export default function AddDomain({ styles, userData }) {
   const [domainAge, setDomainAge] = useState(0);
   const [domainTrustScore, setDomainTrustScore] = useState(0);
   const [domainLength, setDomainLength] = useState(0);
-
+  const [da_pa, setDaPa] = useState();
   // progress scores end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -264,8 +264,9 @@ export default function AddDomain({ styles, userData }) {
     };
     const lease_to_own = isLeaseToOwnEnabled;
     const offer = isAcceptOffersEnabled;
-    const page_trust = pageTrustScore;
-    const domain_trust = domainTrustScore;
+    const page_trust = pageTrustScore.toString();
+    const domain_trust = domainTrustScore.toString();
+    const da_pa = domain_trust.concat("/", page_trust);
     const domain_age = domainAge;
     const domain_length = domainLength;
     const domain_name = domainName;
@@ -274,7 +275,10 @@ export default function AddDomain({ styles, userData }) {
       title: domain_name,
       status: postStatus,
       author: 6,
+      meta: {},
     };
+    console.log(da_pa);
+    return;
     // fetch()
 
     try {
