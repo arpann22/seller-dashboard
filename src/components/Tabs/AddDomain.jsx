@@ -175,7 +175,7 @@ export default function AddDomain({ styles, userData }) {
     }
   };
 
-  // fetching category
+  // fetching category list for select option
   const [category, setCategory] = useState();
   const [catError, setCatError] = useState("");
   const [catLoading, setCatLoading] = useState(true);
@@ -255,13 +255,33 @@ export default function AddDomain({ styles, userData }) {
     end_date: "",
   });
 
+  // for getting selected category id so that can be send via post request
+
   async function handelFormSubmit(e) {
     e.preventDefault();
-    const taxnomy = {
-      categories: selectedCategories,
-      tags: selectedTags,
-      industries: selectedIndustries,
-    };
+    // const taxnomy = {
+    // const categories = selectedCategories;
+    const tags = selectedTags;
+    const industries = selectedIndustries;
+    let categoryIds = [];
+    if (selectedCategories) {
+      categoryIds = selectedCategories.map((category) => {
+        return category.id;
+      });
+    }
+    let industryIds = [];
+    if (selectedIndustries) {
+      industryIds = selectedIndustries.map((industry) => {
+        return industry.id;
+      });
+    }
+    let tagIds = [];
+    if (selectedTags) {
+      tagIds = selectedTags.map((tag) => {
+        return tag.id;
+      });
+    }
+
     const lease_to_own = isLeaseToOwnEnabled;
     const offer = isAcceptOffersEnabled;
     const page_trust = pageTrustScore.toString();
@@ -271,13 +291,14 @@ export default function AddDomain({ styles, userData }) {
     const domain_length = domainLength;
     const domain_name = domainName;
     const author = userData.id;
+
     const domainInfo = {
       title: domain_name,
       status: postStatus,
       author: 6,
       meta: {},
     };
-    console.log(da_pa);
+    // console.log(taxnomy);
     return;
     // fetch()
 
