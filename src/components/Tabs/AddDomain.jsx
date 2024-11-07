@@ -259,10 +259,7 @@ export default function AddDomain({ styles, userData }) {
 
   async function handelFormSubmit(e) {
     e.preventDefault();
-    // const taxnomy = {
-    // const categories = selectedCategories;
-    const tags = selectedTags;
-    const industries = selectedIndustries;
+
     let categoryIds = [];
     if (selectedCategories) {
       categoryIds = selectedCategories.map((category) => {
@@ -297,6 +294,9 @@ export default function AddDomain({ styles, userData }) {
       status: postStatus,
       author: 6,
       meta: {},
+      domain_industry: industryIds,
+      domain_cat: categoryIds,
+      domain_tag: tagIds,
     };
     // console.log(taxnomy);
     return;
