@@ -34,7 +34,11 @@ const handleReset = () => {
   }
 };
 
-const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
+const SellerCentralTabContent = ({
+  activeInnerTab,
+  userData,
+  setSellerCentralTab,
+}) => {
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -50,7 +54,6 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
   const handleCardSelect = (cardId) => {
     setSelectedCard(cardId); // Set the selected card
   };
-
   switch (activeInnerTab) {
     case "Add New Domain":
       return (
@@ -74,6 +77,7 @@ const SellerCentralTabContent = ({ activeInnerTab, userData }) => {
             userData={userData}
             mediaSetupIcon={mediaSetupIcon}
             domain_img={domain_img}
+            setSellerCentralTab={setSellerCentralTab}
           />
         </>
       );

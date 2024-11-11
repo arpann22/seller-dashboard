@@ -470,8 +470,8 @@ export default function AddDomain({ styles, userData }) {
         _logo_image: imageId,
         _regular_price: formData.regular_price,
         _sale_price: formData.sale_price,
-        _sale_start_date: formData.start_date,
-        _sale_end_date: formData.end_date,
+        _sale_price_dates_from: formData.start_date,
+        _sale_price_dates_to: formData.end_date,
         _stock_status: "instock",
         _enable_offers: offer,
         _tld: getTLD(domainName),
@@ -498,6 +498,53 @@ export default function AddDomain({ styles, userData }) {
       }
     }
   }
+
+  // ------------------------edit section starts
+  const domain_id = localStorage.getItem("editable_domain_id");
+
+  useEffect(() => {
+    if (domain_id) {
+      try {
+        async function fetchDomainDetails() {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wp/v2/domain/${domain_id}`
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          const data = await res.json();
+          setDomainName(data.title?.rendered);
+          // setSelectedCategories(data?.domain_cat);
+          // setFormData(...formData,regular_price=data?.meta?._regular_price[0])
+
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            regular_price: data?.meta?._regular_price?.[0] || "",
+          }));
+          setFormData({
+            ...formData,
+            sale_price: data?.meta?._sale_price[0],
+          });
+          setFormData({
+            ...formData,
+            start_date: data?.meta?._sale_price_dates_from[0],
+          });
+          setFormData({
+            ...formData,
+            end_date: data?.meta?._sale_price_dates_to[0],
+          });
+          // ormData.regular_price
+          console.log(data);
+          console.log(data?.meta?._regular_price[0]);
+        }
+        fetchDomainDetails();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [domain_id]);
+  //-------------------------edit section ends
+
   if (isLoading) {
     return <div>Loading...</div>;
   }

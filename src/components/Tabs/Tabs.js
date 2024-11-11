@@ -16,21 +16,51 @@ const Tabs = ({ userData, setUserData }) => {
     { label: "My Offers", icon: myOrderIcon, urlParam: "my-offers" },
     // { label: "My Auctions", icon: editProfileIcon, urlParam: "my-auctions" },
     // { label: "My Support", icon: editProfileIcon, urlParam: "my-support" },
-    { label: "Sellers Central", icon: editProfileIcon, urlParam: "sellers-central" },
+    {
+      label: "Sellers Central",
+      icon: editProfileIcon,
+      urlParam: "sellers-central",
+    },
   ];
 
   const sellerCentralTabs = [
-    { label: "Add New Domain", icon: addDomainsIcon, content: "This is the content for Add New Domain." },
-    { label: "Dashboard", icon: addDomainsIcon, content: "This is the content for Dashboard." },
-    { label: "Sales", icon: addDomainsIcon, content: "This is the content for Sales." },
-    { label: "Domains", icon: addDomainsIcon, content: "This is the content for Domains." },
-    { label: "Manage Offers", icon: addDomainsIcon, content: "This is the content for Manage Offers." },
-    { label: "Wallet/Banking", icon: addDomainsIcon, content: "This is the content for Wallet/Banking." },
+    {
+      label: "Add New Domain",
+      icon: addDomainsIcon,
+      content: "This is the content for Add New Domain.",
+    },
+    {
+      label: "Dashboard",
+      icon: addDomainsIcon,
+      content: "This is the content for Dashboard.",
+    },
+    {
+      label: "Sales",
+      icon: addDomainsIcon,
+      content: "This is the content for Sales.",
+    },
+    {
+      label: "Domains",
+      icon: addDomainsIcon,
+      content: "This is the content for Domains.",
+    },
+    {
+      label: "Manage Offers",
+      icon: addDomainsIcon,
+      content: "This is the content for Manage Offers.",
+    },
+    {
+      label: "Wallet/Banking",
+      icon: addDomainsIcon,
+      content: "This is the content for Wallet/Banking.",
+    },
   ];
 
   // State for active main tab and seller central inner tab
   const [activeTab, setActiveTab] = useState(tabs[0].label);
-  const [sellerCentralTab, setSellerCentralTab] = useState(sellerCentralTabs[0].label);
+  const [sellerCentralTab, setSellerCentralTab] = useState(
+    sellerCentralTabs[0].label
+  );
 
   // Set initial active tab based on URL parameter
   useEffect(() => {
@@ -48,8 +78,13 @@ const Tabs = ({ userData, setUserData }) => {
     const params = new URLSearchParams(window.location.search);
     params.set("tab", tab.urlParam);
     window.history.pushState({}, "", `?${params.toString()}`);
+    localStorage.removeItem("editable_domain_id");
   };
 
+  function hadelSellerCentralTab(tab_label) {
+    setSellerCentralTab(tab_label);
+    localStorage.removeItem("editable_domain_id");
+  }
   return (
     <div className={`${styles.tabs} ${styles.ws_container}`}>
       <div className={styles.tabs_lists}>
@@ -59,12 +94,17 @@ const Tabs = ({ userData, setUserData }) => {
             <button
               key={tab.label}
               onClick={() => handleTabClick(tab)}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
-                }`}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                tab.label === activeTab ? styles.active : ""
+              }`}
               role="tab"
               aria-selected={tab.label === activeTab}
             >
-              <img src={tab.icon} alt={`${tab.label} icon`} className={styles.tabIcon} />
+              <img
+                src={tab.icon}
+                alt={`${tab.label} icon`}
+                className={styles.tabIcon}
+              />
               {tab.label}
             </button>
           ))}
@@ -82,7 +122,11 @@ const Tabs = ({ userData, setUserData }) => {
       </div>
 
       <div className={styles.tabContent}>
-        <TabContent activeTab={activeTab} userData={userData} setUserData={setUserData} />
+        <TabContent
+          activeTab={activeTab}
+          userData={userData}
+          setUserData={setUserData}
+        />
       </div>
 
       {activeTab === "Sellers Central" && (
@@ -91,17 +135,28 @@ const Tabs = ({ userData, setUserData }) => {
             {sellerCentralTabs.map((tab) => (
               <button
                 key={tab.label}
-                onClick={() => setSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
-                  } ${tab.label === "Add New Domain" ? styles.specialButton : ""}`}
+                onClick={() => hadelSellerCentralTab(tab.label)}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                  sellerCentralTab === tab.label ? styles.active : ""
+                } ${
+                  tab.label === "Add New Domain" ? styles.specialButton : ""
+                }`}
               >
-                <img src={tab.icon} alt={`${tab.label} icon`} className={styles.tabIcon} />
+                <img
+                  src={tab.icon}
+                  alt={`${tab.label} icon`}
+                  className={styles.tabIcon}
+                />
                 {tab.label}
               </button>
             ))}
           </div>
           <div className={styles.innerTabContent}>
-            <SellerCentralTabContent activeInnerTab={sellerCentralTab} userData={userData} />
+            <SellerCentralTabContent
+              activeInnerTab={sellerCentralTab}
+              setSellerCentralTab={setSellerCentralTab}
+              userData={userData}
+            />
           </div>
         </>
       )}

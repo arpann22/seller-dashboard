@@ -13,7 +13,7 @@ const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
-export default function Domains({ userData }) {
+export default function Domains({ userData, setSellerCentralTab }) {
   const [domains, setDomains] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -96,6 +96,11 @@ export default function Domains({ userData }) {
       pa = parseInt(splitDaPa[1]);
     }
 
+    function handleIconClick(domain_id) {
+      // window.open('http://stackoverflow.com', '_blank');
+      setSellerCentralTab("Add New Domain");
+      localStorage.setItem("editable_domain_id", domain_id);
+    }
     return (
       <>
         <div
@@ -112,7 +117,11 @@ export default function Domains({ userData }) {
 
           {/* Hover buttons */}
           <div class="domains_hover_buttons">
-            <div id={domain.id} className="domianEditIcon">
+            <div
+              id={domain.id}
+              className="domianEditIcon"
+              onClick={() => handleIconClick(domain.id)}
+            >
               <img src={save_draft_icon} />
             </div>
             <div>
