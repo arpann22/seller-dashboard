@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import addDomaintitleImage from "./images/add-domain-pre-image.png";
 import attachAudioimg from "./images/attach_audio_img.png";
+import starswhite from "./images/stars-white.png";
 import profileImage from "./images/profile.jpg";
 import { IoIosPause } from "react-icons/io";
 import { RxCrossCircled } from "react-icons/rx";
@@ -729,7 +730,9 @@ export default function AddDomain({ styles, userData }) {
             <div
               className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} ${styles.gap_10}`}
             >
-              <label htmlFor="regularPrice">Regular Price*</label>
+              <label htmlFor="regularPrice">
+                Regular Price<sup className="required">*</sup>
+              </label>
               <input
                 type="number"
                 id="regularPrice"
@@ -828,7 +831,7 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
               <div>
-                <h4>Lease-To-Own</h4>
+                <h5>Lease-To-Own</h5>
                 <p className={styles.subtitle}>
                   Flexible Payment Option to Attract Buyers.
                 </p>
@@ -855,7 +858,7 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
               <div>
-                <h4>Accept Offers</h4>
+                <h5>Accept Offers</h5>
                 <p className={styles.subtitle}>Let Buyers Name Their</p>
               </div>
               <div
@@ -902,33 +905,50 @@ export default function AddDomain({ styles, userData }) {
 
         {/* domain description */}
         <div
-          className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
+          className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
         >
-          <h3>Domain Description</h3>
-          <Editor
-            apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
-            value={content}
-            init={{
-              height: 500,
-              menubar: false,
-              plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table paste code help wordcount",
-                "code", // Code plugin for HTML editing
-                "image", // Image plugin for image uploading
-              ],
-              toolbar:
-                "undo redo | formatselect | bold italic backcolor | \
+          <div
+            className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles}`}
+          >
+            <h3>
+              Domain Description <sup className="required">*</sup>
+            </h3>
+            <a href="#" className={styles.starsWhite}>
+              <img
+                src={starswhite}
+                alt="Star Icon"
+                className={styles.starsWhiteIcon}
+              />
+              Ask AI
+            </a>
+          </div>
+
+          <div className={styles.dashboard_small_margin}>
+            <Editor
+              apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
+              value={content}
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  "advlist autolink lists link image charmap print preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                  "code", // Code plugin for HTML editing
+                  "image", // Image plugin for image uploading
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic backcolor | \
           alignleft aligncenter alignright alignjustify | \
           bullist numlist outdent indent | removeformat | code | image | help",
-              code_dialog_height: 600,
-              code_dialog_width: 800,
-              images_upload_handler: handleImageUpload, // Set the custom image upload handler
-              automatic_uploads: true,
-            }}
-            onEditorChange={handleEditorChange}
-          />
+                code_dialog_height: 600,
+                code_dialog_width: 800,
+                images_upload_handler: handleImageUpload, // Set the custom image upload handler
+                automatic_uploads: true,
+              }}
+              onEditorChange={handleEditorChange}
+            />
+          </div>
           <div
             className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
@@ -957,7 +977,9 @@ export default function AddDomain({ styles, userData }) {
             className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
             <img src={mediaSetupIcon} alt="Media Setup Icon" />
-            <h4>Industries</h4>
+            <h4>
+              Industries<sup className="required">*</sup>
+            </h4>
           </div>
 
           {/* <CardSelector items={industryItems} /> */}
