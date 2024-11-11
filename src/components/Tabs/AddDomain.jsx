@@ -20,7 +20,7 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import CardSelector from "../CardSelector/CardSelector.js";
 import categories_icon from "./images/categories-icon.png";
 import cardstyles from "../CardSelector/CardSelector.module.css";
-
+import { Editor } from "@tinymce/tinymce-react";
 const currentUrl = window.location.origin;
 export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
@@ -43,6 +43,15 @@ export default function AddDomain({ styles, userData }) {
   // const handleEditorChange = (newContent) => {
   //   setContent(newContent);
   // };
+
+  // tinymce editor
+  const [content, setContent] = useState("<p>Initial content</p>");
+
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
+  };
+  // tinymce editor end
+
   // progress scores
   const CircularProgressCard = ({
     title,
@@ -860,6 +869,25 @@ export default function AddDomain({ styles, userData }) {
           className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
         >
           <h3>Domain Description</h3>
+          <Editor
+            apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l" // Replace with your TinyMCE API key
+            value={content}
+            init={{
+              height: 500,
+              menubar: true,
+              plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
+                "code", // Add the code plugin here
+              ],
+              toolbar:
+                "undo redo | formatselect | bold italic backcolor | \
+          alignleft aligncenter alignright alignjustify | \
+          bullist numlist outdent indent | removeformat | code | help", // Add 'code' button here
+            }}
+            onEditorChange={handleEditorChange}
+          />
           <div
             className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
