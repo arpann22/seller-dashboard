@@ -16,6 +16,9 @@
 .gap_10 {
   gap: 10px;
 }
+.gap_20 {
+  gap: 20px;
+}
 .p_relative {
   position: relative;
 }
@@ -255,7 +258,7 @@ button.button_icon_wrapper:hover {
 }
 .sellerCentralInnerTabs .specialButton {
   box-shadow: 0px 6px 9px 0px rgba(0, 69, 162, 0.05);
-  border: 1px solid rgb(237, 240, 247);
+  border: 3px solid rgb(237, 240, 247);
   padding: 10px 20px 10px 10px;
   border-radius: 40px;
 }
@@ -1229,6 +1232,22 @@ button.button_icon_wrapper:hover {
   border: 1px solid;
 }
 /* sales deatils */
+.sales_first_column_wrapper div {
+  flex: 1;
+  border: 1px solid #edf0f7;
+  background-color: #fff;
+  border-radius: 15px;
+}
+.sales_first_column_wrapper .add_domain_media_setup_tile_wrapper {
+  border-bottom: 1px solid #edf0f7;
+  padding: 20px;
+}
+.sales_first_column_wrapper svg {
+  margin-left: auto;
+}
+.sales_first_column_wrapper div:last-child {
+  flex: 2;
+}
 .dashboard_sales_details .offerSorts {
   margin-left: auto;
 }
