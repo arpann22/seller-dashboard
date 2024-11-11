@@ -50,6 +50,28 @@ export default function AddDomain({ styles, userData }) {
   const handleEditorChange = (newContent) => {
     setContent(newContent);
   };
+  // upload image
+  const handleImageUpload = (blobInfo, progress) => {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append("file", blobInfo.blob(), blobInfo.filename());
+
+      // Replace with your actual image upload URL
+      fetch("http://localhost:10038/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          // Resolve the URL of the uploaded image
+          resolve(result.imageUrl);
+        })
+        .catch((error) => {
+          console.error("Image upload failed:", error);
+          reject("Image upload failed");
+        });
+    });
+  };
   // tinymce editor end
 
   // progress scores
@@ -879,12 +901,17 @@ export default function AddDomain({ styles, userData }) {
                 "advlist autolink lists link image charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
                 "insertdatetime media table paste code help wordcount",
-                "code", // Add the code plugin here
+                "code", // Code plugin for HTML editing
+                "image", // Image plugin for image uploading
               ],
               toolbar:
                 "undo redo | formatselect | bold italic backcolor | \
           alignleft aligncenter alignright alignjustify | \
-          bullist numlist outdent indent | removeformat | code | help", // Add 'code' button here
+          bullist numlist outdent indent | removeformat | code | image | help",
+              code_dialog_height: 600,
+              code_dialog_width: 800,
+              images_upload_handler: handleImageUpload, // Set the custom image upload handler
+              automatic_uploads: true,
             }}
             onEditorChange={handleEditorChange}
           />
