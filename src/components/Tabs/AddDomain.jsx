@@ -21,6 +21,12 @@ import CardSelector from "../CardSelector/CardSelector.js";
 import categories_icon from "./images/categories-icon.png";
 import cardstyles from "../CardSelector/CardSelector.module.css";
 import { Editor } from "@tinymce/tinymce-react";
+
+import { createRoot } from "react-dom/client";
+import Markdown from "react-markdown";
+import MarkdownIt from "markdown-it";
+const md = new MarkdownIt();
+
 const currentUrl = window.location.origin;
 export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
@@ -214,6 +220,15 @@ export default function AddDomain({ styles, userData }) {
       da ? setDomainTrustScore(da) : setDomainTrustScore(0);
       pa ? setPageTrustScore(pa) : setPageTrustScore(0);
       setDomainAge(age);
+
+      const markdown = data[0].description;
+      const htmlContent = md.render(markdown);
+      setContent(htmlContent); // Set
+      // const description = createRoot(document.body).render(
+
+      // );
+
+      // setContent(markdown);
     } catch (err) {
       console.log(err.msg);
     } finally {
@@ -418,6 +433,7 @@ export default function AddDomain({ styles, userData }) {
 
     const domainInfo = {
       title: domainName,
+      content: content,
       status: postStatus,
       author: userData.id,
       domain_industry: industryIds,
