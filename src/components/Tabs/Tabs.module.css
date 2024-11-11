@@ -1232,6 +1232,16 @@ button.button_icon_wrapper:hover {
 .dashboard_sales_details .offerSorts {
   margin-left: auto;
 }
+.dashboard_sales_details h6 {
+  font-size: 14px;
+}
+.dashboard_sales_details h5,
+.dashboard_sales_details h6 {
+  font-weight: 500;
+}
+.dashboard_sales_details .extra_column:not(:last-child) {
+  border-bottom: 1px solid #eaeaea;
+}
 /* progess score add domains */
 
 .input_field {

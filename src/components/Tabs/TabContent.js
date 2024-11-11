@@ -84,10 +84,10 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
       return <Orders userData={userData} />;
     case "My Offers":
       return <div>Content for My Offers</div>;
-    case "My Auctions":
-      return <div>Content for My Auctions</div>;
-    case "My Support":
-      return <div>Content for My Support</div>;
+    // case "My Auctions":
+    //   return <div>Content for My Auctions</div>;
+    // case "My Support":
+    //   return <div>Content for My Support</div>;
     case "Sellers Central":
       return (
         <>

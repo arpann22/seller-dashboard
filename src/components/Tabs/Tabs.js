@@ -14,8 +14,8 @@ const Tabs = ({ userData, setUserData }) => {
   const tabs = [
     { label: "My Orders", icon: myOrderIcon, urlParam: "my-orders" },
     { label: "My Offers", icon: myOrderIcon, urlParam: "my-offers" },
-    { label: "My Auctions", icon: editProfileIcon, urlParam: "my-auctions" },
-    { label: "My Support", icon: editProfileIcon, urlParam: "my-support" },
+    // { label: "My Auctions", icon: editProfileIcon, urlParam: "my-auctions" },
+    // { label: "My Support", icon: editProfileIcon, urlParam: "my-support" },
     { label: "Sellers Central", icon: editProfileIcon, urlParam: "sellers-central" },
   ];
 
