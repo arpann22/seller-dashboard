@@ -45,7 +45,7 @@ export default function AddDomain({ styles, userData }) {
   // };
 
   // tinymce editor
-  const [content, setContent] = useState("<p>Initial content</p>");
+  const [content, setContent] = useState("");
 
   const handleEditorChange = (newContent) => {
     setContent(newContent);
@@ -55,9 +55,7 @@ export default function AddDomain({ styles, userData }) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append("file", blobInfo.blob(), blobInfo.filename());
-
-      // Replace with your actual image upload URL
-      fetch("http://localhost:10038/upload", {
+      fetch("http://localhost:10038/my-account/?tab=sellers-central/upload", {
         method: "POST",
         body: formData,
       })
@@ -892,11 +890,11 @@ export default function AddDomain({ styles, userData }) {
         >
           <h3>Domain Description</h3>
           <Editor
-            apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l" // Replace with your TinyMCE API key
+            apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
             value={content}
             init={{
               height: 500,
-              menubar: true,
+              menubar: false,
               plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
