@@ -35,6 +35,9 @@
   border: 1px solid #edf0f7;
   border-radius: 15px;
 }
+.ws-cards-container-add-domain {
+  border: none;
+}
 .ws-cards-container-noHover .ws-card-img img {
   border-radius: 15px 15px 0 0;
 }

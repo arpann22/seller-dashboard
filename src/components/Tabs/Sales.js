@@ -10,6 +10,7 @@ import { FaPlus } from "react-icons/fa6";
 import delete_reset_icon from "./images/delete-reset-icon.png";
 import { FaTimes } from "react-icons/fa";
 import sort_icon from './images/sort-icon.png'
+import { HiDotsVertical } from "react-icons/hi";
 const handleSubmit = (event) => {
     event.preventDefault();
     // Handle the input value submission here
@@ -37,7 +38,42 @@ const Sales = () => {
     return (
 
         <>
+            {/* sales first col */}
+            <div className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20}`}>
+                <div>
+                    <div
+                        className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                    >
+                        <img src={sales_details_icon} alt="Media Setup Icon" />
+                        <h4>Sales Status</h4>
+
+                        <HiDotsVertical />
+
+
+                    </div>
+                </div>
+                <div>
+                    <div
+                        className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                    >
+                        <img src={sales_details_icon} alt="Media Setup Icon" />
+                        <h4>Sales Distribution</h4>
+                        <HiDotsVertical />
+                    </div>
+                </div>
+                <div>
+                    <div
+                        className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                    >
+                        <img src={sales_details_icon} alt="Media Setup Icon" />
+                        <h4>Average Sales Analysis</h4>
+                        <HiDotsVertical />
+                    </div>
+                </div>
+            </div>
+            {/* sales details section */}
             <div className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details}`}>
+
                 <div
                     className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
                 >

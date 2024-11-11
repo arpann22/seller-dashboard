@@ -25,11 +25,11 @@
   width: calc(20% - 40px);
   transition: background-color 0.3s;
   flex: 0 0 auto;
-  border: 1px solid rgb(247, 249, 253);
+  border: 2px solid rgb(247, 249, 253);
 }
 
 .card.selected {
-  border: 1px solid rgb(118, 232, 249);
+  border: 2px solid rgb(118, 232, 249);
   background-color: #fff;
 }
 
@@ -141,10 +141,10 @@
   background-color: #fff;
 }
 .description_tags_wrapper .card {
-  border: 1px solid #edf0f7;
+  border: 2px solid #edf0f7;
 }
 .description_tags_wrapper .card.selected {
-  border: 1px solid rgb(118, 232, 249);
+  border: 2px solid rgb(118, 232, 249);
 }
 .tagsItemsCards {
   padding: 0;
