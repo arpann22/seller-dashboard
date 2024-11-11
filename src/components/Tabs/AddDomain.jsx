@@ -149,9 +149,22 @@ export default function AddDomain({ styles, userData }) {
     return Math.round(decimalAge * 100) / 100;
   }
 
+  const [domainNameError, setDomainNameError] = useState("");
+  // url validation
+  function isValidDomain(domain) {
+    const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
+    return domainRegex.test(domain);
+  }
+
   const handleGenerate = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
+
+    if (isValidDomain(domainName) == false) {
+      setDomainNameError("Invalid Domain Name");
+      return;
+    }
+    setIsLoading(true);
+
     try {
       const res = await fetch(
         `${currentUrl}/wp-json/wstr/v1/domain_fields?domain_name=${domainName}`
@@ -283,10 +296,29 @@ export default function AddDomain({ styles, userData }) {
     const parts = domain.split(".");
     return parts.length > 1 ? `.${parts[parts.length - 1]}` : null;
   }
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
-
+    if (!domainName) {
+      setErrorMessage("Domain name is empty.");
+      return;
+    }
+    if (isValidDomain(domainName) == false) {
+      setErrorMessage("Invalid Domain Name");
+      return;
+    }
+    if (parseInt(formData.regular_price) < parseInt(formData.sale_price)) {
+      setErrorMessage("Sale price cannot be greater than regular price.");
+      return;
+    }
+    if (selectedIndustries.length < 1) {
+      setErrorMessage("Industries cannot be empty.");
+      return;
+    }
+    setErrorMessage("");
     let categoryIds = [];
     if (selectedCategories) {
       categoryIds = selectedCategories.map((category) => {
@@ -311,10 +343,10 @@ export default function AddDomain({ styles, userData }) {
     const page_trust = pageTrustScore.toString();
     const domain_trust = domainTrustScore.toString();
     const da_pa = domain_trust.concat("/", page_trust);
-    const domain_name = domainName;
 
     let imageId = null;
     let audioMediaId = null;
+    let domainId = null;
     // Step 1: Upload the image to the media library if there's an image file
     if (imageFile) {
       const formData = new FormData();
@@ -323,9 +355,6 @@ export default function AddDomain({ styles, userData }) {
       try {
         const mediaResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
           method: "POST",
-          // headers: {
-          //   Authorization: `Bearer YOUR_ACCESS_TOKEN`, // Replace with your access token
-          // },
           body: formData,
         });
 
@@ -349,9 +378,6 @@ export default function AddDomain({ styles, userData }) {
       try {
         const audioResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
           method: "POST",
-          // headers: {
-          //   Authorization: `Bearer YOUR_ACCESS_TOKEN`,
-          // },
           body: formData,
         });
         const audioData = await audioResponse.json();
@@ -360,44 +386,16 @@ export default function AddDomain({ styles, userData }) {
         console.error("Audio upload failed:", error);
       }
     }
-    console.log(domainLength);
-    // meta: {
-    //   _thumbnail_id: imageId,
-    //   _age: domainAge,
-    //   _length: domainLength,
-    //   _da_pa: da_pa,
-    //   _pronounce_audio: audioMediaId,
-    //   _logo_image: imageId,
-    //   _regular_price: formData.regular_price,
-    //   _sale_price: formData.sale_price,
-    //   _sale_start_date: formData.start_date,
-    //   _sale_end_date: formData.end_date,
-    //   _stock_status: "instock",
-    //   _enable_offer: offer,
-    //   _tld: getTLD(domainName),
-    //   _lease_to_own: lease_to_own,
-    // },
-    console.log(offer);
+
     const domainInfo = {
       title: domainName,
       status: postStatus,
       author: userData.id,
-      meta: {
-        _thumbnail_id: imageId,
-        // _length: domainLength,
-        // _enable_offers: offer.toString(),
-        _enable_offers: "hjelll",
-      },
       domain_industry: industryIds,
       domain_cat: categoryIds,
       domain_tag: tagIds,
       featured_media: imageId,
     };
-    // Separate metadata into its own object
-    // const metaData = {
-    //   _enable_offers: offer.toString(),
-    //   // Add other metadata fields here if needed
-    // };
 
     try {
       const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
@@ -406,18 +404,52 @@ export default function AddDomain({ styles, userData }) {
           "Content-Type": "Application/JSON",
         },
         body: JSON.stringify(domainInfo),
-        // body: JSON.stringify({
-        //   ...domainInfo,
-        //   meta: metaData,
-        // }),
       });
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
       console.log("response data ", data);
+      domainId = data.id;
     } catch (error) {
       console.log(error);
+    }
+    if (domainId) {
+      const domaimMetaInfo = {
+        _thumbnail_id: imageId,
+        _age: domainAge,
+        _length: domainLength,
+        _da_pa: da_pa,
+        _pronounce_audio: audioMediaId,
+        _logo_image: imageId,
+        _regular_price: formData.regular_price,
+        _sale_price: formData.sale_price,
+        _sale_start_date: formData.start_date,
+        _sale_end_date: formData.end_date,
+        _stock_status: "instock",
+        _enable_offers: offer,
+        _tld: getTLD(domainName),
+        _lease_to_own: lease_to_own,
+      };
+      try {
+        const res = await fetch(
+          `${currentUrl}/wp-json/wstr/v1/domain_meta/${domainId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "Application/JSON",
+            },
+            body: JSON.stringify(domaimMetaInfo),
+          }
+        );
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        console.log("response data ", data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   if (isLoading) {
@@ -438,6 +470,7 @@ export default function AddDomain({ styles, userData }) {
           Get a detailed domain breakdown, ranking insights, estimate, and even
           audio pronunciations – all in one go!
         </p>
+        <div>{domainNameError && domainNameError}</div>
         <div
           className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
         >
@@ -581,7 +614,7 @@ export default function AddDomain({ styles, userData }) {
                 className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex}`}
               >
                 <div>
-                  <h2>petrunner.com</h2>
+                  <h2>{domainName ? domainName : "example.com"}</h2>
                   <h5>Estimated Value</h5>
                   <h3>
                     $15,000 <span>USD</span>
@@ -665,6 +698,7 @@ export default function AddDomain({ styles, userData }) {
                 }
                 placeholder="Enter regular price"
                 min="0" // Prevent negative values
+                required
               />
             </div>
 
@@ -870,10 +904,9 @@ export default function AddDomain({ styles, userData }) {
             />
           )}
         </div>
-
+        <div>{errorMessage && errorMessage}</div>
         <div className={styles.save_button_wrappers}>
           <button
-            type="submit"
             onClick={() => setPostStatus("publish")}
             className={`${styles.add_product_button} ${styles.hover_white_dark}`}
           >
