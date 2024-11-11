@@ -112,7 +112,7 @@ export default function Domains({ userData }) {
 
           {/* Hover buttons */}
           <div class="domains_hover_buttons">
-            <div>
+            <div id={domain.id} className="domianEditIcon">
               <img src={save_draft_icon} />
             </div>
             <div>
