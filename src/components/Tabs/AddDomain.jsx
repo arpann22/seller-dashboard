@@ -245,7 +245,9 @@ export default function AddDomain({ styles, userData }) {
   useEffect(() => {
     async function fetchCategory() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_cat/`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_cat/?per_page=99&hide_empty=1`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -268,7 +270,9 @@ export default function AddDomain({ styles, userData }) {
   useEffect(() => {
     async function fetchIndustry() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_industry/`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_industry/?per_page=99`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -291,7 +295,9 @@ export default function AddDomain({ styles, userData }) {
   useEffect(() => {
     async function fetchTags() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_tag/`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_tag/?per_page=99`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -347,6 +353,8 @@ export default function AddDomain({ styles, userData }) {
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
+    // console.log(selectedCategories);
+    // return;
     if (!domainName) {
       setErrorMessage("Domain name is empty.");
       return;
@@ -358,6 +366,9 @@ export default function AddDomain({ styles, userData }) {
     if (parseInt(formData.regular_price) < parseInt(formData.sale_price)) {
       setErrorMessage("Sale price cannot be greater than regular price.");
       return;
+    }
+    if (!content) {
+      setErrorMessage("Required domain description.");
     }
     if (selectedIndustries.length < 1) {
       setErrorMessage("Industries cannot be empty.");
@@ -514,28 +525,87 @@ export default function AddDomain({ styles, userData }) {
           }
           const data = await res.json();
           setDomainName(data.title?.rendered);
-          // setSelectedCategories(data?.domain_cat);
-          // setFormData(...formData,regular_price=data?.meta?._regular_price[0])
 
+          if (data?.meta?._sale_price[0]) {
+            setIsSalePriceEnabled(!isSalePriceEnabled);
+          }
+          const lease_to_own = data?.meta?._lease_to_own
+            ? data.meta._lease_to_own[0]
+            : "";
+          if (lease_to_own == 1) {
+            setLeaseToOwnEnabled((prevState) => !prevState);
+          }
+
+          const _enable_offers = data?.meta?._enable_offers
+            ? data.meta._enable_offers[0]
+            : "";
+          if (_enable_offers == "yes") {
+            setAcceptOffersEnabled((prevState) => !prevState);
+          }
           setFormData((prevFormData) => ({
             ...prevFormData,
             regular_price: data?.meta?._regular_price?.[0] || "",
+            sale_price: data?.meta?._sale_price[0] || "",
+            start_date: data?.meta?._sale_price_dates_from
+              ? data.meta._sale_price_dates_from[0]
+              : "",
+            end_date: data?.meta?._sale_price_dates_to
+              ? data.meta._sale_price_dates_to[0]
+              : "",
           }));
-          setFormData({
-            ...formData,
-            sale_price: data?.meta?._sale_price[0],
+
+          setDomainAge(data?.meta?._age ? data.meta._age[0] : "");
+          const da_pa = data?.meta?._da_pa ? data.meta._da_pa[0] : "";
+          const da_pa_split = da_pa.toString().split("/");
+          const da = parseInt(da_pa_split[0]);
+          const pa = parseInt(da_pa_split[1]);
+          setPageTrustScore(pa);
+          setDomainTrustScore(da);
+
+          const domain_length = data?.meta?._length ? data.meta._length[0] : "";
+          setDomainLength(domain_length);
+
+          const domain_description = data?.content?.rendered
+            ? data.content.rendered
+            : "";
+
+          setContent(domain_description);
+
+          const categories_array = [];
+          const categories = data?.domain_cat ? data.domain_cat : "";
+          categories.map((cat_id) => {
+            return categories_array.push({
+              id: cat_id,
+              taxonomy: "domain_cat",
+            });
           });
-          setFormData({
-            ...formData,
-            start_date: data?.meta?._sale_price_dates_from[0],
+
+          setSelectedCategories(categories_array); // Set selected categories
+
+          const industries_array = [];
+          const industries = data?.domain_industry ? data.domain_industry : "";
+          industries.map((ind_id) => {
+            return industries_array.push({
+              id: ind_id,
+              taxonomy: "domain_industry",
+            });
           });
-          setFormData({
-            ...formData,
-            end_date: data?.meta?._sale_price_dates_to[0],
+
+          setSelectedIndustries(industries_array); // Set selected categories
+
+          const tags_array = [];
+          const tags = data?.domain_tag ? data.domain_tag : "";
+          tags.map((tag_id) => {
+            return tags_array.push({
+              id: tag_id,
+              taxonomy: "domain_industry",
+            });
           });
-          // ormData.regular_price
+
+          setSelectedTags(tags_array); // Set selected categories
+
+          // const audio_id = _pronounce_audio
           console.log(data);
-          console.log(data?.meta?._regular_price[0]);
         }
         fetchDomainDetails();
       } catch (error) {

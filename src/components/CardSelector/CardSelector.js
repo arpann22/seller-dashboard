@@ -10,15 +10,37 @@ const CardSelector = ({ items, selectedItems, setSelectedItems }) => {
   const [imageUrls, setImageUrls] = useState({});
 
   const toggleSelect = (item) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(selectedItems.filter((i) => i !== item));
+    // if (selectedItems.includes(item)) {
+    //   setSelectedItems(selectedItems.filter((i) => i !== item));
+    // } else {
+    //   setSelectedItems([...selectedItems, item]); // for passing whole item data
+    //   // setSelectedItems([...selectedItems, item.id]); // for only
+    // }
+    if (selectedItems.some((i) => i.id === item.id)) {
+      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
     } else {
       setSelectedItems([...selectedItems, item]); // for passing whole item data
-      // setSelectedItems([...selectedItems, item.id]); // for only
     }
+    console.log(item);
     // console.log(selectedItems);
   };
+  // const obj = {
+  //   // coun: 94,
+  //   // description: "",
+  //   id: 59,
+  //   // link: "http://webstarter.local/domain-cat/curated-names-for-startups/",
+  //   // name: "Catchy Names",
+  //   // parent: 0,
+  //   // slug: "curated-names-for-startups",
+  //   taxonomy: "domain_cat",
+  // };
 
+  // useEffect(() => {
+  //   setSelectedItems((prevSelectedItems) => [...prevSelectedItems, obj]);
+  // }, [setSelectedItems]);
+  // // toggleSelect(obj);
+
+  // setSelectedItems(obj);
   const fetchImageUrl = async (imageId) => {
     try {
       const response = await fetch(`/wp-json/wp/v2/media/${imageId}`);
@@ -52,7 +74,13 @@ const CardSelector = ({ items, selectedItems, setSelectedItems }) => {
             !imageUrls[item.meta?.taxonomy_image_id]
               ? styles.tagsItemsCards
               : ""
-          } ${selectedItems.includes(item) ? styles.selected : ""}`}
+          }
+          ${
+            selectedItems.some((selectedItem) => selectedItem.id === item.id)
+              ? styles.selected
+              : ""
+          }`}
+          //  ${selectedItems.includes(item) ? styles.selected : ""}`}
           onClick={() => toggleSelect(item)}
         >
           <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>
