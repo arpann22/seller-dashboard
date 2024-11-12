@@ -4,9 +4,12 @@ import { FaCircle, FaPlus, FaTimes } from 'react-icons/fa'; // Import necessary 
 import { FiMail } from 'react-icons/fi';
 import styles from './Tabs.module.css'; // Import styles
 import payment_status_icon from './images/payment_status_icon.png'
-import sort_icon from './images/sort-icon.png'
-import export_icon from './images/export_icon.png'
-
+// import sort_icon from './images/sort-icon.png'
+// import export_icon from './images/export_icon.png'
+import { ReactComponent as PayoutIcon } from './image/payout.svg';
+import { ReactComponent as CommissionIcon } from './image/commissions.svg';
+import { ReactComponent as SortIcon } from './image/sort.svg';
+import { ReactComponent as ExportIcon } from './image/export.svg';
 import domain_img from './images/chatseek.com.png'
 const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,24 +35,24 @@ const OfferTabs = () => {
                         className={`${activeTab === 'active' ? styles.active : ''} `}
                         onClick={() => setActiveTab('active')}
                     >
-                        <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} />
+                        <PayoutIcon />
                         Payouts
                     </li>
                     <li
                         className={`${activeTab === 'declined' ? styles.active : ''} `}
                         onClick={() => setActiveTab('declined')}
                     >
-                        <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} />
+                        <CommissionIcon />
                         Commissions
                     </li>
                 </ul>
                 <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
                     <div className={styles.offerSorts}>
-                        <img src={sort_icon}></img>
+                        <SortIcon />
                         Sort
                     </div>
                     <div className={styles.offerSorts}>
-                        <img src={export_icon}></img>
+                        <ExportIcon />
                         Export
                     </div>
                 </div>

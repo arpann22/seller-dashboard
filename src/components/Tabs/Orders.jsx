@@ -3,8 +3,8 @@ import OrderDetails from "./OrderDetails";
 import styles from "./Tabs.module.css"; // Import styles
 
 export default function Orders({ userData }) {
-  // const currentUrl = 'https://new-webstarter.codepixelz.tech/';
-  const currentUrl = window.location.origin;
+  const currentUrl = "https://new-webstarter.codepixelz.tech/";
+  // const currentUrl = window.location.origin;
   // return <div>Current URL is {location.pathname}</div>;
   const url = `${currentUrl}/wp-json/wstr/v1/orders/`;
   const order_url = `${currentUrl}/wp-json/wp/v2/domain_order/`;

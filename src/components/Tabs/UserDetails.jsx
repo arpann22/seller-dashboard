@@ -7,8 +7,8 @@ import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
 
 export default function UserDetails({ userData, setUserData }) {
-  // const currentUrl = "https://new-webstarter.codepixelz.tech/";
-  const currentUrl = window.location.origin;
+  const currentUrl = "https://new-webstarter.codepixelz.tech/";
+  // const currentUrl = window.location.origin;
   // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message

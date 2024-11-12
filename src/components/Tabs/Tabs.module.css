@@ -25,6 +25,10 @@
 .flex_column {
   flex-direction: column;
 }
+svg {
+  height: 20px;
+  width: 20px;
+}
 /* body.page-id-5284 {
   background-color: #f9fbfe;
 } */
@@ -184,13 +188,21 @@ body.page-id-5782 {
   gap: 15px;
   align-items: center;
 }
+.button_icon_wrapper svg {
+  width: 22px;
+  height: 22px;
+}
 button.button_icon_wrapper:hover {
   background-color: #00d9f5;
   font-weight: 600;
   color: #001f3e;
   border-radius: 40px;
 }
-.button_icon_wrapper img {
+button.button_icon_wrapper:hover svg path,
+button.active svg path {
+  fill: #00d9f5 !important;
+}
+.button_icon_wrapper svg {
   background-color: #f3f5fa;
   border-radius: 50px;
   padding: 8px;
@@ -203,6 +215,10 @@ button.button_icon_wrapper:hover {
   color: #67748e;
   padding: 10px;
   padding-bottom: 30px;
+}
+.tabs_list_footer li img {
+  height: 20px;
+  width: 20px;
 }
 .tabs_list_footer {
   padding: 0 30px;
@@ -226,6 +242,17 @@ button.button_icon_wrapper:hover {
   flex: 1;
   padding: 15px 20px;
   justify-content: space-between;
+}
+.single_sales_wrapper svg {
+  background: linear-gradient(
+    -45deg,
+    rgb(0, 218, 246) 0%,
+    rgb(17, 159, 251) 59%,
+    rgb(33, 100, 255) 100%
+  );
+  border-radius: 10px;
+  padding: 15px;
+  fill: #fff;
 }
 .salesDetails_wrapper {
   display: flex;
@@ -882,13 +909,23 @@ button.button_icon_wrapper:hover {
   gap: 30px;
   margin: 30px 0;
 }
+.offer_tabs_navs svg {
+  background-color: #f7f8fd;
+  padding: 6px;
+  border-radius: 50%;
+}
+.offer_tabs_navs li.active svg,
+.offer_tabs_navs li:hover svg {
+  background-color: #fff;
+}
+
 .offer_tabs_container {
   margin: 30px 0;
   padding: 0 30px;
 }
 .offer_tabs_navs li {
   border: 1px solid #edf0f7;
-  border-radius: 25px;
+  border-radius: 50px;
   padding: 12px 20px;
   display: flex;
   align-items: center;
@@ -1054,10 +1091,21 @@ button.button_icon_wrapper:hover {
   border: 1px solid #00d9f5;
   position: relative;
 }
-.paymentMethodcard_section svg {
-  color: #00d9f5;
+.paymentMethodcard_section svg:not(.check_icon svg) {
+  fill: #fff;
+  padding: 10px;
+  border-radius: 10px;
   width: 20px;
   height: 20px;
+  background: linear-gradient(
+    -45deg,
+    rgb(0, 218, 246) 0%,
+    rgb(17, 159, 251) 59%,
+    rgb(33, 100, 255) 100%
+  );
+}
+.paymentMethodcard_section .check_icon svg {
+  color: #00d9f5;
 }
 .paymentMethodcard_section .check_icon {
   position: absolute;
@@ -1252,7 +1300,11 @@ button.button_icon_wrapper:hover {
   border-bottom: 1px solid #edf0f7;
   padding: 20px;
 }
-.sales_first_column_wrapper svg {
+.add_domain_media_setup_tile_wrapper img {
+  width: 22px;
+  height: 22px;
+}
+.sales_first_column_wrapper svg:last-child {
   margin-left: auto;
 }
 .sales_first_column_wrapper div:last-child {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.29 512.01">
+  <defs>
+    <filter id="drop-shadow-1" x="-39.36" y="-30" width="570" height="592" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="66.46" y1="76.83" x2="424.82" y2="435.18" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00daf6"/>
+      <stop offset="1" stop-color="#2164ff"/>
+    </linearGradient>
+    <filter id="drop-shadow-2" x="240.64" y="281" width="128" height="128" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur-2" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-2" x1="287.31" y1="317.36" x2="322.09" y2="352.14" xlink:href="#linear-gradient"/>
+    <filter id="drop-shadow-3" x="122.64" y="123" width="128" height="128" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur-3" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-3" x1="169.19" y1="159.86" x2="203.97" y2="194.65" xlink:href="#linear-gradient"/>
+  </defs>
+  <g style="filter: url(#drop-shadow-1);">
+    <path d="M467.6,262.63c-2.06-4.21-2.06-9.05,0-13.26l19.1-39.07c10.63-21.75,2.21-47.68-19.18-59.02l-38.41-20.38c-4.14-2.2-6.98-6.11-7.8-10.73l-7.51-42.83c-4.18-23.85-26.24-39.87-50.21-36.48l-43.05,6.09c-4.65.66-9.24-.84-12.61-4.1l-31.25-30.23c-17.4-16.83-44.66-16.83-62.06,0l-31.25,30.24c-3.37,3.26-7.97,4.75-12.61,4.1l-43.05-6.09c-23.97-3.39-46.03,12.63-50.21,36.48l-7.51,42.83c-.81,4.62-3.65,8.53-7.79,10.73l-38.41,20.38c-21.39,11.35-29.81,37.27-19.18,59.02l19.09,39.06c2.06,4.21,2.06,9.05,0,13.26l-19.1,39.06c-10.63,21.75-2.21,47.68,19.18,59.02l38.41,20.38c4.14,2.2,6.99,6.11,7.8,10.73l7.51,42.83c3.81,21.71,22.42,36.93,43.82,36.93,2.11,0,4.24-.15,6.39-.45l43.05-6.09c4.64-.66,9.24.84,12.61,4.1l31.25,30.23c8.7,8.42,19.86,12.63,31.03,12.63,11.16,0,22.33-4.21,31.03-12.62l31.25-30.23c3.37-3.26,7.97-4.75,12.61-4.1l43.05,6.09c23.98,3.39,46.02-12.63,50.21-36.48l7.51-42.83c.81-4.62,3.65-8.53,7.8-10.73l38.41-20.38c21.39-11.35,29.81-37.27,19.18-59.02l-19.1-39.07ZM186.58,123.12c29.85,0,54.14,24.29,54.14,54.14s-24.29,54.14-54.14,54.14-54.14-24.29-54.14-54.14,24.29-54.14,54.14-54.14ZM158.64,363.89c-2.88,2.88-6.66,4.33-10.44,4.33s-7.56-1.44-10.44-4.33c-5.77-5.77-5.77-15.11,0-20.88l194.89-194.89c5.77-5.77,15.11-5.77,20.88,0,5.77,5.77,5.77,15.12,0,20.88l-194.89,194.89ZM304.7,388.89c-29.85,0-54.14-24.29-54.14-54.14s24.29-54.14,54.14-54.14,54.14,24.29,54.14,54.14-24.29,54.14-54.14,54.14Z" style="fill: url(#linear-gradient);"/>
+  </g>
+  <g style="filter: url(#drop-shadow-2);">
+    <path d="M304.7,310.14c-13.57,0-24.61,11.04-24.61,24.61s11.04,24.61,24.61,24.61,24.61-11.04,24.61-24.61-11.04-24.61-24.61-24.61Z" style="fill: url(#linear-gradient-2);"/>
+  </g>
+  <g style="filter: url(#drop-shadow-3);">
+    <path d="M186.58,152.65c-13.57,0-24.61,11.04-24.61,24.61s11.04,24.61,24.61,24.61,24.61-11.04,24.61-24.61c0-13.57-11.04-24.61-24.61-24.61Z" style="fill: url(#linear-gradient-3);"/>
+  </g>
+</svg>

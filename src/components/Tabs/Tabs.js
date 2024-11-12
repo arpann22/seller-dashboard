@@ -4,54 +4,60 @@ import TabContent from "./TabContent";
 import SellerCentralTabContent from "./SellerCentralTabContent";
 import editProfileIcon from "./images/edit-profile.png";
 import myOrderIcon from "./images/my-orders.png";
-import accountSettingIcon from "./images/account-settings.png";
-import logoutIcon from "./images/logout.png";
-import addDomainsIcon from "./images/add-domain-icon.png";
+import accountSettingIcon from "./image/settings.svg";
+import logoutIcon from "./image/logout.svg";
+// import addDomainsIcon from "./images/add-domain-icon.png";
 import UserDetails from "./UserDetails";
+import { ReactComponent as MyOrderIcon } from './image/orders.svg';
+import { ReactComponent as MyOfferIcon } from './image/offers.svg';
+import { ReactComponent as EditProfileIcon } from './image/edit_profil.svg';
+import { ReactComponent as AddDomainsIcon } from './image/plus.svg';
+import { ReactComponent as DashboardIcon } from './image/dashboard.svg';
+import { ReactComponent as SalesIcon } from './image/sales.svg';
+import { ReactComponent as DomainsIcon } from './image/domains.svg';
+import { ReactComponent as ManageOffersIcon } from './image/manage_offers.svg';
+import { ReactComponent as WalletIcon } from './image/wallet.svg';
+
 
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs with corresponding URL parameters
   const tabs = [
-    { label: "My Orders", icon: myOrderIcon, urlParam: "my-orders" },
-    { label: "My Offers", icon: myOrderIcon, urlParam: "my-offers" },
-    // { label: "My Auctions", icon: editProfileIcon, urlParam: "my-auctions" },
-    // { label: "My Support", icon: editProfileIcon, urlParam: "my-support" },
-    {
-      label: "Sellers Central",
-      icon: editProfileIcon,
-      urlParam: "sellers-central",
-    },
+    { label: "My Orders", icon: <MyOrderIcon />, urlParam: "my-orders" },
+    { label: "My Offers", icon: <MyOfferIcon />, urlParam: "my-offers" },
+    // { label: "My Auctions", icon: <EditProfileIcon />, urlParam: "my-auctions" },
+    // { label: "My Support", icon: <EditProfileIcon />, urlParam: "my-support" },
+    { label: "Sellers Central", icon: <EditProfileIcon />, urlParam: "sellers-central" },
   ];
 
   const sellerCentralTabs = [
     {
       label: "Add New Domain",
-      icon: addDomainsIcon,
+      icon: <AddDomainsIcon />,
       content: "This is the content for Add New Domain.",
     },
     {
       label: "Dashboard",
-      icon: addDomainsIcon,
+      icon: <DashboardIcon />,
       content: "This is the content for Dashboard.",
     },
     {
       label: "Sales",
-      icon: addDomainsIcon,
+      icon: <SalesIcon />,
       content: "This is the content for Sales.",
     },
     {
       label: "Domains",
-      icon: addDomainsIcon,
+      icon: <DomainsIcon />,
       content: "This is the content for Domains.",
     },
     {
       label: "Manage Offers",
-      icon: addDomainsIcon,
+      icon: <ManageOffersIcon />,
       content: "This is the content for Manage Offers.",
     },
     {
       label: "Wallet/Banking",
-      icon: addDomainsIcon,
+      icon: <WalletIcon />,
       content: "This is the content for Wallet/Banking.",
     },
   ];
@@ -94,17 +100,17 @@ const Tabs = ({ userData, setUserData }) => {
             <button
               key={tab.label}
               onClick={() => handleTabClick(tab)}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                tab.label === activeTab ? styles.active : ""
-              }`}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
+                }`}
               role="tab"
               aria-selected={tab.label === activeTab}
             >
-              <img
+              {tab.icon}
+              {/* <img
                 src={tab.icon}
                 alt={`${tab.label} icon`}
                 className={styles.tabIcon}
-              />
+              /> */}
               {tab.label}
             </button>
           ))}
@@ -136,17 +142,16 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => hadelSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                  sellerCentralTab === tab.label ? styles.active : ""
-                } ${
-                  tab.label === "Add New Domain" ? styles.specialButton : ""
-                }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
+                  } ${tab.label === "Add New Domain" ? styles.specialButton : ""
+                  }`}
               >
-                <img
+                {/* <img
                   src={tab.icon}
                   alt={`${tab.label} icon`}
                   className={styles.tabIcon}
-                />
+                /> */}
+                {tab.icon}
                 {tab.label}
               </button>
             ))}

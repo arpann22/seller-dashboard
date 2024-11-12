@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 590 590">
+  <defs>
+    <linearGradient id="linear-gradient" x1="398.36" y1="254.47" x2="542.25" y2="398.37" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00daf6"/>
+      <stop offset="1" stop-color="#2164ff"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" x="308" y="276" width="282" height="223" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-2" x1="82.6" y1="135.14" x2="444.04" y2="496.58" xlink:href="#linear-gradient"/>
+    <filter id="drop-shadow-2" x="0" y="0" width="501" height="590" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur-2" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-3" x1="280.32" y1="66.08" x2="513.92" y2="299.68" xlink:href="#linear-gradient"/>
+    <filter id="drop-shadow-3" x="278" y="0" width="312" height="312" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur-3" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <path d="M347.5,305.33l143.89,143.89c34.38-40.58,55.2-90.89,59.54-143.89h-203.43Z" style="fill: url(#linear-gradient); filter: url(#drop-shadow-1);"/>
+  <path d="M280.92,299.08h0l-6.25-6.25V29.07C133.75,40.61,28.88,164.21,40.43,305.12c11.55,140.91,135.14,245.78,276.05,234.24,53.33-4.37,103.95-25.34,144.74-59.96l-180.31-180.31Z" style="fill: url(#linear-gradient-2); filter: url(#drop-shadow-2);"/>
+  <path d="M317.33,262.67h233.6c-10.4-124.45-109.15-223.2-233.6-233.6v233.6Z" style="fill: url(#linear-gradient-3); filter: url(#drop-shadow-3);"/>
+</svg>

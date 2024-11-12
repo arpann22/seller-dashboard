@@ -77,6 +77,12 @@ import styles from "./Tabs.module.css"; // Import styles
 import salesOverviewIcons from "./images/sales-overview.png";
 import totalSalesIcon from "./images/total-sales.png";
 import Orders from "./Orders";
+import { ReactComponent as Sales_distribution_icon } from './image/total.svg';
+import { ReactComponent as Average_Sales_icon } from './image/monthly.svg';
+import { ReactComponent as Total_Orders_icon } from './image/total_orders.svg'
+import { ReactComponent as Sales_Overview_icon } from './image/sales_overview.svg'
+
+
 
 const TabContent = ({ activeTab, userData, setUserData }) => {
   switch (activeTab) {
@@ -95,7 +101,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             className={`${styles.salesOverViewTitle} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}
                     }`}
           >
-            <img src={salesOverviewIcons} alt="Sales Overview Icon" />
+            <Sales_Overview_icon />
             <h2>Sales Overview</h2>
           </div>
           <div className={styles.salesDetails_wrapper}>
@@ -105,7 +111,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
                 <p className={styles.m_0}>Total Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
-                <img src={totalSalesIcon}></img>
+                <Sales_distribution_icon />
               </div>
             </div>
             <div className={styles.single_sales_wrapper}>
@@ -114,7 +120,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
                 <p className={styles.m_0}>Total Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
-                <img src={totalSalesIcon}></img>
+                <Average_Sales_icon />
               </div>
             </div>
             <div className={styles.single_sales_wrapper}>
@@ -123,7 +129,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
                 <p className={styles.m_0}>Total Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
-                <img src={totalSalesIcon}></img>
+                <Total_Orders_icon />
               </div>
             </div>
           </div>

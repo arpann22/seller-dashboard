@@ -3,9 +3,7 @@ import React, { useState, useRef } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import Sales from "./Sales";
 import mediaSetupIcon from "./images/media_setup_icon.png";
-
 import domain_img from "./images/chatseek.com.png";
-
 import { FaTimes } from "react-icons/fa"; // Import necessary icons
 // import categories_icon from './images.categories-icon.png';
 
@@ -14,14 +12,16 @@ import { FaPlus } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import OfferTabs from "./OfferTabs";
 import PaymentStatusTabs from "./PaymentStatusTabs";
-import delete_reset_icon from "./images/delete-reset-icon.png";
+import delete_reset_icon from "./image/delete.svg";
 import available_balance_circle from "./images/SHAPES_available_balance.png";
 import available_balance_right_icon from "./images/available_balance_right_icon.png";
-import paypal_icon from "./images/paypal_icon.png";
-import bank_transfer_icon from "./images/bank_transfer_icon.png";
+// import paypal_icon from "./images/paypal_icon.png";
+// import bank_transfer_icon from "./images/bank_transfer_icon.png";
 import Domains from "./Domains.jsx";
 import { FaCheckCircle } from "react-icons/fa";
 import AddDomain from "./AddDomain.jsx";
+import { ReactComponent as PayPalIcon } from './image/paypal.svg';
+import { ReactComponent as BankIcon } from './image/bank.svg';
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -154,9 +154,8 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -286,9 +285,8 @@ const SellerCentralTabContent = ({
               <div className={styles.paymentMethodcard_section}>
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 1 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"
@@ -304,11 +302,12 @@ const SellerCentralTabContent = ({
                         <FaCheckCircle />
                       </span>
                     )}
-                    <img
+                    <PayPalIcon />
+                    {/* <img
                       src={paypal_icon}
                       alt="Paypal Icon"
                       className={styles.card_image}
-                    />
+                    /> */}
                     <div>
                       <h4>Paypal</h4>
                       <p>Connect your Paypal Account</p>
@@ -321,9 +320,8 @@ const SellerCentralTabContent = ({
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 2 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"
@@ -339,11 +337,12 @@ const SellerCentralTabContent = ({
                         <FaCheckCircle />
                       </span>
                     )}
-                    <img
+                    <BankIcon />
+                    {/* <img
                       src={bank_transfer_icon}
                       alt="Bank Transfer Icon"
                       className={styles.card_image}
-                    />
+                    /> */}
                     <div>
                       <h4>Bank Transfer</h4>
                       <p>Connect your Bank Account</p>

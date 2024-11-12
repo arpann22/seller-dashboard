@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 462 506">
+  <defs>
+    <linearGradient id="linear-gradient" x1="36.06" y1="42.32" x2="399.78" y2="406.04" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00daf6"/>
+      <stop offset="1" stop-color="#2164ff"/>
+    </linearGradient>
+    <filter id="drop-shadow-1" x="0" y="0" width="462" height="506" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <path id="shopping-cart-check" d="M167.45,456.67c-14.73.06-26.71-11.83-26.77-26.56-.06-14.73,11.83-26.71,26.56-26.77h.21c14.73,0,26.67,11.94,26.67,26.67s-11.94,26.67-26.67,26.67ZM364.78,430c0-14.73-11.94-26.67-26.67-26.67h-.21c-14.73.12-26.57,12.15-26.45,26.88s12.15,26.57,26.88,26.45c14.64-.12,26.45-12.02,26.45-26.66ZM422.15,160.35l-21.55,131.84c-1.08,30.37-26.58,54.11-56.94,53.02-2-.07-4-.25-5.99-.54h-176.43c-21.27.05-39.32-15.62-42.24-36.69l-32.02-222.89c-1.73-13.26-13.06-23.15-26.43-23.08h-5.55c-8.84,0-16-7.16-16-16s7.16-16,16-16h5.55c29.29-.19,54.15,21.41,58.07,50.43l4.46,29.57h257.26c23.56.09,42.6,19.26,42.51,42.82,0,2.52-.24,5.04-.7,7.52Z" style="fill: url(#linear-gradient); filter: url(#drop-shadow-1);"/>
+</svg>
