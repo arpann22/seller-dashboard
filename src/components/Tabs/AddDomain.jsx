@@ -210,7 +210,7 @@ export default function AddDomain({ styles, userData }) {
         throw new Error(errorData.message);
       }
       const data = await res.json();
-
+      console.log(data);
       const da_pa = data[0].da_pa.split("/");
       const da = da_pa[0];
       const pa = da_pa[1];
@@ -222,16 +222,11 @@ export default function AddDomain({ styles, userData }) {
       pa ? setPageTrustScore(pa) : setPageTrustScore(0);
       setDomainAge(age);
 
-      const markdown = data[0].description;
-      const htmlContent = md.render(markdown);
-      setContent(htmlContent); // Set
-      // const description = createRoot(document.body).render(
-
-      // );
-
-      // setContent(markdown);
+      // const markdown = data[0].description;
+      // const htmlContent = md.render(markdown);
+      // setContent(htmlContent); // Set
     } catch (err) {
-      console.log(err.msg);
+      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -327,6 +322,8 @@ export default function AddDomain({ styles, userData }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null); // For the actual file object
   const [audioFile, setAudioFile] = useState(null);
+  const [thumbnailId, setThumbnailId] = useState(null); // For existing thumbnail ID
+  const [audioId, setAudioId] = useState(null); // For existing audio ID
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -349,11 +346,44 @@ export default function AddDomain({ styles, userData }) {
   }
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
+  async function handleImageAudioUpload(mediaFile) {
+    if (mediaFile) {
+      const formData = new FormData();
+      formData.append("file", mediaFile);
+
+      try {
+        const mediaResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!mediaResponse.ok) {
+          throw new Error("Media upload failed");
+        }
+
+        const mediaData = await mediaResponse.json();
+        return mediaData.id; // Get the media ID for the uploaded image
+      } catch (error) {
+        console.error("Error uploading media:", error);
+        // return;
+      }
+    }
+  }
+
+  const [domain_id, setDomainId] = useState();
+  useEffect(() => {
+    const getDomainId = localStorage.getItem("editable_domain_id");
+    if (getDomainId) {
+      setDomainId(getDomainId);
+    }
+  }, []);
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
-    // console.log(selectedCategories);
+    // console.log(domain_id);
+    // console.log(postStatus);
     // return;
     if (!domainName) {
       setErrorMessage("Domain name is empty.");
@@ -400,47 +430,32 @@ export default function AddDomain({ styles, userData }) {
     const domain_trust = domainTrustScore.toString();
     const da_pa = domain_trust.concat("/", page_trust);
 
-    let imageId = null;
-    let audioMediaId = null;
+    let imageId = thumbnailId; // Default to existing thumbnail ID
+    let audioMediaId = audioId; // Default to existing audio ID
     let domainId = null;
     // Step 1: Upload the image to the media library if there's an image file
     if (imageFile) {
-      const formData = new FormData();
-      formData.append("file", imageFile);
-
-      try {
-        const mediaResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!mediaResponse.ok) {
-          throw new Error("Image upload failed");
-        }
-
-        const mediaData = await mediaResponse.json();
-        imageId = mediaData.id; // Get the media ID for the uploaded image
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        return;
-      }
+      console.log("imageFile");
+      imageId = await handleImageAudioUpload(imageFile);
     }
 
     // Step 2: Upload audio file if it exists
 
     if (audioFile) {
-      const formData = new FormData();
-      formData.append("file", audioFile);
-      try {
-        const audioResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
-          method: "POST",
-          body: formData,
-        });
-        const audioData = await audioResponse.json();
-        audioMediaId = audioData.id; // Get audio media ID
-      } catch (error) {
-        console.error("Audio upload failed:", error);
-      }
+      console.log("audioFile");
+      audioMediaId = await handleImageAudioUpload(audioFile);
+      // const formData = new FormData();
+      // formData.append("file", audioFile);
+      // try {
+      //   const audioResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
+      //     method: "POST",
+      //     body: formData,
+      //   });
+      //   const audioData = await audioResponse.json();
+      //   audioMediaId = audioData.id; // Get audio media ID
+      // } catch (error) {
+      //   console.error("Audio upload failed:", error);
+      // }
     }
 
     const domainInfo = {
@@ -453,50 +468,33 @@ export default function AddDomain({ styles, userData }) {
       domain_tag: tagIds,
       featured_media: imageId,
     };
+    const domaimMetaInfo = {
+      _thumbnail_id: imageId,
+      _age: domainAge,
+      _length: domainLength,
+      _da_pa: da_pa,
+      _pronounce_audio: audioMediaId,
+      _logo_image: imageId,
+      _regular_price: formData.regular_price,
+      _sale_price: formData.sale_price,
+      _sale_price_dates_from: formData.start_date,
+      _sale_price_dates_to: formData.end_date,
+      _stock_status: "instock",
+      _enable_offers: offer,
+      _tld: getTLD(domainName),
+      _lease_to_own: lease_to_own,
+    };
 
-    try {
-      const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "Application/JSON",
-        },
-        body: JSON.stringify(domainInfo),
-      });
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      console.log("response data ", data);
-      domainId = data.id;
-    } catch (error) {
-      console.log(error);
-    }
-    if (domainId) {
-      const domaimMetaInfo = {
-        _thumbnail_id: imageId,
-        _age: domainAge,
-        _length: domainLength,
-        _da_pa: da_pa,
-        _pronounce_audio: audioMediaId,
-        _logo_image: imageId,
-        _regular_price: formData.regular_price,
-        _sale_price: formData.sale_price,
-        _sale_price_dates_from: formData.start_date,
-        _sale_price_dates_to: formData.end_date,
-        _stock_status: "instock",
-        _enable_offers: offer,
-        _tld: getTLD(domainName),
-        _lease_to_own: lease_to_own,
-      };
+    if (domain_id) {
       try {
         const res = await fetch(
-          `${currentUrl}/wp-json/wstr/v1/domain_meta/${domainId}`,
+          `${currentUrl}/wp-json/wp/v2/domain/${domain_id}`,
           {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "Application/JSON",
             },
-            body: JSON.stringify(domaimMetaInfo),
+            body: JSON.stringify(domainInfo),
           }
         );
         if (!res.ok) {
@@ -504,14 +502,81 @@ export default function AddDomain({ styles, userData }) {
         }
         const data = await res.json();
         console.log("response data ", data);
+        domainId = data.id;
       } catch (error) {
-        console.log(error);
+        setErrorMessage(error);
+      }
+      if (domainId) {
+        try {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain_meta/${domain_id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "Application/JSON",
+              },
+              body: JSON.stringify(domaimMetaInfo),
+            }
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          const data = await res.json();
+          setSuccessMessage("Domain Updated Successfully.");
+          console.log("response data ", data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
+
+    if (!domain_id) {
+      try {
+        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/JSON",
+          },
+          body: JSON.stringify(domainInfo),
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        console.log("response data ", data);
+        domainId = data.id;
+        setDomainId(domainId);
+      } catch (error) {
+        // console.log(error);
+        setErrorMessage(error);
+      }
+      if (domainId) {
+        try {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain_meta/${domainId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "Application/JSON",
+              },
+              body: JSON.stringify(domaimMetaInfo),
+            }
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          const data = await res.json();
+          setSuccessMessage("Domain Added Successfully.");
+          console.log("response data ", data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    // if (postStatus == "edit_publish" || postStatus == "edit_draft") {
   }
 
   // ------------------------edit section starts
-  const domain_id = localStorage.getItem("editable_domain_id");
 
   useEffect(() => {
     if (domain_id) {
@@ -610,8 +675,12 @@ export default function AddDomain({ styles, userData }) {
           const thumbnail_id = data?.meta?._thumbnail_id
             ? data.meta._thumbnail_id[0]
             : "";
-          console.log(data);
+          // console.log(data);
+          setThumbnailId(thumbnail_id);
+          setAudioId(audio_id);
           if (thumbnail_id) {
+            // Set initial data including thumbnail and audio IDs
+
             try {
               const img_res = await fetch(
                 `${currentUrl}/wp-json/wp/v2/media/${thumbnail_id}`
@@ -625,6 +694,22 @@ export default function AddDomain({ styles, userData }) {
               console.log(err);
             }
           }
+          if (audio_id) {
+            try {
+              const audio_res = await fetch(
+                `${currentUrl}/wp-json/wp/v2/media/${audio_id}`
+              );
+              if (!audio_res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              const audio_data = await audio_res.json();
+
+              // setAudioFile(audio_data.source_url);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+          console.log(data);
         }
         fetchDomainDetails();
       } catch (error) {
@@ -632,6 +717,11 @@ export default function AddDomain({ styles, userData }) {
       }
     }
   }, [domain_id]);
+
+  let button_label = "Add Product";
+  if (domain_id) {
+    button_label = "Update Product";
+  }
   //-------------------------edit section ends
 
   if (isLoading) {
@@ -778,7 +868,6 @@ export default function AddDomain({ styles, userData }) {
             </div>
           </div>
         </div>
-
         {/* Domain Appraisal */}
         <div
           className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex}`}
@@ -1015,7 +1104,6 @@ export default function AddDomain({ styles, userData }) {
             </div>
           </div>
         </div>
-
         {/* categories */}
         <div
           className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
@@ -1038,7 +1126,6 @@ export default function AddDomain({ styles, userData }) {
             />
           )}
         </div>
-
         {/* domain description */}
         <div
           className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
@@ -1106,7 +1193,6 @@ export default function AddDomain({ styles, userData }) {
             )}
           </div>
         </div>
-
         {/* industries */}
         <div className={`${styles.cardSelectorWrapper}`}>
           <div
@@ -1132,6 +1218,7 @@ export default function AddDomain({ styles, userData }) {
           )}
         </div>
         <div>{errorMessage && errorMessage}</div>
+        <div>{successMessage && successMessage}</div>
         <div className={styles.save_button_wrappers}>
           <button
             onClick={() => setPostStatus("publish")}
@@ -1140,7 +1227,7 @@ export default function AddDomain({ styles, userData }) {
             <span className={styles.icon}>
               <img src={add_product_icon} alt="Add Product Icon" />
             </span>
-            <span>Add Product</span>
+            <span>{button_label}</span>
           </button>
 
           <button
