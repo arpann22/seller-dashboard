@@ -604,8 +604,27 @@ export default function AddDomain({ styles, userData }) {
 
           setSelectedTags(tags_array); // Set selected categories
 
-          // const audio_id = _pronounce_audio
+          const audio_id = data?.meta?._pronounce_audio
+            ? data.meta._pronounce_audio[0]
+            : "";
+          const thumbnail_id = data?.meta?._thumbnail_id
+            ? data.meta._thumbnail_id[0]
+            : "";
           console.log(data);
+          if (thumbnail_id) {
+            try {
+              const img_res = await fetch(
+                `${currentUrl}/wp-json/wp/v2/media/${thumbnail_id}`
+              );
+              if (!img_res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              const img_data = await img_res.json();
+              setSelectedImage(img_data.source_url);
+            } catch (err) {
+              console.log(err);
+            }
+          }
         }
         fetchDomainDetails();
       } catch (error) {

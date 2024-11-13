@@ -9,7 +9,8 @@ import domains_add_domain_img from "./images/domains_add_domain_img.png";
 import add_product_icon from "./images/add_product.png";
 import save_draft_icon from "./images/save_draft.png";
 import delete_reset_icon from "./images/delete-reset-icon.png";
-const currentUrl = "https://new-webstarter.codepixelz.tech";
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
+const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
