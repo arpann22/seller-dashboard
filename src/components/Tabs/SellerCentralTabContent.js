@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 // import React from 'react';
 import styles from "./Tabs.module.css"; // Import styles
 import Sales from "./Sales";
+import Dashboard from './Dashboard.jsx';
 import mediaSetupIcon from "./images/media_setup_icon.png";
 import domain_img from "./images/chatseek.com.png";
 import { FaTimes } from "react-icons/fa"; // Import necessary icons
@@ -63,7 +64,10 @@ const SellerCentralTabContent = ({
       );
 
     case "Dashboard":
-      return <p>This is the content for Dashboard</p>;
+      return (
+        <>
+          <Dashboard />
+        </>);
     case "Sales":
       return (
         <>
@@ -302,7 +306,9 @@ const SellerCentralTabContent = ({
                         <FaCheckCircle />
                       </span>
                     )}
-                    <PayPalIcon />
+                    <div className={styles.svg_wrapper_bg}>
+                      <PayPalIcon />
+                    </div>
                     {/* <img
                       src={paypal_icon}
                       alt="Paypal Icon"
@@ -337,7 +343,9 @@ const SellerCentralTabContent = ({
                         <FaCheckCircle />
                       </span>
                     )}
-                    <BankIcon />
+                    <div className={styles.svg_wrapper_bg}>
+                      <BankIcon />
+                    </div>
                     {/* <img
                       src={bank_transfer_icon}
                       alt="Bank Transfer Icon"

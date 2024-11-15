@@ -105,12 +105,14 @@ const Tabs = ({ userData, setUserData }) => {
               role="tab"
               aria-selected={tab.label === activeTab}
             >
-              {tab.icon}
-              {/* <img
+              <div className={styles.svg_bg_white}>
+                {tab.icon}
+                {/* <img
                 src={tab.icon}
                 alt={`${tab.label} icon`}
                 className={styles.tabIcon}
               /> */}
+              </div>
               {tab.label}
             </button>
           ))}
@@ -151,7 +153,9 @@ const Tabs = ({ userData, setUserData }) => {
                   alt={`${tab.label} icon`}
                   className={styles.tabIcon}
                 /> */}
-                {tab.icon}
+                <div className={styles.svg_bg_white}>
+                  {tab.icon}
+                </div>
                 {tab.label}
               </button>
             ))}

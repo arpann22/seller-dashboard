@@ -29,6 +29,24 @@ svg {
   height: 20px;
   width: 20px;
 }
+.status .pending {
+  color: rgb(245, 185, 3);
+}
+.svg_wrapper_bg {
+  fill: #fff;
+  background: linear-gradient(-45deg, #00daf6, #119ffb 59%, #2164ff);
+  border-radius: 10px;
+  padding: 15px;
+  width: fit-content;
+  display: flex;
+}
+.svg_wrapper_bg_white {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 3px;
+  width: fit-content;
+  display: flex;
+}
 /* body.page-id-5284 {
   background-color: #f9fbfe;
 } */
@@ -78,7 +96,7 @@ body.page-id-5782 {
 .tabButton.active {
   background-color: #00d9f5;
   color: #001f3e;
-  font-weight: 600;
+  text-shadow: 0 0 0.65px #000, 0 0 0.65px #000;
   border-radius: 40px;
 }
 
@@ -189,12 +207,13 @@ body.page-id-5782 {
   align-items: center;
 }
 .button_icon_wrapper svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 button.button_icon_wrapper:hover {
   background-color: #00d9f5;
-  font-weight: 600;
+  /* font-weight: 600; */
+  text-shadow: 0 0 0.65px #000, 0 0 0.65px #000;
   color: #001f3e;
   border-radius: 40px;
 }
@@ -202,10 +221,11 @@ button.button_icon_wrapper:hover svg path,
 button.active svg path {
   fill: #00d9f5 !important;
 }
-.button_icon_wrapper svg {
+.button_icon_wrapper .svg_bg_white {
   background-color: #f3f5fa;
   border-radius: 50px;
   padding: 8px;
+  display: flex;
 }
 .tabs_list_footer li:last-child {
   border-top: 1px solid #edf0f7;
@@ -243,7 +263,7 @@ button.active svg path {
   padding: 15px 20px;
   justify-content: space-between;
 }
-.single_sales_wrapper svg {
+.single_sales_wrapper .single_sales_icon {
   background: linear-gradient(
     -45deg,
     rgb(0, 218, 246) 0%,
@@ -253,17 +273,22 @@ button.active svg path {
   border-radius: 10px;
   padding: 15px;
   fill: #fff;
+  display: flex;
 }
 .salesDetails_wrapper {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
+  gap: 15px;
   margin-top: 30px;
 }
 .single_sales_data {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.salesOverViewTitle svg {
+  height: 24px;
+  width: 24px;
 }
 /* sellers central inner tabs */
 .sellerCentralInnerTabs {
@@ -909,11 +934,11 @@ button.active svg path {
   gap: 30px;
   margin: 30px 0;
 }
-.offer_tabs_navs svg {
+/* .offer_tabs_navs svg {
   background-color: #f7f8fd;
   padding: 6px;
   border-radius: 50%;
-}
+} */
 .offer_tabs_navs li.active svg,
 .offer_tabs_navs li:hover svg {
   background-color: #fff;
@@ -1067,6 +1092,7 @@ button.active svg path {
   border-radius: 20px;
   border: 1px solid #edf0f7;
   flex: 1;
+  box-shadow: 0.122px 0.993px 31px 0px rgba(0, 34, 79, 0.04);
 }
 .wallet_top_wrapper {
   gap: 30px;
@@ -1091,7 +1117,7 @@ button.active svg path {
   border: 1px solid #00d9f5;
   position: relative;
 }
-.paymentMethodcard_section svg:not(.check_icon svg) {
+/* .paymentMethodcard_section svg:not(.check_icon svg) {
   fill: #fff;
   padding: 10px;
   border-radius: 10px;
@@ -1103,7 +1129,7 @@ button.active svg path {
     rgb(17, 159, 251) 59%,
     rgb(33, 100, 255) 100%
   );
-}
+} */
 .paymentMethodcard_section .check_icon svg {
   color: #00d9f5;
 }

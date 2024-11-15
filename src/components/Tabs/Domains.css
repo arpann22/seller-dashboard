@@ -59,6 +59,7 @@
 }
 .ws-card-contents h5 {
   font-weight: 500;
+  text-align: start;
 }
 .domains_hover_buttons div {
   background: #00d9f5;

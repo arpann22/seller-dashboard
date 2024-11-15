@@ -35,14 +35,18 @@ const OfferTabs = () => {
                         className={`${activeTab === 'active' ? styles.active : ''} `}
                         onClick={() => setActiveTab('active')}
                     >
-                        <PayoutIcon />
+                        <div className={styles.svg_wrapper_bg_white}>
+                            <PayoutIcon />
+                        </div>
                         Payouts
                     </li>
                     <li
                         className={`${activeTab === 'declined' ? styles.active : ''} `}
                         onClick={() => setActiveTab('declined')}
                     >
-                        <CommissionIcon />
+                        <div className={styles.svg_wrapper_bg_white}>
+                            <CommissionIcon />
+                        </div>
                         Commissions
                     </li>
                 </ul>
