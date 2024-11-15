@@ -1,6 +1,7 @@
 // Sales.js
 import React, { useState, useRef } from "react";
 import styles from "./Tabs.module.css"; // Import styles
+import sales_status_icon from './image/sales_satus_new.png'
 import average_sales_icon from './image/average_sales.svg'
 import sales_distribution_icon from './image/sales_distribution.svg'
 import sales_details_icon from './image/sales_details.svg'
@@ -47,33 +48,7 @@ const Sales = () => {
                     <div
                         className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlnsXlink="http://www.w3.org/1999/xlink"
-                            id="Layer_1"
-                            data-name="Layer 1"
-                            viewBox="30 22 30 30"
-                            width="28"
-                            height="28"
-                        >
-                            <defs>
-                                <linearGradient id="linear-gradient" x1="41.35" y1="31.35" x2="54.65" y2="44.65" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0" stopColor="#00daf6" />
-                                    <stop offset="1" stopColor="#2164ff" />
-                                </linearGradient>
-                                <filter id="drop-shadow-1" x="0" y="0" width="96" height="96" filterUnits="userSpaceOnUse">
-                                    <feOffset dx="0" dy="10" />
-                                    <feGaussianBlur result="blur" stdDeviation="13" />
-                                    <feFlood floodColor="#0045a2" floodOpacity=".11" />
-                                    <feComposite in2="blur" operator="in" />
-                                    <feComposite in="SourceGraphic" />
-                                </filter>
-                            </defs>
-                            <path
-                                d="M44.95,29.35c-2.78.65-4.95,2.82-5.6,5.6-.47,2.01-.47,4.09,0,6.1.65,2.78,2.82,4.95,5.6,5.6,2.01.47,4.09.47,6.1,0,2.78-.65,4.95-2.82,5.6-5.6.47-2.01.47-4.09,0-6.1-.65-2.78-2.82-4.95-5.6-5.6-2.01-.47-4.09-.47-6.1,0ZM46.48,37.71c.17-.15.28-.25.36-.31l1.03,1.54c.14.21.28.41.41.57.15.17.38.36.71.4s.6-.09.79-.22c.17-.11.36-.28.54-.45l1.73-1.56c.26-.23.28-.63.05-.88-.23-.26-.63-.28-.88-.05l-1.71,1.54c-.17.15-.28.25-.36.31-.06-.08-.14-.2-.27-.39l-.77-1.15c-.14-.21-.28-.41-.41-.57-.16-.17-.38-.36-.71-.4s-.6.09-.79.22c-.17.11-.36.28-.54.45l-1.73,1.56c-.26.23-.28.63-.05.88.23.26.63.28.88.05l1.71-1.54ZM46.84,37.4l1.01,1.51-.75-1.12c-.12-.19-.21-.31-.27-.39Z"
-                                style={{ fill: "url(#linear-gradient)", fillRule: "evenodd", filter: "url(#drop-shadow-1)" }}
-                            />
-                        </svg>
+                        <img src={sales_status_icon}></img>
 
                         <h4>Sales Status</h4>
                         <HiDotsVertical />
@@ -101,7 +76,7 @@ const Sales = () => {
                 </div>
             </div >
             {/* sales details section */}
-            < div className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details}`
+            < div className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `
             }>
 
                 <div
