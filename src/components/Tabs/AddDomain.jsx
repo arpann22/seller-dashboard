@@ -154,6 +154,7 @@ export default function AddDomain({ styles, userData }) {
   const [domainTrustScore, setDomainTrustScore] = useState(0);
   const [domainLength, setDomainLength] = useState(0);
   const [da_pa, setDaPa] = useState();
+  const [estimated_value, setEstimatedValue] = useState("00000");
   // progress scores end
 
   // upload logo handler
@@ -218,11 +219,21 @@ export default function AddDomain({ styles, userData }) {
       const age = ageToDecimal(data[0].age);
 
       setApiData(data);
+
+      const value_estimated = data[0]?.estimated_value
+        ? parseInt(data[0].estimated_value)
+        : "00000";
+
+      setEstimatedValue(value_estimated.toLocaleString());
+
       setDomainLength(data[0].length);
+
       da ? setDomainTrustScore(da) : setDomainTrustScore(0);
       pa ? setPageTrustScore(pa) : setPageTrustScore(0);
+
       setDomainAge(age);
       setSaveDomainAge(data[0].age); // for saving years and days in string
+
       const markdown = data[0].description;
       const htmlContent = md.render(markdown);
       setContent(htmlContent); // Set
@@ -486,7 +497,7 @@ export default function AddDomain({ styles, userData }) {
       domain_industry: industryIds,
       domain_cat: categoryIds,
       domain_tag: tagIds,
-      featured_media: imageId,
+      featured_media: parseInt(imageId),
     };
     const domaimMetaInfo = {
       _thumbnail_id: imageId,
@@ -909,7 +920,8 @@ export default function AddDomain({ styles, userData }) {
                   <h2>{domainName ? domainName : "example.com"}</h2>
                   <h5>Estimated Value</h5>
                   <h3>
-                    $15,000 <span>USD</span>
+                    ${estimated_value && estimated_value}
+                    <span>USD</span>
                   </h3>
                   <p>
                     <span>Calculated By AI</span>Using hundreds of predictive

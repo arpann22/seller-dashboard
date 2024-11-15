@@ -1,10 +1,13 @@
 // src/components/App.js
-import React from "react";
+import React, { useEffect } from "react";
 import Tabs from "./components/Tabs/Tabs";
 import { useState } from "react";
 
 function App() {
   const [userData, setUserData] = useState({});
+  useEffect(() => {
+    localStorage.removeItem("editable_domain_id");
+  }, []);
   return (
     <div className="App">
       <Tabs userData={userData} setUserData={setUserData} />{" "}
