@@ -155,6 +155,7 @@ export default function AddDomain({ styles, userData }) {
   const [domainLength, setDomainLength] = useState(0);
   const [da_pa, setDaPa] = useState();
   const [estimated_value, setEstimatedValue] = useState("00000");
+
   // progress scores end
 
   // upload logo handler
@@ -212,7 +213,6 @@ export default function AddDomain({ styles, userData }) {
         throw new Error(errorData.message);
       }
       const data = await res.json();
-      console.log(data);
       const da_pa = data[0].da_pa.split("/");
       const da = da_pa[0];
       const pa = da_pa[1];
@@ -410,28 +410,40 @@ export default function AddDomain({ styles, userData }) {
   useEffect(() => {
     // handelAgeChange(domainAge);
     setSaveDomainAge(convertDecimalToYearsAndDays(domainAge));
-    console.log(saveDomainAge);
   }, [domainAge]);
 
+  const [submitLoading, setSubmitLoading] = useState(false);
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
+    setErrorMessage(""); // Clear previous error
+    setSuccessMessage(""); // Clear previous success
+
+    setSubmitLoading(true);
     if (!domainName) {
+      setSubmitLoading(false);
       setErrorMessage("Domain name is empty.");
+
       return;
     }
     if (isValidDomain(domainName) == false) {
+      setSubmitLoading(false);
       setErrorMessage("Invalid Domain Name");
+
       return;
     }
     if (parseInt(formData.regular_price) < parseInt(formData.sale_price)) {
+      setSubmitLoading(false);
       setErrorMessage("Sale price cannot be greater than regular price.");
+
       return;
     }
     if (!content) {
+      setSubmitLoading(false);
       setErrorMessage("Required domain description.");
     }
     if (selectedIndustries.length < 1) {
+      setSubmitLoading(false);
       setErrorMessage("Industries cannot be empty.");
       return;
     }
@@ -466,28 +478,15 @@ export default function AddDomain({ styles, userData }) {
     let domainId = null;
     // Step 1: Upload the image to the media library if there's an image file
     if (imageFile) {
-      console.log("imageFile");
       imageId = await handleImageAudioUpload(imageFile);
     }
 
     // Step 2: Upload audio file if it exists
-
     if (audioFile) {
-      console.log("audioFile");
       audioMediaId = await handleImageAudioUpload(audioFile);
-      // const formData = new FormData();
-      // formData.append("file", audioFile);
-      // try {
-      //   const audioResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
-      //     method: "POST",
-      //     body: formData,
-      //   });
-      //   const audioData = await audioResponse.json();
-      //   audioMediaId = audioData.id; // Get audio media ID
-      // } catch (error) {
-      //   console.error("Audio upload failed:", error);
-      // }
     }
+
+    const estimatedValue = parseInt(estimated_value.replace(/,/g, ""), 10);
 
     const domainInfo = {
       title: domainName,
@@ -514,6 +513,7 @@ export default function AddDomain({ styles, userData }) {
       _enable_offers: offer,
       _tld: getTLD(domainName),
       _lease_to_own: lease_to_own,
+      _estimated_value: estimatedValue,
     };
 
     if (domain_id) {
@@ -532,7 +532,6 @@ export default function AddDomain({ styles, userData }) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        console.log("response data ", data);
         domainId = data.id;
       } catch (error) {
         setErrorMessage(error);
@@ -553,8 +552,8 @@ export default function AddDomain({ styles, userData }) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
+          setSubmitLoading(false);
           setSuccessMessage("Domain Updated Successfully.");
-          console.log("response data ", data);
         } catch (error) {
           console.log(error);
         }
@@ -574,11 +573,9 @@ export default function AddDomain({ styles, userData }) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        console.log("response data ", data);
         domainId = data.id;
         setDomainId(domainId);
       } catch (error) {
-        // console.log(error);
         setErrorMessage(error);
       }
       if (domainId) {
@@ -597,8 +594,8 @@ export default function AddDomain({ styles, userData }) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
+          setSubmitLoading(false);
           setSuccessMessage("Domain Added Successfully.");
-          console.log("response data ", data);
         } catch (error) {
           console.log(error);
         }
@@ -707,7 +704,6 @@ export default function AddDomain({ styles, userData }) {
           const thumbnail_id = data?.meta?._thumbnail_id
             ? data.meta._thumbnail_id[0]
             : "";
-          // console.log(data);
           setThumbnailId(thumbnail_id);
           setAudioId(audio_id);
           if (thumbnail_id) {
@@ -741,7 +737,11 @@ export default function AddDomain({ styles, userData }) {
               console.log(err);
             }
           }
-          console.log(data);
+
+          const value_estimated = data?.meta?._estimated_value
+            ? data.meta._estimated_value[0]
+            : "";
+          setEstimatedValue(value_estimated.toLocaleString());
         }
         fetchDomainDetails();
       } catch (error) {
@@ -1250,8 +1250,16 @@ export default function AddDomain({ styles, userData }) {
             />
           )}
         </div>
-        <div>{errorMessage && errorMessage}</div>
-        <div>{successMessage && successMessage}</div>
+        {errorMessage && (
+          <div className={styles.error_message}>{errorMessage}</div>
+        )}
+        {!errorMessage && (
+          <div className={styles.success_message}>{successMessage}</div>
+        )}
+        {submitLoading && (
+          <div className={styles.loading_message}>Saving...</div>
+        )}
+        <div>{submitLoading && <div> Saving...</div>}</div>
         <div className={styles.save_button_wrappers}>
           <button
             onClick={() => setPostStatus("publish")}
