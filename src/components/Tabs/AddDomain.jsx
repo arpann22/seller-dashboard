@@ -150,6 +150,7 @@ export default function AddDomain({ styles, userData }) {
 
   const [pageTrustScore, setPageTrustScore] = useState(0);
   const [domainAge, setDomainAge] = useState(0);
+  const [saveDomainAge, setSaveDomainAge] = useState("");
   const [domainTrustScore, setDomainTrustScore] = useState(0);
   const [domainLength, setDomainLength] = useState(0);
   const [da_pa, setDaPa] = useState();
@@ -221,10 +222,10 @@ export default function AddDomain({ styles, userData }) {
       da ? setDomainTrustScore(da) : setDomainTrustScore(0);
       pa ? setPageTrustScore(pa) : setPageTrustScore(0);
       setDomainAge(age);
-
-      // const markdown = data[0].description;
-      // const htmlContent = md.render(markdown);
-      // setContent(htmlContent); // Set
+      setSaveDomainAge(data[0].age); // for saving years and days in string
+      const markdown = data[0].description;
+      const htmlContent = md.render(markdown);
+      setContent(htmlContent); // Set
     } catch (err) {
       console.log(err);
     } finally {
@@ -379,12 +380,31 @@ export default function AddDomain({ styles, userData }) {
       setDomainId(getDomainId);
     }
   }, []);
+
+  // converting decimal domain age to string format with years and days
+  function convertDecimalToYearsAndDays(decimalYears) {
+    // Separate the integer and fractional parts
+    if (!decimalYears) {
+      return;
+    }
+    const years = Math.floor(decimalYears);
+    const fractionalPart = decimalYears - years;
+
+    // Calculate the number of days (approximate using 365 days in a year)
+    const days = Math.round(fractionalPart * 365);
+
+    return `${years} years ${days} days`;
+  }
+
+  useEffect(() => {
+    // handelAgeChange(domainAge);
+    setSaveDomainAge(convertDecimalToYearsAndDays(domainAge));
+    console.log(saveDomainAge);
+  }, [domainAge]);
+
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
-    // console.log(domain_id);
-    // console.log(postStatus);
-    // return;
     if (!domainName) {
       setErrorMessage("Domain name is empty.");
       return;
@@ -470,7 +490,7 @@ export default function AddDomain({ styles, userData }) {
     };
     const domaimMetaInfo = {
       _thumbnail_id: imageId,
-      _age: domainAge,
+      _age: saveDomainAge ? saveDomainAge : "",
       _length: domainLength,
       _da_pa: da_pa,
       _pronounce_audio: audioMediaId,
@@ -619,7 +639,8 @@ export default function AddDomain({ styles, userData }) {
               : "",
           }));
 
-          setDomainAge(data?.meta?._age ? data.meta._age[0] : "");
+          setDomainAge(ageToDecimal(data?.meta?._age ? data.meta._age[0] : ""));
+          setSaveDomainAge(data?.meta?._age ? data.meta._age[0] : "");
           const da_pa = data?.meta?._da_pa ? data.meta._da_pa[0] : "";
           const da_pa_split = da_pa.toString().split("/");
           const da = parseInt(da_pa_split[0]);
