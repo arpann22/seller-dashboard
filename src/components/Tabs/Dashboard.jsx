@@ -33,7 +33,7 @@ const Dashboard = () => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>2</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>2</h2>
                 <p className={styles.m_0}>Domains for sale</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -44,7 +44,7 @@ const Dashboard = () => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>24</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>24</h2>
                 <p className={styles.m_0}>Total Domains sold</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -55,7 +55,7 @@ const Dashboard = () => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>$0</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>$0</h2>
                 <p className={styles.m_0}>Sale current year</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -66,7 +66,9 @@ const Dashboard = () => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>$205,700</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>
+                  $2,450.00
+                </h2>
                 <p className={styles.m_0}>Sales-all time</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -212,7 +214,9 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div class="dashboard_active_domain_wrapper">
+      <div
+        className={`${styles.dashboard_small_margin} dashboard_active_domain_wrapper`}
+      >
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} dashboard_active_domain_title_wrapper`}
         >
@@ -361,7 +365,9 @@ const Dashboard = () => {
         </div>
       </div>
       {/*bottom row */}
-      <div className={`${styles.wallet_top_wrapper} ${styles.ws_flex}`}>
+      <div
+        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_small_margin} `}
+      >
         <div className={styles.wallet_available_balance}>
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
@@ -385,7 +391,7 @@ const Dashboard = () => {
                   <Reviews />
                 </div>
                 <div className={styles.community_card_detail_wrapper}>
-                  <h2>74</h2>
+                  <h2 className="ws_text_start">74</h2>
                   <p>
                     Reviews <span>+5 This Month</span>
                   </p>
@@ -407,7 +413,7 @@ const Dashboard = () => {
                   <Followers />
                 </div>
                 <div className={styles.community_card_detail_wrapper}>
-                  <h2>30</h2>
+                  <h2 className="ws_text_start">74</h2>
                   <p>
                     Followers <span>+5 This Month</span>
                   </p>
@@ -432,7 +438,7 @@ const Dashboard = () => {
                 The seller was professional and provided great communication
                 throughout the process. Highly recommend!"
               </p>
-              <div className="review_cust_detail ws_flex">
+              <div className="review_cust_detail ws_dashboard_flex">
                 <img src={cust_img}></img>
 
                 <div>
@@ -451,7 +457,7 @@ const Dashboard = () => {
                 The seller was professional and provided great communication
                 throughout the process. Highly recommend!"
               </p>
-              <div className="review_cust_detail ws_flex">
+              <div className="review_cust_detail ws_dashboard_flex">
                 <img src={cust_img}></img>
 
                 <div>
@@ -470,7 +476,7 @@ const Dashboard = () => {
                 The seller was professional and provided great communication
                 throughout the process. Highly recommend!"
               </p>
-              <div className="review_cust_detail ws_flex">
+              <div className="review_cust_detail ws_dashboard_flex">
                 <img src={cust_img}></img>
 
                 <div>
@@ -489,7 +495,7 @@ const Dashboard = () => {
                 The seller was professional and provided great communication
                 throughout the process. Highly recommend!"
               </p>
-              <div className="review_cust_detail ws_flex">
+              <div className="review_cust_detail ws_dashboard_flex">
                 <img src={cust_img}></img>
 
                 <div>

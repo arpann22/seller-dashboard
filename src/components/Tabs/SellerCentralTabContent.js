@@ -22,7 +22,10 @@ import Domains from "./Domains.jsx";
 import { FaCheckCircle } from "react-icons/fa";
 import AddDomain from "./AddDomain.jsx";
 import { ReactComponent as PayPalIcon } from './image/paypal.svg';
+import { ReactComponent as AvailableBalanceIcon } from './image/balance.svg';
 import { ReactComponent as BankIcon } from './image/bank.svg';
+
+
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -245,7 +248,7 @@ const SellerCentralTabContent = ({
               <div
                 className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                <AvailableBalanceIcon />
                 <h4>Available Balance</h4>
               </div>
               <div className={styles.available_balance_card}>
@@ -257,7 +260,7 @@ const SellerCentralTabContent = ({
                 </div>
                 <div>
                   <h5>Account Balance</h5>
-                  <h2>
+                  <h2 className='ws_text_center'>
                     205,700 <span>USD</span>
                   </h2>
                 </div>

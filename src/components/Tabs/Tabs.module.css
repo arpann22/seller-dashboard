@@ -96,7 +96,7 @@ body.page-id-5782 {
 .tabButton.active {
   background-color: #00d9f5;
   color: #001f3e;
-  text-shadow: 0 0 0.65px #000, 0 0 0.65px #000;
+  text-shadow: 0 0 0.45px #000, 0 0 0.45px #000;
   border-radius: 40px;
 }
 
@@ -164,6 +164,7 @@ body.page-id-5782 {
 .profileName {
   margin: 0;
   font-size: 1.2em;
+  text-align: start;
 }
 
 .profileEmail {
@@ -173,7 +174,8 @@ body.page-id-5782 {
 }
 
 .editProfileButton {
-  padding: 12px 20px 12px 10px;
+  /* padding: 12px 20px 12px 10px; */
+  padding: 20px;
   background-color: #fff;
   border: none;
   border-radius: 40px;
@@ -205,6 +207,7 @@ body.page-id-5782 {
   display: flex;
   gap: 15px;
   align-items: center;
+  font-weight: 400;
 }
 .button_icon_wrapper svg {
   width: 20px;
@@ -213,7 +216,7 @@ body.page-id-5782 {
 button.button_icon_wrapper:hover {
   background-color: #00d9f5;
   /* font-weight: 600; */
-  text-shadow: 0 0 0.65px #000, 0 0 0.65px #000;
+  text-shadow: 0 0 0.45px #000, 0 0 0.45px #000;
   color: #001f3e;
   border-radius: 40px;
 }
@@ -299,6 +302,9 @@ button.active svg path {
   gap: 40px;
   border: 1px solid #edf0f7;
   border-radius: 20px;
+}
+.sellerCentralInnerTabs .button_icon_wrapper {
+  width: fit-content;
 }
 .sellerCentralInnerTabs .button_icon_wrapper .specialButton img {
   background-color: #00d9f5;
@@ -677,7 +683,7 @@ button.active svg path {
   margin-top: 30px;
 }
 .date_fields_wrapper input {
-  width: auto;
+  width: 100%;
   margin-top: 10px;
 }
 .toggle_section p {
@@ -718,6 +724,7 @@ button.active svg path {
   display: flex;
   gap: 5px;
   padding: 10px 40px;
+  font-size: 14px;
 }
 
 /* edit profile popup */
@@ -799,11 +806,15 @@ button.active svg path {
   color: #fff;
   border: transparent;
   border-radius: 50px;
-  padding: 20px 100px;
+  padding: 20px 120px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
+  font-weight: 400;
+  justify-content: center;
+  width: fit-content;
+  margin-top: 30px;
 }
 .save_button_wrappers img {
   width: 22px;
@@ -1062,6 +1073,13 @@ button.active svg path {
   gap: 20px;
   margin: 30px 0;
 }
+.available_balance_card h2 {
+  color: #fff;
+  text-align: start;
+}
+.available_balance_card h2 span {
+  font-size: 12px;
+}
 .available_balance_card_shapes {
   align-items: center;
 }
@@ -1078,6 +1096,7 @@ button.active svg path {
 }
 .available_balance_card h5 {
   font-size: 14px;
+  font-weight: 400;
 }
 .available_balance_card_footer button {
   background-color: #fff;
@@ -1307,7 +1326,8 @@ button.active svg path {
   background-color: #00d9f5;
   color: white;
   border: none;
-  padding: 8px 24px;
+  /* padding: 8px 24px; */
+  padding: 12px;
   text-align: center;
   font-size: 14px;
   cursor: pointer;

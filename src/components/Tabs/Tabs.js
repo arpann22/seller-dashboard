@@ -13,7 +13,7 @@ import { ReactComponent as MyOfferIcon } from './image/offers.svg';
 import { ReactComponent as EditProfileIcon } from './image/edit_profil.svg';
 import { ReactComponent as AddDomainsIcon } from './image/plus.svg';
 import { ReactComponent as DashboardIcon } from './image/dashboard.svg';
-import { ReactComponent as SalesIcon } from './image/sales.svg';
+import { ReactComponent as SalesIcon } from './image/sales-menu.svg';
 import { ReactComponent as DomainsIcon } from './image/domains.svg';
 import { ReactComponent as ManageOffersIcon } from './image/manage_offers.svg';
 import { ReactComponent as WalletIcon } from './image/wallet.svg';

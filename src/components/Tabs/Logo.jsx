@@ -5,8 +5,8 @@ export default function LogoImage({
   domain_title,
   featuredImageUrl,
 }) {
-  // const currentUrl = "https://new-webstarter.codepixelz.tech";
-  const currentUrl = window.location.origin;
+  const currentUrl = "https://new-webstarter.codepixelz.tech";
+  // const currentUrl = window.location.origin;
 
   const [logoUrl, setLogoUrl] = useState({});
   const [isLoading, setIsLoading] = useState(true);
