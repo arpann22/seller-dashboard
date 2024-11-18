@@ -106,6 +106,7 @@ export default function AddDomain({ styles, userData }) {
               onChange(Math.max(0, Math.min(100, Number(e.target.value))))
             } // Clamp between 0 and 100
             className={styles.input_field}
+            readOnly
           />
         </div>
         <div className="circular-progress">
@@ -196,6 +197,17 @@ export default function AddDomain({ styles, userData }) {
   }
   const [showAddDomain, setShowAddDomain] = useState(false);
 
+  // useEffect(() => {
+  //   const categories_array = [
+  //     {
+  //       id: 77,
+  //       taxonomy: "domain_cat",
+  //     },
+  //   ];
+
+  //   setSelectedCategories(categories_array); // Set selected categories
+  // }, []);
+
   const handleGenerate = async (e) => {
     e.preventDefault();
 
@@ -236,9 +248,18 @@ export default function AddDomain({ styles, userData }) {
       setDomainAge(age);
       setSaveDomainAge(data[0].age); // for saving years and days in string
 
-      const markdown = data[0].description;
-      const htmlContent = md.render(markdown);
-      setContent(htmlContent); // Set
+      // let cat_array = [];
+      // console.log(data[0].length);
+      // if (data[0].length <= 5) {
+      //   cat_array.push({
+      //     id: 67,
+      //     taxonomy: "domain_cat",
+      //   });
+      // } else {
+      //   cat_array = [];
+      // }
+      // console.log(cat_array);
+      // setSelectedCategories((prevObj) => [...prevObj, ...cat_array]); //
     } catch (err) {
       console.log(err);
       setDomainNameError(err);
@@ -246,6 +267,29 @@ export default function AddDomain({ styles, userData }) {
       setIsLoading(false);
     }
   };
+
+  const [descLoading, setDescLoading] = useState(false);
+  async function handelDomainDesc(e) {
+    e.preventDefault();
+    setDescLoading(true);
+    try {
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/domain_description?domain_name=${domainName}`
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message);
+      }
+      const data = await res.json();
+
+      const htmlContent = md.render(data); // converting markdown to markup language
+      setContent(htmlContent); // Set
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setDescLoading(false);
+    }
+  }
 
   // fetching category list for select option
   const [category, setCategory] = useState();
@@ -264,6 +308,7 @@ export default function AddDomain({ styles, userData }) {
         }
         const data = await res.json();
         setCategory(data);
+        console.log(data);
       } catch (err) {
         setCatError(err.message);
       } finally {
@@ -611,6 +656,7 @@ export default function AddDomain({ styles, userData }) {
 
   useEffect(() => {
     if (domain_id) {
+      setShowAddDomain(true);
       try {
         async function fetchDomainDetails() {
           const res = await fetch(
@@ -1172,7 +1218,11 @@ export default function AddDomain({ styles, userData }) {
               <h3>
                 Domain Description <sup className="required">*</sup>
               </h3>
-              <a href="#" className={styles.starsWhite}>
+              <a
+                href=""
+                className={styles.starsWhite}
+                onClick={(e) => handelDomainDesc(e)}
+              >
                 <img
                   src={starswhite}
                   alt="Star Icon"
@@ -1181,6 +1231,7 @@ export default function AddDomain({ styles, userData }) {
                 Ask AI
               </a>
             </div>
+            {descLoading && <div>Loading.. </div>}
 
             <div className={styles.dashboard_small_margin}>
               <Editor
