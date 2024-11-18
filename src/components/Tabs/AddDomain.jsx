@@ -239,6 +239,7 @@ export default function AddDomain({ styles, userData }) {
       setContent(htmlContent); // Set
     } catch (err) {
       console.log(err);
+      setDomainNameError(err);
     } finally {
       setIsLoading(false);
     }
@@ -1253,13 +1254,12 @@ export default function AddDomain({ styles, userData }) {
         {errorMessage && (
           <div className={styles.error_message}>{errorMessage}</div>
         )}
-        {!errorMessage && (
+        {successMessage && (
           <div className={styles.success_message}>{successMessage}</div>
         )}
         {submitLoading && (
           <div className={styles.loading_message}>Saving...</div>
         )}
-        <div>{submitLoading && <div> Saving...</div>}</div>
         <div className={styles.save_button_wrappers}>
           <button
             onClick={() => setPostStatus("publish")}
