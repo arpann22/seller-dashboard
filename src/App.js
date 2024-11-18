@@ -5,9 +5,6 @@ import { useState } from "react";
 
 function App() {
   const [userData, setUserData] = useState({});
-  useEffect(() => {
-    localStorage.removeItem("editable_domain_id");
-  }, []);
   return (
     <div className="App">
       <Tabs userData={userData} setUserData={setUserData} />{" "}

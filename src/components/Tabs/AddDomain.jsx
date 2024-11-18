@@ -194,6 +194,7 @@ export default function AddDomain({ styles, userData }) {
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
     return domainRegex.test(domain);
   }
+  const [showAddDomain, setShowAddDomain] = useState(false);
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -212,6 +213,7 @@ export default function AddDomain({ styles, userData }) {
         const errorData = await res.json();
         throw new Error(errorData.message);
       }
+      setShowAddDomain(true);
       const data = await res.json();
       const da_pa = data[0].da_pa.split("/");
       const da = da_pa[0];
@@ -757,10 +759,6 @@ export default function AddDomain({ styles, userData }) {
   }
   //-------------------------edit section ends
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <div
@@ -794,238 +792,318 @@ export default function AddDomain({ styles, userData }) {
           </form>
         </div>
       </div>
-      <form onSubmit={handelFormSubmit}>
-        <div
-          className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
-        >
+      {isLoading && <div>Loading...</div>}
+      {showAddDomain && (
+        <form onSubmit={handelFormSubmit}>
           <div
-            className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
           >
-            <img src={mediaSetupIcon} alt="Media Setup Icon" />
-            <h4>Media Setup</h4>
-          </div>
-          <div className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex}`}>
-            {/* first card */}
-            <div className={styles.media_content_wrapper}>
-              <img
-                src={attachAudioimg}
-                alt="attach audio image"
-                className={styles.media_image}
-              />
-              <div className={styles.media_setup_contents_footer}>
-                <div className={styles.text_column}>
-                  <h5>Your Heading Here</h5>
-                  <p>Your paragraph content here.</p>
-                </div>
-
-                <div className={styles.audio_column}>
-                  <input
-                    type="file"
-                    accept="audio/*"
-                    onChange={handleAudioChange}
-                  />
-                </div>
-              </div>
-            </div>
-            {/* second card */}
             <div
-              className={`${styles.media_content_wrapper} ${styles.media_setup_second_card}`}
-            >
-              <div className={`${styles.pronounc_add} ${styles.active}`}>
-                <FaPlay />
-                <div>
-                  <h5>James</h5>
-                  <p>0.01</p>
-                </div>
-                <span>AI-PICK</span>
-                <img src={profileImage}></img>
-                <RxCrossCircled />
-              </div>
-              <div className={styles.pronounc_add}>
-                <IoIosPause />
-                <div>
-                  <h5>James</h5>
-                  <p>0.01</p>
-                </div>
-                <span>AI-PICK</span>
-                <img src={profileImage}></img>
-                <FiPlusCircle />
-              </div>
-              <div className={styles.media_setup_contents_footer}>
-                <div className={styles.text_column}>
-                  <h5>Your Heading Here</h5>
-                  <p>Your paragraph content here.</p>
-                </div>
-
-                <div className={styles.audio_column}>
-                  <input type="file" accept="audio/*" />
-                </div>
-              </div>
-            </div>
-            {/* third card */}
-            <div
-              className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
-            >
-              <img
-                src={selectedImage || domain_img}
-                alt="attach logo image"
-                className={styles.media_image}
-              />
-              <div className={styles.media_setup_contents_footer}>
-                <div className={styles.text_column}>
-                  <h5>Show Off your Brand!</h5>
-                  <p>Upload your Logo to Customize!</p>
-                </div>
-
-                <div className={styles.image_column}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </div>
-              </div>
-            </div>
-            {/* fourth card */}
-            <div
-              className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_last_card}`}
-            >
-              {/* <img src={media_setup_last_card} alt="attach audio image" className={styles.media_image} /> */}
-              <div className={styles.media_setup_contents_footer}>
-                <h5>
-                  Get Your <span>FREE </span> Custom Logo in Just 72 Hours!
-                </h5>
-
-                <a href="#">Get Started</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Domain Appraisal */}
-        <div
-          className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex}`}
-        >
-          <div className={styles.domain_appraisal_wrapper}>
-            <div
-              className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+              className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
               <img src={mediaSetupIcon} alt="Media Setup Icon" />
-              <h4>Domain Appraisal</h4>
-              <IoMdInformationCircle />
+              <h4>Media Setup</h4>
             </div>
-            <div className={styles.domain_appraisal_inner_wrapper}>
-              <div
-                className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex}`}
-              >
-                <div>
-                  <h2>{domainName ? domainName : "example.com"}</h2>
-                  <h5>Estimated Value</h5>
-                  <h3>
-                    ${estimated_value && estimated_value}
-                    <span>USD</span>
-                  </h3>
-                  <p>
-                    <span>Calculated By AI</span>Using hundreds of predictive
-                    data points.
-                  </p>
-                </div>
-                <div>
-                  <img src={domainAppraisalHeadingImage}></img>
+            <div
+              className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex}`}
+            >
+              {/* first card */}
+              <div className={styles.media_content_wrapper}>
+                <img
+                  src={attachAudioimg}
+                  alt="attach audio image"
+                  className={styles.media_image}
+                />
+                <div className={styles.media_setup_contents_footer}>
+                  <div className={styles.text_column}>
+                    <h5>Your Heading Here</h5>
+                    <p>Your paragraph content here.</p>
+                  </div>
+
+                  <div className={styles.audio_column}>
+                    <input
+                      type="file"
+                      accept="audio/*"
+                      onChange={handleAudioChange}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className={styles.domain_appraisal_body_wrapper}>
-                <div className={styles.domain_appraisal_body_cards}>
-                  {/* Page Trust Score */}
-                  <CircularProgressCard
-                    title="Page Trust Score"
-                    value={pageTrustScore}
-                    onChange={setPageTrustScore}
-                    strokeColor="#f5b903" // Yellow color for Page Trust Score
-                    label="of 100"
-                  />
+              {/* second card */}
+              <div
+                className={`${styles.media_content_wrapper} ${styles.media_setup_second_card}`}
+              >
+                <div className={`${styles.pronounc_add} ${styles.active}`}>
+                  <FaPlay />
+                  <div>
+                    <h5>James</h5>
+                    <p>0.01</p>
+                  </div>
+                  <span>AI-PICK</span>
+                  <img src={profileImage}></img>
+                  <RxCrossCircled />
+                </div>
+                <div className={styles.pronounc_add}>
+                  <IoIosPause />
+                  <div>
+                    <h5>James</h5>
+                    <p>0.01</p>
+                  </div>
+                  <span>AI-PICK</span>
+                  <img src={profileImage}></img>
+                  <FiPlusCircle />
+                </div>
+                <div className={styles.media_setup_contents_footer}>
+                  <div className={styles.text_column}>
+                    <h5>Your Heading Here</h5>
+                    <p>Your paragraph content here.</p>
+                  </div>
 
-                  {/* Domain Age */}
-                  <CircularProgressCard
-                    title="Domain Age"
-                    value={domainAge}
-                    onChange={setDomainAge}
-                    strokeColor="#00cd97" // Green color for Domain Age
-                    label="Years"
-                  />
+                  <div className={styles.audio_column}>
+                    <input type="file" accept="audio/*" />
+                  </div>
+                </div>
+              </div>
+              {/* third card */}
+              <div
+                className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
+              >
+                <img
+                  src={selectedImage || domain_img}
+                  alt="attach logo image"
+                  className={styles.media_image}
+                />
+                <div className={styles.media_setup_contents_footer}>
+                  <div className={styles.text_column}>
+                    <h5>Show Off your Brand!</h5>
+                    <p>Upload your Logo to Customize!</p>
+                  </div>
 
-                  {/* Domain Trust Score */}
-                  <CircularProgressCard
-                    title="Domain Trust Score"
-                    value={domainTrustScore}
-                    onChange={setDomainTrustScore}
-                    strokeColor="#00d9f5" // Blue color for Domain Trust Score
-                    label="of 100"
-                  />
+                  <div className={styles.image_column}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* fourth card */}
+              <div
+                className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_last_card}`}
+              >
+                {/* <img src={media_setup_last_card} alt="attach audio image" className={styles.media_image} /> */}
+                <div className={styles.media_setup_contents_footer}>
+                  <h5>
+                    Get Your <span>FREE </span> Custom Logo in Just 72 Hours!
+                  </h5>
 
-                  {/* Domain Length */}
-                  <CircularProgressCard
-                    title="Domain Length"
-                    value={domainLength}
-                    onChange={setDomainLength}
-                    strokeColor="#f00073" // Pink color for Domain Length
-                    label="Letters"
-                  />
+                  <a href="#">Get Started</a>
                 </div>
               </div>
             </div>
           </div>
-          {/* pricing setup */}
-          {/* Pricing Setup Section */}
-          <div className={styles.pricing_setup_wrapper}>
-            <div
-              className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
-            >
-              <img src={mediaSetupIcon} alt="Media Setup Icon" />
-              <h4>Pricing Setup</h4>
-              <IoMdInformationCircle />
-            </div>
-
-            {/* Regular Price Input */}
-            <div
-              className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} ${styles.gap_10}`}
-            >
-              <label htmlFor="regularPrice">
-                Regular Price<sup className="required">*</sup>
-              </label>
-              <input
-                type="number"
-                id="regularPrice"
-                className={styles.input_field}
-                value={formData.regular_price}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    regular_price: e.target.value,
-                  })
-                }
-                placeholder="Enter regular price"
-                min="0" // Prevent negative values
-                required
-              />
-            </div>
-
-            {/* Sale Price Input with Toggle */}
-            <div
-              className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column}`}
-            >
+          {/* Domain Appraisal */}
+          <div
+            className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex}`}
+          >
+            <div className={styles.domain_appraisal_wrapper}>
               <div
-                className={`${styles.ws_flex} ${styles.salePrice_heading_wrapper}`}
+                className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+              >
+                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                <h4>Domain Appraisal</h4>
+                <IoMdInformationCircle />
+              </div>
+              <div className={styles.domain_appraisal_inner_wrapper}>
+                <div
+                  className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex}`}
+                >
+                  <div>
+                    <h2>{domainName ? domainName : "example.com"}</h2>
+                    <h5>Estimated Value</h5>
+                    <h3>
+                      ${estimated_value && estimated_value}
+                      <span>USD</span>
+                    </h3>
+                    <p>
+                      <span>Calculated By AI</span>Using hundreds of predictive
+                      data points.
+                    </p>
+                  </div>
+                  <div>
+                    <img src={domainAppraisalHeadingImage}></img>
+                  </div>
+                </div>
+                <div className={styles.domain_appraisal_body_wrapper}>
+                  <div className={styles.domain_appraisal_body_cards}>
+                    {/* Page Trust Score */}
+                    <CircularProgressCard
+                      title="Page Trust Score"
+                      value={pageTrustScore}
+                      onChange={setPageTrustScore}
+                      strokeColor="#f5b903" // Yellow color for Page Trust Score
+                      label="of 100"
+                    />
+
+                    {/* Domain Age */}
+                    <CircularProgressCard
+                      title="Domain Age"
+                      value={domainAge}
+                      onChange={setDomainAge}
+                      strokeColor="#00cd97" // Green color for Domain Age
+                      label="Years"
+                    />
+
+                    {/* Domain Trust Score */}
+                    <CircularProgressCard
+                      title="Domain Trust Score"
+                      value={domainTrustScore}
+                      onChange={setDomainTrustScore}
+                      strokeColor="#00d9f5" // Blue color for Domain Trust Score
+                      label="of 100"
+                    />
+
+                    {/* Domain Length */}
+                    <CircularProgressCard
+                      title="Domain Length"
+                      value={domainLength}
+                      onChange={setDomainLength}
+                      strokeColor="#f00073" // Pink color for Domain Length
+                      label="Letters"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* pricing setup */}
+            {/* Pricing Setup Section */}
+            <div className={styles.pricing_setup_wrapper}>
+              <div
+                className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+              >
+                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                <h4>Pricing Setup</h4>
+                <IoMdInformationCircle />
+              </div>
+
+              {/* Regular Price Input */}
+              <div
+                className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} ${styles.gap_10}`}
+              >
+                <label htmlFor="regularPrice">
+                  Regular Price<sup className="required">*</sup>
+                </label>
+                <input
+                  type="number"
+                  id="regularPrice"
+                  className={styles.input_field}
+                  value={formData.regular_price}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      regular_price: e.target.value,
+                    })
+                  }
+                  placeholder="Enter regular price"
+                  min="0" // Prevent negative values
+                  required
+                />
+              </div>
+
+              {/* Sale Price Input with Toggle */}
+              <div
+                className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column}`}
+              >
+                <div
+                  className={`${styles.ws_flex} ${styles.salePrice_heading_wrapper}`}
+                >
+                  <div>
+                    <label htmlFor="salePrice">Sale Price</label>
+                    <p className={styles.subtitle}>
+                      Set your Sale Price for a Limited Time
+                    </p>
+                  </div>
+                  <div className={styles.toggle_button} onClick={handleToggle}>
+                    <div
+                      className={`${styles.toggle_switch} ${
+                        isSalePriceEnabled ? styles.on : styles.off
+                      }`}
+                    >
+                      <div className={styles.toggle_indicator}>
+                        <RxCross2 />
+                        <IoCheckmarkOutline />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={`${styles.sale_price_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                >
+                  <input
+                    type="number"
+                    id="salePrice"
+                    className={styles.input_field}
+                    placeholder="Enter sale price"
+                    value={formData.sale_price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, sale_price: e.target.value })
+                    }
+                    min="0"
+                    disabled={!isSalePriceEnabled}
+                  />
+                </div>
+
+                {/* Date Input Fields */}
+                <div
+                  className={`${styles.date_fields_wrapper} ${styles.ws_flex} ${styles.gap_10}`}
+                >
+                  <div className={`${styles.date_field} ${styles.flex_column}`}>
+                    <label htmlFor="startSale">Start Sale</label>
+                    <input
+                      type="date"
+                      id="startSale"
+                      value={formData.start_date}
+                      onChange={(e) =>
+                        setFormData({ ...formData, start_date: e.target.value })
+                      }
+                      className={styles.input_field}
+                      disabled={!isSalePriceEnabled} // Disable based on toggle
+                    />
+                  </div>
+                  <div className={`${styles.date_field} ${styles.flex_column}`}>
+                    <label htmlFor="endSale">End Sale</label>
+                    <input
+                      type="date"
+                      id="endSale"
+                      value={formData.end_date}
+                      onChange={(e) =>
+                        setFormData({ ...formData, end_date: e.target.value })
+                      }
+                      className={styles.input_field}
+                      disabled={!isSalePriceEnabled} // Disable based on toggle
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* Lease-To-Own Section */}
+              <div
+                className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
                 <div>
-                  <label htmlFor="salePrice">Sale Price</label>
+                  <h5>Lease-To-Own</h5>
                   <p className={styles.subtitle}>
-                    Set your Sale Price for a Limited Time
+                    Flexible Payment Option to Attract Buyers.
                   </p>
                 </div>
-                <div className={styles.toggle_button} onClick={handleToggle}>
+                <div
+                  className={styles.toggle_button}
+                  onClick={handleLeaseToOwnToggle}
+                >
                   <div
                     className={`${styles.toggle_switch} ${
-                      isSalePriceEnabled ? styles.on : styles.off
+                      isLeaseToOwnEnabled ? styles.on : styles.off
                     }`}
                   >
                     <div className={styles.toggle_indicator}>
@@ -1036,252 +1114,177 @@ export default function AddDomain({ styles, userData }) {
                 </div>
               </div>
 
+              {/* Flexible Payment Section */}
               <div
-                className={`${styles.sale_price_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                <input
-                  type="number"
-                  id="salePrice"
-                  className={styles.input_field}
-                  placeholder="Enter sale price"
-                  value={formData.sale_price}
-                  onChange={(e) =>
-                    setFormData({ ...formData, sale_price: e.target.value })
-                  }
-                  min="0"
-                  disabled={!isSalePriceEnabled}
-                />
-              </div>
-
-              {/* Date Input Fields */}
-              <div
-                className={`${styles.date_fields_wrapper} ${styles.ws_flex} ${styles.gap_10}`}
-              >
-                <div className={`${styles.date_field} ${styles.flex_column}`}>
-                  <label htmlFor="startSale">Start Sale</label>
-                  <input
-                    type="date"
-                    id="startSale"
-                    value={formData.start_date}
-                    onChange={(e) =>
-                      setFormData({ ...formData, start_date: e.target.value })
-                    }
-                    className={styles.input_field}
-                    disabled={!isSalePriceEnabled} // Disable based on toggle
-                  />
+                <div>
+                  <h5>Accept Offers</h5>
+                  <p className={styles.subtitle}>Let Buyers Name Their</p>
                 </div>
-                <div className={`${styles.date_field} ${styles.flex_column}`}>
-                  <label htmlFor="endSale">End Sale</label>
-                  <input
-                    type="date"
-                    id="endSale"
-                    value={formData.end_date}
-                    onChange={(e) =>
-                      setFormData({ ...formData, end_date: e.target.value })
-                    }
-                    className={styles.input_field}
-                    disabled={!isSalePriceEnabled} // Disable based on toggle
-                  />
-                </div>
-              </div>
-            </div>
-            {/* Lease-To-Own Section */}
-            <div
-              className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
-            >
-              <div>
-                <h5>Lease-To-Own</h5>
-                <p className={styles.subtitle}>
-                  Flexible Payment Option to Attract Buyers.
-                </p>
-              </div>
-              <div
-                className={styles.toggle_button}
-                onClick={handleLeaseToOwnToggle}
-              >
                 <div
-                  className={`${styles.toggle_switch} ${
-                    isLeaseToOwnEnabled ? styles.on : styles.off
-                  }`}
+                  className={styles.toggle_button}
+                  onClick={handleAcceptOffersToggle}
                 >
-                  <div className={styles.toggle_indicator}>
-                    <RxCross2 />
-                    <IoCheckmarkOutline />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Flexible Payment Section */}
-            <div
-              className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
-            >
-              <div>
-                <h5>Accept Offers</h5>
-                <p className={styles.subtitle}>Let Buyers Name Their</p>
-              </div>
-              <div
-                className={styles.toggle_button}
-                onClick={handleAcceptOffersToggle}
-              >
-                <div
-                  className={`${styles.toggle_switch} ${
-                    isAcceptOffersEnabled ? styles.on : styles.off
-                  }`}
-                >
-                  <div className={styles.toggle_indicator}>
-                    <RxCross2 />
-                    <IoCheckmarkOutline />
+                  <div
+                    className={`${styles.toggle_switch} ${
+                      isAcceptOffersEnabled ? styles.on : styles.off
+                    }`}
+                  >
+                    <div className={styles.toggle_indicator}>
+                      <RxCross2 />
+                      <IoCheckmarkOutline />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* categories */}
-        <div
-          className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
-        >
+          {/* categories */}
           <div
-            className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
           >
-            <img src={mediaSetupIcon} alt="Media Setup Icon" />
-            <h4>Categories</h4>
-          </div>
-          {catError ? (
-            catError
-          ) : catLoading ? (
-            catLoading
-          ) : (
-            <CardSelector
-              items={category}
-              selectedItems={selectedCategories}
-              setSelectedItems={setSelectedCategories}
-            />
-          )}
-        </div>
-        {/* domain description */}
-        <div
-          className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
-        >
-          <div
-            className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles}`}
-          >
-            <h3>
-              Domain Description <sup className="required">*</sup>
-            </h3>
-            <a href="#" className={styles.starsWhite}>
-              <img
-                src={starswhite}
-                alt="Star Icon"
-                className={styles.starsWhiteIcon}
-              />
-              Ask AI
-            </a>
-          </div>
-
-          <div className={styles.dashboard_small_margin}>
-            <Editor
-              apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
-              value={content}
-              init={{
-                height: 500,
-                menubar: false,
-                plugins: [
-                  "advlist autolink lists link image charmap print preview anchor",
-                  "searchreplace visualblocks code fullscreen",
-                  "insertdatetime media table paste code help wordcount",
-                  "code", // Code plugin for HTML editing
-                  "image", // Image plugin for image uploading
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic backcolor | \
-          alignleft aligncenter alignright alignjustify | \
-          bullist numlist outdent indent | removeformat | code | image | help",
-                code_dialog_height: 600,
-                code_dialog_width: 800,
-                images_upload_handler: handleImageUpload, // Set the custom image upload handler
-                automatic_uploads: true,
-              }}
-              onEditorChange={handleEditorChange}
-            />
-          </div>
-          <div
-            className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
-          >
-            <img src={mediaSetupIcon} alt="Media Setup Icon" />
-            <h4>Tags</h4>
-          </div>
-          <div className={cardstyles.description_tags_wrapper}>
-            {/* <CardSelector items={tagsItems} /> */}
-            {tagError ? (
-              tagError
-            ) : tagLoading ? (
-              tagLoading
+            <div
+              className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            >
+              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              <h4>Categories</h4>
+            </div>
+            {catError ? (
+              catError
+            ) : catLoading ? (
+              catLoading
             ) : (
               <CardSelector
-                items={tags}
-                selectedItems={selectedTags}
-                setSelectedItems={setSelectedTags}
+                items={category}
+                selectedItems={selectedCategories}
+                setSelectedItems={setSelectedCategories}
               />
             )}
           </div>
-        </div>
-        {/* industries */}
-        <div className={`${styles.cardSelectorWrapper}`}>
+          {/* domain description */}
           <div
-            className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
           >
-            <img src={mediaSetupIcon} alt="Media Setup Icon" />
-            <h4>
-              Industries<sup className="required">*</sup>
-            </h4>
+            <div
+              className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles}`}
+            >
+              <h3>
+                Domain Description <sup className="required">*</sup>
+              </h3>
+              <a href="#" className={styles.starsWhite}>
+                <img
+                  src={starswhite}
+                  alt="Star Icon"
+                  className={styles.starsWhiteIcon}
+                />
+                Ask AI
+              </a>
+            </div>
+
+            <div className={styles.dashboard_small_margin}>
+              <Editor
+                apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
+                value={content}
+                init={{
+                  height: 500,
+                  menubar: false,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                    "code", // Code plugin for HTML editing
+                    "image", // Image plugin for image uploading
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | bold italic backcolor | \
+          alignleft aligncenter alignright alignjustify | \
+          bullist numlist outdent indent | removeformat | code | image | help",
+                  code_dialog_height: 600,
+                  code_dialog_width: 800,
+                  images_upload_handler: handleImageUpload, // Set the custom image upload handler
+                  automatic_uploads: true,
+                }}
+                onEditorChange={handleEditorChange}
+              />
+            </div>
+            <div
+              className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            >
+              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              <h4>Tags</h4>
+            </div>
+            <div className={cardstyles.description_tags_wrapper}>
+              {/* <CardSelector items={tagsItems} /> */}
+              {tagError ? (
+                tagError
+              ) : tagLoading ? (
+                tagLoading
+              ) : (
+                <CardSelector
+                  items={tags}
+                  selectedItems={selectedTags}
+                  setSelectedItems={setSelectedTags}
+                />
+              )}
+            </div>
           </div>
+          {/* industries */}
+          <div className={`${styles.cardSelectorWrapper}`}>
+            <div
+              className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+            >
+              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              <h4>
+                Industries<sup className="required">*</sup>
+              </h4>
+            </div>
 
-          {/* <CardSelector items={industryItems} /> */}
-          {industryError ? (
-            industryError
-          ) : industryLoading ? (
-            industryLoading
-          ) : (
-            <CardSelector
-              items={industry}
-              selectedItems={selectedIndustries}
-              setSelectedItems={setSelectedIndustries}
-            />
+            {/* <CardSelector items={industryItems} /> */}
+            {industryError ? (
+              industryError
+            ) : industryLoading ? (
+              industryLoading
+            ) : (
+              <CardSelector
+                items={industry}
+                selectedItems={selectedIndustries}
+                setSelectedItems={setSelectedIndustries}
+              />
+            )}
+          </div>
+          {errorMessage && (
+            <div className={styles.error_message}>{errorMessage}</div>
           )}
-        </div>
-        {errorMessage && (
-          <div className={styles.error_message}>{errorMessage}</div>
-        )}
-        {successMessage && (
-          <div className={styles.success_message}>{successMessage}</div>
-        )}
-        {submitLoading && (
-          <div className={styles.loading_message}>Saving...</div>
-        )}
-        <div className={styles.save_button_wrappers}>
-          <button
-            onClick={() => setPostStatus("publish")}
-            className={`${styles.add_product_button} ${styles.hover_white_dark}`}
-          >
-            <span className={styles.icon}>
-              <img src={add_product_icon} alt="Add Product Icon" />
-            </span>
-            <span>{button_label}</span>
-          </button>
+          {successMessage && (
+            <div className={styles.success_message}>{successMessage}</div>
+          )}
+          {submitLoading && (
+            <div className={styles.loading_message}>Saving...</div>
+          )}
+          <div className={styles.save_button_wrappers}>
+            <button
+              onClick={() => setPostStatus("publish")}
+              className={`${styles.add_product_button} ${styles.hover_white_dark}`}
+            >
+              <span className={styles.icon}>
+                <img src={add_product_icon} alt="Add Product Icon" />
+              </span>
+              <span>{button_label}</span>
+            </button>
 
-          <button
-            onClick={() => setPostStatus("draft")}
-            className={`${styles.save_draft_button} ${styles.hover_white}`}
-          >
-            <span className={styles.icon}>
-              <img src={save_draft_icon} alt="Save Draft Icon" />
-            </span>
-            <span>Save Draft</span>
-          </button>
-        </div>
-      </form>
+            <button
+              onClick={() => setPostStatus("draft")}
+              className={`${styles.save_draft_button} ${styles.hover_white}`}
+            >
+              <span className={styles.icon}>
+                <img src={save_draft_icon} alt="Save Draft Icon" />
+              </span>
+              <span>Save Draft</span>
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 }
