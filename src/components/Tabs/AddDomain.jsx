@@ -26,6 +26,11 @@ import { Editor } from "@tinymce/tinymce-react";
 import { createRoot } from "react-dom/client";
 import Markdown from "react-markdown";
 import MarkdownIt from "markdown-it";
+import { ReactComponent as DomainAppraisalIcon } from "./image/domain_appraisal.svg";
+import { ReactComponent as PricingSetupIcon } from "./image/pricing_setup.svg";
+import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
+import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
+import { ReactComponent as MediaSetupIcon } from "./image/media_setup.svg";
 const md = new MarkdownIt();
 
 const currentUrl = window.location.origin;
@@ -839,7 +844,7 @@ export default function AddDomain({ styles, userData }) {
         </div>
       </div>
       {isLoading && <div>Loading...</div>}
-      {showAddDomain && (
+      {!showAddDomain && (
         <form onSubmit={handelFormSubmit}>
           <div
             className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
@@ -847,7 +852,8 @@ export default function AddDomain({ styles, userData }) {
             <div
               className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
-              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+              <MediaSetupIcon />
               <h4>Media Setup</h4>
             </div>
             <div
@@ -957,7 +963,8 @@ export default function AddDomain({ styles, userData }) {
               <div
                 className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+                <DomainAppraisalIcon />
                 <h4>Domain Appraisal</h4>
                 <IoMdInformationCircle />
               </div>
@@ -1026,9 +1033,10 @@ export default function AddDomain({ styles, userData }) {
             {/* Pricing Setup Section */}
             <div className={styles.pricing_setup_wrapper}>
               <div
-                className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
               >
-                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+                <PricingSetupIcon />
                 <h4>Pricing Setup</h4>
                 <IoMdInformationCircle />
               </div>
@@ -1319,7 +1327,8 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.add_product_button} ${styles.hover_white_dark}`}
             >
               <span className={styles.icon}>
-                <img src={add_product_icon} alt="Add Product Icon" />
+                {/* <img src={add_product_icon} alt="Add Product Icon" /> */}
+                <AddProductIcon />
               </span>
               <span>{button_label}</span>
             </button>
@@ -1329,7 +1338,8 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.save_draft_button} ${styles.hover_white}`}
             >
               <span className={styles.icon}>
-                <img src={save_draft_icon} alt="Save Draft Icon" />
+                {/* <img src={save_draft_icon} alt="Save Draft Icon" /> */}
+                <SaveDraftIcon />
               </span>
               <span>Save Draft</span>
             </button>

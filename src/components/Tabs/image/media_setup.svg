@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="bold" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 448">
+  <defs>
+    <filter id="drop-shadow-1" x="-39" y="-29.67" width="590" height="527" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur" stdDeviation="13"/>
+      <feFlood flood-color="#0045a2" flood-opacity=".11"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="38.54" y1="59.81" x2="452.19" y2="473.46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00daf6"/>
+      <stop offset="1" stop-color="#2164ff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="300.01" y1="26.81" x2="456.04" y2="182.84" xlink:href="#linear-gradient"/>
+  </defs>
+  <g style="filter: url(#drop-shadow-1);">
+    <path d="M490.67,119.89v40.11c0,64.64-52.69,117.33-117.33,117.33s-117.33-52.69-117.33-117.33v-53.33h-33.92c-1.28,0-2.77-.64-3.63-1.49l-30.29-30.29c-7.04-7.04-16.43-10.88-26.24-10.88H58.67C26.24,64,0,90.24,0,122.67v266.67c0,32.43,26.24,58.67,58.67,58.67h394.67c32.43,0,58.67-26.24,58.67-58.67v-224c0-18.13-8.32-34.56-21.33-45.44Z" style="fill: url(#linear-gradient);"/>
+    <path d="M373.33,234.67c-41.17,0-74.67-33.49-74.67-74.67V48c0-26.47,21.55-48,48-48s48,21.53,48,48v106.67c0,8.83-7.17,16-16,16s-16-7.17-16-16V48c0-8.83-7.19-16-16-16s-16,7.17-16,16v112c0,23.53,19.14,42.67,42.67,42.67s42.67-19.14,42.67-42.67V16c0-8.83,7.17-16,16-16s16,7.17,16,16v144c0,41.17-33.49,74.67-74.67,74.67Z" style="fill: url(#linear-gradient-2);"/>
+  </g>
+</svg>

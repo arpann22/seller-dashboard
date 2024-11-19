@@ -353,9 +353,7 @@ const Dashboard = () => {
                 <img src={plus_bg_icon} />
               </div>
               <span className="ws-card-inner-contents">
-                <h5>
-                  <h5>Add new Domain !</h5>
-                </h5>
+                <h5>Add new Domain !</h5>
                 <div className="ws_card_price_wrapper ws_flex gap_10">
                   <p>Start Earning</p>
                 </div>

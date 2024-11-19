@@ -131,12 +131,18 @@ const Tabs = ({ userData, setUserData }) => {
 
         <ul className={styles.tabs_list_footer}>
           <li className={styles.button_icon_wrapper}>
-            <img src={accountSettingIcon} alt="Account settings icon" />
-            Account Settings
+            <button className={`${styles.tabButton} ${styles.button_icon_wrapper}`}>
+              <div className={styles.svg_bg_white}>
+                <img src={accountSettingIcon} alt="Account settings icon" /></div>
+              Account Settings
+            </button>
           </li>
           <li className={styles.button_icon_wrapper}>
-            <img src={logoutIcon} alt="Logout icon" />
-            Log Out
+            <button className={`${styles.tabButton} ${styles.button_icon_wrapper}`}>
+              <div className={styles.svg_bg_white}>
+                <img src={logoutIcon} alt="Logout icon" /></div>
+              Log Out
+            </button>
           </li>
         </ul>
       </div>
@@ -145,30 +151,32 @@ const Tabs = ({ userData, setUserData }) => {
         <TabContent activeTab={activeTab} userData={userData} setUserData={setUserData} />
       </div>
 
-      {activeTab === "Sellers Central" && (
-        <>
-          <div className={styles.sellerCentralInnerTabs}>
-            {sellerCentralTabs.map((tab) => (
-              <button
-                key={tab.label}
-                onClick={() => handleSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""}`}
-              >
-                <div className={styles.svg_bg_white}>{tab.icon}</div>
-                <label>{tab.label}</label>
-              </button>
-            ))}
-          </div>
-          <div className={styles.innerTabContent}>
-            <SellerCentralTabContent
-              activeInnerTab={sellerCentralTab}
-              setSellerCentralTab={setSellerCentralTab}
-              userData={userData}
-            />
-          </div>
-        </>
-      )}
-    </div>
+      {
+        activeTab === "Sellers Central" && (
+          <>
+            <div className={styles.sellerCentralInnerTabs}>
+              {sellerCentralTabs.map((tab) => (
+                <button
+                  key={tab.label}
+                  onClick={() => handleSellerCentralTab(tab.label)}
+                  className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                >
+                  <div className={styles.svg_bg_white}>{tab.icon}</div>
+                  <label>{tab.label}</label>
+                </button>
+              ))}
+            </div>
+            <div className={styles.innerTabContent}>
+              <SellerCentralTabContent
+                activeInnerTab={sellerCentralTab}
+                setSellerCentralTab={setSellerCentralTab}
+                userData={userData}
+              />
+            </div>
+          </>
+        )
+      }
+    </div >
   );
 };
 

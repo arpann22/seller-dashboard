@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import OrderDetails from "./OrderDetails";
 import styles from "./Tabs.module.css"; // Import styles
+import cust_img from "./images/cust_image.png";
+import { FaCircle } from "react-icons/fa6";
 
 export default function Orders({ userData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech/";
@@ -72,7 +74,7 @@ export default function Orders({ userData }) {
     <div>
       {!isLoading && (
         <div>
-          <table className={styles.my_orders_table}>
+          {/* <table className={styles.my_orders_table}>
             <thead>
               <tr>
                 <th>Order</th>
@@ -115,7 +117,70 @@ export default function Orders({ userData }) {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
+          {/* new order table structure */}
+          <div
+            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table}`}
+          >
+            {orderDetails.map((order) => (
+              <div key={order.id} className={styles.recentOffers_wrapper}>
+                {/* Group Order and Date */}
+                <div className={styles.recentOffers_card}>
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Order</p>
+                    <h5>{order.id}</h5>
+                  </div>
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Date</p>
+                    <h5>
+                      {new Date(order.meta._date_created[0]).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )}
+                    </h5>
+                  </div>
+                </div>
+
+                {/* Group Status, Total, and View */}
+                <div className={styles.recentOffers_card}>
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Status</p>
+                    <h5
+                      className={`${styles.offer_status} ${
+                        order.meta._order_status[0] === "Pending"
+                          ? styles.pending
+                          : styles.completed
+                      }`}
+                    >
+                      {order.meta._order_status[0]}
+                    </h5>
+                  </div>
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Total</p>
+                    <h5>
+                      {order.meta._currency_symbol?.[0]}
+                      {order.meta._order_total[0]}
+                    </h5>
+                  </div>
+                  <div className={styles.recentOffers_card_titles}>
+                    <button
+                      className={styles.hover_white}
+                      onClick={() => {
+                        setSelectedOrder(order); // Set the selected order
+                        setModalOpen(true); // Open the modal
+                      }}
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
