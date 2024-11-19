@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 // import React from 'react';
 import styles from "./Tabs.module.css"; // Import styles
 import Sales from "./Sales";
-import Dashboard from './Dashboard.jsx';
+import Dashboard from "./Dashboard.jsx";
 import mediaSetupIcon from "./images/media_setup_icon.png";
 import domain_img from "./images/chatseek.com.png";
 import { FaTimes } from "react-icons/fa"; // Import necessary icons
@@ -21,10 +21,9 @@ import available_balance_right_icon from "./images/available_balance_right_icon.
 import Domains from "./Domains.jsx";
 import { FaCheckCircle } from "react-icons/fa";
 import AddDomain from "./AddDomain.jsx";
-import { ReactComponent as PayPalIcon } from './image/paypal.svg';
-import { ReactComponent as AvailableBalanceIcon } from './image/balance.svg';
-import { ReactComponent as BankIcon } from './image/bank.svg';
-
+import { ReactComponent as PayPalIcon } from "./image/paypal.svg";
+import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
+import { ReactComponent as BankIcon } from "./image/bank.svg";
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -70,7 +69,8 @@ const SellerCentralTabContent = ({
       return (
         <>
           <Dashboard />
-        </>);
+        </>
+      );
     case "Sales":
       return (
         <>
@@ -104,7 +104,9 @@ const SellerCentralTabContent = ({
                 {[1, 2, 3].map((item, index) => (
                   <div key={index} className={styles.recentOffers_wrapper}>
                     {/* Offer card */}
-                    <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
+                    <div
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    >
                       <div className={styles.recentOffers_card}>
                         <div className={styles.recentOffers_card_image}>
                           <img src={domain_img} alt="Domain" />
@@ -161,8 +163,9 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                        }`}
+                      className={`${styles.extra_column_wrapper} ${
+                        expanded[index] ? styles.expanded : ""
+                      }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -260,7 +263,7 @@ const SellerCentralTabContent = ({
                 </div>
                 <div>
                   <h5>Account Balance</h5>
-                  <h2 className='ws_text_center'>
+                  <h2 className="ws_text_center">
                     205,700 <span>USD</span>
                   </h2>
                 </div>
@@ -289,11 +292,14 @@ const SellerCentralTabContent = ({
                 <img src={mediaSetupIcon} alt="Media Setup Icon" />
                 <h4>Payment Method</h4>
               </div>
-              <div className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}>
+              <div
+                className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}
+              >
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
-                    }`}
+                  className={`${styles.card} ${
+                    selectedCard === 1 ? styles.selected : ""
+                  }`}
                 >
                   <input
                     type="radio"
@@ -329,8 +335,9 @@ const SellerCentralTabContent = ({
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
-                    }`}
+                  className={`${styles.card} ${
+                    selectedCard === 2 ? styles.selected : ""
+                  }`}
                 >
                   <input
                     type="radio"
