@@ -20,52 +20,121 @@ export default function Domains({ userData, setSellerCentralTab }) {
   const [isLoading, setIsLoading] = useState(true);
   const [draftDomains, setDraftDomains] = useState([]);
 
-  useEffect(() => {
-    async function fetchDomains() {
-      try {
-        const res = await fetch(
-          `${domain_url}?author=${userData.id}&per_page=999&_embed`
-        );
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message);
-        }
-        const data = await res.json();
-        setDomains(data);
-      } catch (err) {
-        setErrorMessage(err.message);
-      } finally {
-        setIsLoading(false);
+  // fetching active domains
+
+  async function fetchActiveDomains() {
+    try {
+      const res = await fetch(
+        `${domain_url}?author=${userData.id}&per_page=999&_embed`
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message);
       }
+      const data = await res.json();
+      setDomains(data);
+    } catch (err) {
+      setErrorMessage(err.message);
+    } finally {
+      setIsLoading(false);
     }
+  }
+
+  useEffect(() => {
     if (userData.id) {
-      fetchDomains();
+      fetchActiveDomains();
     }
   }, [userData.id]);
 
-  useEffect(() => {
-    async function fetchDraftDomains() {
-      try {
-        const res = await fetch(
-          `${draft_domain_url}?author=${userData.id}&per_page=999&_embed&status=draft`
-        );
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message);
-        }
-        const data = await res.json();
-        setDraftDomains(data);
-      } catch (err) {
-        setErrorMessage(err.message);
-      } finally {
-        setIsLoading(false);
+  // fetching drafts domains
+
+  async function fetchDraftDomains() {
+    try {
+      const res = await fetch(
+        `${draft_domain_url}?author=${userData.id}&per_page=999&_embed&status=draft`
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message);
       }
+      const data = await res.json();
+      setDraftDomains(data);
+    } catch (err) {
+      setErrorMessage(err.message);
+    } finally {
+      setIsLoading(false);
     }
+  }
+
+  useEffect(() => {
     if (userData.id) {
       fetchDraftDomains();
     }
   }, [userData.id]);
 
+  // handling domain delete starts
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [allowDelete, setAllowDelete] = useState(false);
+  const [deletingDomainId, setDeletingDomainId] = useState();
+
+  // function for handling delete operation
+  async function handleDeleteConfirm() {
+    setAllowDelete(false);
+    setDeleteLoading(true);
+    if (deletingDomainId) {
+      try {
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain/${deletingDomainId}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        console.log(data);
+
+        // Refresh active and draft domains
+        await fetchActiveDomains();
+        await fetchDraftDomains();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setDeleteLoading(false);
+      }
+    }
+  }
+
+  function handleDeleteCancel() {
+    setAllowDelete(false);
+  }
+
+  const DeleteConfirm = () => {
+    return (
+      <div>
+        <div>
+          <p>Are you sure want to delete?</p>
+        </div>
+        <div>
+          <input type="submit" value="Delete" onClick={handleDeleteConfirm} />
+          <input type="submit" value="Cancel" onClick={handleDeleteCancel} />
+        </div>
+      </div>
+    );
+  };
+
+  function handleDelete(domain_id) {
+    setDeletingDomainId(domain_id);
+    setAllowDelete(true);
+    return;
+  }
+
+  if (deleteLoading) {
+    return <div>Loading...</div>;
+  }
+  // handling domain delete ends
   if (errorMessage) {
     return <div>{errorMessage}</div>;
   }
@@ -97,11 +166,6 @@ export default function Domains({ userData, setSellerCentralTab }) {
       pa = parseInt(splitDaPa[1]);
     }
 
-    function handleIconClick(domain_id) {
-      // window.open('http://stackoverflow.com', '_blank');
-      setSellerCentralTab("Add New Domain");
-      localStorage.setItem("editable_domain_id", domain_id);
-    }
     return (
       <>
         <div
@@ -128,7 +192,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
             <div>
               <img src={add_product_icon} />
             </div>
-            <div>
+            <div onClick={() => handleDelete(domain.id)}>
               <img src={delete_reset_icon} />
             </div>
           </div>
@@ -170,8 +234,21 @@ export default function Domains({ userData, setSellerCentralTab }) {
     );
   };
 
+  // handeling edit icon click
+  function handleIconClick(domain_id) {
+    // window.open('http://stackoverflow.com', '_blank');
+    setSellerCentralTab("Add New Domain");
+    localStorage.setItem("editable_domain_id", domain_id);
+  }
+
+  // handeling add domain icon click
+  function handelAddDomain() {
+    setSellerCentralTab("Add New Domain");
+  }
+
   return (
     <div class="dashboard_domains_wrapper">
+      {allowDelete && <DeleteConfirm />}
       {/* Active Domains Section */}
       <div class="dashboard_active_domain_wrapper">
         <div
@@ -190,7 +267,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
             <div className="ws-card-img">
               <img src={domains_add_domain_img} />
             </div>
-            <div className="ws-card-contents ws-flex">
+            <div className="ws-card-contents ws-flex" onClick={handelAddDomain}>
               <div>
                 <img src={plus_bg_icon} />
               </div>
