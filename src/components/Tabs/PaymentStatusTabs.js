@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FaCircle, FaPlus, FaTimes } from 'react-icons/fa'; // Import necessary icons
 import { FiMail } from 'react-icons/fi';
 import styles from './Tabs.module.css'; // Import styles
+import mobilestyles from './Tabs.module.mobile.css'
 import payment_status_icon from './images/payment_status_icon.png'
 // import sort_icon from './images/sort-icon.png'
 // import export_icon from './images/export_icon.png'
@@ -38,7 +39,8 @@ const OfferTabs = () => {
                         <div className={styles.svg_wrapper_bg_white}>
                             <PayoutIcon />
                         </div>
-                        Payouts
+
+                        <label>Payouts</label>
                     </li>
                     <li
                         className={`${activeTab === 'declined' ? styles.active : ''} `}
@@ -47,17 +49,20 @@ const OfferTabs = () => {
                         <div className={styles.svg_wrapper_bg_white}>
                             <CommissionIcon />
                         </div>
-                        Commissions
+                        <label>  Commissions</label>
+
                     </li>
                 </ul>
                 <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
                     <div className={styles.offerSorts}>
                         <SortIcon />
-                        Sort
+                        <label>  Sort</label>
+
                     </div>
                     <div className={styles.offerSorts}>
                         <ExportIcon />
-                        Export
+                        <label>  Export</label>
+
                     </div>
                 </div>
 
@@ -69,7 +74,7 @@ const OfferTabs = () => {
                         {[1, 2, 3].map((item, index) => (
                             <div key={index} className={styles.recentOffers_wrapper}>
                                 {/* Offer card */}
-                                <div className={`${styles.ws_flex} ${styles.gap_10} `}>
+                                <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
                                     <div className={styles.recentOffers_card}>
                                         <div className={styles.recentOffers_card_image}>
                                             <img src={domain_img} alt="Domain" />

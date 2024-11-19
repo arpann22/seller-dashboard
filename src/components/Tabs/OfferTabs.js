@@ -5,6 +5,8 @@ import { FiMail } from 'react-icons/fi';
 import styles from './Tabs.module.css'; // Import styles
 import delete_reset_icon from './images/delete-reset-icon.png'
 import sort_icon from './images/sort-icon.png'
+import { ReactComponent as OfferActive } from './image/offers_active.svg'
+import { ReactComponent as OfferDecline } from './image/offers_declined.svg'
 
 import domain_img from './images/chatseek.com.png'
 const handleSubmit = (event) => {
@@ -40,20 +42,28 @@ const OfferTabs = () => {
                         className={`${activeTab === 'active' ? styles.active : ''}`}
                         onClick={() => setActiveTab('active')}
                     >
-                        <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} />
-                        Active
+                        {/* <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} /> */}
+                        <div className={styles.svg_wrapper_bg_white}>
+                            <OfferActive />
+                        </div>
+                        <label> Active</label>
+
                     </li>
                     <li
                         className={`${activeTab === 'declined' ? styles.active : ''}`}
                         onClick={() => setActiveTab('declined')}
                     >
-                        <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} />
-                        Declined
+                        {/* <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} /> */}
+                        <div className={styles.svg_wrapper_bg_white}>
+                            <OfferDecline /></div>
+                        <label>Declined</label>
+
                     </li>
                 </ul>
                 <div className={styles.offerSorts}>
                     <img src={sort_icon}></img>
-                    Sort
+                    <label>Sort </label>
+
                 </div>
             </div>
             {/* Tab content */}
@@ -61,9 +71,9 @@ const OfferTabs = () => {
                 {activeTab === 'active' && (
                     <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
                         {[1, 2, 3].map((item, index) => (
-                            <div key={index} className={styles.recentOffers_wrapper}>
+                            <div key={index} className={`${styles.recentOffers_wrapper} `}>
                                 {/* Offer card */}
-                                <div className={`${styles.ws_flex} ${styles.gap_10}`}>
+                                <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
                                     <div className={styles.recentOffers_card}>
                                         <div className={styles.recentOffers_card_image}>
                                             <img src={domain_img} alt="Domain" />

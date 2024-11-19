@@ -104,7 +104,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             <Sales_Overview_icon />
             <h2>Sales Overview</h2>
           </div>
-          <div className={styles.salesDetails_wrapper}>
+          <div className={`${styles.salesDetails_wrapper} ${styles.fd_column}`}>
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>$205,700</h2>
@@ -132,7 +132,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
                 <Total_Orders_icon />
               </div>
             </div>
-          </div>
+          </div >
         </>
       );
     default:

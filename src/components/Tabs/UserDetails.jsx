@@ -5,7 +5,8 @@ import { MdVerifiedUser } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai"; // Import close icon
 import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
-
+import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
+import { ReactComponent as EmailIcon } from "./image/email.svg";
 export default function UserDetails({ userData, setUserData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech/";
   const currentUrl = window.location.origin;
@@ -176,15 +177,21 @@ export default function UserDetails({ userData, setUserData }) {
           className={`${styles.editProfileButton} ${styles.button_icon_wrapper}`}
           onClick={togglePopup} // Toggle the popup on click
         >
-          <img
+          {/* <img
             src={editProfileIcon}
             alt="Edit Profile"
             className={styles.icon}
-          />
+          /> */}
+          <div className={styles.svg_bg_white}>
+            <EditProfileIcon />
+          </div>
           Edit Profile
         </button>
         <div className={styles.p_relative}>
-          <FiMail className={styles.mailIcon} />
+          <div className={`${styles.svg_bg_white} ${styles.mailIcon}`}>
+            <EmailIcon />
+          </div>
+          {/* <FiMail className={styles.mailIcon} /> */}
           <span className={styles.mailNotifications}>
             <p>2</p>
           </span>

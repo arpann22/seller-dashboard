@@ -104,7 +104,7 @@ const SellerCentralTabContent = ({
                 {[1, 2, 3].map((item, index) => (
                   <div key={index} className={styles.recentOffers_wrapper}>
                     {/* Offer card */}
-                    <div className={`${styles.ws_flex} ${styles.gap_10}`}>
+                    <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
                       <div className={styles.recentOffers_card}>
                         <div className={styles.recentOffers_card_image}>
                           <img src={domain_img} alt="Domain" />
@@ -265,7 +265,7 @@ const SellerCentralTabContent = ({
                   </h2>
                 </div>
                 <div
-                  className={`${styles.available_balance_card_footer} ${styles.ws_flex}`}
+                  className={`${styles.available_balance_card_footer} ${styles.ws_flex} ${styles.f_wrap}`}
                 >
                   <div>
                     <h6>Holder</h6>
@@ -289,7 +289,7 @@ const SellerCentralTabContent = ({
                 <img src={mediaSetupIcon} alt="Media Setup Icon" />
                 <h4>Payment Method</h4>
               </div>
-              <div className={styles.paymentMethodcard_section}>
+              <div className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}>
                 {/* Card 1 */}
                 <label
                   className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""

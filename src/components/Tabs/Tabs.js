@@ -1,84 +1,50 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Tabs.module.css";
+import UserDetails from "./UserDetails";
 import TabContent from "./TabContent";
 import SellerCentralTabContent from "./SellerCentralTabContent";
-import editProfileIcon from "./images/edit-profile.png";
-import myOrderIcon from "./images/my-orders.png";
 import accountSettingIcon from "./image/settings.svg";
 import logoutIcon from "./image/logout.svg";
-// import addDomainsIcon from "./images/add-domain-icon.png";
-import UserDetails from "./UserDetails";
-import { ReactComponent as MyOrderIcon } from './image/orders.svg';
-import { ReactComponent as MyOfferIcon } from './image/offers.svg';
-import { ReactComponent as EditProfileIcon } from './image/edit_profil.svg';
-import { ReactComponent as AddDomainsIcon } from './image/plus.svg';
-import { ReactComponent as DashboardIcon } from './image/dashboard.svg';
-import { ReactComponent as SalesIcon } from './image/sales-menu.svg';
-import { ReactComponent as DomainsIcon } from './image/domains.svg';
-import { ReactComponent as ManageOffersIcon } from './image/manage_offers.svg';
-import { ReactComponent as WalletIcon } from './image/wallet.svg';
-
+import { ReactComponent as MyOrderIcon } from "./image/orders.svg";
+import { ReactComponent as MyOfferIcon } from "./image/offers.svg";
+import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
+import { ReactComponent as AddDomainsIcon } from "./image/plus.svg";
+import { ReactComponent as DashboardIcon } from "./image/dashboard.svg";
+import { ReactComponent as SalesIcon } from "./image/sales-menu.svg";
+import { ReactComponent as DomainsIcon } from "./image/domains.svg";
+import { ReactComponent as ManageOffersIcon } from "./image/manage_offers.svg";
+import { ReactComponent as WalletIcon } from "./image/wallet.svg";
 
 const Tabs = ({ userData, setUserData }) => {
-  // Main tabs with corresponding URL parameters
+  // Main tabs and seller central tabs
   const tabs = [
     { label: "My Orders", icon: <MyOrderIcon />, urlParam: "my-orders" },
     { label: "My Offers", icon: <MyOfferIcon />, urlParam: "my-offers" },
-    // { label: "My Auctions", icon: <EditProfileIcon />, urlParam: "my-auctions" },
-    // { label: "My Support", icon: <EditProfileIcon />, urlParam: "my-support" },
     { label: "Sellers Central", icon: <EditProfileIcon />, urlParam: "sellers-central" },
   ];
 
   const sellerCentralTabs = [
-    {
-      label: "Add New Domain",
-      icon: <AddDomainsIcon />,
-      content: "This is the content for Add New Domain.",
-    },
-    {
-      label: "Dashboard",
-      icon: <DashboardIcon />,
-      content: "This is the content for Dashboard.",
-    },
-    {
-      label: "Sales",
-      icon: <SalesIcon />,
-      content: "This is the content for Sales.",
-    },
-    {
-      label: "Domains",
-      icon: <DomainsIcon />,
-      content: "This is the content for Domains.",
-    },
-    {
-      label: "Manage Offers",
-      icon: <ManageOffersIcon />,
-      content: "This is the content for Manage Offers.",
-    },
-    {
-      label: "Wallet/Banking",
-      icon: <WalletIcon />,
-      content: "This is the content for Wallet/Banking.",
-    },
+    { label: "Add New Domain", icon: <AddDomainsIcon />, content: "Add New Domain content." },
+    { label: "Dashboard", icon: <DashboardIcon />, content: "Dashboard content." },
+    { label: "Sales", icon: <SalesIcon />, content: "Sales content." },
+    { label: "Domains", icon: <DomainsIcon />, content: "Domains content." },
+    { label: "Manage Offers", icon: <ManageOffersIcon />, content: "Manage Offers content." },
+    { label: "Wallet/Banking", icon: <WalletIcon />, content: "Wallet/Banking content." },
   ];
 
-  // State for active main tab and seller central inner tab
   const [activeTab, setActiveTab] = useState(tabs[0].label);
-  const [sellerCentralTab, setSellerCentralTab] = useState(
-    sellerCentralTabs[0].label
-  );
+  const [sellerCentralTab, setSellerCentralTab] = useState(sellerCentralTabs[0].label);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Track dropdown open state
 
-  // Set initial active tab based on URL parameter
+  // Handle responsive changes
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tabParam = params.get("tab");
-    const matchedTab = tabs.find((tab) => tab.urlParam === tabParam);
-    if (matchedTab) {
-      setActiveTab(matchedTab.label);
-    }
-  }, [tabs]);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  // Update URL when tab changes
+  // Handle tab change
   const handleTabClick = (tab) => {
     setActiveTab(tab.label);
     const params = new URLSearchParams(window.location.search);
@@ -87,36 +53,82 @@ const Tabs = ({ userData, setUserData }) => {
     localStorage.removeItem("editable_domain_id");
   };
 
-  function hadelSellerCentralTab(tab_label) {
-    setSellerCentralTab(tab_label);
+  // Handle seller central tab change
+  const handleSellerCentralTab = (tabLabel) => {
+    setSellerCentralTab(tabLabel);
     localStorage.removeItem("editable_domain_id");
-  }
+  };
+
+  // Sync URL parameter with active tab
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get("tab");
+    const matchedTab = tabs.find((tab) => tab.urlParam === tabParam);
+    if (matchedTab) setActiveTab(matchedTab.label);
+  }, [tabs]);
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setDropdownOpen((prevState) => !prevState);
+  };
+
   return (
     <div className={`${styles.tabs} ${styles.ws_container}`}>
       <div className={styles.tabs_lists}>
         <UserDetails userData={userData} setUserData={setUserData} />
-        <div className={styles.tabLabels}>
-          {tabs.map((tab) => (
+
+        {/* Tabs for Desktop */}
+        {!isMobile && (
+          <div className={styles.tabLabels}>
+            {tabs.map((tab) => (
+              <button
+                key={tab.label}
+                onClick={() => handleTabClick(tab)}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""}`}
+                role="tab"
+                aria-selected={tab.label === activeTab}
+              >
+                <div className={styles.svg_bg_white}>{tab.icon}</div>
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Dropdown for Mobile */}
+        {isMobile && (
+          <div className={styles.customDropdown}>
             <button
-              key={tab.label}
-              onClick={() => handleTabClick(tab)}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
-                }`}
-              role="tab"
-              aria-selected={tab.label === activeTab}
+              className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton}`}
+              onClick={toggleDropdown}
             >
-              <div className={styles.svg_bg_white}>
-                {tab.icon}
-                {/* <img
-                src={tab.icon}
-                alt={`${tab.label} icon`}
-                className={styles.tabIcon}
-              /> */}
+              <div className={`${styles.selectedTab} ${styles.tabButton}`}>
+                {tabs.find((tab) => tab.label === activeTab)?.icon}
+                {activeTab}
               </div>
-              {tab.label}
             </button>
-          ))}
-        </div>
+
+            {/* Dropdown Options */}
+            {dropdownOpen && (
+              <div className={styles.dropdownOptions}>
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.label}
+                    className={`${styles.dropdownOption} ${tab.label === activeTab ? styles.active : ""}`}
+                    onClick={() => {
+                      handleTabClick(tab); // Set the active tab
+                      setDropdownOpen(false); // Close the dropdown after selection
+                    }}
+                  >
+                    <div className={styles.icon}>{tab.icon}</div>
+                    {tab.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <ul className={styles.tabs_list_footer}>
           <li className={styles.button_icon_wrapper}>
             <img src={accountSettingIcon} alt="Account settings icon" />
@@ -130,11 +142,7 @@ const Tabs = ({ userData, setUserData }) => {
       </div>
 
       <div className={styles.tabContent}>
-        <TabContent
-          activeTab={activeTab}
-          userData={userData}
-          setUserData={setUserData}
-        />
+        <TabContent activeTab={activeTab} userData={userData} setUserData={setUserData} />
       </div>
 
       {activeTab === "Sellers Central" && (
@@ -143,20 +151,11 @@ const Tabs = ({ userData, setUserData }) => {
             {sellerCentralTabs.map((tab) => (
               <button
                 key={tab.label}
-                onClick={() => hadelSellerCentralTab(tab.label)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
-                  } ${tab.label === "Add New Domain" ? styles.specialButton : ""
-                  }`}
+                onClick={() => handleSellerCentralTab(tab.label)}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""}`}
               >
-                {/* <img
-                  src={tab.icon}
-                  alt={`${tab.label} icon`}
-                  className={styles.tabIcon}
-                /> */}
-                <div className={styles.svg_bg_white}>
-                  {tab.icon}
-                </div>
-                {tab.label}
+                <div className={styles.svg_bg_white}>{tab.icon}</div>
+                <label>{tab.label}</label>
               </button>
             ))}
           </div>

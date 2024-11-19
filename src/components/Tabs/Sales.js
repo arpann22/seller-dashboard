@@ -15,6 +15,7 @@ import { FaTimes } from "react-icons/fa";
 import sort_icon from './images/sort-icon.png'
 import { HiDotsVertical } from "react-icons/hi";
 import { ReactComponent as Sales_status_icon } from './image/sales_status.svg'
+import { ReactComponent as SortIcon } from './image/sort.svg'
 const handleSubmit = (event) => {
     event.preventDefault();
     // Handle the input value submission here
@@ -43,7 +44,7 @@ const Sales = () => {
 
         <>
             {/* sales first col */}
-            <div className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20}`}>
+            <div className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}>
                 <div>
                     <div
                         className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -85,8 +86,10 @@ const Sales = () => {
                     <img src={sales_details_icon} alt="Media Setup Icon" />
                     <h4>Sales Details</h4>
                     <div className={styles.offerSorts}>
-                        <img src={sort_icon}></img>
-                        Sort
+                        {/* <img src={sort_icon}></img> */}
+                        <SortIcon />
+                        <label>
+                            Sort</label>
                     </div>
                 </div>
                 <div>
@@ -94,7 +97,7 @@ const Sales = () => {
                         {[1, 2, 3].map((item, index) => (
                             <div key={index} className={styles.recentOffers_wrapper}>
                                 {/* Offer card */}
-                                <div className={`${styles.ws_flex} ${styles.gap_10}`}>
+                                <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
                                     <div className={styles.recentOffers_card}>
                                         <div className={styles.recentOffers_card_image}>
                                             <img src={cust_img} alt="Domain" />

@@ -163,3 +163,7 @@
 .description_tags_wrapper .card.selected .cardContent svg {
   background-color: rgb(247, 249, 253);
 }
+
+/* responsive */
+@media screen and (max-width: 767px) {
+}
