@@ -317,7 +317,7 @@ button.active svg path {
   background-color: #fff;
   padding: 10px 20px;
   display: flex;
-  gap: 40px;
+  gap: 24px;
   border: 1px solid #edf0f7;
   border-radius: 20px;
 }
@@ -369,15 +369,22 @@ button.active svg path {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+.add_domain_background_wrapper {
+  background-image: url("images/add_domain_bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 1200px;
+}
 .add_domain_wrapper {
   max-width: 950px;
   width: 100%;
   margin: auto;
   text-align: center;
-  background-image: url("images/add_domain_bg.png");
+  /* background-image: url("images/add_domain_bg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center; */
   padding: 50px;
   display: flex;
   flex-direction: column;
@@ -1179,6 +1186,14 @@ button.active svg path {
   border-radius: 50px;
   border: transparent;
   font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #fff;
+  font-size: 14px;
+}
+.available_balance_card_footer button:hover {
+  background: linear-gradient(61deg, #0560dc, #0045a2 40%, #2378eb);
+  border: 2px solid #fff;
+  color: #fff;
 }
 .wallet_available_balance {
   background: #fff;

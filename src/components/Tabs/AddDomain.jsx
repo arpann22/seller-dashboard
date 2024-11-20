@@ -845,35 +845,37 @@ export default function AddDomain({ styles, userData }) {
 
   return (
     <>
-      <div
-        className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}
-      >
-        <img src={addDomaintitleImage} alt="stars" />
-        <h2>
-          {" "}
-          Add New <span>Domain</span>
-        </h2>
-        <p>
-          Get a detailed domain breakdown, ranking insights, estimate, and even
-          audio pronunciations – all in one go!
-        </p>
-        <div>{domainNameError && domainNameError}</div>
+      <div className={styles.add_domain_background_wrapper}>
         <div
-          className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
+          className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}
         >
-          <form onSubmit={handleGenerate}>
-            <input
-              type="text"
-              value={domainName}
-              onChange={(e) => setDomainName(e.target.value)}
-              required
-            />
-            <input
-              type="submit"
-              value="Generate"
-              class="hover_white_dark"
-            ></input>
-          </form>
+          <img src={addDomaintitleImage} alt="stars" />
+          <h2>
+            {" "}
+            Add New <span>Domain</span>
+          </h2>
+          <p>
+            Get a detailed domain breakdown, ranking insights, estimate, and
+            even audio pronunciations – all in one go!
+          </p>
+          <div>{domainNameError && domainNameError}</div>
+          <div
+            className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
+          >
+            <form onSubmit={handleGenerate}>
+              <input
+                type="text"
+                value={domainName}
+                onChange={(e) => setDomainName(e.target.value)}
+                required
+              />
+              <input
+                type="submit"
+                value="Generate"
+                class="hover_white_dark"
+              ></input>
+            </form>
+          </div>
         </div>
       </div>
       {isLoading && <div>Loading...</div>}

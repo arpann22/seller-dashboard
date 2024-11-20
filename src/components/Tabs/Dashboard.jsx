@@ -8,7 +8,7 @@ import { ReactComponent as SaleCurrentIcon } from "./image/sales.svg";
 import { ReactComponent as SalesAllTimeIcon } from "./image/all_time.svg";
 import { ReactComponent as Reviews } from "./image/reviews.svg";
 import { ReactComponent as Followers } from "./image/followers.svg";
-
+import { HiDotsVertical } from "react-icons/hi";
 import { FaCircle } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import domain_img from "./images/chatseek.com.png";
@@ -26,7 +26,7 @@ const Dashboard = () => {
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>Sales Report</h4>
-            <ThreeDots />
+            <HiDotsVertical />
           </div>
           <div className="dashboard_reports_wrapper">
             <div
@@ -83,7 +83,7 @@ const Dashboard = () => {
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>Commissions</h4>
-            <ThreeDots />
+            <HiDotsVertical />
           </div>
           <div className="dashboard_commission_cards">
             <div className="dashboard_commission_card paid_commission">
@@ -371,7 +371,7 @@ const Dashboard = () => {
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>From Community</h4>
-            <ThreeDots />
+            <HiDotsVertical />
           </div>
           <div className="dashboard_community_cards">
             <div className="dashboard_community_card community_reviews">
@@ -426,8 +426,8 @@ const Dashboard = () => {
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
-            <h4>Lasted Reviews</h4>
-            <ThreeDots />
+            <h4>Latest Reviews</h4>
+            <HiDotsVertical />
           </div>
           <div className="dashboard_reviews">
             <div className="dashboard_review_card">
