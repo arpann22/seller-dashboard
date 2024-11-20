@@ -115,13 +115,35 @@ export default function Domains({ userData, setSellerCentralTab }) {
 
   const DeleteConfirm = () => {
     return (
-      <div>
-        <div>
-          <p>Are you sure want to delete?</p>
-        </div>
-        <div>
-          <input type="submit" value="Delete" onClick={handleDeleteConfirm} />
-          <input type="submit" value="Cancel" onClick={handleDeleteCancel} />
+      // <div>
+      //   <div>
+      //     <p>Are you sure want to delete?</p>
+      //   </div>
+      //   <div>
+      //     <input type="submit" value="Delete" onClick={handleDeleteConfirm} />
+      //     <input type="submit" value="Cancel" onClick={handleDeleteCancel} />
+      //   </div>
+      // </div>
+      <div className={styles.popupOverlay}>
+        <div className={styles.popupContainer}>
+          <div className={styles.popupMessage}>
+            <DeleteIcon />
+            <p>Are you sure you want to delete?</p>
+          </div>
+          <div className={styles.popupActions}>
+            <input
+              type="submit"
+              value="Delete"
+              onClick={handleDeleteConfirm}
+              className={styles.deleteButton}
+            />
+            <input
+              type="submit"
+              value="Cancel"
+              onClick={handleDeleteCancel}
+              className={styles.cancelButton}
+            />
+          </div>
         </div>
       </div>
     );

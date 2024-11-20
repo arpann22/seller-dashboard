@@ -43,7 +43,6 @@ svg path {
   width: fit-content;
   display: flex;
 }
-
 .svg_wrapper_bg_white {
   background-color: #fff;
   border-radius: 20px;
@@ -51,6 +50,7 @@ svg path {
   width: fit-content;
   display: flex;
 }
+
 .hover_blue_white:hover {
   background-color: #fff;
   border: 1px solid #00d9f5;
@@ -385,7 +385,7 @@ button.active svg path {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center; */
-  padding: 50px;
+  padding: 30px 50px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1530,6 +1530,54 @@ button.active svg path {
   width: calc(50% - 10px);
   gap: 15px;
   justify-content: space-between;
+}
+
+/* delete popup */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupContainer {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.popupMessage p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.popupActions input {
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background: #001f3e;
+  color: white;
+}
+
+.cancelButton {
+  background: transparent;
+  color: #001f3e;
+  border: 1px solid #001f3e;
 }
 
 /* responsive */
