@@ -81,6 +81,9 @@
   transform: translate(-50%, -50%);
   display: none;
 }
+.domains_hover_buttons svg path {
+  fill: #fff !important;
+}
 .ws-cards-container-noHover:hover .domains_hover_buttons {
   display: flex;
 }

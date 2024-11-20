@@ -6,9 +6,11 @@ import active_domains_icon from "./images/active-domains-icon.png";
 import domain_drafts_icon from "./images/domain_drafts_icon.png";
 import plus_bg_icon from "./images/plus-bg-icon.png";
 import domains_add_domain_img from "./images/domains_add_domain_img.png";
-import add_product_icon from "./images/add_product.png";
-import save_draft_icon from "./images/save_draft.png";
-import delete_reset_icon from "./images/delete-reset-icon.png";
+import { ReactComponent as DeleteIcon } from "./image/delete.svg";
+import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
+import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
+import { ReactComponent as ActiveDomainsIcon } from "./image/active_domains.svg";
+import { ReactComponent as DraftsDomainsIcon } from "./image/domain_drafts.svg";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
@@ -187,13 +189,14 @@ export default function Domains({ userData, setSellerCentralTab }) {
               className="domianEditIcon"
               onClick={() => handleIconClick(domain.id)}
             >
-              <img src={save_draft_icon} />
+              <AddProductIcon />
             </div>
             <div>
-              <img src={add_product_icon} />
+              <SaveDraftIcon />
             </div>
             <div onClick={() => handleDelete(domain.id)}>
-              <img src={delete_reset_icon} />
+              {/* <img src={delete_reset_icon} /> */}
+              <DeleteIcon />
             </div>
           </div>
 
@@ -254,7 +257,8 @@ export default function Domains({ userData, setSellerCentralTab }) {
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
         >
-          <img src={active_domains_icon}></img>
+          {/* <img src={active_domains_icon}></img> */}
+          <ActiveDomainsIcon />
           <h4>Active Domains</h4>
         </div>
         <div
@@ -289,7 +293,8 @@ export default function Domains({ userData, setSellerCentralTab }) {
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
         >
-          <img src={domain_drafts_icon}></img>
+          {/* <img src={domain_drafts_icon}></img> */}
+          <DraftsDomainsIcon />
           <h4>Draft Domains</h4>
         </div>
         <div

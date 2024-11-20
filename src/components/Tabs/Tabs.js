@@ -14,6 +14,7 @@ import { ReactComponent as SalesIcon } from "./image/sales-menu.svg";
 import { ReactComponent as DomainsIcon } from "./image/domains.svg";
 import { ReactComponent as ManageOffersIcon } from "./image/manage_offers.svg";
 import { ReactComponent as WalletIcon } from "./image/wallet.svg";
+import { ReactComponent as StarsIcon } from "./image/ai-stars.svg";
 
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
@@ -24,7 +25,7 @@ const Tabs = ({ userData, setUserData }) => {
   ];
 
   const sellerCentralTabs = [
-    { label: "Add New Domain", icon: <AddDomainsIcon />, content: "Add New Domain content." },
+    { label: "Add New Domain", icon: <AddDomainsIcon />, image: <StarsIcon />, content: "Add New Domain content." },
     { label: "Dashboard", icon: <DashboardIcon />, content: "Dashboard content." },
     { label: "Sales", icon: <SalesIcon />, content: "Sales content." },
     { label: "Domains", icon: <DomainsIcon />, content: "Domains content." },
@@ -90,6 +91,7 @@ const Tabs = ({ userData, setUserData }) => {
               >
                 <div className={styles.svg_bg_white}>{tab.icon}</div>
                 {tab.label}
+                <div>{tab.image}</div>
               </button>
             ))}
           </div>
@@ -163,6 +165,7 @@ const Tabs = ({ userData, setUserData }) => {
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>
+                  <div className={styles.stars_icon}>{tab.image}</div>
                 </button>
               ))}
             </div>

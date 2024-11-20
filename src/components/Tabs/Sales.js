@@ -92,7 +92,7 @@ const Sales = () => {
                             Sort</label>
                     </div>
                 </div>
-                <div>
+                <div className={styles.dashboard_small_margin}>
                     <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
                         {[1, 2, 3].map((item, index) => (
                             <div key={index} className={styles.recentOffers_wrapper}>
@@ -132,11 +132,13 @@ const Sales = () => {
                                             </h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
-                                            {expanded[index] ? (
-                                                <FaTimes onClick={() => toggleExpanded(index)} />
-                                            ) : (
-                                                <FaPlus onClick={() => toggleExpanded(index)} />
-                                            )}
+                                            <div className={styles.svg_wrapper_bg_grey}>
+                                                {expanded[index] ? (
+                                                    <FaTimes onClick={() => toggleExpanded(index)} />
+                                                ) : (
+                                                    <FaPlus onClick={() => toggleExpanded(index)} />
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

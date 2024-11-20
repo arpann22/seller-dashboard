@@ -30,7 +30,7 @@ const OfferTabs = () => {
     return (
         <div className={styles.offer_tabs_wrapper}>
             {/* Nav tabs */}
-            <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.ph_30}`}>
+            <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.ph_30} ${styles.dashboard_small_margin}`}>
                 <ul className={`${styles.nav_tabs} ${styles.offer_tabs_navs} `}>
                     <li
                         className={`${activeTab === 'active' ? styles.active : ''} `}
@@ -112,7 +112,10 @@ const OfferTabs = () => {
                                             </h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
-                                            <img src={payment_status_icon}></img>
+                                            {/* <img src={payment_status_icon}></img> */}
+                                            <div className={styles.svg_wrapper_bg_grey}>
+                                                <ExportIcon />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

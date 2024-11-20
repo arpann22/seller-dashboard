@@ -7,7 +7,7 @@ import mediaSetupIcon from "./images/media_setup_icon.png";
 import domain_img from "./images/chatseek.com.png";
 import { FaTimes } from "react-icons/fa"; // Import necessary icons
 // import categories_icon from './images.categories-icon.png';
-
+import { IoMdInformationCircle } from "react-icons/io";
 import { FaCircle } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
@@ -24,6 +24,7 @@ import AddDomain from "./AddDomain.jsx";
 import { ReactComponent as PayPalIcon } from "./image/paypal.svg";
 import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
+import { ReactComponent as DeleteIcon } from './image/delete.svg'
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -100,7 +101,7 @@ const SellerCentralTabContent = ({
               <h4>Recent Offers</h4>
             </div>
             <div>
-              <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+              <div className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin}`}>
                 {[1, 2, 3].map((item, index) => (
                   <div key={index} className={styles.recentOffers_wrapper}>
                     {/* Offer card */}
@@ -151,21 +152,23 @@ const SellerCentralTabContent = ({
                           </h5>
                         </div>
                         <div className={styles.recentOffers_card_details}>
-                          {expanded[index] ? (
-                            <FaTimes onClick={() => toggleExpanded(index)} />
-                          ) : (
-                            <FaPlus onClick={() => toggleExpanded(index)} />
-                          )}
-                          <FiMail />
+                          <div className={styles.svg_wrapper_bg_grey}>
+                            {expanded[index] ? (
+                              <FaTimes onClick={() => toggleExpanded(index)} />
+                            ) : (
+                              <FaPlus onClick={() => toggleExpanded(index)} />
+                            )}
+                          </div>
+                          <div className={styles.svg_wrapper_bg_grey}>
+                            <FiMail /></div>
                         </div>
                       </div>
                     </div>
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -220,7 +223,8 @@ const SellerCentralTabContent = ({
                               className={styles.resetButton}
                               onClick={handleReset}
                             >
-                              <img src={delete_reset_icon} />
+                              {/* <img src={delete_reset_icon} /> */}
+                              <DeleteIcon />
                             </button>
                           </div>
                         </form>
@@ -259,7 +263,8 @@ const SellerCentralTabContent = ({
                   className={`${styles.available_balance_card_shapes} ${styles.justify_space_between} ${styles.ws_flex}`}
                 >
                   <img src={available_balance_circle}></img>
-                  <img src={available_balance_right_icon}></img>
+                  {/* <img src={available_balance_right_icon}></img> */}
+                  <IoMdInformationCircle />
                 </div>
                 <div>
                   <h5>Account Balance</h5>
@@ -297,9 +302,8 @@ const SellerCentralTabContent = ({
               >
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 1 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"
@@ -335,9 +339,8 @@ const SellerCentralTabContent = ({
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${
-                    selectedCard === 2 ? styles.selected : ""
-                  }`}
+                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                    }`}
                 >
                   <input
                     type="radio"

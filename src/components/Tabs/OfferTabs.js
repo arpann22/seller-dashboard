@@ -1,12 +1,15 @@
 import save_draft_icon from './images/edit-profile.png'
 import { useState } from 'react';
-import { FaCircle, FaPlus, FaTimes } from 'react-icons/fa'; // Import necessary icons
+import { FaCircle, FaTimes } from 'react-icons/fa'; // Import necessary icons
+import { FaPlus } from "react-icons/fa6";
 import { FiMail } from 'react-icons/fi';
 import styles from './Tabs.module.css'; // Import styles
 import delete_reset_icon from './images/delete-reset-icon.png'
 import sort_icon from './images/sort-icon.png'
+import { ReactComponent as SortIcon } from './image/sort.svg';
 import { ReactComponent as OfferActive } from './image/offers_active.svg'
 import { ReactComponent as OfferDecline } from './image/offers_declined.svg'
+import { ReactComponent as DeleteIcon } from './image/delete.svg'
 
 import domain_img from './images/chatseek.com.png'
 const handleSubmit = (event) => {
@@ -36,7 +39,7 @@ const OfferTabs = () => {
     return (
         <div className={styles.offer_tabs_wrapper}>
             {/* Nav tabs */}
-            <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.ph_30}`}>
+            <div className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.ph_30} ${styles.dashboard_small_margin}`}>
                 <ul className={`${styles.nav_tabs} ${styles.offer_tabs_navs}`}>
                     <li
                         className={`${activeTab === 'active' ? styles.active : ''}`}
@@ -61,7 +64,8 @@ const OfferTabs = () => {
                     </li>
                 </ul>
                 <div className={styles.offerSorts}>
-                    <img src={sort_icon}></img>
+                    {/* <img src={sort_icon}></img> */}
+                    <SortIcon />
                     <label>Sort </label>
 
                 </div>
@@ -111,12 +115,15 @@ const OfferTabs = () => {
                                             </h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
-                                            {expanded[index] ? (
-                                                <FaTimes onClick={() => toggleExpanded(index)} />
-                                            ) : (
-                                                <FaPlus onClick={() => toggleExpanded(index)} />
-                                            )}
-                                            <FiMail />
+                                            <div className={styles.svg_wrapper_bg_grey}>
+                                                {expanded[index] ? (
+                                                    <FaTimes onClick={() => toggleExpanded(index)} />
+                                                ) : (
+                                                    <FaPlus onClick={() => toggleExpanded(index)} />
+                                                )}
+                                            </div>
+                                            <div className={styles.svg_wrapper_bg_grey}>
+                                                <FiMail /></div>
                                         </div>
                                     </div>
                                 </div>
@@ -155,7 +162,9 @@ const OfferTabs = () => {
 
                                                 {/* Reset button with delete icon */}
                                                 <button type="button" className={styles.resetButton} onClick={handleReset}>
-                                                    <img src={delete_reset_icon} />
+                                                    {/* <img src={delete_reset_icon} /> */}
+                                                    <DeleteIcon />
+
                                                 </button>
                                             </div>
                                         </form>

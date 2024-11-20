@@ -31,6 +31,10 @@ import { ReactComponent as PricingSetupIcon } from "./image/pricing_setup.svg";
 import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
 import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
 import { ReactComponent as MediaSetupIcon } from "./image/media_setup.svg";
+import { ReactComponent as CategoriesIcon } from "./image/categories.svg";
+import { ReactComponent as DomainDescIcon } from "./image/domain_desc.svg";
+import { ReactComponent as TagsIcon } from "./image/tags.svg";
+import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
 const md = new MarkdownIt();
 
 const currentUrl = window.location.origin;
@@ -1201,7 +1205,8 @@ export default function AddDomain({ styles, userData }) {
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
-              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+              <CategoriesIcon />
               <h4>Categories</h4>
             </div>
             {catError ? (
@@ -1221,14 +1226,17 @@ export default function AddDomain({ styles, userData }) {
             className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
           >
             <div
-              className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles}`}
+              className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
             >
-              <h3>
+              <h4
+                className={`${styles.ws_flex} ${styles.gap_10} ${styles.ai_center} ${styles.domain_description_titles} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
+              >
+                <DomainDescIcon />
                 Domain Description <sup className="required">*</sup>
-              </h3>
+              </h4>
               <a
                 href=""
-                className={styles.starsWhite}
+                className={`${styles.starsWhite} ${styles.gradient_hover}`}
                 onClick={(e) => handelDomainDesc(e)}
               >
                 <img
@@ -1270,7 +1278,8 @@ export default function AddDomain({ styles, userData }) {
             <div
               className={`${cardstyles.tags_card_title_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
-              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+              <TagsIcon />
               <h4>Tags</h4>
             </div>
             <div className={cardstyles.description_tags_wrapper}>
@@ -1293,7 +1302,8 @@ export default function AddDomain({ styles, userData }) {
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
-              <img src={mediaSetupIcon} alt="Media Setup Icon" />
+              {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+              <IndustriesIcon />
               <h4>
                 Industries<sup className="required">*</sup>
               </h4>

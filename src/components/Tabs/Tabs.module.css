@@ -26,8 +26,8 @@
   flex-direction: column;
 }
 svg {
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
 }
 svg path {
   filter: none !important;
@@ -43,10 +43,11 @@ svg path {
   width: fit-content;
   display: flex;
 }
+
 .svg_wrapper_bg_white {
   background-color: #fff;
   border-radius: 20px;
-  padding: 3px;
+  padding: 5px;
   width: fit-content;
   display: flex;
 }
@@ -183,7 +184,7 @@ body.page-id-5782 {
 
 .editProfileButton {
   /* padding: 12px 20px 12px 10px; */
-  padding: 12px 20px;
+  padding: 12px 20px 12px 12px;
   background-color: #fff;
   border: none;
   border-radius: 40px;
@@ -322,6 +323,15 @@ button.active svg path {
 }
 .sellerCentralInnerTabs .button_icon_wrapper {
   width: fit-content;
+}
+.sellerCentralInnerTabs .button_icon_wrapper:first-child {
+  border: 2px solid #edf0f7;
+  border-radius: 40px;
+  min-width: 250px;
+}
+.sellerCentralInnerTabs .button_icon_wrapper:hover .stars_icon svg path,
+.sellerCentralInnerTabs .button_icon_wrapper.active .stars_icon svg path {
+  fill: #fff !important;
 }
 .sellerCentralInnerTabs .button_icon_wrapper .specialButton img {
   background-color: #00d9f5;
@@ -792,6 +802,8 @@ button.active svg path {
   border: transparent;
   padding: 20px;
   border: 2px solid;
+  font-size: 16px;
+  font-weight: 500;
 }
 .popupContent.editProfilePopup {
   background-color: white;
@@ -813,7 +825,7 @@ button.active svg path {
   right: 10px;
   font-size: 24px;
   cursor: pointer;
-  color: #000;
+  color: #001f3e;
 }
 
 .closeIcon:hover {
@@ -829,16 +841,21 @@ button.active svg path {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 16px;
 }
 .editProfilePopup input:not(input[type="file"]) {
   padding: 15px;
   border: 1px solid #e1e7ff;
   border-radius: 50px;
 }
+.editProfilePopup input {
+  font-size: 14px;
+}
 .editProfilePopup label span {
   color: #888888;
   font-weight: 500;
+  font-size: 12px;
 }
 .save_button_wrappers {
   text-align: center;
@@ -856,7 +873,7 @@ button.active svg path {
   border-radius: 50px;
   padding: 20px 120px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   cursor: pointer;
   font-weight: 500;
@@ -864,9 +881,11 @@ button.active svg path {
   width: fit-content;
   margin-top: 30px;
 }
-.save_button_wrappers img {
-  width: 22px;
-  padding: 3px;
+
+.save_button_wrappers svg {
+  width: 18px;
+  height: 18px;
+  display: flex;
 }
 .save_button_wrappers button:first-child {
   background-color: #001f3e;
@@ -931,7 +950,6 @@ button.active svg path {
   padding: 10px;
   border-radius: 15px;
   gap: 8px;
-  margin: 20px 0;
   flex-direction: column;
 }
 .recentOffers_card_details {
@@ -973,13 +991,14 @@ button.active svg path {
 .offer_status.countered svg {
   color: #00cd98;
 }
-.recentOffers_card_details svg {
+.recentOffers_card_details .svg_wrapper_bg_grey {
   background-color: #f7f8fd;
   padding: 10px;
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  /* height: 40px;
+  width: 40px; */
   cursor: pointer;
+  display: flex;
 }
 .offer_status_cards .recentOffers_card_details {
   display: flex;
@@ -1000,7 +1019,6 @@ button.active svg path {
   display: flex;
   list-style: none;
   gap: 30px;
-  margin: 30px 0;
 }
 /* .offer_tabs_navs svg {
   background-color: #f7f8fd;
@@ -1185,6 +1203,9 @@ button.active svg path {
   border-radius: 10px;
   padding: 40px 20px;
   cursor: pointer;
+}
+.paymentMethodcard_section label:hover {
+  border: 1px solid #00d9f5;
 }
 .paymentMethodcard_section input {
   display: none;
