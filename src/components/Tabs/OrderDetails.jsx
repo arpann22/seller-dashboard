@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
+import { FaSpinner } from "react-icons/fa";
 // const currentUrl = "https://new-webstarter.codepixelz.tech/";
 const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
@@ -69,8 +70,15 @@ export default function OrderDetails({
   }, [domainId]);
 
   // Loading state handling
+  // if (loading) {
+  //   return <div>Loading order details...</div>;
+  // }
   if (loading) {
-    return <div>Loading order details...</div>;
+    return (
+      <div className="loading_overlay">
+        <FaSpinner className="loading" />
+      </div>
+    );
   }
 
   // Error state handling

@@ -375,6 +375,7 @@ button.active svg path {
   background-repeat: no-repeat;
   background-position: center;
   max-width: 1200px;
+  margin: auto;
 }
 .add_domain_wrapper {
   max-width: 950px;
