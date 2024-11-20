@@ -9,24 +9,53 @@ const extractDomainId = (serializedString) => {
   return match ? match[1] : null;
 };
 
-export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
+const parseSerializedArray = (serialized) => {
+  const matches = serialized.match(/s:\d+:"(.*?)";/g);
+  if (!matches) return [];
+  return matches.map((match) => match.match(/"(.*?)"/)[1]);
+};
+
+export default function OrderDetails({
+  order,
+  isModalOpen,
+  setIsModalOpen,
+  orderTotal,
+  subTotal,
+}) {
   const domainIdString = order.meta._domain_ids[0];
   const domainId = extractDomainId(domainIdString);
+
+  const domainIds = parseSerializedArray(domainIdString);
+  console.log(domainIds);
+  // if (domainIds && domainIds.length > 1) {
+  //   console.log("multiple");
+  // }
 
   const [domainDetails, setDomainDetails] = useState({});
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
 
+  const [domains, setDomains] = useState([]);
+
   useEffect(() => {
-    async function fetchDomain() {
+    async function fetchDomains() {
       try {
-        const res = await fetch(`${url}${domainId}`);
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message);
-        }
-        const data = await res.json();
-        setDomainDetails(data);
+        const responses = await Promise.all(
+          domainIds.map(async (domainId) => {
+            const res = await fetch(`${url}${domainId}`);
+            if (!res.ok) {
+              const errorData = await res.json();
+              throw new Error(errorData.message);
+            }
+            const data = await res.json(); // Parse and return the response JSON
+            return data;
+          })
+        );
+
+        // Combine all domain details into one array or object
+        // setDomainDetails(responses);
+        setDomains(responses);
+        // console.log(responses);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -34,8 +63,8 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
       }
     }
 
-    if (domainId) {
-      fetchDomain();
+    if (domainIds && domainIds.length > 0) {
+      fetchDomains();
     }
   }, [domainId]);
 
@@ -51,6 +80,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
 
   return (
     <>
+      {/* {console.log(domains)} */}
       {/* Modal Structure */}
       {isModalOpen && (
         <div
@@ -90,13 +120,17 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>{domainDetails?.title?.rendered || "N/A"}</td>
-                      <td>
-                        {order.meta._currency_symbol?.[0]}
-                        {order.meta._order_total[0]}
-                      </td>
-                    </tr>
+                    {domains.map((domain) => (
+                      <tr>
+                        <td>{domain?.title?.rendered || "N/A"}</td>
+                        <td>
+                          {order.meta._currency_symbol?.[0]}
+                          {domain?.meta?._sale_price
+                            ? domain.meta._sale_price[0]
+                            : domain.meta._regular_price[0]}
+                        </td>
+                      </tr>
+                    ))}
                     <tr>
                       <td>Subtotal:</td>
                       <td>
