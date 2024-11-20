@@ -109,7 +109,7 @@ export default function AddDomain({ styles, userData }) {
         <div>
           <h5>{title}</h5>
           <input
-            type="number"
+            type="text"
             value={value}
             onChange={(e) =>
               onChange(Math.max(0, Math.min(100, Number(e.target.value))))
@@ -206,17 +206,6 @@ export default function AddDomain({ styles, userData }) {
   }
   const [showAddDomain, setShowAddDomain] = useState(false);
 
-  // useEffect(() => {
-  //   const categories_array = [
-  //     {
-  //       id: 77,
-  //       taxonomy: "domain_cat",
-  //     },
-  //   ];
-
-  //   setSelectedCategories(categories_array); // Set selected categories
-  // }, []);
-
   const handleGenerate = async (e) => {
     e.preventDefault();
 
@@ -257,18 +246,58 @@ export default function AddDomain({ styles, userData }) {
       setDomainAge(age);
       setSaveDomainAge(data[0].age); // for saving years and days in string
 
-      // let cat_array = [];
-      // console.log(data[0].length);
-      // if (data[0].length <= 5) {
-      //   cat_array.push({
-      //     id: 67,
-      //     taxonomy: "domain_cat",
-      //   });
-      // } else {
-      //   cat_array = [];
-      // }
-      // console.log(cat_array);
-      // setSelectedCategories((prevObj) => [...prevObj, ...cat_array]); //
+      let cat_array = [];
+      let tag_array = [
+        {
+          id: 49,
+          taxonomy: "domain_tag",
+        },
+      ];
+
+      if (data[0].length <= 5) {
+        cat_array.push({
+          id: 67,
+          taxonomy: "domain_cat",
+        });
+
+        tag_array.push({
+          id: 66,
+          taxonomy: "domain_tag",
+        });
+      } else {
+        // Remove the category with id: 67 if it exists
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 67)
+        );
+
+        setSelectedTags((prevObj) => prevObj.filter((cat) => cat.id !== 66));
+      }
+
+      if (da > 70) {
+        cat_array.push({
+          id: 84,
+          taxonomy: "domain_cat",
+        });
+      } else {
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 67)
+        );
+      }
+
+      if (age > 5) {
+        cat_array.push({
+          id: 78,
+          taxonomy: "domain_cat",
+        });
+      } else {
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 78)
+        );
+      }
+
+      setSelectedCategories((prevObj) => [...prevObj, ...cat_array]); // handeling category
+
+      setSelectedTags((prevObj) => [...prevObj, ...tag_array]); // handeling tags
     } catch (err) {
       console.log(err);
       setDomainNameError(err);
@@ -848,7 +877,7 @@ export default function AddDomain({ styles, userData }) {
         </div>
       </div>
       {isLoading && <div>Loading...</div>}
-      {!showAddDomain && (
+      {showAddDomain && (
         <form onSubmit={handelFormSubmit}>
           <div
             className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
