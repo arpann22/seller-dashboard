@@ -211,10 +211,10 @@ export default function Domains({ userData, setSellerCentralTab }) {
               className="domianEditIcon"
               onClick={() => handleIconClick(domain.id)}
             >
-              <AddProductIcon />
+              <SaveDraftIcon />
             </div>
             <div>
-              <SaveDraftIcon />
+              <AddProductIcon />
             </div>
             <div onClick={() => handleDelete(domain.id)}>
               {/* <img src={delete_reset_icon} /> */}

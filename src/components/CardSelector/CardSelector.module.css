@@ -62,11 +62,11 @@
     rgb(17, 159, 251) 59%,
     rgb(33, 100, 255) 100%
   );
-  padding: 5px;
+  padding: 4px 10px;
   color: #fff;
   border-radius: 20px;
 
-  font-size: 12px;
+  font-size: 11px;
 }
 .cardContent h5 {
   color: #00214c;

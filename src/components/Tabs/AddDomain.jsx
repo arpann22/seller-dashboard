@@ -7,7 +7,7 @@ import { IoIosPause } from "react-icons/io";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
 import { FaPlay } from "react-icons/fa";
-
+import { FaSpinner } from "react-icons/fa";
 import add_product_icon from "./images/add_product.png";
 import save_draft_icon from "./images/save_draft.png";
 import mediaSetupIcon from "./images/media_setup_icon.png";
@@ -878,7 +878,13 @@ export default function AddDomain({ styles, userData }) {
           </div>
         </div>
       </div>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <div className="loading_overlay">
+            <FaSpinner className="loading" />
+          </div>
+        </div>
+      )}
       {showAddDomain && (
         <form onSubmit={handelFormSubmit}>
           <div

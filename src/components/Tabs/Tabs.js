@@ -15,7 +15,7 @@ import { ReactComponent as DomainsIcon } from "./image/domains.svg";
 import { ReactComponent as ManageOffersIcon } from "./image/manage_offers.svg";
 import { ReactComponent as WalletIcon } from "./image/wallet.svg";
 import { ReactComponent as StarsIcon } from "./image/ai-stars.svg";
-
+const logoutUrl = '/wp-login.php?action=logout&redirect_to=/login';
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
   const tabs = [
@@ -139,13 +139,24 @@ const Tabs = ({ userData, setUserData }) => {
               Account Settings
             </button>
           </li>
-          <li className={styles.button_icon_wrapper}>
+          {/* <li className={styles.button_icon_wrapper}>
             <button className={`${styles.tabButton} ${styles.button_icon_wrapper}`}>
               <div className={styles.svg_bg_white}>
                 <img src={logoutIcon} alt="Logout icon" /></div>
               Log Out
             </button>
-          </li>
+          </li> */}
+          <li className={styles.button_icon_wrapper}>
+            <a
+              href={logoutUrl}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper}`}
+            >
+              <div className={styles.svg_bg_white}>
+                <img src={logoutIcon} alt="Logout icon" />
+              </div>
+              Log Out
+            </a>
+          </li>;
         </ul>
       </div>
 

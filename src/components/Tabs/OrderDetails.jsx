@@ -127,7 +127,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
               </p>
               <h2>Order details</h2>
               <div>
-                <table>
+                {/* <table>
                   <thead>
                     <tr>
                       <th>Product</th>
@@ -161,7 +161,49 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> */}
+                <div
+                  className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table}`}
+                >
+                  {domains.map((domain) => (
+                    <div
+                      key={domain.id}
+                      className={styles.recentOffers_wrapper}
+                    >
+                      {/* Product Row */}
+                      <div className={styles.recentOffers_card}>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Product</p>
+                          <h5>{domain?.title?.rendered || "N/A"}</h5>
+                        </div>
+                      </div>
+
+                      {/* Subtotal Row */}
+                      <div className={styles.recentOffers_card}>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Subtotal</p>
+                          <h5>
+                            {order.meta._currency_symbol?.[0]}
+                            {productPriceLists.find(
+                              (price) => price.productId == domain?.id
+                            )?.price || "N/A"}
+                          </h5>
+                        </div>
+                      </div>
+
+                      {/* Total Row */}
+                      <div className={styles.recentOffers_card}>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Total</p>
+                          <h5>
+                            {order.meta._currency_symbol?.[0]}
+                            {order.meta._order_total[0]}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
               <h2>Billing address</h2>
               <div>
