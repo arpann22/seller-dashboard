@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import { FaSpinner } from "react-icons/fa";
 // const currentUrl = "https://new-webstarter.codepixelz.tech/";
+import unserialize from "locutus/php/var/unserialize";
+
 const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 
@@ -16,23 +18,28 @@ const parseSerializedArray = (serialized) => {
   return matches.map((match) => match.match(/"(.*?)"/)[1]);
 };
 
-export default function OrderDetails({
-  order,
-  isModalOpen,
-  setIsModalOpen,
-  orderTotal,
-  subTotal,
-}) {
+export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
+  console.log(order);
   const domainIdString = order.meta._domain_ids[0];
-  const domainId = extractDomainId(domainIdString);
+  const products_price = order?.meta?._products_price
+    ? order.meta._products_price[0]
+    : "";
+
+  const deserializedData = unserialize(products_price);
+
+  // Map the data
+  const productPriceLists = Object.values(deserializedData).map((item) => ({
+    productId: item.product_id,
+    price: item.price,
+  }));
+
+  // console.log(productPriceList);
+
+  // const
+  // const domainId = extractDomainId(domainIdString);
 
   const domainIds = parseSerializedArray(domainIdString);
-  console.log(domainIds);
-  // if (domainIds && domainIds.length > 1) {
-  //   console.log("multiple");
-  // }
 
-  const [domainDetails, setDomainDetails] = useState({});
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
 
@@ -67,7 +74,7 @@ export default function OrderDetails({
     if (domainIds && domainIds.length > 0) {
       fetchDomains();
     }
-  }, [domainId]);
+  }, []);
 
   // Loading state handling
   // if (loading) {
@@ -133,9 +140,9 @@ export default function OrderDetails({
                         <td>{domain?.title?.rendered || "N/A"}</td>
                         <td>
                           {order.meta._currency_symbol?.[0]}
-                          {domain?.meta?._sale_price
-                            ? domain.meta._sale_price[0]
-                            : domain.meta._regular_price[0]}
+                          {productPriceLists.find(
+                            (price) => price.productId == domain?.id
+                          )?.price || "N/A"}
                         </td>
                       </tr>
                     ))}
