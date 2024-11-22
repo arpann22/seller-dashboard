@@ -70,9 +70,9 @@ const CardSelector = ({ items, selectedItems, setSelectedItems }) => {
         <div
           key={index}
           className={`${styles.card} ${!item.meta?.taxonomy_image_id &&
-              !imageUrls[item.meta?.taxonomy_image_id]
-              ? styles.tagsItemsCards
-              : ""
+            !imageUrls[item.meta?.taxonomy_image_id]
+            ? styles.tagsItemsCards
+            : ""
             }
           ${selectedItems.some((selectedItem) => selectedItem.id === item.id)
               ? styles.selected
@@ -91,7 +91,7 @@ const CardSelector = ({ items, selectedItems, setSelectedItems }) => {
                   <GoPlus />
                 </div>
                 <h5>{item.name}</h5>
-                <span>{item.subtitle}AI PICK</span>
+                <span>{item.subtitle}</span>
               </>
             ) : (
               <>

@@ -132,7 +132,7 @@ const Tabs = ({ userData, setUserData }) => {
         )}
 
         <ul className={styles.tabs_list_footer}>
-          <li className={styles.button_icon_wrapper}>
+          <li>
             <button className={`${styles.tabButton} ${styles.button_icon_wrapper}`}>
               <div className={styles.svg_bg_white}>
                 <img src={accountSettingIcon} alt="Account settings icon" /></div>
@@ -146,10 +146,10 @@ const Tabs = ({ userData, setUserData }) => {
               Log Out
             </button>
           </li> */}
-          <li className={styles.button_icon_wrapper}>
+          <li>
             <a
               href={logoutUrl}
-              className={`${styles.tabButton} ${styles.button_icon_wrapper}`}
+              className={`${styles.tabButton} ${styles.button_icon_wrapper} ${styles.tabsLogout}`}
             >
               <div className={styles.svg_bg_white}>
                 <img src={logoutIcon} alt="Logout icon" />

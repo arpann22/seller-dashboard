@@ -150,7 +150,8 @@ export default function AddDomain({ styles, userData }) {
               fontSize="20"
               fill="#333"
             >
-              {value} {label}
+              {value}
+              {label}
             </text>
           </svg>
         </div>
@@ -1335,7 +1336,9 @@ export default function AddDomain({ styles, userData }) {
             </div>
           </div>
           {/* industries */}
-          <div className={`${styles.cardSelectorWrapper}`}>
+          <div
+            className={`${styles.cardSelectorWrapper} ${styles.cardSelectorIndustriesWrapper}`}
+          >
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >

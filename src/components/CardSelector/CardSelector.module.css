@@ -27,7 +27,9 @@
   flex: 0 0 auto;
   border: 2px solid rgb(247, 249, 253);
 }
-
+.cardSelectorIndustriesWrapper .card {
+  width: fit-content;
+}
 .card.selected {
   border: 2px solid rgb(118, 232, 249);
   background-color: #fff;
