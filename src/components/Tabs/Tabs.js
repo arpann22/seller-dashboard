@@ -156,7 +156,7 @@ const Tabs = ({ userData, setUserData }) => {
               </div>
               Log Out
             </a>
-          </li>;
+          </li>
         </ul>
       </div>
 

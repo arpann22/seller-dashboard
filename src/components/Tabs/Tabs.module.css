@@ -50,7 +50,10 @@ svg path {
   width: fit-content;
   display: flex;
 }
-
+h5,
+h6 {
+  font-weight: 500;
+}
 .hover_blue_white:hover {
   background-color: #fff;
   border: 1px solid #00d9f5;
@@ -105,7 +108,7 @@ body.page-id-5782 {
 .tabButton.active {
   background-color: #00d9f5;
   color: #001f3e;
-  text-shadow: 0 0 0.45px #000, 0 0 0.45px #000;
+  text-shadow: 0 0 0.55px #000, 0 0 0.55px #000;
   border-radius: 40px;
 }
 
@@ -234,7 +237,7 @@ body.page-id-5782 {
 .button_icon_wrapper:hover {
   background-color: #00d9f5;
   /* font-weight: 600; */
-  text-shadow: 0 0 0.45px #000, 0 0 0.45px #000;
+  text-shadow: 0 0 0.55px #000, 0 0 0.55px #000;
   color: #001f3e;
   border-radius: 40px;
 }
@@ -651,6 +654,9 @@ button.active svg path {
   max-width: 100%;
   width: 100%;
 }
+.pricing_setup_wrapper input::placeholder {
+  font-size: 14px;
+}
 .input_group p {
   font-size: 13px;
   color: #67748e;
@@ -724,9 +730,11 @@ button.active svg path {
 .date_fields_wrapper input {
   width: 100%;
   margin-top: 10px;
+  font-size: 13px;
 }
 .toggle_section p {
   font-size: 13px;
+  color: #67748e;
 }
 .toggle_section {
   padding: 30px 20px;
@@ -949,7 +957,11 @@ button.active svg path {
 .recentOffers_card_titles h5 {
   font-size: 16px;
   color: #001f3e;
-  font-weight: 600;
+  font-weight: 500;
+}
+.recentOffers_card_details h5,
+.recentOffers_card_details h6 {
+  font-weight: 500;
 }
 .offers_tab_recent_offer_wrap {
   background-color: #fff;
@@ -1310,7 +1322,7 @@ button.active svg path {
 .modal_content {
   background-color: #fff;
   width: 90%;
-  max-width: 600px;
+  max-width: 700px;
   padding: 20px;
   border-radius: 10px;
   position: relative;
@@ -1381,7 +1393,11 @@ button.active svg path {
   background-color: #f8f8f8;
   font-weight: bold;
 }
-
+.my_orders_details_table .recentOffers_row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .order_details_popup td {
   font-size: 16px;
   color: #333;
@@ -1434,6 +1450,7 @@ button.active svg path {
   border-radius: 40px;
   border: 1px solid;
 }
+
 .my_orders_details_table .recentOffers_card {
   background-color: #fff;
   justify-content: space-between;
@@ -1451,11 +1468,17 @@ button.active svg path {
   flex: 1;
 }
 .my_orders_details_table .recentOffers_card:last-child {
-  flex: 2;
+  flex: 1;
 }
 .my_orders_details_table .recentOffers_wrapper {
   display: flex;
   gap: 10px;
+}
+.my_orders_details_table .recentOffers_wrapper {
+  gap: 0;
+}
+.my_orders_details_table .recentOffers_card {
+  flex: 1;
 }
 /* sales deatils */
 .sales_first_column_wrapper div {
@@ -1528,6 +1551,7 @@ button.active svg path {
   padding: 15px;
   margin-top: 15px;
   max-width: 100px;
+  cursor: inherit;
 }
 .domain_appraisal_body_card {
   background-color: #fff;
@@ -1564,7 +1588,7 @@ button.active svg path {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 300px;
+  width: 400px;
 }
 
 .popupMessage p {

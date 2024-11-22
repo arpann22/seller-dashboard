@@ -165,44 +165,57 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                 <div
                   className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table}`}
                 >
-                  {domains.map((domain) => (
-                    <div
-                      key={domain.id}
-                      className={styles.recentOffers_wrapper}
-                    >
-                      {/* Product Row */}
-                      <div className={styles.recentOffers_card}>
-                        <div className={styles.recentOffers_card_titles}>
-                          <p>Product</p>
-                          <h5>{domain?.title?.rendered || "N/A"}</h5>
-                        </div>
-                      </div>
+                  {domains.map((domain) => {
+                    const productPrice =
+                      productPriceLists.find(
+                        (price) => price.productId == domain?.id
+                      )?.price || "N/A";
 
-                      {/* Subtotal Row */}
-                      <div className={styles.recentOffers_card}>
-                        <div className={styles.recentOffers_card_titles}>
-                          <p>Subtotal</p>
-                          <h5>
-                            {order.meta._currency_symbol?.[0]}
-                            {productPriceLists.find(
-                              (price) => price.productId == domain?.id
-                            )?.price || "N/A"}
-                          </h5>
-                        </div>
-                      </div>
+                    return (
+                      <div
+                        key={domain.id}
+                        className={`${styles.recentOffers_wrapper} ${styles.single_row}`}
+                      >
+                        {/* Product Details in One Row */}
+                        <div className={styles.recentOffers_card}>
+                          <div className={styles.recentOffers_row}>
+                            {/* Product Name */}
+                            <div className={styles.recentOffers_cell}>
+                              <p>Product</p>
+                              <h5>{domain?.title?.rendered || "N/A"}</h5>
+                            </div>
 
-                      {/* Total Row */}
-                      <div className={styles.recentOffers_card}>
-                        <div className={styles.recentOffers_card_titles}>
-                          <p>Total</p>
-                          <h5>
-                            {order.meta._currency_symbol?.[0]}
-                            {order.meta._order_total[0]}
-                          </h5>
+                            {/* Product Price */}
+                            <div className={styles.recentOffers_cell}>
+                              <p>Product Price</p>
+                              <h5>
+                                {order.meta._currency_symbol?.[0]}
+                                {productPrice}
+                              </h5>
+                            </div>
+
+                            {/* Subtotal */}
+                            <div className={styles.recentOffers_cell}>
+                              <p>Subtotal</p>
+                              <h5>
+                                {order.meta._currency_symbol?.[0]}
+                                {order.meta._order_subtotal[0]}
+                              </h5>
+                            </div>
+
+                            {/* Total */}
+                            <div className={styles.recentOffers_cell}>
+                              <p>Total</p>
+                              <h5>
+                                {order.meta._currency_symbol?.[0]}
+                                {order.meta._order_total[0]}
+                              </h5>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
               <h2>Billing address</h2>

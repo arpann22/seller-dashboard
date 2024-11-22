@@ -150,8 +150,7 @@ export default function AddDomain({ styles, userData }) {
               fontSize="20"
               fill="#333"
             >
-              {value}
-              {label}
+              {value} {label}
             </text>
           </svg>
         </div>
@@ -1162,7 +1161,10 @@ export default function AddDomain({ styles, userData }) {
                       id="startSale"
                       value={formData.start_date}
                       onChange={(e) =>
-                        setFormData({ ...formData, start_date: e.target.value })
+                        setFormData({
+                          ...formData,
+                          start_date: e.target.value,
+                        })
                       }
                       className={styles.input_field}
                       disabled={!isSalePriceEnabled} // Disable based on toggle

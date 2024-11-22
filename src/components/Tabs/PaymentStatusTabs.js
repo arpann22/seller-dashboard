@@ -85,7 +85,7 @@ const OfferTabs = () => {
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
                                             <p>Order ID</p>
-                                            <h6>VLX245789</h6>
+                                            <h5>VLX245789</h5>
                                         </div>
                                     </div>
                                     <div className={styles.recentOffers_card}>
