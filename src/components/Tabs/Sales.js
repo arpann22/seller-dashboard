@@ -16,6 +16,8 @@ import sort_icon from "./images/sort-icon.png";
 import { HiDotsVertical } from "react-icons/hi";
 import { ReactComponent as Sales_status_icon } from "./image/sales_status.svg";
 import { ReactComponent as SortIcon } from "./image/sort.svg";
+import unserialize from "locutus/php/var/unserialize";
+
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -47,6 +49,8 @@ const Sales = ({ userData }) => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
+  const [customerIds, setCustomerIds] = useState([]);
+
   // fetching order ids by seller id
   useEffect(() => {
     async function fetchOrderBysellerId() {
@@ -73,6 +77,7 @@ const Sales = ({ userData }) => {
     }
   }, [userData.id]);
 
+  const [domainIds, setDomainIds] = useState([]);
   // Fetch all order details based on the order IDs
   useEffect(() => {
     if (orderIds.length > 0) {
@@ -91,7 +96,19 @@ const Sales = ({ userData }) => {
 
           const allOrderDetails = await Promise.all(orderDetailsPromises);
           setOrderDetails(allOrderDetails);
-          console.log(allOrderDetails);
+
+          // storing customer ids
+          const customerIds = allOrderDetails.map((order) => {
+            return order?.meta?._customer?.[0];
+          });
+          setCustomerIds(customerIds);
+
+          const domainIds = allOrderDetails
+            .map((order) => unserialize(order?.meta?._domain_ids?.[0])) // Get domain ids, which could be an array
+            .flat(); // Flatten the resulting array of arrays
+
+          setDomainIds(domainIds);
+          console.log(domainIds);
         } catch (err) {
           setError(err.message);
         }
@@ -101,6 +118,61 @@ const Sales = ({ userData }) => {
     }
   }, [orderIds]);
 
+  const [customerDetails, setCustomerDetails] = useState([]);
+  useEffect(() => {
+    async function fetchCustomerDetails() {
+      try {
+        const customerDetailsPormises = customerIds.map(async (customerId) => {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/user-profile/${customerId}`
+          );
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message);
+          }
+          return res.json(); // Return the order data
+        });
+        const allCustomerDetails = await Promise.all(customerDetailsPormises);
+        setCustomerDetails(allCustomerDetails);
+      } catch (err) {
+        console.log(err);
+      } finally {
+      }
+    }
+    if (customerIds.length >= 1) {
+      fetchCustomerDetails();
+    }
+  }, [customerIds]);
+
+  const [domainDetails, setDomainDetails] = useState([]);
+
+  useEffect(() => {
+    async function fetchDomainDetails() {
+      try {
+        const domainDetailsPromises = domainIds.map(async (domainId) => {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wp/v2/domain/${domainId}`
+          );
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message);
+          }
+          return res.json(); // Return the order data
+        });
+
+        const allDomainDetails = await Promise.all(domainDetailsPromises);
+        setDomainDetails(allDomainDetails);
+        console.log(allDomainDetails);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+      }
+    }
+    if (domainIds.length > 0) {
+      fetchDomainDetails();
+    }
+  }, [domainIds]);
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -108,8 +180,7 @@ const Sales = ({ userData }) => {
   return (
     <>
       {/* sales first col */}
-      {/* {console.log(orderDetails)} */}
-
+      {/* {console.log(domainIds)} */}
       <div
         className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}
       >
@@ -167,11 +238,42 @@ const Sales = ({ userData }) => {
                 >
                   <div className={styles.recentOffers_card}>
                     <div className={styles.recentOffers_card_image}>
-                      <img src={cust_img} alt="Domain" />
+                      {customerDetails.find(
+                        (customerDetail) =>
+                          customerDetail?.id == order?.meta?._customer[0]
+                      )?.user_image ? (
+                        <img
+                          src={
+                            customerDetails.find(
+                              (customerDetail) =>
+                                customerDetail?.id == order?.meta?._customer[0]
+                            )?.user_image
+                          }
+                          alt={
+                            customerDetails.find(
+                              (customerDetail) =>
+                                customerDetail?.id == order?.meta?._customer[0]
+                            )?.display_name
+                          }
+                        />
+                      ) : (
+                        <img src={cust_img} alt="Default Image" />
+                      )}
                     </div>
                     <div className={styles.recentOffers_card_titles}>
                       <p>Customer</p>
-                      <h5>Charles Bedford</h5>
+                      <h5>
+                        {" "}
+                        {customerDetails.find(
+                          (customerDetail) =>
+                            customerDetail?.id == order?.meta?._customer[0]
+                        )?.first_name +
+                          " " +
+                          customerDetails.find(
+                            (customerDetail) =>
+                              customerDetail?.id == order?.meta?._customer[0]
+                          )?.last_name}
+                      </h5>
                     </div>
                     <div className={styles.recentOffers_card_details}>
                       <p>Order ID</p>
@@ -225,84 +327,85 @@ const Sales = ({ userData }) => {
                     expanded[index] ? styles.expanded : ""
                   }`}
                 >
-                  <div className={styles.extra_column}>
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_image}>
-                        <img src={domain_img} alt="Domain" />
-                      </div>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Product</p>
-                        <h5>debugbot.com</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>Offer Amount</p>
-                        <h6>$5000</h6>
-                      </div>
-                    </div>
+                  {/* test js starts  */}
+                  {(() => {
+                    // Unserialize the data from the order object (do this once)
+                    const order_products_serialized = unserialize(
+                      order?.meta?._domain_ids?.[0]
+                    );
 
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Registrar</p>
-                        <h5>GoDaddy</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>Expiration Date</p>
-                        <h6>Dec 31, 2024</h6>
-                      </div>
-                    </div>
+                    // Render the mapped elements
+                    return (
+                      <div>
+                        {domainDetails.map((domainDetail) => {
+                          const domainIdString = domainDetail?.id.toString();
 
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Status</p>
-                        <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
-                        >
-                          <FaCircle />
-                          Pending
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
+                          if (
+                            order_products_serialized.includes(domainIdString)
+                          ) {
+                            return (
+                              //   <div key={domainDetail?.id}>
+                              //     <p>{domainDetail?.title?.rendered}</p>
+                              //   </div>
+                              <div className={styles.extra_column}>
+                                <div className={styles.recentOffers_card}>
+                                  <div
+                                    className={styles.recentOffers_card_image}
+                                  >
+                                    <img src={domain_img} alt="Domain" />
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Product</p>
+                                    <h5>{domainDetail?.title?.rendered}</h5>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Offer Amount</p>
+                                    <h6>$5000</h6>
+                                  </div>
+                                </div>
 
-                  {/* second column */}
-                  <div className={styles.extra_column}>
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_image}>
-                        <img src={domain_img} alt="Domain" />
-                      </div>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Product</p>
-                        <h5>debugbot.com</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>Offer Amount</p>
-                        <h6>$5000</h6>
-                      </div>
-                    </div>
+                                <div className={styles.recentOffers_card}>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Registrar</p>
+                                    <h5>GoDaddy</h5>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Expiration Date</p>
+                                    <h6>Dec 31, 2024</h6>
+                                  </div>
+                                </div>
 
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Registrar</p>
-                        <h5>GoDaddy</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>Expiration Date</p>
-                        <h6>Dec 31, 2024</h6>
-                      </div>
-                    </div>
+                                <div className={styles.recentOffers_card}>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Status</p>
+                                    <h5
+                                      className={`${styles.offer_status} ${styles.pending}`}
+                                    >
+                                      <FaCircle />
+                                      {order?.meta?._order_status?.[0] || ""}
+                                    </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
 
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Status</p>
-                        <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
-                        >
-                          <FaCircle />
-                          Pending
-                        </h5>
+                          return null;
+                        })}
                       </div>
-                    </div>
-                  </div>
+                    );
+                  })()}
+                  {/* test js ends  */}
                 </div>
               </div>
             ))}
