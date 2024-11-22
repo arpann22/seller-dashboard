@@ -24,7 +24,7 @@ import AddDomain from "./AddDomain.jsx";
 import { ReactComponent as PayPalIcon } from "./image/paypal.svg";
 import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
-import { ReactComponent as DeleteIcon } from './image/delete.svg'
+import { ReactComponent as DeleteIcon } from "./image/delete.svg";
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -75,7 +75,7 @@ const SellerCentralTabContent = ({
     case "Sales":
       return (
         <>
-          <Sales />;
+          <Sales userData={userData} />;
         </>
       );
     case "Domains":
@@ -101,7 +101,9 @@ const SellerCentralTabContent = ({
               <h4>Recent Offers</h4>
             </div>
             <div>
-              <div className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin}`}>
+              <div
+                className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin}`}
+              >
                 {[1, 2, 3].map((item, index) => (
                   <div key={index} className={styles.recentOffers_wrapper}>
                     {/* Offer card */}
@@ -160,15 +162,17 @@ const SellerCentralTabContent = ({
                             )}
                           </div>
                           <div className={styles.svg_wrapper_bg_grey}>
-                            <FiMail /></div>
+                            <FiMail />
+                          </div>
                         </div>
                       </div>
                     </div>
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                        }`}
+                      className={`${styles.extra_column_wrapper} ${
+                        expanded[index] ? styles.expanded : ""
+                      }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -302,8 +306,9 @@ const SellerCentralTabContent = ({
               >
                 {/* Card 1 */}
                 <label
-                  className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
-                    }`}
+                  className={`${styles.card} ${
+                    selectedCard === 1 ? styles.selected : ""
+                  }`}
                 >
                   <input
                     type="radio"
@@ -339,8 +344,9 @@ const SellerCentralTabContent = ({
 
                 {/* Card 2 */}
                 <label
-                  className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
-                    }`}
+                  className={`${styles.card} ${
+                    selectedCard === 2 ? styles.selected : ""
+                  }`}
                 >
                   <input
                     type="radio"
