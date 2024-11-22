@@ -75,7 +75,7 @@ const SellerCentralTabContent = ({
     case "Sales":
       return (
         <>
-          <Sales userData={userData} />;
+          <Sales userData={userData} />
         </>
       );
     case "Domains":

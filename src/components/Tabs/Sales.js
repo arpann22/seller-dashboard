@@ -1,5 +1,5 @@
 // Sales.js
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import sales_status_icon from "./image/sales_satus_new.png";
 import average_sales_icon from "./image/average_sales.svg";
@@ -27,6 +27,7 @@ const handleReset = () => {
     inputField.value = "";
   }
 };
+const currentUrl = window.location.origin;
 const Sales = ({ userData }) => {
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
@@ -40,9 +41,75 @@ const Sales = ({ userData }) => {
       [index]: !prevExpanded[index], // Toggle visibility
     }));
   };
+  // sunder js starts
+  const [orderIds, setOrderIds] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
+
+  // fetching order ids by seller id
+  useEffect(() => {
+    async function fetchOrderBysellerId() {
+      try {
+        const res = await fetch(
+          `${currentUrl}/wp-json/wstr/v1/sales-order/${userData.id}`
+        );
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        console.log(data);
+        setOrderIds(data);
+      } catch (err) {
+        setError(err);
+        // console.log(err);
+      } finally {
+      }
+    }
+    if (userData.id) {
+      fetchOrderBysellerId();
+    }
+  }, [userData.id]);
+
+  // Fetch all order details based on the order IDs
+  useEffect(() => {
+    if (orderIds.length > 0) {
+      async function fetchAllOrderDetails() {
+        try {
+          const orderDetailsPromises = orderIds.map(async (orderId) => {
+            const res = await fetch(
+              `${currentUrl}/wp-json/wp/v2/domain_order/${orderId}`
+            );
+            if (!res.ok) {
+              const errorData = await res.json();
+              throw new Error(errorData.message);
+            }
+            return res.json(); // Return the order data
+          });
+
+          const allOrderDetails = await Promise.all(orderDetailsPromises);
+          setOrderDetails(allOrderDetails);
+          console.log(allOrderDetails);
+        } catch (err) {
+          setError(err.message);
+        }
+      }
+
+      fetchAllOrderDetails();
+    }
+  }, [orderIds]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+  // sunder js ends
   return (
     <>
       {/* sales first col */}
+      {/* {console.log(orderDetails)} */}
+
       <div
         className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}
       >
@@ -92,7 +159,7 @@ const Sales = ({ userData }) => {
         </div>
         <div className={styles.dashboard_small_margin}>
           <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-            {[1, 2, 3].map((item, index) => (
+            {orderDetails.map((order, index) => (
               <div key={index} className={styles.recentOffers_wrapper}>
                 {/* Offer card */}
                 <div
@@ -108,7 +175,7 @@ const Sales = ({ userData }) => {
                     </div>
                     <div className={styles.recentOffers_card_details}>
                       <p>Order ID</p>
-                      <h6>VLX245789</h6>
+                      <h6>{order?.id || ""}</h6>
                     </div>
                   </div>
 
@@ -117,7 +184,10 @@ const Sales = ({ userData }) => {
                       className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
                     >
                       <p className="online">Amount</p>
-                      <h5>4850.00</h5>
+                      <h5>
+                        {order?.meta?._currency_symbol?.[0] || ""}
+                        {order?.meta?._order_total?.[0] || ""}
+                      </h5>
                     </div>
                     <div className={styles.recentOffers_card_details}>
                       <p>Option</p>
@@ -134,7 +204,7 @@ const Sales = ({ userData }) => {
                         className={`${styles.offer_status} ${styles.pending}`}
                       >
                         <FaCircle />
-                        Pending
+                        {order?.meta?._order_status?.[0] || ""}
                       </h5>
                     </div>
                     <div className={styles.recentOffers_card_details}>
