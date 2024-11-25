@@ -34,7 +34,7 @@
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0.122px 0.993px 15px 0px rgba(0, 34, 79, 0.02);
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .dashboard_commission_card_right {
   display: flex;
@@ -211,6 +211,7 @@
   background-color: #f3f5fa;
   padding: 5px 10px;
   border-radius: 10px;
+  font-weight: 400;
 }
 .review_cust_detail {
   gap: 20px;
@@ -248,4 +249,20 @@
 .dashboard_cust_reviews_wrapper {
   width: 100%;
   overflow: hidden;
+}
+
+@media screen and (max-width: 1024px) {
+  .dashboard_domains_cards_wrapper .ws-cards-container-noHover {
+    /* width: calc(25% - 15px); */
+    flex: 0 0 calc(50% - 15px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .dashboard_domains_cards_wrapper .ws-cards-container-noHover {
+    /* width: calc(25% - 15px); */
+    flex: 0 0 100%;
+  }
+  .dashboard_reports_wrapper {
+    grid-template-columns: 1fr;
+  }
 }

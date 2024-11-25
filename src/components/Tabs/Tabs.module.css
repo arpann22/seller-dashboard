@@ -16,6 +16,9 @@
 .gap_10 {
   gap: 10px;
 }
+.gap_5 {
+  gap: 5px;
+}
 .gap_20 {
   gap: 20px;
 }
@@ -326,6 +329,7 @@ button.active svg path {
   gap: 24px;
   border: 1px solid #edf0f7;
   border-radius: 20px;
+  flex-wrap: wrap;
 }
 .sellerCentralInnerTabs .button_icon_wrapper {
   width: fit-content;
@@ -973,7 +977,7 @@ button.active svg path {
   background-color: #f7f8fd;
   padding: 10px;
   border-radius: 15px;
-  gap: 8px;
+  gap: 15px;
   flex-direction: column;
 }
 .recentOffers_card_details {
@@ -984,7 +988,7 @@ button.active svg path {
   color: #67748e;
 }
 .recentOffers_card_titles svg {
-  width: 8px;
+  width: 8px !important;
   color: #00cd97;
 }
 .offers_card_customers p {
@@ -1566,7 +1570,7 @@ button.active svg path {
   gap: 15px;
   justify-content: space-between;
 }
-.domain_appraisal_body_card svg {
+.domain_appraisal_body_card .progress_card_add_domain svg {
   height: 120px;
   width: 120px;
 }
@@ -1629,6 +1633,9 @@ button.active svg path {
   .f_wrap {
     flex-wrap: wrap;
   }
+  .ws_container {
+    padding: 0;
+  }
   .sellerCentralInnerTabs
     label:not(.sellerCentralInnerTabs button:first-child label),
   .offer_tabs_wrapper label,
@@ -1643,13 +1650,14 @@ button.active svg path {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    padding: 30px;
   }
   .sellerCentralInnerTabs
     .button_icon_wrapper:not(.sellerCentralInnerTabs button:first-child) {
     padding: 0;
   }
   .sellerCentralInnerTabs button:first-child {
-    width: 100%;
+    /* width: 100%; */
     order: 2;
     margin-top: 10px;
   }
@@ -1668,5 +1676,15 @@ button.active svg path {
   }
   .offerSorts {
     padding: 10px;
+  }
+  .recentOffers_card {
+    flex-wrap: wrap;
+  }
+  .recentOffers_card .recentOffers_card_image {
+    width: 100%;
+  }
+  .offers_tab_recent_offer_wrap,
+  .tabContent {
+    padding: 0;
   }
 }

@@ -74,7 +74,7 @@ const OfferTabs = () => {
                         {[1, 2, 3].map((item, index) => (
                             <div key={index} className={styles.recentOffers_wrapper}>
                                 {/* Offer card */}
-                                <div className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}>
+                                <div className={`${styles.ws_flex} ${styles.gap_5} ${styles.fd_column}`}>
                                     <div className={styles.recentOffers_card}>
                                         <div className={styles.recentOffers_card_image}>
                                             <img src={domain_img} alt="Domain" />

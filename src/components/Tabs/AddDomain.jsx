@@ -119,7 +119,7 @@ export default function AddDomain({ styles, userData }) {
             readOnly
           />
         </div>
-        <div className="circular-progress">
+        <div className={`${styles.progress_card_add_domain} circular-progress`}>
           <svg width="120" height="120" viewBox="0 0 120 120">
             {/* Background Circle - Light Gray */}
             <circle
