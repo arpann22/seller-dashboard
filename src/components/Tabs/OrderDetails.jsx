@@ -3,8 +3,8 @@ import styles from "./Tabs.module.css"; // Import styles
 import { FaSpinner } from "react-icons/fa";
 
 import unserialize from "locutus/php/var/unserialize";
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
-const currentUrl = window.location.origin;
+const currentUrl = "https://new-webstarter.codepixelz.tech";
+// const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 
 const extractDomainId = (serializedString) => {

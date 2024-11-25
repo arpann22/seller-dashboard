@@ -405,6 +405,7 @@ button.active svg path {
 }
 .innerTabContent {
   width: 100%;
+  /* text-align: center; */
 }
 .add_domain_wrapper h2 span {
   color: #00d9f5;

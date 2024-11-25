@@ -29,8 +29,8 @@ const handleReset = () => {
     inputField.value = "";
   }
 };
-const currentUrl = window.location.origin;
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+// const currentUrl = window.location.origin;
+const currentUrl = "https://new-webstarter.codepixelz.tech";
 const Sales = ({ userData }) => {
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
@@ -328,9 +328,8 @@ const Sales = ({ userData }) => {
 
                 {/* Expanded content as a new column below */}
                 <div
-                  className={`${styles.extra_column_wrapper} ${
-                    expanded[index] ? styles.expanded : ""
-                  }`}
+                  className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                    }`}
                 >
                   {/* test js starts  */}
                   {(() => {
