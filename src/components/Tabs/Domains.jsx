@@ -11,8 +11,8 @@ import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
 import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
 import { ReactComponent as ActiveDomainsIcon } from "./image/active_domains.svg";
 import { ReactComponent as DraftsDomainsIcon } from "./image/domain_drafts.svg";
-const currentUrl = "https://new-webstarter.codepixelz.tech";
-// const currentUrl = window.location.origin;
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
+const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 

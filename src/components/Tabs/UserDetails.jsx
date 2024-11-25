@@ -8,8 +8,8 @@ import editProfileIcon from "./images/edit-profile.png";
 import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
 import { ReactComponent as EmailIcon } from "./image/email.svg";
 export default function UserDetails({ userData, setUserData }) {
-  const currentUrl = "https://new-webstarter.codepixelz.tech";
-  // const currentUrl = window.location.origin;
+  // const currentUrl = "https://new-webstarter.codepixelz.tech";
+  const currentUrl = window.location.origin;
   // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
