@@ -24,7 +24,18 @@ export default function UserDetails({ userData, setUserData }) {
     confirm_password: "",
     profile_picture: null, // Profile picture state
   });
+  const [imagePreview, setImagePreview] = useState(null); // Preview URL state
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the first file
+    if (file) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        profile_picture: file, // Update profile_picture in formData
+      }));
+      setImagePreview(URL.createObjectURL(file)); // Generate preview URL
+    }
+  };
   useEffect(() => {
     // Fetch API data
     fetch(`${currentUrl}/wp-json/wstr/v1/login`, {
@@ -69,13 +80,13 @@ export default function UserDetails({ userData, setUserData }) {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   }
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      profile_picture: file,
-    }));
-  };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     profile_picture: file,
+  //   }));
+  // };
 
   // // password validation
   const validatePassword = (password) => {
@@ -265,6 +276,22 @@ export default function UserDetails({ userData, setUserData }) {
                   name="profile_picture"
                   onChange={handleFileChange} // File input change handler
                 />
+                {/* Image preview */}
+                {imagePreview && (
+                  <div>
+                    <img
+                      src={imagePreview}
+                      alt="Profile Preview"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "contain",
+                        borderRadius: "10px", // Circular preview
+                        border: "transparent",
+                      }}
+                    />
+                  </div>
+                )}
                 <span>Add your profile picture</span>
               </label>
               <div className={styles.edit_password_wrapper}>

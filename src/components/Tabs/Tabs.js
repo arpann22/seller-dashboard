@@ -101,7 +101,7 @@ const Tabs = ({ userData, setUserData }) => {
         {isMobile && (
           <div className={styles.customDropdown}>
             <button
-              className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton}`}
+              className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton} ${styles.button_icon_wrapper}`}
               onClick={toggleDropdown}
             >
               <div className={`${styles.selectedTab} ${styles.tabButton}`}>
