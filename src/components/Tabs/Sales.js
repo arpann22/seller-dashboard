@@ -7,7 +7,7 @@ import sales_distribution_icon from "./image/sales_distribution.svg";
 import sales_details_icon from "./image/sales_details.svg";
 import domain_img from "./images/chatseek.com.png";
 import cust_img from "./images/cust_image.png";
-import { FaCircle } from "react-icons/fa6";
+import { FaCircle, FaSpinner } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
 import delete_reset_icon from "./images/delete-reset-icon.png";
@@ -56,6 +56,7 @@ const Sales = ({ userData }) => {
   useEffect(() => {
     async function fetchOrderBysellerId() {
       try {
+        setLoading(true);
         const res = await fetch(
           `${currentUrl}/wp-json/wstr/v1/sales-order/${userData.id}`
         );
@@ -71,6 +72,7 @@ const Sales = ({ userData }) => {
         setError(err);
         // console.log(err);
       } finally {
+        setLoading(false);
       }
     }
     if (userData.id) {
@@ -174,6 +176,15 @@ const Sales = ({ userData }) => {
     }
   }, [domainIds]);
 
+  if (loading) {
+    return (
+      <div>
+        <div className="loading_overlay">
+          <FaSpinner className="loading" />
+        </div>
+      </div>
+    );
+  }
   if (orderIds.length == 0) {
     return <div>Sales order is empty.</div>;
   }
@@ -235,182 +246,177 @@ const Sales = ({ userData }) => {
         </div>
         <div className={styles.dashboard_small_margin}>
           <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-            {orderDetails.map((order, index) => (
-              <div key={index} className={styles.recentOffers_wrapper}>
-                {/* Offer card */}
-                <div
-                  className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
-                >
-                  <div className={styles.recentOffers_card}>
-                    <div className={styles.recentOffers_card_image}>
-                      {customerDetails.find(
-                        (customerDetail) =>
-                          customerDetail?.id == order?.meta?._customer[0]
-                      )?.user_image ? (
-                        <img
-                          src={
-                            customerDetails.find(
-                              (customerDetail) =>
-                                customerDetail?.id == order?.meta?._customer[0]
-                            )?.user_image
-                          }
-                          alt={
-                            customerDetails.find(
-                              (customerDetail) =>
-                                customerDetail?.id == order?.meta?._customer[0]
-                            )?.display_name
-                          }
-                        />
-                      ) : (
-                        <img src={cust_img} alt="Default Image" />
-                      )}
-                    </div>
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Customer</p>
-                      <h5>
-                        {" "}
-                        {customerDetails.find(
-                          (customerDetail) =>
-                            customerDetail?.id == order?.meta?._customer[0]
-                        )?.first_name +
-                          " " +
-                          customerDetails.find(
-                            (customerDetail) =>
-                              customerDetail?.id == order?.meta?._customer[0]
-                          )?.last_name}
-                      </h5>
-                    </div>
-                    <div className={styles.recentOffers_card_details}>
-                      <p>Order ID</p>
-                      <h6>{order?.id || ""}</h6>
-                    </div>
-                  </div>
+            {orderDetails.map((order, index) => {
+              // Extract the customer ID from the order
+              const customerId = order?.meta?._customer[0];
 
-                  <div className={styles.recentOffers_card}>
-                    <div
-                      className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
-                    >
-                      <p className="online">Amount</p>
-                      <h5>
-                        {order?.meta?._currency_symbol?.[0] || ""}
-                        {order?.meta?._order_total?.[0] || ""}
-                      </h5>
-                    </div>
-                    <div className={styles.recentOffers_card_details}>
-                      <p>Option</p>
-                      <h6>One-time</h6>
-                    </div>
-                  </div>
+              // Find the customer details once
+              const customer = customerDetails.find(
+                (customerDetail) => customerDetail?.id == customerId
+              );
 
+              // Extract customer properties safely
+              const userImage = customer?.user_image || cust_img;
+              const displayName = customer?.display_name || "Default Name";
+              const firstName = customer?.first_name || "Unknown";
+              const lastName = customer?.last_name || "";
+
+              return (
+                <div key={index} className={styles.recentOffers_wrapper}>
+                  {/* Offer card */}
                   <div
-                    className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}
+                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
                   >
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Status</p>
-                      <h5
-                        className={`${styles.offer_status} ${styles.pending}`}
-                      >
-                        <FaCircle />
-                        {order?.meta?._order_status?.[0] || ""}
-                      </h5>
+                    <div className={styles.recentOffers_card}>
+                      <div className={styles.recentOffers_card_image}>
+                        <img src={userImage} alt={displayName} />
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Customer</p>
+                        <h5>{`${firstName} ${lastName}`}</h5>
+                      </div>
+                      <div className={styles.recentOffers_card_details}>
+                        <p>Order ID</p>
+                        <h6>{order?.id || ""}</h6>
+                      </div>
                     </div>
-                    <div className={styles.recentOffers_card_details}>
-                      <div className={styles.svg_wrapper_bg_grey}>
-                        {expanded[index] ? (
-                          <FaTimes onClick={() => toggleExpanded(index)} />
-                        ) : (
-                          <FaPlus onClick={() => toggleExpanded(index)} />
-                        )}
+
+                    <div className={styles.recentOffers_card}>
+                      <div
+                        className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
+                      >
+                        <p className="online">Amount</p>
+                        <h5>
+                          {order?.meta?._currency_symbol?.[0] || ""}
+                          {order?.meta?._order_total?.[0] || ""}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_details}>
+                        <p>Option</p>
+                        <h6>One-time</h6>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}
+                    >
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Status</p>
+                        <h5
+                          className={`${styles.offer_status} ${styles.pending}`}
+                        >
+                          <FaCircle />
+                          {order?.meta?._order_status?.[0] || ""}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_details}>
+                        <div className={styles.svg_wrapper_bg_grey}>
+                          {expanded[index] ? (
+                            <FaTimes onClick={() => toggleExpanded(index)} />
+                          ) : (
+                            <FaPlus onClick={() => toggleExpanded(index)} />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Expanded content as a new column below */}
-                <div
-                  className={`${styles.extra_column_wrapper} ${
-                    expanded[index] ? styles.expanded : ""
-                  }`}
-                >
-                  {/* test js starts  */}
-                  {(() => {
-                    // Unserialize the data from the order object (do this once)
-                    const order_products_serialized = unserialize(
-                      order?.meta?._domain_ids?.[0]
-                    );
+                  {/* Expanded content as a new column below */}
+                  <div
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
+                  >
+                    {/* test js starts  */}
+                    {(() => {
+                      // Unserialize the data from the order object (do this once)
+                      const order_products_serialized = unserialize(
+                        order?.meta?._domain_ids?.[0]
+                      );
 
-                    // Render the mapped elements
-                    return (
-                      <div>
-                        {domainDetails.map((domainDetail) => {
-                          const domainIdString = domainDetail?.id.toString();
+                      // Render the mapped elements
+                      return (
+                        <div>
+                          {domainDetails.map((domainDetail) => {
+                            const domainIdString = domainDetail?.id.toString();
 
-                          if (
-                            order_products_serialized.includes(domainIdString)
-                          ) {
-                            return (
-                              <div className={styles.extra_column}>
-                                <div className={styles.recentOffers_card}>
-                                  <div
-                                    className={styles.recentOffers_card_image}
-                                  >
-                                    <img src={domain_img} alt="Domain" />
-                                  </div>
-                                  <div
-                                    className={styles.recentOffers_card_titles}
-                                  >
-                                    <p>Product</p>
-                                    <h5>{domainDetail?.title?.rendered}</h5>
-                                  </div>
-                                  <div
-                                    className={styles.recentOffers_card_details}
-                                  >
-                                    <p>Offer Amount</p>
-                                    <h6>$5000</h6>
-                                  </div>
-                                </div>
-
-                                <div className={styles.recentOffers_card}>
-                                  <div
-                                    className={styles.recentOffers_card_titles}
-                                  >
-                                    <p>Registrar</p>
-                                    <h5>GoDaddy</h5>
-                                  </div>
-                                  <div
-                                    className={styles.recentOffers_card_details}
-                                  >
-                                    <p>Expiration Date</p>
-                                    <h6>Dec 31, 2024</h6>
-                                  </div>
-                                </div>
-
-                                <div className={styles.recentOffers_card}>
-                                  <div
-                                    className={styles.recentOffers_card_titles}
-                                  >
-                                    <p>Status</p>
-                                    <h5
-                                      className={`${styles.offer_status} ${styles.pending}`}
+                            if (
+                              order_products_serialized.includes(domainIdString)
+                            ) {
+                              return (
+                                <div className={styles.extra_column}>
+                                  <div className={styles.recentOffers_card}>
+                                    <div
+                                      className={styles.recentOffers_card_image}
                                     >
-                                      <FaCircle />
-                                      {order?.meta?._order_status?.[0] || ""}
-                                    </h5>
+                                      <img src={domain_img} alt="Domain" />
+                                    </div>
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_titles
+                                      }
+                                    >
+                                      <p>Product</p>
+                                      <h5>{domainDetail?.title?.rendered}</h5>
+                                    </div>
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_details
+                                      }
+                                    >
+                                      <p>Offer Amount</p>
+                                      <h6>$5000</h6>
+                                    </div>
+                                  </div>
+
+                                  <div className={styles.recentOffers_card}>
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_titles
+                                      }
+                                    >
+                                      <p>Registrar</p>
+                                      <h5>GoDaddy</h5>
+                                    </div>
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_details
+                                      }
+                                    >
+                                      <p>Expiration Date</p>
+                                      <h6>Dec 31, 2024</h6>
+                                    </div>
+                                  </div>
+
+                                  <div className={styles.recentOffers_card}>
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_titles
+                                      }
+                                    >
+                                      <p>Status</p>
+                                      <h5
+                                        className={`${styles.offer_status} ${styles.pending}`}
+                                      >
+                                        <FaCircle />
+                                        {order?.meta?._order_status?.[0] || ""}
+                                      </h5>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            );
-                          }
+                              );
+                            }
 
-                          return null;
-                        })}
-                      </div>
-                    );
-                  })()}
-                  {/* test js ends  */}
+                            return null;
+                          })}
+                        </div>
+                      );
+                    })()}
+                    {/* test js ends  */}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
