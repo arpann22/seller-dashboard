@@ -9,7 +9,7 @@ import { ReactComponent as SalesAllTimeIcon } from "./image/all_time.svg";
 import { ReactComponent as Reviews } from "./image/reviews.svg";
 import { ReactComponent as Followers } from "./image/followers.svg";
 import { HiDotsVertical } from "react-icons/hi";
-import { FaCircle } from "react-icons/fa6";
+import { FaCircle, FaSpinner } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import domain_img from "./images/chatseek.com.png";
 import plus_bg_icon from "./images/plus-bg-icon.png";
@@ -21,10 +21,11 @@ const currentUrl = window.location.origin;
 
 const Dashboard = ({ userData }) => {
   const [domains, setDomains] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function fetchDomainsForSale() {
       try {
+        setLoading(true);
         const res = await fetch(
           `${currentUrl}/wp-json/wp/v2/domain?author=${userData.id}&per_page=999&_embed`
         );
@@ -38,7 +39,7 @@ const Dashboard = ({ userData }) => {
       } catch (err) {
         // setErrorMessage(err.message);
       } finally {
-        // setIsLoading(false);
+        setLoading(false);
       }
     }
     if (userData.id) {
@@ -80,6 +81,7 @@ const Dashboard = ({ userData }) => {
   const [orderDetails, setOrderDetails] = useState();
   const [salesCurrentYear, setSalesCurrentYear] = useState(0);
   const [salesAllTime, setSalesAllTime] = useState(0);
+
   useEffect(() => {
     if (soldDomains.length > 0) {
       async function fetchAllOrderDetails() {
@@ -148,6 +150,15 @@ const Dashboard = ({ userData }) => {
             <h4>Sales Report</h4>
             <HiDotsVertical />
           </div>
+          {loading ? (
+            <div>
+              <div className="loading_overlay">
+                <FaSpinner className="loading" />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="dashboard_reports_wrapper">
             <div
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
