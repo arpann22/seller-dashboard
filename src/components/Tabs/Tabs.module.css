@@ -1204,6 +1204,7 @@ button.active svg path {
 .available_balance_card h5 {
   font-size: 14px;
   font-weight: 400;
+  margin-top: 5px;
 }
 .available_balance_card_footer button {
   background-color: #fff;

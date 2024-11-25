@@ -172,9 +172,8 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -303,85 +302,85 @@ const SellerCentralTabContent = ({
                 <img src={mediaSetupIcon} alt="Media Setup Icon" />
                 <h4>Payment Method</h4>
               </div>
-              <div
-                className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}
-              >
-                {/* Card 1 */}
-                <label
-                  className={`${styles.card} ${
-                    selectedCard === 1 ? styles.selected : ""
-                  }`}
+              <form>
+                <div
+                  className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}
                 >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="paypal"
-                    checked={selectedCard === 1}
-                    onChange={() => handleCardSelect(1)}
-                    className={styles.radio_input}
-                  />
-                  <div className={styles.card_content}>
-                    {selectedCard === 1 && (
-                      <span className={styles.check_icon}>
-                        <FaCheckCircle />
-                      </span>
-                    )}
-                    <div className={styles.svg_wrapper_bg}>
-                      <PayPalIcon />
-                    </div>
-                    {/* <img
+                  {/* Card 1 */}
+                  <label
+                    className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="paypal"
+                      checked={selectedCard === 1}
+                      onChange={() => handleCardSelect(1)}
+                      className={styles.radio_input}
+                    />
+                    <div className={styles.card_content}>
+                      {selectedCard === 1 && (
+                        <span className={styles.check_icon}>
+                          <FaCheckCircle />
+                        </span>
+                      )}
+                      <div className={styles.svg_wrapper_bg}>
+                        <PayPalIcon />
+                      </div>
+                      {/* <img
                       src={paypal_icon}
                       alt="Paypal Icon"
                       className={styles.card_image}
                     /> */}
-                    <div>
-                      <h4>Paypal</h4>
-                      <p>Connect your Paypal Account</p>
+                      <div>
+                        <h4>Paypal</h4>
+                        <p>Connect your Paypal Account</p>
+                      </div>
+                      <button className={styles.edit_profile_button}>
+                        Edit Email
+                      </button>
                     </div>
-                    <button className={styles.edit_profile_button}>
-                      Edit Email
-                    </button>
-                  </div>
-                </label>
+                  </label>
 
-                {/* Card 2 */}
-                <label
-                  className={`${styles.card} ${
-                    selectedCard === 2 ? styles.selected : ""
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="bankTransfer"
-                    checked={selectedCard === 2}
-                    onChange={() => handleCardSelect(2)}
-                    className={styles.radio_input}
-                  />
-                  <div className={styles.card_content}>
-                    {selectedCard === 2 && (
-                      <span className={styles.check_icon}>
-                        <FaCheckCircle />
-                      </span>
-                    )}
-                    <div className={styles.svg_wrapper_bg}>
-                      <BankIcon />
-                    </div>
-                    {/* <img
+                  {/* Card 2 */}
+                  <label
+                    className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="bankTransfer"
+                      checked={selectedCard === 2}
+                      onChange={() => handleCardSelect(2)}
+                      className={styles.radio_input}
+                    />
+                    <div className={styles.card_content}>
+                      {selectedCard === 2 && (
+                        <span className={styles.check_icon}>
+                          <FaCheckCircle />
+                        </span>
+                      )}
+                      <div className={styles.svg_wrapper_bg}>
+                        <BankIcon />
+                      </div>
+                      {/* <img
                       src={bank_transfer_icon}
                       alt="Bank Transfer Icon"
                       className={styles.card_image}
                     /> */}
-                    <div>
-                      <h4>Bank Transfer</h4>
-                      <p>Connect your Bank Account</p>
+                      <div>
+                        <h4>Bank Transfer</h4>
+                        <p>Connect your Bank Account</p>
+                      </div>
+                      <button className={styles.edit_profile_button}>
+                        Bank Settings
+                      </button>
                     </div>
-                    <button className={styles.edit_profile_button}>
-                      Bank Settings
-                    </button>
-                  </div>
-                </label>
-              </div>
+                  </label>
+                </div>
+              </form>
             </div>
           </div>
 

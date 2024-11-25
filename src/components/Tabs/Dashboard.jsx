@@ -587,7 +587,7 @@ const Dashboard = ({ userData }) => {
                   </span>
                   <h5>Micheal Jackson</h5>
                 </div>
-                <a href="#">
+                <a href="#" className="ml_auto">
                   <span className="ml_auto">Reply</span>
                 </a>
               </div>
@@ -608,7 +608,9 @@ const Dashboard = ({ userData }) => {
                   </span>
                   <h5>Micheal Jackson</h5>
                 </div>
-                <span className="ml_auto">Reply</span>
+                <a href="#" className="ml_auto">
+                  <span className="ml_auto">Reply</span>
+                </a>
               </div>
             </div>
             <div className="dashboard_review_card">
@@ -627,7 +629,9 @@ const Dashboard = ({ userData }) => {
                   </span>
                   <h5>Micheal Jackson</h5>
                 </div>
-                <span className="ml_auto">Reply</span>
+                <a href="#" className="ml_auto">
+                  <span className="ml_auto">Reply</span>
+                </a>
               </div>
             </div>
             <div className="dashboard_review_card">
@@ -646,7 +650,9 @@ const Dashboard = ({ userData }) => {
                   </span>
                   <h5>Micheal Jackson</h5>
                 </div>
-                <span className="ml_auto">Reply</span>
+                <a href="#" className="ml_auto">
+                  <span className="ml_auto">Reply</span>
+                </a>
               </div>
             </div>
           </div>
