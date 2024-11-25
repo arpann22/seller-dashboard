@@ -174,6 +174,10 @@ const Sales = ({ userData }) => {
     }
   }, [domainIds]);
 
+  if (orderIds.length == 0) {
+    return <div>Sales order is empty.</div>;
+  }
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -324,8 +328,9 @@ const Sales = ({ userData }) => {
 
                 {/* Expanded content as a new column below */}
                 <div
-                  className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                    }`}
+                  className={`${styles.extra_column_wrapper} ${
+                    expanded[index] ? styles.expanded : ""
+                  }`}
                 >
                   {/* test js starts  */}
                   {(() => {
@@ -344,7 +349,6 @@ const Sales = ({ userData }) => {
                             order_products_serialized.includes(domainIdString)
                           ) {
                             return (
-
                               <div className={styles.extra_column}>
                                 <div className={styles.recentOffers_card}>
                                   <div
