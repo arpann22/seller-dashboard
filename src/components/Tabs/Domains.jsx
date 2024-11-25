@@ -11,6 +11,7 @@ import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
 import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
 import { ReactComponent as ActiveDomainsIcon } from "./image/active_domains.svg";
 import { ReactComponent as DraftsDomainsIcon } from "./image/domain_drafts.svg";
+import { FaSpinner } from "react-icons/fa";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
@@ -163,7 +164,11 @@ export default function Domains({ userData, setSellerCentralTab }) {
     return <div>{errorMessage}</div>;
   }
   if (isLoading) {
-    return <div>Loading Domains...</div>;
+    return (
+      <div className="loading_overlay">
+        <FaSpinner className="loading" />
+      </div>
+    );
   }
 
   // Render each domain card

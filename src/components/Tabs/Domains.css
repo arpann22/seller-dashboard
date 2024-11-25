@@ -38,6 +38,9 @@
 .ws-cards-container-add-domain {
   border: none;
 }
+.ws-cards-container-add-domain .ws-card-contents img {
+  cursor: pointer;
+}
 .ws-cards-container-noHover .ws-card-img img {
   border-radius: 15px 15px 0 0;
 }

@@ -1288,7 +1288,11 @@ export default function AddDomain({ styles, userData }) {
                 Ask AI
               </a>
             </div>
-            {descLoading && <div>Loading.. </div>}
+            {descLoading && (
+              <div className="loading_overlay">
+                <FaSpinner className="loading" />
+              </div>
+            )}
 
             <div className={styles.dashboard_small_margin}>
               <Editor
@@ -1372,7 +1376,12 @@ export default function AddDomain({ styles, userData }) {
             <div className={styles.success_message}>{successMessage}</div>
           )}
           {submitLoading && (
-            <div className={styles.loading_message}>Saving...</div>
+            <div className={styles.loading_message}>
+              {/* Saving...</div> */}
+              <div className="loading_overlay">
+                <FaSpinner className="loading" />
+              </div>{" "}
+            </div>
           )}
           <div className={styles.save_button_wrappers}>
             <button

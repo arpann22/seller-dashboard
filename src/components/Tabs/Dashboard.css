@@ -7,21 +7,21 @@
 .commission_profile_detail {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  align-items: center;
+  align-items: end;
   gap: 16px;
   margin-top: 20px;
 }
 .commission_profile_detail img {
   border-radius: 10px;
 }
-.commission_profile_detail svg {
+/* .commission_profile_detail svg {
   background-color: #f3f5fa;
   padding: 8px;
   border-radius: 20px;
-}
+} */
 .commission_details h6 {
   font-weight: 400;
-  color: #999999;
+  color: #67748e;
 }
 .commission_profile_detail h5 {
   color: #001f3e;
@@ -52,27 +52,28 @@
 } */
 
 .dashboard_commission_card_right .progress_circle svg {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 }
 
 .dashboard_commission_card_right .progress_text {
-  color: rgb(245, 185, 3);
-  font-size: 0.5rem;
-  text-align: end;
+  /* color: rgb(245, 185, 3); */
+  font-size: 0.35rem;
+  text-align: center;
   margin: 0;
+  font-weight: 500;
 }
 
 .dashboard_commission_card_right .progress_subtext {
-  font-size: 0.25rem; /* Adjusted font size */
+  font-size: 0.2rem; /* Adjusted font size */
   text-align: end;
   margin: 0;
   font-weight: 300;
-  color: #001f3e;
+  color: #67748e;
 }
-.dashboard_commission_card.due_commission .progress_text {
+/* .dashboard_commission_card.due_commission .progress_text {
   color: #00d9f5;
-}
+} */
 .dashboard_domains_cards_wrapper .ws-card-manage {
   background-color: #00d9f5;
   color: #fff;
@@ -90,7 +91,8 @@
   align-items: center;
 }
 .dashboard_domains_cards_wrapper .ws-cards-container-noHover {
-  width: calc(25% - 15px);
+  /* width: calc(25% - 15px); */
+  flex: 0 0 calc(25% - 15px);
 }
 .dashboard_domains_cards_wrapper .ws_card_price_wrapper p {
   font-size: 16px;
@@ -169,6 +171,7 @@
   border: 1px solid rgb(237, 240, 247);
   border-radius: 15px;
   padding: 40px 20px;
+  flex: 1;
 }
 .dashboard_community_cards {
   margin-top: 30px;

@@ -25,7 +25,7 @@
 .flex_column {
   flex-direction: column;
 }
-svg {
+svg:not(.tox-toolbar__group svg) {
   height: 18px;
   width: 18px;
 }
@@ -1015,7 +1015,8 @@ button.active svg path {
 .offer_status.countered svg {
   color: #00cd98;
 }
-.recentOffers_card_details .svg_wrapper_bg_grey {
+.recentOffers_card_details .svg_wrapper_bg_grey,
+.dashboard_top_wrapper .svg_wrapper_bg_grey {
   background-color: #f7f8fd;
   padding: 10px;
   border-radius: 50%;
@@ -1080,10 +1081,13 @@ button.active svg path {
   background-color: #00d9f5;
 }
 .extra_column_wrapper {
+  /* margin-top: 10px; */
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+.extra_column_wrapper.expanded {
   margin-top: 10px;
-  overflow: hidden; /* Ensure that overflowing content is hidden */
-  max-height: 0; /* Start with max-height of 0 for smooth transition */
-  transition: max-height 0.3s ease-out; /* Transition for height change */
 }
 .extra_column {
   display: flex;

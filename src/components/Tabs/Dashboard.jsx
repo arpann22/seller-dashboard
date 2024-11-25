@@ -20,7 +20,9 @@ const progress = 50; //
 const Dashboard = () => {
   return (
     <>
-      <div className={`${styles.wallet_top_wrapper} ${styles.ws_flex}`}>
+      <div
+        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_top_wrapper}`}
+      >
         <div className={styles.wallet_available_balance}>
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
@@ -104,7 +106,9 @@ const Dashboard = () => {
                       <h6>Top Buyer</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <FiMail />
+                    <div className={styles.svg_wrapper_bg_grey}>
+                      <FiMail />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -128,7 +132,7 @@ const Dashboard = () => {
                       strokeWidth="3.2"
                       strokeDasharray={`${progress}, 100`}
                     />
-                    <foreignObject x="7" y="10" width="20" height="16">
+                    <foreignObject x="9" y="12" width="20" height="16">
                       <h2
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_text"
@@ -136,7 +140,7 @@ const Dashboard = () => {
                         {`${progress}%`}
                       </h2>
                     </foreignObject>
-                    <foreignObject x="7" y="25" width="20" height="10">
+                    <foreignObject x="5" y="22" width="20" height="10">
                       <h6
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_subtext"
@@ -153,20 +157,22 @@ const Dashboard = () => {
                 <h4>Due Commissions</h4>
                 <div className="commission_details">
                   <div className={`${styles.ws_flex} ${styles.gap_20}`}>
-                    <h6>Total Paid:</h6>
+                    <h6>Total Due:</h6>
                     <h6>$20,000.00</h6>
                   </div>
                   <div className={`${styles.ws_flex} ${styles.gap_20}`}>
-                    <h6>Last Paid:</h6>
+                    <h6>Next Due:</h6>
                     <h6>24 July, 2024</h6>
                   </div>
                   <div className="commission_profile_detail">
                     <img src={cust_img} alt="Domain" />
                     <div class="commission_profile_text-section">
-                      <h6>Top Buyer</h6>
+                      <h6>Top Owed</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <FiMail />
+                    <div className={styles.svg_wrapper_bg_grey}>
+                      <FiMail />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -190,7 +196,7 @@ const Dashboard = () => {
                       strokeWidth="3.2"
                       strokeDasharray={`${progress}, 100`}
                     />
-                    <foreignObject x="7" y="10" width="20" height="16">
+                    <foreignObject x="9" y="12" width="20" height="16">
                       <h2
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_text"
@@ -198,12 +204,12 @@ const Dashboard = () => {
                         {`${progress}%`}
                       </h2>
                     </foreignObject>
-                    <foreignObject x="7" y="25" width="20" height="10">
+                    <foreignObject x="5" y="22" width="20" height="10">
                       <h6
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_subtext"
                       >
-                        #Paid 21
+                        #Due 7
                       </h6>
                     </foreignObject>
                   </svg>
@@ -446,7 +452,9 @@ const Dashboard = () => {
                   </span>
                   <h5>Micheal Jackson</h5>
                 </div>
-                <span className="ml_auto">Reply</span>
+                <a href="#">
+                  <span className="ml_auto">Reply</span>
+                </a>
               </div>
             </div>
             <div className="dashboard_review_card">
