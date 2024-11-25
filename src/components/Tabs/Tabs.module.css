@@ -1308,7 +1308,8 @@ button.active svg path {
   border-bottom: 1px solid #e1e7ff;
   padding: 30px;
 }
-.payment_status_wrapper .tab_content {
+.payment_status_wrapper .tab_content,
+.offer_tabs_wrapper .tab_content {
   padding: 0 20px;
   padding-bottom: 20px;
 }
@@ -1377,7 +1378,9 @@ button.active svg path {
   font-size: 20px;
   color: #333;
 }
-
+.order_details_popup .recentOffers_row p {
+  font-size: 12px;
+}
 .order_details_popup p {
   margin-bottom: 10px;
   font-size: 16px;
@@ -1386,7 +1389,7 @@ button.active svg path {
 }
 
 /* Table inside modal */
-.order_details_popup table {
+/* .order_details_popup table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -1401,7 +1404,7 @@ button.active svg path {
 .order_details_popup th {
   background-color: #f8f8f8;
   font-weight: bold;
-}
+} */
 .my_orders_details_table .recentOffers_row {
   width: 100%;
   display: flex;

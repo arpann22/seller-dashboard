@@ -117,7 +117,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>$205,700</h2>
-                <p className={styles.m_0}>Total Sales</p>
+                <p className={styles.m_0}>Average Monthly Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
                 <Average_Sales_icon />
@@ -126,7 +126,7 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>$205,700</h2>
-                <p className={styles.m_0}>Total Sales</p>
+                <p className={styles.m_0}>Total Orders</p>
               </div>
               <div className={styles.single_sales_icon}>
                 <Total_Orders_icon />

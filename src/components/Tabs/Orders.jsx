@@ -124,8 +124,8 @@ export default function Orders({ userData }) {
           >
             {orderDetails.map((order) => (
               <div key={order.id} className={styles.recentOffers_wrapper}>
-                {/* Group Order and Date */}
                 <div className={styles.recentOffers_card}>
+                  {/* Group Order and Date */}
                   <div className={styles.recentOffers_card_titles}>
                     <p>Order</p>
                     <h5>{order.id}</h5>
@@ -143,10 +143,8 @@ export default function Orders({ userData }) {
                       )}
                     </h5>
                   </div>
-                </div>
 
-                {/* Group Status, Total, and View */}
-                <div className={styles.recentOffers_card}>
+                  {/* Group Status, Total, and View */}
                   <div className={styles.recentOffers_card_titles}>
                     <p>Status</p>
                     <h5
@@ -170,8 +168,8 @@ export default function Orders({ userData }) {
                     <button
                       className={styles.hover_white}
                       onClick={() => {
-                        setSelectedOrder(order); // Set the selected order
-                        setModalOpen(true); // Open the modal
+                        setSelectedOrder(order);
+                        setModalOpen(true);
                       }}
                     >
                       View
