@@ -37,8 +37,8 @@ import { ReactComponent as TagsIcon } from "./image/tags.svg";
 import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
 const md = new MarkdownIt();
 
-const currentUrl = "https://new-webstarter.codepixelz.tech";
-// const currentUrl = window.location.origin;
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
+const currentUrl = window.location.origin;
 export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
