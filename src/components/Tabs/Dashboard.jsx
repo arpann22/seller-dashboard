@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import "./Dashboard.css";
 import { ReactComponent as ThreeDots } from "./image/menu.svg";
@@ -17,8 +17,125 @@ import cust_img from "./images/cust_image.png";
 import domains_add_domain_img from "./images/domains_add_domain_img.png";
 
 const progress = 50; //
+const currentUrl = window.location.origin;
 
 const Dashboard = ({ userData }) => {
+  const [domains, setDomains] = useState([]);
+
+  useEffect(() => {
+    async function fetchDomainsForSale() {
+      try {
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain?author=${userData.id}&per_page=999&_embed`
+        );
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        // console.log(data)
+        setDomains(data);
+      } catch (err) {
+        // setErrorMessage(err.message);
+      } finally {
+        // setIsLoading(false);
+      }
+    }
+    if (userData.id) {
+      fetchDomainsForSale();
+    }
+  }, [userData.id]);
+
+  const [soldDomains, setSoldDomains] = useState([]);
+
+  // fetching order ids by seller id
+  useEffect(() => {
+    async function fetchOrderBysellerId() {
+      try {
+        // setLoading(true);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wstr/v1/sales-order/${userData.id}`
+        );
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        console.log(data);
+        setSoldDomains(data);
+      } catch (err) {
+        // setError(err);
+        // console.log(err);
+      } finally {
+        // setLoading(false);
+      }
+    }
+    if (userData.id) {
+      fetchOrderBysellerId();
+    }
+  }, [userData.id]);
+
+  // Fetch all order details based on the order IDs
+  const [orderDetails, setOrderDetails] = useState();
+  const [salesCurrentYear, setSalesCurrentYear] = useState(0);
+  const [salesAllTime, setSalesAllTime] = useState(0);
+  useEffect(() => {
+    if (soldDomains.length > 0) {
+      async function fetchAllOrderDetails() {
+        try {
+          const orderDetailsPromises = soldDomains.map(async (orderId) => {
+            const res = await fetch(
+              `${currentUrl}/wp-json/wp/v2/domain_order/${orderId}`
+            );
+            if (!res.ok) {
+              const errorData = await res.json();
+              throw new Error(errorData.message);
+            }
+            return res.json(); // Return the order data
+          });
+
+          const allOrderDetails = await Promise.all(orderDetailsPromises);
+          setOrderDetails(allOrderDetails);
+          console.log(allOrderDetails);
+
+          // // storing customer ids
+          // const customerIds = allOrderDetails.map((order) => {
+          //   return order?.meta?._customer?.[0];
+          // });
+          // setCustomerIds(customerIds);
+          const currentYear = new Date().getFullYear();
+
+          let salesCurrentYear = 0;
+          let salesAllTime = 0;
+          allOrderDetails.forEach((order) => {
+            const date_created = order?.meta?._date_created?.[0];
+            const orderTotal = parseFloat(order?.meta?._order_total?.[0] || 0); // Convert to number
+
+            if (date_created) {
+              // Parse the year from the date_created string
+              const orderYear = new Date(date_created).getFullYear();
+
+              // Add to current year sales if the year matches
+              if (orderYear === currentYear) {
+                salesCurrentYear += orderTotal;
+              }
+            }
+
+            // Add to all-time sales
+            salesAllTime += orderTotal;
+          });
+          setSalesCurrentYear(salesCurrentYear);
+          setSalesAllTime(salesAllTime);
+        } catch (err) {
+          // setError(err.message);
+        }
+      }
+
+      fetchAllOrderDetails();
+    }
+  }, [soldDomains]);
+
   return (
     <>
       <div
@@ -36,7 +153,9 @@ const Dashboard = ({ userData }) => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>2</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>
+                  {domains ? domains.length : 0}
+                </h2>
                 <p className={styles.m_0}>Domains for sale</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -47,7 +166,9 @@ const Dashboard = ({ userData }) => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>24</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>
+                  {soldDomains ? soldDomains.length : 0}
+                </h2>
                 <p className={styles.m_0}>Total Domains sold</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -58,7 +179,9 @@ const Dashboard = ({ userData }) => {
               className={`${styles.single_sales_wrapper} dashboard_reports_report_single`}
             >
               <div className={styles.single_sales_data}>
-                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>$0</h2>
+                <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>
+                  ${salesCurrentYear ? salesCurrentYear : 0}
+                </h2>
                 <p className={styles.m_0}>Sale current year</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -70,7 +193,7 @@ const Dashboard = ({ userData }) => {
             >
               <div className={styles.single_sales_data}>
                 <h2 className={`${styles.m_0} ${styles.ws_text_start}`}>
-                  $2,450.00
+                  {/* $2,450.00 */}${salesAllTime ? salesAllTime : 0}
                 </h2>
                 <p className={styles.m_0}>Sales-all time</p>
               </div>
