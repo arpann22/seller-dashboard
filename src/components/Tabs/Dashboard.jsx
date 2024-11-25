@@ -17,7 +17,8 @@ import cust_img from "./images/cust_image.png";
 import domains_add_domain_img from "./images/domains_add_domain_img.png";
 
 const progress = 50; //
-const Dashboard = () => {
+
+const Dashboard = ({ userData }) => {
   return (
     <>
       <div
