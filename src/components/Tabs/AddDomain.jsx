@@ -37,7 +37,8 @@ import { ReactComponent as TagsIcon } from "./image/tags.svg";
 import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
 const md = new MarkdownIt();
 
-const currentUrl = "https://new-webstarter.codepixelz.tech";
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
+const currentUrl = window.location.origin;
 export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
@@ -71,7 +72,7 @@ export default function AddDomain({ styles, userData }) {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append("file", blobInfo.blob(), blobInfo.filename());
-      fetch("http://localhost:10038/my-account/?tab=sellers-central/upload", {
+      fetch(`${currentUrl}/my-account/?tab=sellers-central/upload`, {
         method: "POST",
         body: formData,
       })
