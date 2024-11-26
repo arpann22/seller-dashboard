@@ -5,6 +5,7 @@ import TabContent from "./TabContent";
 import SellerCentralTabContent from "./SellerCentralTabContent";
 import accountSettingIcon from "./image/settings.svg";
 import logoutIcon from "./image/logout.svg";
+import { TiArrowSortedDown } from "react-icons/ti";
 import { ReactComponent as MyOrderIcon } from "./image/orders.svg";
 import { ReactComponent as MyOfferIcon } from "./image/offers.svg";
 import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
@@ -16,6 +17,7 @@ import { ReactComponent as ManageOffersIcon } from "./image/manage_offers.svg";
 import { ReactComponent as WalletIcon } from "./image/wallet.svg";
 import { ReactComponent as StarsIcon } from "./image/ai-stars.svg";
 const logoutUrl = '/wp-login.php?action=logout&redirect_to=/login';
+
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
   const tabs = [
@@ -38,6 +40,7 @@ const Tabs = ({ userData, setUserData }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [dropdownOpen, setDropdownOpen] = useState(false); // Track dropdown open state
 
+
   // Handle responsive changes
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -58,6 +61,7 @@ const Tabs = ({ userData, setUserData }) => {
   const handleSellerCentralTab = (tabLabel) => {
     setSellerCentralTab(tabLabel);
     localStorage.removeItem("editable_domain_id");
+
   };
 
   // Sync URL parameter with active tab
@@ -104,10 +108,13 @@ const Tabs = ({ userData, setUserData }) => {
               className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton} ${styles.button_icon_wrapper}`}
               onClick={toggleDropdown}
             >
-              <div className={`${styles.selectedTab} ${styles.tabButton}`}>
-                {tabs.find((tab) => tab.label === activeTab)?.icon}
+              <div className={`${styles.selectedTab}`}>
+                <div className={styles.svg_bg_white}>
+                  {tabs.find((tab) => tab.label === activeTab)?.icon}
+                </div>
                 {activeTab}
               </div>
+              <TiArrowSortedDown />
             </button>
 
             {/* Dropdown Options */}
@@ -122,7 +129,9 @@ const Tabs = ({ userData, setUserData }) => {
                       setDropdownOpen(false); // Close the dropdown after selection
                     }}
                   >
-                    <div className={styles.icon}>{tab.icon}</div>
+                    {/* <div className={styles.icon}> */}
+                    {tab.icon}
+                    {/* </div> */}
                     {tab.label}
                   </div>
                 ))}
@@ -167,18 +176,27 @@ const Tabs = ({ userData, setUserData }) => {
       {
         activeTab === "Sellers Central" && (
           <>
+
             <div className={styles.sellerCentralInnerTabs}>
-              {sellerCentralTabs.map((tab) => (
-                <button
-                  key={tab.label}
-                  onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""}`}
-                >
-                  <div className={styles.svg_bg_white}>{tab.icon}</div>
-                  <label>{tab.label}</label>
-                  <div className={styles.stars_icon}>{tab.image}</div>
-                </button>
-              ))}
+              <h4 className={styles.hide_desktop}>
+
+                {sellerCentralTabs.find((tab) => tab.label === sellerCentralTab)?.label || "Add New Domain"}
+              </h4>
+              <div className={styles.sellerCentralInnerTabsButtons}>
+                {sellerCentralTabs.map((tab, index) => (
+                  <button
+                    key={tab.label}
+                    onClick={() => handleSellerCentralTab(tab.label)}
+                    className={`${styles.tabButton} ${styles.button_icon_wrapper} ${sellerCentralTab === tab.label ? styles.active : ""
+                      }`}
+                  >
+                    <div className={styles.svg_bg_white}>{tab.icon}</div>
+                    <label>{tab.label}</label>
+                    {/* Render stars_icon only for the first button */}
+                    {index === 0 && <div className={styles.stars_icon}>{tab.image}</div>}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className={styles.innerTabContent}>
               <SellerCentralTabContent

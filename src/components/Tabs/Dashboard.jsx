@@ -223,7 +223,9 @@ const Dashboard = ({ userData }) => {
             <HiDotsVertical />
           </div>
           <div className="dashboard_commission_cards">
-            <div className="dashboard_commission_card paid_commission">
+            <div
+              className={`${styles.fd_column} dashboard_commission_card paid_commission`}
+            >
               <div className="dashboard_commission_card_left">
                 <h4>Paid Commissions</h4>
                 <div className="commission_details">
@@ -287,7 +289,9 @@ const Dashboard = ({ userData }) => {
                 </div>
               </div>
             </div>
-            <div className="dashboard_commission_card due_commission">
+            <div
+              className={`${styles.fd_column} dashboard_commission_card due_commission`}
+            >
               <div className="dashboard_commission_card_left">
                 <h4>Due Commissions</h4>
                 <div className="commission_details">
@@ -514,7 +518,7 @@ const Dashboard = ({ userData }) => {
             <h4>From Community</h4>
             <HiDotsVertical />
           </div>
-          <div className="dashboard_community_cards">
+          <div className={`${styles.fd_column} dashboard_community_cards `}>
             <div className="dashboard_community_card community_reviews">
               <div class="reviews_images_lists ws_flex jc_center ai_center">
                 <img src={cust_img} />
