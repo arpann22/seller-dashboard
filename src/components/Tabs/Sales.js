@@ -409,8 +409,71 @@ const Sales = ({ userData }) => {
                             return null;
                           })}
                         </div>
+
                       );
                     })()}
+
+                    <div className={styles.extra_column}>
+                      <div className={styles.recentOffers_card}>
+                        <div
+                          className={styles.recentOffers_card_image}
+                        >
+                          <img src={domain_img} alt="Domain" />
+                        </div>
+                        <div
+                          className={
+                            styles.recentOffers_card_titles
+                          }
+                        >
+                          <p>Product</p>
+                          {/* <h5>{domainDetail?.title?.rendered}</h5> */}
+                        </div>
+                        <div
+                          className={
+                            styles.recentOffers_card_details
+                          }
+                        >
+                          <p>Offer Amount</p>
+                          <h6>$5000</h6>
+                        </div>
+                      </div>
+
+                      <div className={styles.recentOffers_card}>
+                        <div
+                          className={
+                            styles.recentOffers_card_titles
+                          }
+                        >
+                          <p>Registrar</p>
+                          <h5>GoDaddy</h5>
+                        </div>
+                        <div
+                          className={
+                            styles.recentOffers_card_details
+                          }
+                        >
+                          <p>Expiration Date</p>
+                          <h6>Dec 31, 2024</h6>
+                        </div>
+                      </div>
+
+                      <div className={styles.recentOffers_card}>
+                        <div
+                          className={
+                            styles.recentOffers_card_titles
+                          }
+                        >
+                          <p>Status</p>
+                          <h5
+                            className={`${styles.offer_status} ${styles.pending}`}
+                          >
+                            <FaCircle />
+                            {order?.meta?._order_status?.[0] || ""}
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* test js ends  */}
                   </div>
                 </div>

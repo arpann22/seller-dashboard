@@ -111,7 +111,7 @@ body.page-id-5782 {
 .tabButton.active {
   background-color: #00d9f5;
   color: #001f3e;
-  text-shadow: 0 0 0.55px #000, 0 0 0.55px #000;
+  text-shadow: 0 0 0px #000, 0 0 0px #000;
   border-radius: 40px;
 }
 
@@ -240,7 +240,7 @@ body.page-id-5782 {
 .button_icon_wrapper:hover {
   background-color: #00d9f5;
   /* font-weight: 600; */
-  text-shadow: 0 0 0.55px #000, 0 0 0.55px #000;
+  text-shadow: 0 0 0px #000, 0 0 0px #000;
   color: #001f3e;
   border-radius: 40px;
 }
@@ -577,7 +577,7 @@ button.active svg path {
   background: rgb(255, 255, 255);
   box-shadow: 0px 5px 17px 0px rgba(0, 69, 162, 0.11);
   border-radius: 50%;
-  padding: 5px;
+  padding: 2px;
   position: absolute;
   right: 0;
   bottom: 5px;
@@ -1328,7 +1328,31 @@ button.active svg path {
   align-items: center;
   z-index: 1000;
 }
-
+.my_orders_modal_overlay
+  .my_orders_details_table
+  .recentOffers_row
+  div:nth-child(3),
+.my_orders_modal_overlay
+  .my_orders_details_table
+  .recentOffers_row
+  div:nth-child(4) {
+  width: 20%;
+}
+.my_orders_modal_overlay
+  .my_orders_details_table
+  .recentOffers_row
+  div:nth-child(1) {
+  width: 35%;
+}
+.my_orders_modal_overlay
+  .my_orders_details_table
+  .recentOffers_row
+  div:nth-child(2) {
+  width: 25%;
+}
+.my_orders_modal_overlay .my_orders_details_table .recentOffers_row {
+  gap: 10px;
+}
 /* Modal content box */
 .modal_content {
   background-color: #fff;
