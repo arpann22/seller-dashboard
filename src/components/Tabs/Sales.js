@@ -66,7 +66,6 @@ const Sales = ({ userData }) => {
           throw new Error(errorData.message);
         }
         const data = await res.json();
-        console.log(data);
         setOrderIds(data);
       } catch (err) {
         setError(err);
@@ -111,7 +110,6 @@ const Sales = ({ userData }) => {
             .flat(); // Flatten the resulting array of arrays
 
           setDomainIds(domainIds);
-          console.log(domainIds);
         } catch (err) {
           setError(err.message);
         }
@@ -148,7 +146,7 @@ const Sales = ({ userData }) => {
   }, [customerIds]);
 
   const [domainDetails, setDomainDetails] = useState([]);
-
+  const [domainNames, setDomainNames] = useState([]);
   useEffect(() => {
     async function fetchDomainDetails() {
       try {
@@ -164,8 +162,13 @@ const Sales = ({ userData }) => {
         });
 
         const allDomainDetails = await Promise.all(domainDetailsPromises);
+
         setDomainDetails(allDomainDetails);
-        console.log(allDomainDetails);
+
+        const domain_names = allDomainDetails.map((domainDetails) => {
+          return domainDetails?.title?.rendered;
+        });
+        setDomainNames(domain_names);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -175,6 +178,38 @@ const Sales = ({ userData }) => {
       fetchDomainDetails();
     }
   }, [domainIds]);
+
+  // fetching domain registar details
+  const [registarDetails, setRegistartDetails] = useState([]);
+  const [registarLoading, setRegistarLoading] = useState(true);
+  useEffect(() => {
+    async function fetchRegistar() {
+      try {
+        const domainRegistarPromises = domainNames.map(async (domainName) => {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
+          );
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message);
+          }
+          return res.json(); // Return the order data
+        });
+
+        const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+        setRegistartDetails(allDomainsRegistar);
+        console.log(allDomainsRegistar);
+        // setDomainDetails(allDomainDetails);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setRegistarLoading(false);
+      }
+    }
+    if (domainNames.length > 0) {
+      fetchRegistar();
+    }
+  }, [domainNames]);
 
   if (loading) {
     return (
@@ -196,7 +231,6 @@ const Sales = ({ userData }) => {
   return (
     <>
       {/* sales first col */}
-      {/* {console.log(domainIds)} */}
       <div
         className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}
       >
@@ -323,8 +357,9 @@ const Sales = ({ userData }) => {
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {
@@ -333,12 +368,28 @@ const Sales = ({ userData }) => {
                         order?.meta?._domain_ids?.[0]
                       );
 
+                      const order_products_price = unserialize(
+                        order?.meta?._products_price[0]
+                      );
+
                       // Render the mapped elements
                       return (
                         <div>
                           {domainDetails.map((domainDetail) => {
                             const domainIdString = domainDetail?.id.toString();
 
+                            const order_product_price =
+                              order_products_price.filter(
+                                (order) => order.product_id === domainIdString
+                              );
+
+                            const order_product_registar =
+                              registarDetails.filter(
+                                (register) =>
+                                  register.domain_name ==
+                                  domainDetail?.title?.rendered
+                              );
+                            // console.log(order_product_registar);
                             if (
                               order_products_serialized.includes(domainIdString)
                             ) {
@@ -364,7 +415,10 @@ const Sales = ({ userData }) => {
                                       }
                                     >
                                       <p>Offer Amount</p>
-                                      <h6>$5000</h6>
+                                      <h6>
+                                        {order?.meta?._currency_symbol?.[0]}
+                                        {order_product_price?.[0]?.price}
+                                      </h6>
                                     </div>
                                   </div>
 
@@ -375,7 +429,16 @@ const Sales = ({ userData }) => {
                                       }
                                     >
                                       <p>Registrar</p>
-                                      <h5>GoDaddy</h5>
+                                      <h5>
+                                        {registarLoading && (
+                                          <div>
+                                            <div className="loading_overlay">
+                                              <FaSpinner className="loading" />
+                                            </div>
+                                          </div>
+                                        )}
+                                        {order_product_registar[0]?.whois_name}
+                                      </h5>
                                     </div>
                                     <div
                                       className={
@@ -383,7 +446,19 @@ const Sales = ({ userData }) => {
                                       }
                                     >
                                       <p>Expiration Date</p>
-                                      <h6>Dec 31, 2024</h6>
+                                      <h6>
+                                        {registarLoading && (
+                                          <div>
+                                            <div className="loading_overlay">
+                                              <FaSpinner className="loading" />
+                                            </div>
+                                          </div>
+                                        )}
+                                        {
+                                          order_product_registar[0]
+                                            ?.date_expires
+                                        }
+                                      </h6>
                                     </div>
                                   </div>
 
@@ -409,71 +484,8 @@ const Sales = ({ userData }) => {
                             return null;
                           })}
                         </div>
-
                       );
                     })()}
-
-                    <div className={styles.extra_column}>
-                      <div className={styles.recentOffers_card}>
-                        <div
-                          className={styles.recentOffers_card_image}
-                        >
-                          <img src={domain_img} alt="Domain" />
-                        </div>
-                        <div
-                          className={
-                            styles.recentOffers_card_titles
-                          }
-                        >
-                          <p>Product</p>
-                          {/* <h5>{domainDetail?.title?.rendered}</h5> */}
-                        </div>
-                        <div
-                          className={
-                            styles.recentOffers_card_details
-                          }
-                        >
-                          <p>Offer Amount</p>
-                          <h6>$5000</h6>
-                        </div>
-                      </div>
-
-                      <div className={styles.recentOffers_card}>
-                        <div
-                          className={
-                            styles.recentOffers_card_titles
-                          }
-                        >
-                          <p>Registrar</p>
-                          <h5>GoDaddy</h5>
-                        </div>
-                        <div
-                          className={
-                            styles.recentOffers_card_details
-                          }
-                        >
-                          <p>Expiration Date</p>
-                          <h6>Dec 31, 2024</h6>
-                        </div>
-                      </div>
-
-                      <div className={styles.recentOffers_card}>
-                        <div
-                          className={
-                            styles.recentOffers_card_titles
-                          }
-                        >
-                          <p>Status</p>
-                          <h5
-                            className={`${styles.offer_status} ${styles.pending}`}
-                          >
-                            <FaCircle />
-                            {order?.meta?._order_status?.[0] || ""}
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-
                     {/* test js ends  */}
                   </div>
                 </div>
