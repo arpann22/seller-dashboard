@@ -58,14 +58,14 @@
 
 .dashboard_commission_card_right .progress_text {
   /* color: rgb(245, 185, 3); */
-  font-size: 0.35rem;
+  font-size: 0.35rem !important;
   text-align: center;
   margin: 0;
   font-weight: 500;
 }
 
 .dashboard_commission_card_right .progress_subtext {
-  font-size: 0.2rem; /* Adjusted font size */
+  font-size: 0.2rem !important;
   text-align: end;
   margin: 0;
   font-weight: 300;
@@ -264,5 +264,8 @@
   }
   .dashboard_reports_wrapper {
     grid-template-columns: 1fr;
+  }
+  .dashboard_commission_card {
+    gap: 20px;
   }
 }

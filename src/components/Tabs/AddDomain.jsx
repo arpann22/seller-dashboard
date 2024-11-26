@@ -13,7 +13,7 @@ import save_draft_icon from "./images/save_draft.png";
 import mediaSetupIcon from "./images/media_setup_icon.png";
 
 import domain_img from "./images/chatseek.com.png";
-
+import mobstyles from "./Tabs.module.mobile.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import domainAppraisalHeadingImage from "./images/domain_appraisal_heading_image.png";
 import { RxCross2 } from "react-icons/rx";
@@ -105,7 +105,7 @@ export default function AddDomain({ styles, userData }) {
 
     return (
       <div
-        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} `}
+        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} ${styles.mob_card_padding_20} `}
       >
         <div>
           <h5>{title}</h5>
@@ -899,7 +899,7 @@ export default function AddDomain({ styles, userData }) {
               <h4>Media Setup</h4>
             </div>
             <div
-              className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex}`}
+              className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
             >
               {/* first card */}
               <div className={styles.media_content_wrapper}>
@@ -999,7 +999,7 @@ export default function AddDomain({ styles, userData }) {
           </div>
           {/* Domain Appraisal */}
           <div
-            className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex}`}
+            className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
           >
             <div className={styles.domain_appraisal_wrapper}>
               <div
@@ -1012,7 +1012,7 @@ export default function AddDomain({ styles, userData }) {
               </div>
               <div className={styles.domain_appraisal_inner_wrapper}>
                 <div
-                  className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex}`}
+                  className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex} ${styles.mob_fd_col}`}
                 >
                   <div>
                     <h2>{domainName ? domainName : "example.com"}</h2>
@@ -1030,7 +1030,9 @@ export default function AddDomain({ styles, userData }) {
                     <img src={domainAppraisalHeadingImage}></img>
                   </div>
                 </div>
-                <div className={styles.domain_appraisal_body_wrapper}>
+                <div
+                  className={`${styles.domain_appraisal_body_wrapper} ${styles.mob_card_padding_20}`}
+                >
                   <div className={styles.domain_appraisal_body_cards}>
                     {/* Page Trust Score */}
                     <CircularProgressCard
@@ -1241,7 +1243,7 @@ export default function AddDomain({ styles, userData }) {
           </div>
           {/* categories */}
           <div
-            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin}`}
+            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.mob_card_padding_20}`}
           >
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -1267,7 +1269,7 @@ export default function AddDomain({ styles, userData }) {
             className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.domain_description_wrapper} domain_description_wrapper`}
           >
             <div
-              className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
+              className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_cente} ${styles.domain_description_titles} ${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.f_wrap}`}
             >
               <h4
                 className={`${styles.ws_flex} ${styles.gap_10} ${styles.ai_center} ${styles.domain_description_titles} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
