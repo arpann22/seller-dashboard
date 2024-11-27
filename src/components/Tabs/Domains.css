@@ -20,6 +20,7 @@
   background-color: #fff;
   padding: 30px;
   border-radius: 15px;
+  border: 1px solid #edf0f7;
 }
 .dashboard_domains_wrapper h4 {
   font-weight: 600;
@@ -65,13 +66,16 @@
   text-align: start;
 }
 .domains_hover_buttons div {
-  background: #00d9f5;
+  background: #fff;
   display: flex;
   justify-content: center;
   width: fit-content;
-  padding: 12px;
-  border-radius: 20px;
+  padding: 15px;
+  border-radius: 50px;
   cursor: pointer;
+}
+.domains_hover_buttons div:hover {
+  background-color: #00d9f5;
 }
 .domains_hover_buttons {
   display: flex;
@@ -85,6 +89,9 @@
   display: none;
 }
 .domains_hover_buttons svg path {
+  fill: #67748e !important;
+}
+.domains_hover_buttons div:hover svg path {
   fill: #fff !important;
 }
 .ws-cards-container-noHover:hover .domains_hover_buttons {

@@ -103,7 +103,7 @@ const Tabs = ({ userData, setUserData }) => {
 
         {/* Dropdown for Mobile */}
         {isMobile && (
-          <div className={styles.customDropdown}>
+          <div className={`${styles.customDropdown} ${styles.tabLabels}`}>
             <button
               className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton} ${styles.button_icon_wrapper}`}
               onClick={toggleDropdown}

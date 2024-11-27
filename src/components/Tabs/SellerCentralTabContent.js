@@ -156,7 +156,10 @@ const SellerCentralTabContent = ({
                           </h5>
                         </div>
                         <div className={styles.recentOffers_card_details}>
-                          <div className={styles.svg_wrapper_bg_grey}>
+                          <div
+                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index] ? styles.icon_close_wrapper : styles.icon_add_wrapper
+                              }`}
+                          >
                             {expanded[index] ? (
                               <FaTimes onClick={() => toggleExpanded(index)} />
                             ) : (
@@ -211,13 +214,13 @@ const SellerCentralTabContent = ({
                           <div className={`${styles.ws_flex} ${styles.gap_10}`}>
                             <button
                               type="button"
-                              className={styles.acceptButton}
+                              className={`${styles.acceptButton} ${styles.hover_white_dark}`}
                             >
                               Accept
                             </button>
                             <button
                               type="button"
-                              className={styles.declineButton}
+                              className={`${styles.declineButton} ${styles.hover_white}`}
                             >
                               Decline
                             </button>
@@ -260,7 +263,9 @@ const SellerCentralTabContent = ({
               <div
                 className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                <AvailableBalanceIcon />
+                <div className={styles.small_svg}>
+                  <AvailableBalanceIcon />
+                </div>
                 <h4>Available Balance</h4>
               </div>
               <div className={styles.available_balance_card}>

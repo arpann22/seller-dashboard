@@ -101,7 +101,8 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             className={`${styles.salesOverViewTitle} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}
                     }`}
           >
-            <Sales_Overview_icon />
+            <div className={styles.small_svg}>
+              <Sales_Overview_icon /></div>
             <h2>Sales Overview</h2>
           </div>
           <div className={`${styles.salesDetails_wrapper} ${styles.fd_column}`}>

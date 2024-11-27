@@ -233,7 +233,9 @@ const Dashboard = ({ userData }) => {
                     <h6>Total Paid:</h6>
                     <h6>$20,000.00</h6>
                   </div>
-                  <div className={`${styles.ws_flex} ${styles.gap_20}`}>
+                  <div
+                    className={`${styles.ws_flex} ${styles.gap_20} ${styles.mt_5}`}
+                  >
                     <h6>Last Paid:</h6>
                     <h6>24 July, 2024</h6>
                   </div>

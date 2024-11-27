@@ -25,12 +25,25 @@
 .p_relative {
   position: relative;
 }
+.mt_5 {
+  margin-top: 5px;
+}
 .flex_column {
   flex-direction: column;
+}
+button label {
+  cursor: pointer;
 }
 svg:not(.tox-icon svg) {
   height: 18px;
   width: 18px;
+}
+.small_svg svg {
+  height: 24px !important;
+  width: 24px !important;
+}
+.small_svg {
+  display: flex;
 }
 svg path {
   filter: none !important;
@@ -82,6 +95,7 @@ body.page-id-5782 {
   background-color: #fff;
   /* padding: 30px; */
   border-radius: 15px;
+  border: 1px solid #edf0f7;
 }
 .tabs_lists {
   flex: 1;
@@ -115,7 +129,7 @@ body.page-id-5782 {
   font-weight: 500;
 }
 .customDropdown {
-  padding: 0 30px;
+  padding: 30px;
 }
 .customDropdown .dropdownButton {
   background-color: #f3f5fa;
@@ -145,12 +159,12 @@ body.page-id-5782 {
 .customDropdown .dropdownOption {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   margin: 20px 0;
   background: #f3f5fa;
   padding: 10px;
   border-radius: 50px;
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 .tabButton.active {
   background-color: #00d9f5;
@@ -198,7 +212,7 @@ body.page-id-5782 {
   margin: 0;
 }
 .ws_container {
-  max-width: 1360px;
+  max-width: 1400px;
   margin: auto;
   padding: 0 20px;
   margin-top: 40px;
@@ -272,7 +286,7 @@ body.page-id-5782 {
 }
 .button_icon_wrapper {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
   font-weight: 400;
   font-size: 14px;
@@ -284,7 +298,7 @@ body.page-id-5782 {
 .button_icon_wrapper:hover {
   background-color: #00d9f5;
   /* font-weight: 600; */
-  text-shadow: 0 0 0px #000, 0 0 0px #000;
+  text-shadow: 0 0 0 #000, 0 0 0 #000;
   color: #001f3e;
   border-radius: 40px;
 }
@@ -368,7 +382,7 @@ button.active svg path {
 .sellerCentralInnerTabs {
   width: 100%;
   background-color: #fff;
-  padding: 10px 20px;
+  padding: 15px 30px;
   display: flex;
   gap: 24px;
   border: 1px solid #edf0f7;
@@ -379,7 +393,7 @@ button.active svg path {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 24px;
 }
 .sellerCentralInnerTabs .button_icon_wrapper {
   width: fit-content;
@@ -419,15 +433,34 @@ button.active svg path {
   height: 60px;
 }
 .add_domain_generate_field input[type="submit"] {
-  border-radius: 50px;
-  background-color: #00214c;
   color: #fff;
-  border: 1px solid;
-  padding: 15px 20px;
-  position: absolute;
+  background-color: transparent;
+  border: transparent;
+  /* position: absolute;
   right: 40px;
   top: 50%;
+  transform: translate(-50%, -50%); */
+}
+.add_domain_generate_field .submit_container {
+  position: absolute;
+  right: 24px;
+  top: 50%;
   transform: translate(-50%, -50%);
+  background-color: #00214c;
+  border: 1px solid;
+  padding: 15px 20px;
+  border-radius: 50px;
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+.add_domain_generate_field .submit_container svg path {
+  fill: #fff !important;
+}
+.add_domain_generate_field .submit_container:hover input,
+.add_domain_generate_field .submit_container:hover svg path {
+  fill: #001f3e !important;
+  color: #001f3e;
 }
 .add_domain_background_wrapper {
   background-image: url("images/add_domain_bg.png");
@@ -513,6 +546,7 @@ button.active svg path {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
 }
 .media_content_wrapper img {
   display: flex;
@@ -573,7 +607,7 @@ button.active svg path {
   object-fit: cover;
   border-radius: 50%;
 }
-.pronounc_add {
+.pronounc_add label {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -582,6 +616,16 @@ button.active svg path {
   background-color: rgb(247, 249, 253);
   position: relative;
   padding: 15px;
+  cursor: pointer;
+}
+.hidden_radio {
+  display: none;
+}
+
+.pronounce_add_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .pronounc_add img {
   margin: 0;
@@ -615,7 +659,15 @@ button.active svg path {
   padding: 0;
 }
 .pronounc_add.active {
-  border: 1px solid rgb(118, 232, 249);
+  border: 2px solid rgb(118, 232, 249);
+  background-color: #fff;
+  border-radius: 10px;
+}
+.pronounc_add {
+  border: 2px solid #f7f9fd;
+  border-radius: 15px;
+}
+.pronounc_add.active label {
   background-color: #fff;
 }
 .pronounc_add.active svg {
@@ -623,16 +675,17 @@ button.active svg path {
 }
 
 .pronounc_add svg:last-child {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background: rgb(255, 255, 255);
   box-shadow: 0px 5px 17px 0px rgba(0, 69, 162, 0.11);
   border-radius: 50%;
-  padding: 2px;
+  padding: 5px;
   position: absolute;
   right: 0;
   bottom: 5px;
   cursor: pointer;
+  border: 1px solid #edf0f7;
 }
 
 /* domain appraisal */
@@ -644,6 +697,7 @@ button.active svg path {
   background-color: #fff;
   border-radius: 15px;
   padding: 30px;
+  border: 1px solid #edf0f7;
 }
 .add_domain_domain_appraisal_tile_wrapper svg:last-child {
   margin-left: auto;
@@ -662,8 +716,12 @@ button.active svg path {
   padding: 40px;
   justify-content: space-between;
 }
-.domain_appraisal_inner_wrapper_heading * {
+.domain_appraisal_inner_wrapper_heading
+  *:not(.domain_appraisal_inner_wrapper_heading div) {
   margin-top: 10px;
+}
+.domain_appraisal_inner_wrapper_heading p {
+  line-height: 32px;
 }
 .domain_appraisal_inner_wrapper_heading p span {
   background: linear-gradient(
@@ -703,6 +761,7 @@ button.active svg path {
   flex: 2;
   background-color: #fff;
   border-radius: 15px;
+  border: 1px solid #edf0f7;
 }
 .pricing_setup_wrapper input {
   height: 45px;
@@ -736,7 +795,7 @@ button.active svg path {
 .input_group {
   margin-top: 10px;
   border-bottom: 1px solid rgb(237, 240, 247);
-  padding: 20px;
+  padding: 25px 20px;
 }
 .toggle_switch {
   width: 50px;
@@ -846,12 +905,12 @@ button.active svg path {
   gap: 5px;
   padding: 10px 40px;
   font-size: 14px;
-  transition: background 0.1s ease; /* Smooth transition for the hover effect */
+  transition: background 0.1s ease;
 }
 
 .gradient_hover:hover {
-  animation: gradientMove 3s linear infinite; /* Start the gradient animation */
-  background-size: 300% 100%; /* Ensures the gradient has enough width */
+  animation: gradientMove 1s linear infinite;
+  background-size: 300% 100%;
 }
 
 @keyframes gradientMove {
@@ -863,6 +922,39 @@ button.active svg path {
   }
 }
 
+/* Animated Button */
+/* .animatedButton img,
+.animatedButton svg {
+  transition: transform 0.3s ease;
+}
+
+.animatedButton:hover img,
+.animatedButton:hover svg {
+  animation: bounceUpDown 0.6s ease forwards;
+}
+
+@keyframes bounceUpDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  75% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+} */
 /* edit profile popup */
 .popupOverlay {
   position: fixed;
@@ -893,6 +985,7 @@ button.active svg path {
   position: relative;
   max-height: 80%;
   overflow: auto;
+  margin: 0 20px;
 }
 .edit_password_wrapper {
   margin-top: 25px;
@@ -1029,7 +1122,7 @@ button.active svg path {
 .offers_tab_recent_offer_wrap {
   background-color: #fff;
   border-radius: 20px;
-  padding: 30px;
+  padding: 30px 20px;
 }
 .recent_offers_cols {
   background-color: #f7f8fd;
@@ -1086,6 +1179,12 @@ button.active svg path {
   width: 40px; */
   cursor: pointer;
   display: flex;
+}
+.recentOffers_card_details .icon_close_wrapper {
+  background-color: #00d9f5;
+}
+.recentOffers_card_details .icon_close_wrapper svg {
+  fill: #fff;
 }
 .offer_status_cards .recentOffers_card_details {
   display: flex;
@@ -1157,7 +1256,7 @@ button.active svg path {
   gap: 20px;
 }
 .extra_column_wrapper.expanded {
-  max-height: 500px; /* Set this to a value that accommodates the content */
+  max-height: fit-content;
 }
 /* .offer_tabs_wrapper .recent_offers_cols {
   flex-direction: column;
@@ -1493,6 +1592,7 @@ button.active svg path {
   display: flex;
   justify-content: space-between;
 }
+
 .order_details_popup td {
   font-size: 16px;
   color: #333;
@@ -1647,6 +1747,7 @@ button.active svg path {
   margin-top: 15px;
   max-width: 100px;
   cursor: inherit;
+  text-align: center;
 }
 .domain_appraisal_body_card {
   background-color: #fff;
@@ -1655,13 +1756,22 @@ button.active svg path {
   width: calc(50% - 10px);
   gap: 15px;
   justify-content: space-between;
+  align-items: center;
 }
 .domain_appraisal_body_card .progress_card_add_domain svg {
-  height: 120px;
-  width: 120px;
+  height: 130px;
+  width: 130px;
+}
+.domain_appraisal_body_card .progress_card_add_domain {
+  padding: 0;
 }
 .domain_appraisal_body_card svg text {
   font-size: 14px;
+}
+.domain_appraisal_body_card .value_style {
+  font-size: 24px;
+  color: #001f3e;
+  font-weight: 500;
 }
 /* delete popup */
 .popupOverlay {
@@ -1731,6 +1841,9 @@ button.active svg path {
   .mob_card_padding_20 {
     padding: 20px;
   }
+  .sellerCentralInnerTabs {
+    padding: 30px;
+  }
   .sellerCentralInnerTabs
     label:not(.sellerCentralInnerTabs button:first-child label),
   .offer_tabs_wrapper label,
@@ -1743,7 +1856,7 @@ button.active svg path {
   }
   .sellerCentralInnerTabsButtons {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
   }
   .sellerCentralInnerTabs
@@ -1777,9 +1890,24 @@ button.active svg path {
   .recentOffers_card .recentOffers_card_image {
     width: 100%;
   }
-  .offers_tab_recent_offer_wrap,
+  /* .offers_tab_recent_offer_wrap,
   .tabContent {
     padding: 0;
+  } */
+
+  /* my orders */
+  .my_orders_details_table .recentOffers_card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .my_orders_details_table .recentOffers_card_titles {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .my_orders_details_table .recentOffers_card_titles:last-child {
+    justify-content: center;
   }
   /* add domain tabs */
   .add_domain_wrapper {
@@ -1794,7 +1922,11 @@ button.active svg path {
   }
   .add_domain_generate_field input[type="submit"] {
     right: 24px;
-    transform: translate(0%, -50%);
+    /* transform: translate(0%, -50%); */
+  }
+  .add_domain_generate_field .submit_container {
+    right: 0;
+    transform: translate(-20%, -50%);
   }
   .domain_description_wrapper .domain_description_titles a {
     margin-top: 15px;
@@ -1810,5 +1942,17 @@ button.active svg path {
       .sellerCentralInnerTabsButtons button:first-child .svg_bg_white
     ) {
     padding: 14px;
+  }
+  .my_orders_modal_overlay .recentOffers_row {
+    flex-direction: column;
+  }
+  .my_orders_modal_overlay .recentOffers_row div {
+    width: 100% !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .my_orders_modal_overlay .recentOffers_row div p {
+    margin-bottom: 0;
   }
 }

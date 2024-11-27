@@ -35,6 +35,7 @@ import { ReactComponent as CategoriesIcon } from "./image/categories.svg";
 import { ReactComponent as DomainDescIcon } from "./image/domain_desc.svg";
 import { ReactComponent as TagsIcon } from "./image/tags.svg";
 import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
+import { ReactComponent as GenerateStars } from "./image/cta.svg";
 const md = new MarkdownIt();
 
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
@@ -151,7 +152,13 @@ export default function AddDomain({ styles, userData }) {
               fontSize="20"
               fill="#333"
             >
-              {value} {label}
+              {/* {value} {label} */}
+              <tspan x="50%" dy="0em" className={styles.value_style}>
+                {value}
+              </tspan>
+              <tspan x="50%" dy="1.5em" className={styles.label_style}>
+                {label}
+              </tspan>
             </text>
           </svg>
         </div>
@@ -176,6 +183,13 @@ export default function AddDomain({ styles, userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [postStatus, setPostStatus] = useState("");
 
+  // select audion form handle
+
+  const [selected, setSelected] = useState("play"); // Default selected value
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add form submission logic here
+  };
   // sunder jss
   function ageToDecimal(ageString) {
     if (!ageString) {
@@ -870,11 +884,14 @@ export default function AddDomain({ styles, userData }) {
                 onChange={(e) => setDomainName(e.target.value)}
                 required
               />
-              <input
-                type="submit"
-                value="Generate"
-                class="hover_white_dark"
-              ></input>
+              {/* <input type="submit" value="Generate" class="hover_white_dark">
+              </input> */}
+              <div
+                className={`${styles.submit_container} ${styles.hover_white_dark} ${styles.animatedButton}`}
+              >
+                <input type="submit" value="Generate" />
+                <GenerateStars />
+              </div>
             </form>
           </div>
         </div>
@@ -927,7 +944,7 @@ export default function AddDomain({ styles, userData }) {
               <div
                 className={`${styles.media_content_wrapper} ${styles.media_setup_second_card}`}
               >
-                <div className={`${styles.pronounc_add} ${styles.active}`}>
+                {/* <div className={`${styles.pronounc_add} ${styles.active}`}>
                   <FaPlay />
                   <div>
                     <h5>James</h5>
@@ -946,7 +963,65 @@ export default function AddDomain({ styles, userData }) {
                   <span>AI-PICK</span>
                   <img src={profileImage}></img>
                   <FiPlusCircle />
-                </div>
+                </div> */}
+
+                <form className={styles.pronounce_add_form}>
+                  {/* First Option */}
+                  <div
+                    className={`${styles.pronounc_add} ${
+                      selected === "play" ? styles.active : ""
+                    }`}
+                    onClick={() => setSelected("play")}
+                  >
+                    <input
+                      type="radio"
+                      id="play"
+                      name="selection"
+                      value="play"
+                      checked={selected === "play"}
+                      onChange={() => setSelected("play")}
+                      className={styles.hidden_radio} // Hidden using CSS
+                    />
+                    <label htmlFor="play">
+                      <FaPlay />
+                      <div>
+                        <h5>James</h5>
+                        <p>0.01</p>
+                      </div>
+                      <span>AI-PICK</span>
+                      <img src={profileImage} alt="Profile" />
+                      <RxCrossCircled />
+                    </label>
+                  </div>
+
+                  {/* Second Option */}
+                  <div
+                    className={`${styles.pronounc_add} ${
+                      selected === "pause" ? styles.active : ""
+                    }`}
+                    onClick={() => setSelected("pause")}
+                  >
+                    <input
+                      type="radio"
+                      id="pause"
+                      name="selection"
+                      value="pause"
+                      checked={selected === "pause"}
+                      onChange={() => setSelected("pause")}
+                      className={styles.hidden_radio} // Hidden using CSS
+                    />
+                    <label htmlFor="pause">
+                      <IoIosPause />
+                      <div>
+                        <h5>James</h5>
+                        <p>0.01</p>
+                      </div>
+                      <span>AI-PICK</span>
+                      <img src={profileImage} alt="Profile" />
+                      <FiPlusCircle />
+                    </label>
+                  </div>
+                </form>
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
                     <h5>Your Heading Here</h5>
@@ -1006,7 +1081,9 @@ export default function AddDomain({ styles, userData }) {
                 className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
                 {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
-                <DomainAppraisalIcon />
+                <div className={styles.small_svg}>
+                  <DomainAppraisalIcon />
+                </div>
                 <h4>Domain Appraisal</h4>
                 <IoMdInformationCircle />
               </div>
@@ -1080,7 +1157,9 @@ export default function AddDomain({ styles, userData }) {
                 className={`${styles.price_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10} ${styles.add_domain_domain_appraisal_tile_wrapper}`}
               >
                 {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
-                <PricingSetupIcon />
+                <div className={styles.small_svg}>
+                  <PricingSetupIcon />
+                </div>
                 <h4>Pricing Setup</h4>
                 <IoMdInformationCircle />
               </div>
@@ -1221,7 +1300,7 @@ export default function AddDomain({ styles, userData }) {
               >
                 <div>
                   <h5>Accept Offers</h5>
-                  <p className={styles.subtitle}>Let Buyers Name Their</p>
+                  <p className={styles.subtitle}>Let Buyers Name Their Price</p>
                 </div>
                 <div
                   className={styles.toggle_button}
@@ -1279,7 +1358,7 @@ export default function AddDomain({ styles, userData }) {
               </h4>
               <a
                 href=""
-                className={`${styles.starsWhite} ${styles.gradient_hover}`}
+                className={`${styles.starsWhite} ${styles.gradient_hover} ${styles.animatedButton}`}
                 onClick={(e) => handelDomainDesc(e)}
               >
                 <img
@@ -1388,7 +1467,7 @@ export default function AddDomain({ styles, userData }) {
           <div className={styles.save_button_wrappers}>
             <button
               onClick={() => setPostStatus("publish")}
-              className={`${styles.add_product_button} ${styles.hover_white_dark}`}
+              className={`${styles.add_product_button} ${styles.hover_white_dark} ${styles.animatedButton}`}
             >
               <span className={styles.icon}>
                 {/* <img src={add_product_icon} alt="Add Product Icon" /> */}
@@ -1399,7 +1478,7 @@ export default function AddDomain({ styles, userData }) {
 
             <button
               onClick={() => setPostStatus("draft")}
-              className={`${styles.save_draft_button} ${styles.hover_white}`}
+              className={`${styles.save_draft_button} ${styles.hover_white} ${styles.animatedButton}`}
             >
               <span className={styles.icon}>
                 {/* <img src={save_draft_icon} alt="Save Draft Icon" /> */}
