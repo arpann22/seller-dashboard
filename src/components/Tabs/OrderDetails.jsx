@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import { FaSpinner } from "react-icons/fa";
-
+import { IoPersonSharp } from "react-icons/io5";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaAddressBook } from "react-icons/fa";
+import { FaPhone } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 import unserialize from "locutus/php/var/unserialize";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
@@ -220,15 +224,49 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
               </div>
               <h2>Billing address</h2>
               <div>
-                <p>
-                  {order.meta._billing_first_name[0]}{" "}
-                  {order.meta._billing_last_name[0]}
-                </p>
-                <p>{order.meta._billing_city[0]}</p>
-                <p>{order.meta._billing_address_1[0]}</p>
-                <p>{order.meta._billing_address_2[0]}</p>
-                <p>{order.meta._billing_phone[0]}</p>
-                <p>{order.meta._billing_email[0]}</p>
+                {order.meta._billing_first_name[0] &&
+                  order.meta._billing_last_name[0] && (
+                    <p className={styles.billing_name}>
+                      <IoPersonSharp />
+                      {order.meta._billing_first_name[0]}{" "}
+                      {order.meta._billing_last_name[0]}
+                    </p>
+                  )}
+
+                {order.meta._billing_city[0] && (
+                  <p>
+                    <FaLocationDot />
+                    {order.meta._billing_city[0]}
+                  </p>
+                )}
+
+                {order.meta._billing_address_1[0] && (
+                  <p>
+                    <FaAddressBook />
+                    {order.meta._billing_address_1[0]}
+                  </p>
+                )}
+
+                {order.meta._billing_address_2[0] && (
+                  <p>
+                    <FaAddressBook />
+                    {order.meta._billing_address_2[0]}
+                  </p>
+                )}
+
+                {order.meta._billing_phone[0] && (
+                  <p>
+                    <FaPhone />
+                    {order.meta._billing_phone[0]}
+                  </p>
+                )}
+
+                {order.meta._billing_email[0] && (
+                  <p>
+                    <MdEmail />
+                    {order.meta._billing_email[0]}
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import addDomaintitleImage from "./images/add-domain-pre-image.png";
 import attachAudioimg from "./images/attach_audio_img.png";
 import starswhite from "./images/stars-white.png";
@@ -36,6 +38,9 @@ import { ReactComponent as DomainDescIcon } from "./image/domain_desc.svg";
 import { ReactComponent as TagsIcon } from "./image/tags.svg";
 import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
 import { ReactComponent as GenerateStars } from "./image/cta.svg";
+
+// ckeditor
+// ck editor end
 const md = new MarkdownIt();
 
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
@@ -1376,7 +1381,12 @@ export default function AddDomain({ styles, userData }) {
             )}
 
             <div className={styles.dashboard_small_margin}>
+              {/* <CKEditor
+                editor={ClassicEditor}
+                // Log or handle the editor dat
+              /> */}
               <Editor
+                // apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
                 apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
                 value={content}
                 init={{
