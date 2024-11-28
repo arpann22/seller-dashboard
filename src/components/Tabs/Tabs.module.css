@@ -155,6 +155,7 @@ body.page-id-5782 {
   border: 1px solid rgb(237, 240, 247);
   margin: 10px 0;
   border-radius: 10px;
+  width: 100%;
 }
 .customDropdown .dropdownOption {
   display: flex;
@@ -741,6 +742,7 @@ button.active svg path {
 }
 .domain_appraisal_inner_wrapper_heading h3 {
   color: #0067f0;
+  font-size: 24px;
 }
 .domain_appraisal_inner_wrapper_heading img {
   max-width: 100%;
@@ -772,6 +774,9 @@ button.active svg path {
   max-width: 100%;
   width: 100%;
 }
+.pricing_setup_wrapper input:focus-visible {
+  border: 1px solid #00d9f5;
+}
 .pricing_setup_wrapper input::placeholder {
   font-size: 14px;
 }
@@ -795,7 +800,7 @@ button.active svg path {
 .input_group {
   margin-top: 10px;
   border-bottom: 1px solid rgb(237, 240, 247);
-  padding: 25px 20px;
+  padding: 30px;
 }
 .toggle_switch {
   width: 50px;
@@ -840,7 +845,7 @@ button.active svg path {
 }
 .price_tile_wrapper {
   border-bottom: 1px solid rgb(237, 240, 247);
-  padding: 30px 20px;
+  padding: 30px;
 }
 .date_fields_wrapper {
   margin-top: 30px;
@@ -855,7 +860,7 @@ button.active svg path {
   color: #67748e;
 }
 .toggle_section {
-  padding: 30px 20px;
+  padding: 30px 30px;
   border-bottom: 1px solid rgb(237, 240, 247);
   justify-content: space-between;
 }
@@ -1035,7 +1040,7 @@ button.active svg path {
   text-align: center;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px 20px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
@@ -1118,6 +1123,7 @@ button.active svg path {
 .recentOffers_card_details h5,
 .recentOffers_card_details h6 {
   font-weight: 500;
+  font-size: 14px;
 }
 .offers_tab_recent_offer_wrap {
   background-color: #fff;
@@ -1841,6 +1847,9 @@ button.active svg path {
   .mob_card_padding_20 {
     padding: 20px;
   }
+  .mob_card_padding_30 {
+    padding: 30px;
+  }
   .sellerCentralInnerTabs {
     padding: 30px;
   }
@@ -1954,5 +1963,17 @@ button.active svg path {
   }
   .my_orders_modal_overlay .recentOffers_row div p {
     margin-bottom: 0;
+  }
+  .extra_column,
+  .extra_column .recentOffers_card,
+  .extra_column .offerForm {
+    flex-direction: column;
+  }
+  .extra_column .recentOffers_card {
+    width: 100%;
+    align-items: start;
+  }
+  .extra_column .recentOffers_card_details {
+    margin: 0;
   }
 }

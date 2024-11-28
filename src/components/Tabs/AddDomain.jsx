@@ -106,7 +106,7 @@ export default function AddDomain({ styles, userData }) {
 
     return (
       <div
-        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} ${styles.mob_card_padding_20} `}
+        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} ${styles.mob_card_padding_30} `}
       >
         <div>
           <h5>{title}</h5>
@@ -927,8 +927,8 @@ export default function AddDomain({ styles, userData }) {
                 />
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
-                    <h5>Your Heading Here</h5>
-                    <p>Your paragraph content here.</p>
+                    <h5>Attach My Audio</h5>
+                    <p>Let Your Voice Do The Talking!</p>
                   </div>
 
                   <div className={styles.audio_column}>
@@ -1024,8 +1024,8 @@ export default function AddDomain({ styles, userData }) {
                 </form>
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
-                    <h5>Your Heading Here</h5>
-                    <p>Your paragraph content here.</p>
+                    <h5>Add Pronouniciation</h5>
+                    <p>AI will Perfect it!</p>
                   </div>
 
                   <div className={styles.audio_column}>
@@ -1089,7 +1089,7 @@ export default function AddDomain({ styles, userData }) {
               </div>
               <div className={styles.domain_appraisal_inner_wrapper}>
                 <div
-                  className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex} ${styles.mob_fd_col}`}
+                  className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex} ${styles.mob_fd_col} ${styles.mob_card_padding_30}`}
                 >
                   <div>
                     <h2>{domainName ? domainName : "example.com"}</h2>
@@ -1322,7 +1322,7 @@ export default function AddDomain({ styles, userData }) {
           </div>
           {/* categories */}
           <div
-            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.mob_card_padding_20}`}
+            className={`${styles.cardSelectorWrapper} ${styles.dashboard_small_margin} ${styles.mob_card_padding_30}`}
           >
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -1425,7 +1425,7 @@ export default function AddDomain({ styles, userData }) {
           </div>
           {/* industries */}
           <div
-            className={`${styles.cardSelectorWrapper} ${styles.cardSelectorIndustriesWrapper}`}
+            className={`${styles.cardSelectorWrapper} ${cardstyles.cardSelectorIndustriesWrapper}`}
           >
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}

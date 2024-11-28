@@ -25,6 +25,20 @@ export default function Domains({ userData, setSellerCentralTab }) {
 
   // fetching active domains
 
+  // show on mobile on click edit buttons
+  const [showButtons, setShowButtons] = useState(false);
+
+  // Long press detection
+  let pressTimer = null;
+
+  const handleTouchStart = () => {
+    pressTimer = setTimeout(() => setShowButtons(true), 500); // Long press (500ms)
+  };
+
+  const handleTouchEnd = () => {
+    clearTimeout(pressTimer);
+  };
+
   async function fetchActiveDomains() {
     try {
       const res = await fetch(
@@ -210,7 +224,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
           </div>
 
           {/* Hover buttons */}
-          <div class="domains_hover_buttons">
+          {/* <div class="domains_hover_buttons">
             <div
               id={domain.id}
               className="domianEditIcon"
@@ -222,9 +236,33 @@ export default function Domains({ userData, setSellerCentralTab }) {
               <AddProductIcon />
             </div>
             <div onClick={() => handleDelete(domain.id)}>
-              {/* <img src={delete_reset_icon} /> */}
               <DeleteIcon />
             </div>
+          </div> */}
+          <div
+            className="ws-cards-container-noHover"
+            onClick={() => setShowButtons((prev) => !prev)} // Toggle visibility on click
+            onTouchStart={handleTouchStart} // Detect long press
+            onTouchEnd={handleTouchEnd} // Reset on touch release
+          >
+            <div
+              className={`domains_hover_buttons ${showButtons ? "show" : ""}`}
+            >
+              <div
+                id={domain.id}
+                className="domainEditIcon"
+                onClick={() => handleIconClick(domain.id)}
+              >
+                <SaveDraftIcon />
+              </div>
+              <div>
+                <AddProductIcon />
+              </div>
+              <div onClick={() => handleDelete(domain.id)}>
+                <DeleteIcon />
+              </div>
+            </div>
+            {/* Card Content */}
           </div>
 
           {/* Card Image */}

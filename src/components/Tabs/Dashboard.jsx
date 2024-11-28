@@ -18,6 +18,7 @@ import domains_add_domain_img from "./images/domains_add_domain_img.png";
 
 const progress = 50; //
 const currentUrl = window.location.origin;
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
 
 const Dashboard = ({ userData }) => {
   const [domains, setDomains] = useState([]);

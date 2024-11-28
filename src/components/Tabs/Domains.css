@@ -73,6 +73,7 @@
   padding: 15px;
   border-radius: 50px;
   cursor: pointer;
+  border: 1px solid #d6d6d6;
 }
 .domains_hover_buttons div:hover {
   background-color: #00d9f5;
@@ -99,4 +100,13 @@
 }
 .ws_cards_domains_active_draft:hover {
   border: 1px solid #00d9f5;
+}
+
+.domains_hover_buttons {
+  display: none;
+  /* Add your styles here */
+}
+
+.domains_hover_buttons.show {
+  display: flex; /* Or whatever layout you're using */
 }
