@@ -105,11 +105,20 @@ const Sales = ({ userData }) => {
           });
           setCustomerIds(customerIds);
 
-          const domainIds = allOrderDetails
-            .map((order) => unserialize(order?.meta?._domain_ids?.[0])) // Get domain ids, which could be an array
-            .flat(); // Flatten the resulting array of arrays
+          // getting order products id with seller id
+          const orderProducts = allOrderDetails.map((order) =>
+            unserialize(order?.meta?._ordered_products?.[0])
+          );
 
-          setDomainIds(domainIds);
+          // matching products id by seller id and current user id
+
+          // Flatten the orderProducts array and filter the matching products
+          const matchingProductIds = orderProducts
+            .flat() // Flatten the nested arrays into a single array
+            .filter((product) => product.seller_id === userData.id) // Filter products with matching seller_id
+            .map((product) => product.product_id); // Extract the product_id of matching products
+
+          setDomainIds(matchingProductIds);
         } catch (err) {
           setError(err.message);
         }
@@ -181,35 +190,35 @@ const Sales = ({ userData }) => {
 
   // fetching domain registar details
   const [registarDetails, setRegistartDetails] = useState([]);
-  const [registarLoading, setRegistarLoading] = useState(true);
-  useEffect(() => {
-    async function fetchRegistar() {
-      try {
-        const domainRegistarPromises = domainNames.map(async (domainName) => {
-          const res = await fetch(
-            `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
-          );
-          if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message);
-          }
-          return res.json(); // Return the order data
-        });
+  const [registarLoading, setRegistarLoading] = useState(false);
+  // useEffect(() => {
+  //   async function fetchRegistar() {
+  //     try {
+  //       const domainRegistarPromises = domainNames.map(async (domainName) => {
+  //         const res = await fetch(
+  //           `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
+  //         );
+  //         if (!res.ok) {
+  //           const errorData = await res.json();
+  //           throw new Error(errorData.message);
+  //         }
+  //         return res.json(); // Return the order data
+  //       });
 
-        const allDomainsRegistar = await Promise.all(domainRegistarPromises);
-        setRegistartDetails(allDomainsRegistar);
-        console.log(allDomainsRegistar);
-        // setDomainDetails(allDomainDetails);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setRegistarLoading(false);
-      }
-    }
-    if (domainNames.length > 0) {
-      fetchRegistar();
-    }
-  }, [domainNames]);
+  //       const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+  //       setRegistartDetails(allDomainsRegistar);
+  //       console.log(allDomainsRegistar);
+  //       // setDomainDetails(allDomainDetails);
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setRegistarLoading(false);
+  //     }
+  //   }
+  //   if (domainNames.length > 0) {
+  //     fetchRegistar();
+  //   }
+  // }, [domainNames]);
 
   if (loading) {
     return (
@@ -295,6 +304,40 @@ const Sales = ({ userData }) => {
               const firstName = customer?.first_name || "Unknown";
               const lastName = customer?.last_name || "";
 
+              // calculating total starts
+              const ordered_products = unserialize(
+                order?.meta?._ordered_products?.[0]
+              );
+
+              const NotSellerProducts = ordered_products.filter(
+                (product) => product.seller_id != userData.id
+              );
+
+              const allOrderdProductPrice = unserialize(
+                order?.meta?._products_price?.[0]
+              );
+
+              const sellerProductsOrderdPrice = allOrderdProductPrice.filter(
+                (product) =>
+                  NotSellerProducts.some(
+                    (sellerProduct) =>
+                      sellerProduct.product_id == product.product_id
+                  )
+              );
+
+              // Calculate the total price
+              const totalSellerProductPrice = sellerProductsOrderdPrice.reduce(
+                (sum, product) => sum + parseFloat(product.price || 0), // Safely parse price as float and add
+                0 // Initial sum value
+              );
+
+              const overall_total = order?.meta?._order_total?.[0] || "";
+              const total = totalSellerProductPrice
+                ? overall_total - totalSellerProductPrice
+                : overall_total;
+
+              // calculating total ends
+
               return (
                 <div key={index} className={styles.recentOffers_wrapper}>
                   {/* Offer card */}
@@ -321,8 +364,10 @@ const Sales = ({ userData }) => {
                       >
                         <p className="online">Amount</p>
                         <h5>
-                          {order?.meta?._currency_symbol?.[0] || ""}
-                          {order?.meta?._order_total?.[0] || ""}
+                          {order?.meta?._currency_symbol?.[0] || "$"}
+                          {/* {order?.meta?._order_total?.[0] || ""}
+                           */}
+                          {total}
                         </h5>
                       </div>
                       <div className={styles.recentOffers_card_details}>
@@ -389,7 +434,6 @@ const Sales = ({ userData }) => {
                                   register.domain_name ==
                                   domainDetail?.title?.rendered
                               );
-                            // console.log(order_product_registar);
                             if (
                               order_products_serialized.includes(domainIdString)
                             ) {
