@@ -64,12 +64,7 @@
 
 // export default TabContent;
 
-
-
-
-
 // newwwwwww
-
 
 // TabContent.js
 import React from "react";
@@ -77,14 +72,22 @@ import styles from "./Tabs.module.css"; // Import styles
 import salesOverviewIcons from "./images/sales-overview.png";
 import totalSalesIcon from "./images/total-sales.png";
 import Orders from "./Orders";
-import { ReactComponent as Sales_distribution_icon } from './image/total.svg';
-import { ReactComponent as Average_Sales_icon } from './image/monthly.svg';
-import { ReactComponent as Total_Orders_icon } from './image/total_orders.svg'
-import { ReactComponent as Sales_Overview_icon } from './image/sales_overview.svg'
+import { ReactComponent as Sales_distribution_icon } from "./image/total.svg";
+import { ReactComponent as Average_Sales_icon } from "./image/monthly.svg";
+import { ReactComponent as Total_Orders_icon } from "./image/total_orders.svg";
+import { ReactComponent as Sales_Overview_icon } from "./image/sales_overview.svg";
 
-
-
-const TabContent = ({ activeTab, userData, setUserData }) => {
+const TabContent = ({
+  activeTab,
+  userData,
+  setUserData,
+  soldDomains,
+  salesAllTime,
+  salesCurrentYear,
+  orderTotal,
+}) => {
+  const currentMonth = new Date().getMonth();
+  console.log("month", currentMonth);
   switch (activeTab) {
     case "My Orders":
       return <Orders userData={userData} />;
@@ -102,13 +105,16 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
                     }`}
           >
             <div className={styles.small_svg}>
-              <Sales_Overview_icon /></div>
+              <Sales_Overview_icon />
+            </div>
             <h2>Sales Overview</h2>
           </div>
           <div className={`${styles.salesDetails_wrapper} ${styles.fd_column}`}>
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>$205,700</h2>
+                <h2 className={styles.m_0}>
+                  ${salesAllTime ? salesAllTime : "00000"}
+                </h2>
                 <p className={styles.m_0}>Total Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -117,7 +123,10 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             </div>
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>$205,700</h2>
+                <h2 className={styles.m_0}>
+                  $
+                  {salesCurrentYear ? salesCurrentYear / currentMonth : "00000"}
+                </h2>
                 <p className={styles.m_0}>Average Monthly Sales</p>
               </div>
               <div className={styles.single_sales_icon}>
@@ -126,14 +135,16 @@ const TabContent = ({ activeTab, userData, setUserData }) => {
             </div>
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>$205,700</h2>
+                <h2 className={styles.m_0}>
+                  ${orderTotal ? orderTotal : "00000"}
+                </h2>
                 <p className={styles.m_0}>Total Orders</p>
               </div>
               <div className={styles.single_sales_icon}>
                 <Total_Orders_icon />
               </div>
             </div>
-          </div >
+          </div>
         </>
       );
     default:

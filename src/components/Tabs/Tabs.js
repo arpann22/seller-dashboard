@@ -101,7 +101,7 @@ const Tabs = ({ userData, setUserData }) => {
     setDropdownOpen((prevState) => !prevState);
   };
 
-  // sales details starts
+  //----------------------------------------------------------- sales details starts
 
   const [soldDomains, setSoldDomains] = useState([]);
 
@@ -137,6 +137,7 @@ const Tabs = ({ userData, setUserData }) => {
   const [orderDetails, setOrderDetails] = useState();
   const [salesCurrentYear, setSalesCurrentYear] = useState(0);
   const [salesAllTime, setSalesAllTime] = useState(0);
+  const [orderTotal, setOrderTotal] = useState(0);
 
   useEffect(() => {
     if (soldDomains.length > 0) {
@@ -242,9 +243,6 @@ const Tabs = ({ userData, setUserData }) => {
           sale_total += usdSales.total;
           sale_current_year += usdSales.currentYearTotal;
 
-          // console.log("Total Sales:", sale_total);
-          // console.log("Current Year Sales:", sale_current_year);
-
           setSalesCurrentYear(sale_current_year);
           setSalesAllTime(sale_total);
         } catch (err) {
@@ -253,10 +251,118 @@ const Tabs = ({ userData, setUserData }) => {
       }
 
       fetchAllOrderDetails();
+
+      async function fetchOrderTotal() {
+        try {
+          const orderDetailsPromises = soldDomains.map(async (orderId) => {
+            const res = await fetch(
+              `${currentUrl}/wp-json/wp/v2/domain_order/${orderId}`
+            );
+            if (!res.ok) {
+              const errorData = await res.json();
+              throw new Error(errorData.message);
+            }
+            return res.json(); // Return the order data
+          });
+
+          const allOrderDetails = await Promise.all(orderDetailsPromises);
+
+          // const allCompletedOrders = allOrderDetails.filter(
+          //   (order) => order?.meta?._order_status?.[0] == "completed"
+          // );
+          // setOrderDetails(allCompletedOrders);
+
+          const allOtherCurrenciesOrders = allOrderDetails.filter(
+            (order) => order?.meta?._currency?.[0] != "USD"
+          );
+          const allUsdOrders = allOrderDetails.filter(
+            (order) => order?.meta?._currency?.[0] == "USD"
+          );
+
+          let order_total = 0;
+
+          const currentYear = new Date().getFullYear();
+
+          const calculateOrderTotal = (orders, priceMetaKey) => {
+            let orderTotal = 0;
+
+            orders.forEach((order, index) => {
+              // Get products with seller ID
+              const productsWithSellerId = unserialize(
+                order?.meta?._ordered_products?.[0]
+              );
+              if (!productsWithSellerId) {
+                // console.error(
+                //   `Failed to unserialize _ordered_products for order at index ${index}`
+                // );
+                return; // Skip to next order
+              }
+
+              // Get current seller's products
+              const seller_products = productsWithSellerId.filter(
+                (seller_product) => seller_product.seller_id == userData.id
+              );
+
+              // Unserialize product prices based on the provided meta key
+              const products_price = unserialize(
+                order?.meta?.[priceMetaKey]?.[0]
+              );
+              if (!products_price) {
+                // console.error(
+                //   `Failed to unserialize prices for order at index ${index}`
+                // );
+                return; // Skip to next order
+              }
+
+              // Get current seller's product IDs
+              const sellerProductIds = seller_products.map(
+                (product) => product.product_id
+              );
+
+              // Get prices for current seller's products
+              const get_current_seller_products_price = products_price.filter(
+                (product) => sellerProductIds.includes(product.product_id)
+              );
+
+              // Calculate sales from products
+              const sales_from_products =
+                get_current_seller_products_price.reduce(
+                  (sum, product) => sum + parseFloat(product.price || 0), // Safely parse price as float and add
+                  0 // Initial sum value
+                );
+
+              // Add to total sales
+              orderTotal += sales_from_products;
+            });
+
+            return { orderTotal };
+          };
+
+          // Calculate sales for orders in other currencies
+          const otherCurrenciesSales = allOtherCurrenciesOrders
+            ? calculateOrderTotal(
+                allOtherCurrenciesOrders,
+                "_usd_products_price"
+              )
+            : 0;
+          order_total += otherCurrenciesSales.orderTotal;
+
+          // Calculate sales for USD orders (using a different meta key)
+          const usdSales = allUsdOrders
+            ? calculateOrderTotal(allUsdOrders, "_products_price")
+            : 0;
+          order_total += usdSales.orderTotal;
+
+          setOrderTotal(order_total);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      fetchOrderTotal();
     }
   }, [soldDomains]);
 
-  // sales details ends
+  //----------------------------------------------------------- sales details ends
 
   return (
     <div className={`${styles.tabs} ${styles.ws_container}`}>
@@ -362,6 +468,10 @@ const Tabs = ({ userData, setUserData }) => {
           activeTab={activeTab}
           userData={userData}
           setUserData={setUserData}
+          // soldDomains={soldDomains}
+          salesAllTime={salesAllTime}
+          salesCurrentYear={salesCurrentYear}
+          orderTotal={orderTotal}
         />
       </div>
 
