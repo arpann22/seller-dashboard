@@ -1,4 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+
+// ckeditors
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 // import { CKEditor } from "@ckeditor/ckeditor5-react";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import addDomaintitleImage from "./images/add-domain-pre-image.png";
@@ -1385,30 +1389,75 @@ export default function AddDomain({ styles, userData }) {
                 editor={ClassicEditor}
                 // Log or handle the editor dat
               /> */}
-              <Editor
-                // apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
-                apiKey="aa1tel4skrs4q65uj7wz6md0coeifv24s26nbnou1vamxs9l"
-                value={content}
-                init={{
-                  height: 500,
-                  menubar: false,
-                  plugins: [
-                    "advlist autolink lists link image charmap print preview anchor",
-                    "searchreplace visualblocks code fullscreen",
-                    "insertdatetime media table paste code help wordcount",
-                    "code", // Code plugin for HTML editing
-                    "image", // Image plugin for image uploading
+              <CKEditor
+                editor={ClassicEditor}
+                data="<p>Welcome to dsfgdfgfdgfrdgdfg 5!</p>"
+                config={{
+                  toolbar: [
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "underline", // Underline
+                    "|",
+                    "alignment", // Text alignment
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "link",
+                    "imageUpload", // Image upload
+                    "blockQuote",
+                    "insertTable",
+                    "|",
+                    "undo",
+                    "redo",
                   ],
-                  toolbar:
-                    "undo redo | formatselect | bold italic backcolor | \
-          alignleft aligncenter alignright alignjustify | \
-          bullist numlist outdent indent | removeformat | code | image | help",
-                  code_dialog_height: 600,
-                  code_dialog_width: 800,
-                  images_upload_handler: handleImageUpload, // Set the custom image upload handler
-                  automatic_uploads: true,
+                  heading: {
+                    options: [
+                      {
+                        model: "paragraph",
+                        title: "Paragraph",
+                        class: "ck-heading_paragraph",
+                      },
+                      {
+                        model: "heading1",
+                        view: "h1",
+                        title: "Heading 1",
+                        class: "ck-heading_heading1",
+                      },
+                      {
+                        model: "heading2",
+                        view: "h2",
+                        title: "Heading 2",
+                        class: "ck-heading_heading2",
+                      },
+                      {
+                        model: "heading3",
+                        view: "h3",
+                        title: "Heading 3",
+                        class: "ck-heading_heading3",
+                      },
+                    ],
+                  },
+                  alignment: {
+                    options: ["left", "center", "right", "justify"], // Alignment options
+                  },
+                  image: {
+                    toolbar: [
+                      "imageTextAlternative",
+                      "imageStyle:full",
+                      "imageStyle:side",
+                    ],
+                  },
+                  ckfinder: {
+                    // Image upload backend endpoint
+                    uploadUrl: "/your-upload-endpoint", // Replace with your server URL
+                  },
                 }}
-                onEditorChange={handleEditorChange}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  console.log({ data });
+                }}
               />
             </div>
             <div

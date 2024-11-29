@@ -106,10 +106,10 @@ add_shortcode('tests', 'test');
 function test()
 {
     ob_start();
-?>
+    ?>
     <div id="root"></div>
 
-<?php
+    <?php
     return ob_get_clean();
 }
 
@@ -138,3 +138,4 @@ function test()
 //     );
 // }
 // add_action('admin_enqueue_scripts', 'enqueue_tinymce_for_react');
+

@@ -223,7 +223,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                 </div>
               </div>
               <h2>Billing address</h2>
-              <div>
+              <div className={styles.orderDetailPopupBilling}>
                 {order.meta._billing_first_name[0] &&
                   order.meta._billing_last_name[0] && (
                     <p className={styles.billing_name}>
