@@ -80,6 +80,17 @@ const Sales = ({ userData }) => {
   }, [userData.id]);
 
   const [domainIds, setDomainIds] = useState([]);
+
+  const [sortValue, setSortValue] = useState("");
+  const [isReversed, setIsReversed] = useState(true); // Track the reversal state
+
+  function handleSort() {
+    setSortValue("sort");
+    setIsReversed(!isReversed);
+    if (isReversed == false) {
+      setSortValue("");
+    }
+  }
   // Fetch all order details based on the order IDs
   useEffect(() => {
     if (orderIds.length > 0) {
@@ -97,8 +108,22 @@ const Sales = ({ userData }) => {
           });
 
           const allOrderDetails = await Promise.all(orderDetailsPromises);
+
+          function compareStatus(a, b) {
+            if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
+              return -1;
+            }
+            if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
+              return 1;
+            }
+            return 0;
+          }
+          if (sortValue) {
+            allOrderDetails.reverse();
+          }
           setOrderDetails(allOrderDetails);
 
+          console.log(allOrderDetails);
           // storing customer ids
           const customerIds = allOrderDetails.map((order) => {
             return order?.meta?._customer?.[0];
@@ -126,7 +151,7 @@ const Sales = ({ userData }) => {
 
       fetchAllOrderDetails();
     }
-  }, [orderIds]);
+  }, [orderIds, sortValue]);
 
   const [customerDetails, setCustomerDetails] = useState([]);
   useEffect(() => {
@@ -191,34 +216,34 @@ const Sales = ({ userData }) => {
   // fetching domain registar details
   const [registarDetails, setRegistartDetails] = useState([]);
   const [registarLoading, setRegistarLoading] = useState(false);
-  // useEffect(() => {
-  //   async function fetchRegistar() {
-  //     try {
-  //       const domainRegistarPromises = domainNames.map(async (domainName) => {
-  //         const res = await fetch(
-  //           `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
-  //         );
-  //         if (!res.ok) {
-  //           const errorData = await res.json();
-  //           throw new Error(errorData.message);
-  //         }
-  //         return res.json(); // Return the order data
-  //       });
+  useEffect(() => {
+    async function fetchRegistar() {
+      try {
+        const domainRegistarPromises = domainNames.map(async (domainName) => {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
+          );
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message);
+          }
+          return res.json(); // Return the order data
+        });
 
-  //       const allDomainsRegistar = await Promise.all(domainRegistarPromises);
-  //       setRegistartDetails(allDomainsRegistar);
-  //       console.log(allDomainsRegistar);
-  //       // setDomainDetails(allDomainDetails);
-  //     } catch (err) {
-  //       console.log(err);
-  //     } finally {
-  //       setRegistarLoading(false);
-  //     }
-  //   }
-  //   if (domainNames.length > 0) {
-  //     fetchRegistar();
-  //   }
-  // }, [domainNames]);
+        const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+        setRegistartDetails(allDomainsRegistar);
+
+        // setDomainDetails(allDomainDetails);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setRegistarLoading(false);
+      }
+    }
+    if (domainNames.length > 0) {
+      fetchRegistar();
+    }
+  }, [domainNames]);
 
   if (loading) {
     return (
@@ -281,11 +306,23 @@ const Sales = ({ userData }) => {
         >
           <img src={sales_details_icon} alt="Media Setup Icon" />
           <h4>Sales Details</h4>
-          <div className={styles.offerSorts}>
+          <div className={styles.offerSorts} onClick={handleSort}>
+            {/* <div className={styles.offerSorts}> */}
             {/* <img src={sort_icon}></img> */}
             <SortIcon />
             <label>Sort</label>
           </div>
+          {/* <div>
+            <select
+              onChange={(e) => setSortValue(e.target.value)}
+              value={sortValue}
+            >
+              <option value="">sort</option>
+              <option value="price">By price</option>
+              <option value="order_id">Order id</option>
+              <option value="status">Order Status</option>
+            </select>
+          </div> */}
         </div>
         <div className={styles.dashboard_small_margin}>
           <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>

@@ -87,7 +87,6 @@ const TabContent = ({
   orderTotal,
 }) => {
   const currentMonth = new Date().getMonth();
-  console.log("month", currentMonth);
   switch (activeTab) {
     case "My Orders":
       return <Orders userData={userData} />;
