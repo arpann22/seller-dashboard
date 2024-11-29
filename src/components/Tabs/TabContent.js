@@ -113,7 +113,7 @@ const TabContent = ({
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>
-                  ${salesAllTime ? salesAllTime : "00000"}
+                  ${salesAllTime ? salesAllTime : "0"}
                 </h2>
                 <p className={styles.m_0}>Total Sales</p>
               </div>
@@ -124,8 +124,7 @@ const TabContent = ({
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>
-                  $
-                  {salesCurrentYear ? salesCurrentYear / currentMonth : "00000"}
+                  ${salesCurrentYear ? salesCurrentYear / currentMonth : "0"}
                 </h2>
                 <p className={styles.m_0}>Average Monthly Sales</p>
               </div>
@@ -135,9 +134,7 @@ const TabContent = ({
             </div>
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
-                <h2 className={styles.m_0}>
-                  ${orderTotal ? orderTotal : "00000"}
-                </h2>
+                <h2 className={styles.m_0}>${orderTotal ? orderTotal : "0"}</h2>
                 <p className={styles.m_0}>Total Orders</p>
               </div>
               <div className={styles.single_sales_icon}>
