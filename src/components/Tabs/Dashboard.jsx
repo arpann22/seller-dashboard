@@ -20,7 +20,12 @@ const progress = 50; //
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 
-const Dashboard = ({ userData }) => {
+const Dashboard = ({
+  userData,
+  soldDomains,
+  salesAllTime,
+  salesCurrentYear,
+}) => {
   const [domains, setDomains] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -47,97 +52,6 @@ const Dashboard = ({ userData }) => {
       fetchDomainsForSale();
     }
   }, [userData.id]);
-
-  const [soldDomains, setSoldDomains] = useState([]);
-
-  // fetching order ids by seller id
-  useEffect(() => {
-    async function fetchOrderBysellerId() {
-      try {
-        // setLoading(true);
-        const res = await fetch(
-          `${currentUrl}/wp-json/wstr/v1/sales-order/${userData.id}`
-        );
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message);
-        }
-        const data = await res.json();
-        console.log(data);
-        setSoldDomains(data);
-      } catch (err) {
-        // setError(err);
-        // console.log(err);
-      } finally {
-        // setLoading(false);
-      }
-    }
-    if (userData.id) {
-      fetchOrderBysellerId();
-    }
-  }, [userData.id]);
-
-  // Fetch all order details based on the order IDs
-  const [orderDetails, setOrderDetails] = useState();
-  const [salesCurrentYear, setSalesCurrentYear] = useState(0);
-  const [salesAllTime, setSalesAllTime] = useState(0);
-
-  useEffect(() => {
-    if (soldDomains.length > 0) {
-      async function fetchAllOrderDetails() {
-        try {
-          const orderDetailsPromises = soldDomains.map(async (orderId) => {
-            const res = await fetch(
-              `${currentUrl}/wp-json/wp/v2/domain_order/${orderId}`
-            );
-            if (!res.ok) {
-              const errorData = await res.json();
-              throw new Error(errorData.message);
-            }
-            return res.json(); // Return the order data
-          });
-
-          const allOrderDetails = await Promise.all(orderDetailsPromises);
-          setOrderDetails(allOrderDetails);
-          console.log(allOrderDetails);
-
-          // // storing customer ids
-          // const customerIds = allOrderDetails.map((order) => {
-          //   return order?.meta?._customer?.[0];
-          // });
-          // setCustomerIds(customerIds);
-          const currentYear = new Date().getFullYear();
-
-          let salesCurrentYear = 0;
-          let salesAllTime = 0;
-          allOrderDetails.forEach((order) => {
-            const date_created = order?.meta?._date_created?.[0];
-            const orderTotal = parseFloat(order?.meta?._order_total?.[0] || 0); // Convert to number
-
-            if (date_created) {
-              // Parse the year from the date_created string
-              const orderYear = new Date(date_created).getFullYear();
-
-              // Add to current year sales if the year matches
-              if (orderYear === currentYear) {
-                salesCurrentYear += orderTotal;
-              }
-            }
-
-            // Add to all-time sales
-            salesAllTime += orderTotal;
-          });
-          setSalesCurrentYear(salesCurrentYear);
-          setSalesAllTime(salesAllTime);
-        } catch (err) {
-          // setError(err.message);
-        }
-      }
-
-      fetchAllOrderDetails();
-    }
-  }, [soldDomains]);
 
   return (
     <>
