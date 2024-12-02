@@ -149,7 +149,7 @@ const TabContent = ({
               </div>
             </div>
           </div>
-          <div>
+          <div className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}>
             <LineChart
               xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
               series={[
@@ -157,8 +157,11 @@ const TabContent = ({
                   data: [2, -5.5, 2, -7.5, 1.5, 6],
                   area: true,
                   baseline: "min",
+                  color: "rgb(197, 235, 240)",
                 },
+
               ]}
+
               width={800}
               height={500}
             />

@@ -20,6 +20,13 @@ import unserialize from "locutus/php/var/unserialize";
 
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 
+
+
+// sales distribution tabs
+
+
+
+
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -309,7 +316,9 @@ const Sales = ({ userData }) => {
           >
             <img src={sales_distribution_icon} alt="Media Setup Icon" />
             <h4>Sales Distribution</h4>
-
+            <HiDotsVertical />
+          </div>
+          <div className={styles.sales_graph_svg}>
             <PieChart
               series={[
                 {
@@ -326,8 +335,6 @@ const Sales = ({ userData }) => {
               }}
               {...sizing}
             />
-
-            <HiDotsVertical />
           </div>
         </div>
         <div>
@@ -482,9 +489,8 @@ const Sales = ({ userData }) => {
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
+                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                      }`}
                   >
                     {/* test js starts  */}
                     {(() => {

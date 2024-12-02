@@ -34,10 +34,14 @@
 button label {
   cursor: pointer;
 }
-/* svg:not(.tox-icon svg) {
+svg:not(.tox-icon svg) {
   height: 18px;
   width: 18px;
-} */
+}
+.sales_graph_svg svg {
+  width: 100% !important;
+  height: 100% !important;
+}
 .small_svg svg {
   height: 24px !important;
   width: 24px !important;
@@ -352,6 +356,10 @@ button.active svg path {
   padding: 15px 20px;
   justify-content: space-between;
 }
+/* .sales_overview_graph svg path {
+  stroke: #00d9f5;
+} */
+
 .single_sales_wrapper .single_sales_icon {
   background: linear-gradient(
     -45deg,
