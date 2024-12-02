@@ -87,6 +87,9 @@ const TabContent = ({
   orderTotal,
 }) => {
   const currentMonth = new Date().getMonth();
+
+  var average_monthly_sales = salesCurrentYear / currentMonth;
+
   switch (activeTab) {
     case "My Orders":
       return <Orders userData={userData} />;
@@ -123,7 +126,10 @@ const TabContent = ({
             <div className={styles.single_sales_wrapper}>
               <div className={styles.single_sales_data}>
                 <h2 className={styles.m_0}>
-                  ${salesCurrentYear ? salesCurrentYear / currentMonth : "0"}
+                  $
+                  {average_monthly_sales
+                    ? average_monthly_sales.toFixed(2)
+                    : "0"}
                 </h2>
                 <p className={styles.m_0}>Average Monthly Sales</p>
               </div>
