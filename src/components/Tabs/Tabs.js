@@ -161,6 +161,50 @@ const Tabs = ({ userData, setUserData }) => {
           );
           setOrderDetails(allCompletedOrders);
 
+          // const currentYear = new Date().getFullYear();
+
+          const current_month = new Date().getMonth() + 1;
+          const currentYear = new Date().getFullYear();
+          const currentDate = new Date();
+
+          // -------------orders for sales chart in sale overview starts
+
+          const currentMonthOrders = allCompletedOrders.filter((order) => {
+            const dateCreated = order?.meta?._date_created?.[0];
+            if (!dateCreated) return false; // Skip if dateCreated is not available
+            const orderMonth = new Date(dateCreated).getMonth() + 1;
+            return orderMonth === current_month;
+          });
+
+          // Last 3 Months
+          const lastThreeMonthsDate = new Date(
+            currentYear,
+            currentDate.getMonth() - 2,
+            1
+          ); // Start of 3 months ago
+          const lastThreeMonthsOrders = allCompletedOrders.filter((order) => {
+            const dateCreated = order?.meta?._date_created?.[0];
+            if (!dateCreated) return false;
+            const orderDate = new Date(dateCreated);
+            return orderDate >= lastThreeMonthsDate; // Check if order date is within last 3 months
+          });
+
+          const currentYearOrders = allCompletedOrders.filter((order) => {
+            const dateCreated = order?.meta?._date_created?.[0];
+            if (!dateCreated) return false; // Skip if dateCreated is not available
+            const orderYear = new Date(dateCreated).getFullYear();
+            return orderYear === currentYear;
+          });
+
+          const last_five_year = currentYear - 5;
+          const fiveYearOrders = allCompletedOrders.filter((order) => {
+            const dateCreated = order?.meta?._date_created?.[0];
+            if (!dateCreated) return false; // Skip if dateCreated is not available
+            const orderYear = new Date(dateCreated).getFullYear();
+            return orderYear >= last_five_year;
+          });
+          // -------------orders for sales chart in sale overview ends
+
           const allOtherCurrenciesOrders = allCompletedOrders.filter(
             (order) => order?.meta?._currency?.[0] != "USD"
           );
@@ -170,7 +214,6 @@ const Tabs = ({ userData, setUserData }) => {
 
           let sale_total = 0;
           let sale_current_year = 0;
-          const currentYear = new Date().getFullYear();
 
           const calculateSales = (orders, priceMetaKey) => {
             let total = 0;
