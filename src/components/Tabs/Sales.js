@@ -18,6 +18,8 @@ import { ReactComponent as Sales_status_icon } from "./image/sales_status.svg";
 import { ReactComponent as SortIcon } from "./image/sort.svg";
 import unserialize from "locutus/php/var/unserialize";
 
+import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
+
 const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
@@ -216,34 +218,57 @@ const Sales = ({ userData }) => {
   // fetching domain registar details
   const [registarDetails, setRegistartDetails] = useState([]);
   const [registarLoading, setRegistarLoading] = useState(false);
-  useEffect(() => {
-    async function fetchRegistar() {
-      try {
-        const domainRegistarPromises = domainNames.map(async (domainName) => {
-          const res = await fetch(
-            `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
-          );
-          if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message);
-          }
-          return res.json(); // Return the order data
-        });
+  // useEffect(() => {
+  //   async function fetchRegistar() {
+  //     try {
+  //       const domainRegistarPromises = domainNames.map(async (domainName) => {
+  //         const res = await fetch(
+  //           `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
+  //         );
+  //         if (!res.ok) {
+  //           const errorData = await res.json();
+  //           throw new Error(errorData.message);
+  //         }
+  //         return res.json(); // Return the order data
+  //       });
 
-        const allDomainsRegistar = await Promise.all(domainRegistarPromises);
-        setRegistartDetails(allDomainsRegistar);
+  //       const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+  //       setRegistartDetails(allDomainsRegistar);
 
-        // setDomainDetails(allDomainDetails);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setRegistarLoading(false);
-      }
-    }
-    if (domainNames.length > 0) {
-      fetchRegistar();
-    }
-  }, [domainNames]);
+  //       // setDomainDetails(allDomainDetails);
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setRegistarLoading(false);
+  //     }
+  //   }
+  //   if (domainNames.length > 0) {
+  //     fetchRegistar();
+  //   }
+  // }, [domainNames]);
+
+  const [oneTime, setOneTime] = useState(10);
+  const [leaseToOwn, setLeaseToOwn] = useState(15);
+  const [offers, setOffers] = useState(20);
+
+  const data = [
+    { id: 0, value: oneTime, label: "one-time" },
+    { id: 1, value: leaseToOwn, label: "lease-to-own" },
+    { id: 2, value: offers, label: "offers" },
+  ];
+  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+
+  const getArcLabel = (params) => {
+    const percent = params.value / TOTAL;
+    return `${(percent * 100).toFixed(0)}%`;
+  };
+
+  const sizing = {
+    // margin: { right: 5 },
+    width: 400,
+    height: 200,
+    legend: { hidden: false },
+  };
 
   if (loading) {
     return (
@@ -284,6 +309,24 @@ const Sales = ({ userData }) => {
           >
             <img src={sales_distribution_icon} alt="Media Setup Icon" />
             <h4>Sales Distribution</h4>
+
+            <PieChart
+              series={[
+                {
+                  outerRadius: 80,
+                  data,
+                  arcLabel: getArcLabel,
+                },
+              ]}
+              sx={{
+                [`& .${pieArcLabelClasses.root}`]: {
+                  fill: "white",
+                  fontSize: 14,
+                },
+              }}
+              {...sizing}
+            />
+
             <HiDotsVertical />
           </div>
         </div>

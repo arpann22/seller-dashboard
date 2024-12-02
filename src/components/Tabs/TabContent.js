@@ -77,6 +77,8 @@ import { ReactComponent as Average_Sales_icon } from "./image/monthly.svg";
 import { ReactComponent as Total_Orders_icon } from "./image/total_orders.svg";
 import { ReactComponent as Sales_Overview_icon } from "./image/sales_overview.svg";
 
+import { LineChart } from "@mui/x-charts/LineChart";
+
 const TabContent = ({
   activeTab,
   userData,
@@ -146,6 +148,20 @@ const TabContent = ({
                 <Total_Orders_icon />
               </div>
             </div>
+          </div>
+          <div>
+            <LineChart
+              xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+              series={[
+                {
+                  data: [2, -5.5, 2, -7.5, 1.5, 6],
+                  area: true,
+                  baseline: "min",
+                },
+              ]}
+              width={800}
+              height={500}
+            />
           </div>
         </>
       );

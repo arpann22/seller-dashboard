@@ -34,10 +34,10 @@
 button label {
   cursor: pointer;
 }
-svg:not(.tox-icon svg) {
+/* svg:not(.tox-icon svg) {
   height: 18px;
   width: 18px;
-}
+} */
 .small_svg svg {
   height: 24px !important;
   width: 24px !important;
