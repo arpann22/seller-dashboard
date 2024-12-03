@@ -139,6 +139,11 @@ const Tabs = ({ userData, setUserData }) => {
   const [salesAllTime, setSalesAllTime] = useState(0);
   const [orderTotal, setOrderTotal] = useState(0);
 
+  const [currentMonthOrders, setCurrentMonthOrders] = useState([]);
+  const [lastThreeMonthsOrders, setLastThreeMonthsOrders] = useState([]);
+  const [currentYearOrders, setCurrentYearOrders] = useState([]);
+  const [fiveYearOrders, setFiveYearOrders] = useState([]);
+
   useEffect(() => {
     if (soldDomains.length > 0) {
       async function fetchAllOrderDetails() {
@@ -176,6 +181,8 @@ const Tabs = ({ userData, setUserData }) => {
             return orderMonth === current_month;
           });
 
+          setCurrentMonthOrders(currentMonthOrders);
+
           // Last 3 Months
           const lastThreeMonthsDate = new Date(
             currentYear,
@@ -188,6 +195,7 @@ const Tabs = ({ userData, setUserData }) => {
             const orderDate = new Date(dateCreated);
             return orderDate >= lastThreeMonthsDate; // Check if order date is within last 3 months
           });
+          setLastThreeMonthsOrders(lastThreeMonthsOrders);
 
           const currentYearOrders = allCompletedOrders.filter((order) => {
             const dateCreated = order?.meta?._date_created?.[0];
@@ -195,6 +203,7 @@ const Tabs = ({ userData, setUserData }) => {
             const orderYear = new Date(dateCreated).getFullYear();
             return orderYear === currentYear;
           });
+          setCurrentYearOrders(currentYearOrders);
 
           const last_five_year = currentYear - 5;
           const fiveYearOrders = allCompletedOrders.filter((order) => {
@@ -203,6 +212,7 @@ const Tabs = ({ userData, setUserData }) => {
             const orderYear = new Date(dateCreated).getFullYear();
             return orderYear >= last_five_year;
           });
+          setFiveYearOrders(fiveYearOrders);
           // -------------orders for sales chart in sale overview ends
 
           const allOtherCurrenciesOrders = allCompletedOrders.filter(
@@ -515,6 +525,10 @@ const Tabs = ({ userData, setUserData }) => {
           salesAllTime={salesAllTime}
           salesCurrentYear={salesCurrentYear}
           orderTotal={orderTotal}
+          currentMonthOrders={currentMonthOrders}
+          lastThreeMonthsOrders={lastThreeMonthsOrders}
+          currentYearOrders={currentYearOrders}
+          fiveYearOrders={fiveYearOrders}
         />
       </div>
 

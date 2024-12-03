@@ -67,7 +67,7 @@
 // newwwwwww
 
 // TabContent.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import salesOverviewIcons from "./images/sales-overview.png";
 import totalSalesIcon from "./images/total-sales.png";
@@ -87,7 +87,72 @@ const TabContent = ({
   salesAllTime,
   salesCurrentYear,
   orderTotal,
+  currentMonthOrders,
+  lastThreeMonthsOrders,
+  currentYearOrders,
+  fiveYearOrders,
 }) => {
+  console.log("tabcontent", currentMonthOrders);
+  console.log("tabcontents", lastThreeMonthsOrders);
+  console.log("tabcontentss", currentYearOrders);
+  console.log("tabcontentsss", fiveYearOrders);
+
+  const [prices, setPrices] = useState([]);
+  const [months, setMonths] = useState([]);
+  // lastThreeMonthsOrders.map(()=>)
+  useEffect(() => {
+    function get_order_totals() {
+      // Reverse the orders to ensure correct chronological order
+      // const reversedOrders = [...lastThreeMonthsOrders].reverse();
+      const reversedOrders = lastThreeMonthsOrders.reverse();
+      // Initialize arrays to store extracted prices and months
+      const extractedPrices = [];
+      const extractedMonths = [];
+
+      reversedOrders.forEach((order) => {
+        // Extract price
+        const price =
+          order?.meta?._currency?.[0] === "USD"
+            ? parseInt(order?.meta?._order_total?.[0])
+            : parseInt(order?.meta?._usd_total?.[0]);
+        extractedPrices.push(price);
+
+        // Extract and format date as a numeric value
+        const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
+        if (dateCreated) {
+          const dateObj = new Date(dateCreated);
+          const numericMonth = dateObj.getMonth() + 1; // 1 = Jan, 2 = Feb, ...
+          extractedMonths.push(numericMonth);
+          // const year = dateObj.getFullYear();
+          // extractedMonths.push(`${numericMonth}/${year}`); // e.g., "1/2024"
+        }
+      });
+
+      // Map prices to all 12 months
+      const allMonthsPrices = Array(12)
+        .fill(null)
+        .map((_, i) => {
+          const monthIndex = i + 1;
+          const foundPrice = extractedPrices.find(
+            (price, j) => extractedMonths[j] === monthIndex
+          );
+          return foundPrice || null;
+        });
+
+      setPrices(allMonthsPrices);
+      setMonths(Array.from({ length: 12 }, (_, i) => i + 1));
+      // Update states with the extracted values
+      // setPrices(extractedPrices);
+      // setMonths(extractedMonths);
+    }
+    if (lastThreeMonthsOrders.length > 0) {
+      get_order_totals();
+    }
+  }, [lastThreeMonthsOrders]);
+  useEffect(() => {
+    console.log("Prices:", prices);
+    console.log("Months:", months);
+  }, [prices, months]);
   const currentMonth = new Date().getMonth();
 
   var average_monthly_sales = salesCurrentYear / currentMonth;
@@ -104,6 +169,7 @@ const TabContent = ({
     case "Sellers Central":
       return (
         <>
+          {console.log("prices", prices)}
           <div
             className={`${styles.salesOverViewTitle} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}
                     }`}
@@ -149,19 +215,21 @@ const TabContent = ({
               </div>
             </div>
           </div>
-          <div className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}>
+          <div
+            className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}
+          >
             <LineChart
               xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+              // xAxis={[{ data: months }]}
               series={[
                 {
                   data: [2, -5.5, 2, -7.5, 1.5, 6],
+                  // data: prices,
                   area: true,
                   baseline: "min",
                   color: "rgb(197, 235, 240)",
                 },
-
               ]}
-
               width={800}
               height={500}
             />
