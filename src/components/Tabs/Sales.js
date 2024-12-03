@@ -19,12 +19,44 @@ import { ReactComponent as SortIcon } from "./image/sort.svg";
 import unserialize from "locutus/php/var/unserialize";
 
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
+import { colors } from "@mui/material";
 
 
 
 // sales distribution tabs
 
+const timePeriodTabs = [
+  {
+    label: "This Month",
+    title: "Pie Chart for This Month",
+    data: [
+      { value: 20, label: "One Time", color: "#2164ff" },
+      { value: 50, label: "Lease-to-Own", color: "#00d9f5" },
+      { value: 30, label: "Offers", color: "#094b8f" },
+    ],
+  },
+  {
+    label: "This Year",
+    title: "Pie Chart for This Year",
+    data: [
+      { value: 30, label: "One Time", color: "#2164ff" },
+      { value: 50, label: "Lease-to-Own", color: "#00d9f5" },
+      { value: 20, label: "Offers", color: "#094b8f" },
+    ],
+  },
+  {
+    label: "All the Time",
+    title: "Pie Chart for All the Time",
+    data: [
+      { value: 60, label: "One Time", color: "#2164ff" },
+      { value: 20, label: "Lease-to-Own", color: "#00d9f5" },
+      { value: 20, label: "Offers", color: "#094b8f" },
+    ],
+  },
+];
 
+
+// sales distribution tabs
 
 
 const handleSubmit = (event) => {
@@ -41,6 +73,24 @@ const handleReset = () => {
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const Sales = ({ userData }) => {
+
+  // sales tab start
+
+  const [selectedTab, setSelectedTab] = useState("This Month");
+
+  const handleTabClick = (tabLabel) => {
+    setSelectedTab(tabLabel);
+  };
+
+  const selectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
+
+  // const getArcLabel = (data) => `${data.label}: ${data.value}%`; // Static arc label function
+
+  // Common pie chart configuration
+  // const sizing = { height: 300, width: 300 };
+
+  // sales tab end
+
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -272,9 +322,21 @@ const Sales = ({ userData }) => {
 
   const sizing = {
     // margin: { right: 5 },
-    width: 400,
-    height: 200,
-    legend: { hidden: false },
+    // width: 400,
+    height: 260,
+    // legend: { hidden: false },
+    legend: {
+      direction: 'row',
+      position: { vertical: 'bottom', horizontal: 'middle' },
+      labelStyle: {
+        fontSize: 12,
+        fill: '#67748e',
+      },
+      itemMarkWidth: 7,
+      itemMarkHeight: 7,
+      markGap: 8,
+      itemGap: 20,
+    },
   };
 
   if (loading) {
@@ -300,7 +362,7 @@ const Sales = ({ userData }) => {
       <div
         className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}
       >
-        <div>
+        <div className={styles.sales_first_column_card}>
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
@@ -310,7 +372,7 @@ const Sales = ({ userData }) => {
             <HiDotsVertical />
           </div>
         </div>
-        <div>
+        <div className={styles.sales_first_column_card}>
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
@@ -318,8 +380,46 @@ const Sales = ({ userData }) => {
             <h4>Sales Distribution</h4>
             <HiDotsVertical />
           </div>
+          <div className={styles.sales_distribution_chart_wrapper}>
+            {/* Tab Buttons */}
+            <div className={styles.sales_distribution_tab_labels}>
+              {timePeriodTabs.map((tab) => (
+                <button
+                  key={tab.label}
+                  onClick={() => handleTabClick(tab.label)}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""}`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Static PieChart for the Selected Tab */}
+            <div className={styles.sales_graph_svg}>
+              <PieChart
+
+                margin={{ top: 100, bottom: 120 }}
+
+                series={[
+                  {
+                    outerRadius: 80,
+                    data: selectedTabData.data,
+                    arcLabel: getArcLabel,
+                    cx: 150,
+                  },
+                ]}
+                sx={{
+                  [`& .${pieArcLabelClasses.root}`]: {
+                    fill: "white",
+                    fontSize: 12,
+                  },
+                }}
+                {...sizing}
+              />
+            </div>
+          </div>
           <div className={styles.sales_graph_svg}>
-            <PieChart
+            {/* <PieChart
               series={[
                 {
                   outerRadius: 80,
@@ -334,10 +434,10 @@ const Sales = ({ userData }) => {
                 },
               }}
               {...sizing}
-            />
+            /> */}
           </div>
         </div>
-        <div>
+        <div className={styles.sales_first_column_card}>
           <div
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
           >
@@ -346,10 +446,11 @@ const Sales = ({ userData }) => {
             <HiDotsVertical />
           </div>
         </div>
-      </div>
+      </div >
       {/* sales details section */}
-      <div
-        className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `}
+      < div
+        className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `
+        }
       >
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -623,7 +724,7 @@ const Sales = ({ userData }) => {
             })}
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };

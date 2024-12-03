@@ -1700,7 +1700,7 @@ button.active svg path {
   flex: 1;
 }
 /* sales deatils */
-.sales_first_column_wrapper div {
+.sales_first_column_wrapper .sales_first_column_card {
   flex: 1;
   border: 1px solid #edf0f7;
   background-color: #fff;
@@ -1732,6 +1732,33 @@ button.active svg path {
 }
 .dashboard_sales_details .extra_column:not(:last-child) {
   border-bottom: 1px solid #eaeaea;
+}
+.sales_distribution_tab_labels {
+  display: flex;
+  gap: 0px;
+  justify-content: center;
+}
+.sales_distribution_tab_labels button {
+  border: transparent;
+  color: #67748e;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.sales_distribution_tab_labels button:hover,
+.sales_distribution_tab_labels .tabButton.active,
+.sales_distribution_tab_labels .tabButton.activeTab {
+  background-color: #00d9f5;
+  color: #fff;
+  text-shadow: none;
+}
+.sales_distribution_chart_wrapper {
+  padding: 20px;
+}
+.sellerCentralGraphTabsWrapper .sales_distribution_tab_labels {
+  justify-content: end;
+}
+.sellerCentralGraphTabsWrapper .sales_distribution_tab_labels button {
+  padding: 6px 15px;
 }
 /* progess score add domains */
 

@@ -79,6 +79,36 @@ import { ReactComponent as Sales_Overview_icon } from "./image/sales_overview.sv
 
 import { LineChart } from "@mui/x-charts/LineChart";
 
+
+const timePeriodTabs = [
+  {
+    label: "1 m",
+    title: "Line Chart for 1 Month",
+    data: [2, -5.5, 2, -7.5, 1.5, 6],
+  },
+  {
+    label: "3 m",
+    title: "Line Chart for 3 Months",
+    data: [1.5, -3, 2.5, -4.5, 2, 5.5],
+  },
+  {
+    label: "1 y",
+    title: "Line Chart for 1 Year",
+    data: [3, -2.5, 4, -6, 2.5, 7],
+  },
+  {
+    label: "5 y",
+    title: "Line Chart for 5 Years",
+    data: [5, -1, 6.5, -8, 3, 9],
+  },
+  {
+    label: "Max",
+    title: "Line Chart for Max Time Period",
+    data: [6, -0.5, 7, -9.5, 4, 10],
+  },
+];
+
+
 const TabContent = ({
   activeTab,
   userData,
@@ -92,6 +122,22 @@ const TabContent = ({
   currentYearOrders,
   fiveYearOrders,
 }) => {
+  // tabs for sellercentral years months
+
+  const [selectedTab, setSelectedTab] = useState("1 m");
+
+  const handleTabClick = (tabLabel) => {
+    setSelectedTab(tabLabel);
+  };
+
+  const selectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
+
+  // tabs for sellercentral end
+
+
+
+
+
   console.log("tabcontent", currentMonthOrders);
   console.log("tabcontents", lastThreeMonthsOrders);
   console.log("tabcontentss", currentYearOrders);
@@ -153,7 +199,7 @@ const TabContent = ({
     console.log("Prices:", prices);
     console.log("Months:", months);
   }, [prices, months]);
-  const currentMonth = new Date().getMonth();
+  const currentMonth = new Date().getMonth() + 1;
 
   var average_monthly_sales = salesCurrentYear / currentMonth;
 
@@ -215,7 +261,42 @@ const TabContent = ({
               </div>
             </div>
           </div>
-          <div
+
+          <div className={`${styles.sales_distribution_chart_wrapper} ${styles.sellerCentralGraphTabsWrapper}`}>
+            {/* Tab Navigation */}
+            <div className={styles.sales_distribution_tab_labels}>
+              {timePeriodTabs.map((tab) => (
+                <button
+                  key={tab.label}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
+                  onClick={() => handleTabClick(tab.label)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Line Chart for the Selected Tab */}
+            <div
+              className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}
+            >
+              <LineChart
+                xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]} // Replace with dynamic data if needed
+                series={[
+                  {
+                    data: selectedTabData.data,
+                    area: true,
+                    baseline: "min",
+                    color: "rgb(197, 235, 240)",
+                  },
+                ]}
+                width={800}
+                height={500}
+              />
+            </div>
+          </div>
+          {/* <div
             className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}
           >
             <LineChart
@@ -233,7 +314,7 @@ const TabContent = ({
               width={800}
               height={500}
             />
-          </div>
+          </div> */}
         </>
       );
     default:
