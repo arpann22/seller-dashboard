@@ -577,7 +577,12 @@ const Sales = ({ userData }) => {
                         </h5>
                       </div>
                       <div className={styles.recentOffers_card_details}>
-                        <div className={styles.svg_wrapper_bg_grey}>
+                        <div
+                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                            }`}
+                        >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
                           ) : (

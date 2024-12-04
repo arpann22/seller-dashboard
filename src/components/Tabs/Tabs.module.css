@@ -383,6 +383,9 @@ button.active svg path {
   flex-direction: column;
   gap: 8px;
 }
+.single_sales_data p {
+  color: #67748e;
+}
 .salesOverViewTitle svg {
   height: 24px;
   width: 24px;
@@ -1156,6 +1159,7 @@ button.active svg path {
 .recentOffers_card p {
   margin-bottom: 5px;
   color: #67748e;
+  font-size: 12px;
 }
 .recentOffers_card_titles svg {
   width: 8px !important;
@@ -1192,7 +1196,7 @@ button.active svg path {
 .recentOffers_card_details .svg_wrapper_bg_grey,
 .dashboard_top_wrapper .svg_wrapper_bg_grey {
   background-color: #f7f8fd;
-  padding: 10px;
+  padding: 16px;
   border-radius: 50%;
   /* height: 40px;
   width: 40px; */
@@ -1336,6 +1340,8 @@ button.active svg path {
   background-color: #edf0f7;
   border-radius: 50px;
   align-items: center;
+  color: #67748e;
+  border: 1px solid #edf0f7;
 }
 .offerSorts img {
   width: 15px;
@@ -1366,6 +1372,12 @@ button.active svg path {
 .available_balance_card_shapes {
   align-items: center;
 }
+.balanceInfoIcon {
+  background: #ffffff7a;
+  display: flex;
+  padding: 5px;
+  border-radius: 20px;
+}
 .available_balance_card_shapes img:first-child {
   width: 40px;
 }
@@ -1384,7 +1396,7 @@ button.active svg path {
 }
 .available_balance_card_footer button {
   background-color: #fff;
-  padding: 20px;
+  padding: 16px 32px;
   border-radius: 50px;
   border: transparent;
   font-weight: 600;

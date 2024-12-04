@@ -218,7 +218,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
           {/* Premium Icon */}
           <div className="premium_icon">
             <img
-              src="/wp-content/plugins/card-block/images/diamond.png"
+              src="/wp-content/plugins/cpm-card-block/images/diamond.png"
               alt="Diamond Icon"
             />
           </div>

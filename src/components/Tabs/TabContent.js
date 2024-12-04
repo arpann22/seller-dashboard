@@ -493,9 +493,8 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.activeTab : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}

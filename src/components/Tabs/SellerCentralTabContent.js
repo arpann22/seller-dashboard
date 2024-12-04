@@ -26,6 +26,8 @@ import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
 import { ReactComponent as DeleteIcon } from "./image/delete.svg";
 import { ReactComponent as RecentOffersIcon } from "./image/recents_offers.svg";
+import { ReactComponent as PaymentMethodIcon } from "./image/method.svg";
+
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -165,11 +167,10 @@ const SellerCentralTabContent = ({
                         </div>
                         <div className={styles.recentOffers_card_details}>
                           <div
-                            className={`${styles.svg_wrapper_bg_grey} ${
-                              expanded[index]
-                                ? styles.icon_close_wrapper
-                                : styles.icon_add_wrapper
-                            }`}
+                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                              }`}
                           >
                             {expanded[index] ? (
                               <FaTimes onClick={() => toggleExpanded(index)} />
@@ -186,9 +187,8 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -286,7 +286,9 @@ const SellerCentralTabContent = ({
                 >
                   <img src={available_balance_circle}></img>
                   {/* <img src={available_balance_right_icon}></img> */}
-                  <IoMdInformationCircle />
+                  <div className={styles.balanceInfoIcon}>
+                    <IoMdInformationCircle />
+                  </div>
                 </div>
                 <div>
                   <h5>Account Balance</h5>
@@ -316,7 +318,8 @@ const SellerCentralTabContent = ({
               <div
                 className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                <img src={mediaSetupIcon} alt="Media Setup Icon" />
+                {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
+                <PaymentMethodIcon />
                 <h4>Payment Method</h4>
               </div>
               <form>
@@ -325,9 +328,8 @@ const SellerCentralTabContent = ({
                 >
                   {/* Card 1 */}
                   <label
-                    className={`${styles.card} ${
-                      selectedCard === 1 ? styles.selected : ""
-                    }`}
+                    className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                      }`}
                   >
                     <input
                       type="radio"
@@ -363,9 +365,8 @@ const SellerCentralTabContent = ({
 
                   {/* Card 2 */}
                   <label
-                    className={`${styles.card} ${
-                      selectedCard === 2 ? styles.selected : ""
-                    }`}
+                    className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                      }`}
                   >
                     <input
                       type="radio"
