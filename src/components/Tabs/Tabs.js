@@ -529,6 +529,7 @@ const Tabs = ({ userData, setUserData }) => {
           lastThreeMonthsOrders={lastThreeMonthsOrders}
           currentYearOrders={currentYearOrders}
           fiveYearOrders={fiveYearOrders}
+          maxOrder={orderDetails}
         />
       </div>
 

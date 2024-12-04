@@ -92,6 +92,7 @@ const TabContent = ({
   lastThreeMonthsOrders,
   currentYearOrders,
   fiveYearOrders,
+  maxOrder,
 }) => {
   // tabs for sellercentral years months
 
@@ -102,6 +103,7 @@ const TabContent = ({
   console.log("tabcontents", lastThreeMonthsOrders);
   console.log("tabcontentss", currentYearOrders);
   console.log("tabcontentsss", fiveYearOrders);
+  console.log("max", maxOrder);
 
   const [prices, setPrices] = useState([]);
   const [xAxis, setXAxis] = useState([]);
@@ -111,9 +113,9 @@ const TabContent = ({
       console.log(selectedTab);
       if (selectedTab == "1 m") {
         const reversedOrders = currentMonthOrders.reverse();
-        // Initialize arrays to store extracted prices and days
-        const extractedPrices = [];
-        const extractedDays = [];
+
+        // Initialize an object to store daily totals
+        const dayPriceMap = {};
 
         reversedOrders.forEach((order) => {
           // Extract price
@@ -121,54 +123,55 @@ const TabContent = ({
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
-          extractedPrices.push(price);
 
           // Extract and format day of the month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
             const dateObj = new Date(dateCreated);
             const dayOfMonth = dateObj.getDate(); // Extracts day of the month (1-31)
-            extractedDays.push(dayOfMonth);
+
+            // Accumulate prices for the same day
+            if (!dayPriceMap[dayOfMonth]) {
+              dayPriceMap[dayOfMonth] = 0; // Initialize if not present
+            }
+            dayPriceMap[dayOfMonth] += price; // Add the price to the day's total
           }
         });
 
-        // Map prices to all days of the current month
+        // Get the number of days in the current month
         const daysInCurrentMonth = new Date(
           new Date().getFullYear(),
           new Date().getMonth() + 1,
           0
-        ).getDate(); // Get the number of days in the current month
+        ).getDate(); // e.g., 31 for December
 
-        const dailyPrices = Array(daysInCurrentMonth)
-          .fill(null)
-          .map((_, i) => {
+        // Map prices to all days of the current month
+        const dailyPrices = Array.from(
+          { length: daysInCurrentMonth },
+          (_, i) => {
             const dayIndex = i + 1; // Day of the month (1-31)
-            const foundPrice = extractedPrices.find(
-              (price, j) => extractedDays[j] === dayIndex
-            );
-            return foundPrice || 0; // Default to 0 if no price found for the day
-          });
+            return dayPriceMap[dayIndex] || 0; // Default to 0 if no price found for the day
+          }
+        );
 
-        console.log(dailyPrices); // Prices mapped to each day of the current month
-        // setPrices(dailyPrices); // Set prices by day
-        // setDays(Array.from({ length: daysInCurrentMonth }, (_, i) => i + 1)); // Set a
+        // Generate the X-axis labels (days of the month)
+        const all_days = Array.from(
+          { length: daysInCurrentMonth },
+          (_, i) => i + 1
+        );
 
-        const all_days = [];
-        for (let i = 1; i <= daysInCurrentMonth; i++) {
-          all_days.push(i);
-        }
-
-        setPrices(dailyPrices);
-        setXAxis(all_days);
+        // Set the results
+        setPrices(dailyPrices); // Set aggregated prices by day
+        setXAxis(all_days); // Set X-axis labels
       }
 
       if (selectedTab == "3 m") {
         // Reverse the orders to ensure correct chronological order
         // const reversedOrders = [...lastThreeMonthsOrders].reverse();
         const reversedOrders = lastThreeMonthsOrders.reverse();
-        // Initialize arrays to store extracted prices and months
-        const extractedPrices = [];
-        const extractedMonths = [];
+
+        // Initialize an object to store month-wise totals
+        const monthPriceMap = {};
 
         reversedOrders.forEach((order) => {
           // Extract price
@@ -176,43 +179,34 @@ const TabContent = ({
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
-          extractedPrices.push(price);
 
-          // Extract and format date as a numeric value
+          // Extract and format date as a numeric month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
             const dateObj = new Date(dateCreated);
             const numericMonth = dateObj.getMonth() + 1; // 1 = Jan, 2 = Feb, ...
-            extractedMonths.push(numericMonth);
-            // const year = dateObj.getFullYear();
-            // extractedMonths.push(`${numericMonth}/${year}`); // e.g., "1/2024"
+
+            // Accumulate prices for the same month
+            if (!monthPriceMap[numericMonth]) {
+              monthPriceMap[numericMonth] = 0; // Initialize if not present
+            }
+            monthPriceMap[numericMonth] += price; // Add the price to the month's total
           }
         });
 
-        // Map prices to all 12 months
-        const allMonthsPrices = Array(12)
-          .fill(null)
-          .map((_, i) => {
-            const monthIndex = i + 1;
-            const foundPrice = extractedPrices.find(
-              (price, j) => extractedMonths[j] === monthIndex
-            );
-            return foundPrice || 0;
-          });
-
-        // const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based, so add 1
-
         // Calculate the last three months dynamically
+        const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based, so add 1
         const lastThreeMonths = Array.from({ length: 3 }, (_, i) => {
           let month = currentMonth - i; // Subtract i to go back in months
           return month > 0 ? month : month + 12; // Wrap around to previous year if needed
         }).reverse(); // Reverse to make it ascending
 
-        // Map allMonthsPrices to lastThreeMonths
+        // Map monthPriceMap to lastThreeMonths
         const lastThreeMonthsPrices = lastThreeMonths.map(
-          (month) => allMonthsPrices[month - 1] // Map the month to its index in allMonthsPrices
+          (month) => monthPriceMap[month] || 0 // Default to 0 if no data for the month
         );
 
+        // Update the state
         setPrices(lastThreeMonthsPrices);
         setXAxis(lastThreeMonths);
 
@@ -225,9 +219,9 @@ const TabContent = ({
         // Reverse the orders to ensure correct chronological order
         // const reversedOrders = [...lastThreeMonthsOrders].reverse();
         const reversedOrders = currentYearOrders.reverse();
-        // Initialize arrays to store extracted prices and months
-        const extractedPrices = [];
-        const extractedMonths = [];
+
+        // Initialize an object to store month-wise totals
+        const monthPriceMap = {};
 
         reversedOrders.forEach((order) => {
           // Extract price
@@ -235,54 +229,149 @@ const TabContent = ({
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
-          extractedPrices.push(price);
 
-          // Extract and format date as a numeric value
+          // Extract and format date as a numeric month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
             const dateObj = new Date(dateCreated);
             const numericMonth = dateObj.getMonth() + 1; // 1 = Jan, 2 = Feb, ...
-            extractedMonths.push(numericMonth);
-            // const year = dateObj.getFullYear();
-            // extractedMonths.push(`${numericMonth}/${year}`); // e.g., "1/2024"
+
+            // Accumulate prices for the same month
+            if (!monthPriceMap[numericMonth]) {
+              monthPriceMap[numericMonth] = 0; // Initialize if not present
+            }
+            monthPriceMap[numericMonth] += price; // Add the price to the month's total
           }
         });
 
         // Map prices to all 12 months
         const allMonthsPrices = Array(12)
-          .fill(null)
+          .fill(0)
           .map((_, i) => {
             const monthIndex = i + 1;
-            const foundPrice = extractedPrices.find(
-              (price, j) => extractedMonths[j] === monthIndex
-            );
-            return foundPrice || 0;
+            return monthPriceMap[monthIndex] || 0; // Default to 0 if no data for the month
           });
 
-        // const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based, so add 1
+        // Set X-axis and prices
+        setXAxis(Array.from({ length: 12 }, (_, i) => i + 1)); // Months 1 to 12
+        setPrices(allMonthsPrices); // Update prices with monthly totals
 
-        // Calculate the last three months dynamically
-        const lastThreeMonths = Array.from({ length: 3 }, (_, i) => {
-          let month = currentMonth - i; // Subtract i to go back in months
-          return month > 0 ? month : month + 12; // Wrap around to previous year if needed
-        }).reverse(); // Reverse to make it ascending
+        // setXAxis(lastThreeMonths);
+      }
 
-        // Map allMonthsPrices to lastThreeMonths
-        const lastThreeMonthsPrices = lastThreeMonths.map(
-          (month) => allMonthsPrices[month - 1] // Map the month to its index in allMonthsPrices
+      if (selectedTab == "5 y") {
+        // Reverse the orders to ensure correct chronological order
+        // const reversedOrders = [...lastThreeMonthsOrders].reverse();
+
+        // Reverse orders to process them from oldest to newest
+        const reversedOrders = fiveYearOrders.reverse();
+
+        // Initialize an object to store year-wise totals
+        const yearPriceMap = {};
+
+        reversedOrders.forEach((order) => {
+          // Extract price
+          const price =
+            order?.meta?._currency?.[0] === "USD"
+              ? parseInt(order?.meta?._order_total?.[0])
+              : parseInt(order?.meta?._usd_total?.[0]);
+
+          // Extract and format date as a numeric year
+          const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
+          if (dateCreated) {
+            const dateObj = new Date(dateCreated);
+            const numericYear = dateObj.getFullYear(); // Extract year
+
+            // Accumulate prices for the same year
+            if (!yearPriceMap[numericYear]) {
+              yearPriceMap[numericYear] = 0; // Initialize if not present
+            }
+            yearPriceMap[numericYear] += price; // Add the price to the year's total
+          }
+        });
+
+        // Get the last 5 years dynamically
+        const currentYear = new Date().getFullYear();
+        const lastFiveYears = Array.from(
+          { length: 5 },
+          (_, i) => currentYear - i
+        ).reverse(); // e.g., [2020, 2021, 2022, 2023, 2024]
+
+        // Map prices to the last 5 years with totals
+        const lastFiveYearsPrices = lastFiveYears.map(
+          (year) => yearPriceMap[year] || 0
+        ); // Default to 0 if no data for the year
+
+        setXAxis(lastFiveYears); // Update X-axis with the last 5 years
+        setPrices(lastFiveYearsPrices); // Update prices with the last 5 years' totals
+
+        // setXAxis(lastFiveYears); // Update X-axis with the last 5 years
+        // setPrices(lastFiveYearsPrices); // Update prices with the last 5 years' prices
+
+        // setXAxis(lastThreeMonths);
+      }
+      if (selectedTab == "Max") {
+        // Reverse the orders to ensure correct chronological order
+        // Reverse orders to process them from oldest to newest
+        const reversedOrders = maxOrder.reverse();
+
+        // Initialize an object to store year-wise totals
+        const yearPriceMap = {};
+
+        reversedOrders.forEach((order) => {
+          const price =
+            order?.meta?._currency?.[0] === "USD"
+              ? parseInt(order?.meta?._order_total?.[0])
+              : parseInt(order?.meta?._usd_total?.[0]);
+
+          const dateCreated = order?.meta?._date_created?.[0];
+          if (dateCreated) {
+            const dateObj = new Date(dateCreated);
+            const numericYear = dateObj.getFullYear();
+
+            if (!yearPriceMap[numericYear]) {
+              yearPriceMap[numericYear] = 0;
+            }
+            yearPriceMap[numericYear] += price;
+          }
+        });
+
+        // Get all available years dynamically
+        const allYears = Object.keys(yearPriceMap)
+          .map(Number)
+          .sort((a, b) => a - b);
+
+        // Get min and max year
+        const minYear = Math.min(...allYears);
+        const maxYear = Math.max(...allYears);
+
+        // Add two years before the min and after the max
+        const extendedYears = [
+          minYear - 2,
+          minYear - 1,
+          ...allYears,
+          maxYear + 1,
+          maxYear + 2,
+        ];
+
+        // Map prices to extended years
+        const extendedYearsPrices = extendedYears.map(
+          (year) => yearPriceMap[year] || 0
         );
 
-        // setPrices(lastThreeMonthsPrices);
-        // setXAxis(lastThreeMonths);
+        setXAxis(extendedYears); // Update X-axis with extended years
+        setPrices(extendedYearsPrices); // Update prices with totals
+
+        console.log("extended years", extendedYears);
       }
 
       // Update states with the extracted values
       // setPrices(extractedPrices);
       // setMonths(extractedMonths);
     }
-    if (lastThreeMonthsOrders.length > 0) {
-      get_order_totals();
-    }
+    // if (lastThreeMonthsOrders.length > 0) {
+    get_order_totals();
+    // }
   }, [lastThreeMonthsOrders, selectedTab]);
   useEffect(() => {
     console.log("Prices:", prices);
@@ -306,20 +395,21 @@ const TabContent = ({
     {
       label: "1 y",
       title: "Line Chart for 1 Year",
-      xAxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      data: [3, -2.5, 4, -6, 2.5, 7],
+      xAxis: xAxis,
+      data: prices,
     },
     {
       label: "5 y",
       title: "Line Chart for 5 Years",
-      xAxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      data: [5, -1, 6.5, -8, 3, 9],
+      xAxis: xAxis,
+      data: prices,
     },
     {
       label: "Max",
       title: "Line Chart for Max Time Period",
-      xAxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      data: [6, -0.5, 7, -9.5, 4, 10],
+      // xAxis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      xAxis: xAxis,
+      data: prices,
     },
   ];
 
