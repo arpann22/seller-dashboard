@@ -238,12 +238,18 @@ const TabContent = ({
         const reversedOrders = currentYearOrders.reverse();
 
         // Calculate the current month and initialize the X-axis
-        // const currentMonth = new Date().getMonth() + 1; // 1 = Jan, ..., 12 = Dec
-        const currentMonth = new Date().getMonth(); // 1 = Jan, ..., 12 = Dec
+        const currentMonth = new Date().getMonth() + 1; // 1 = Jan, ..., 12 = Dec
+        // console.log("current month", currentMonth);
+        // const currentMonth = 2; // 1 = Jan, ..., 12 = Dec
 
         // Create the X-axis starting from last year's same month
         const xAxis = Array.from({ length: 12 }, (_, i) => {
-          const month = (currentMonth - i) % 12 || 12; // Handle wrap-around for months
+          let month = currentMonth - i; // Subtract i to go back in months
+
+          // Ensure the month is between 1 and 12
+          if (month <= 0) {
+            month += 12; // If month is <= 0, wrap it around to the correct month in the previous year
+          }
           return month;
         }).reverse(); // Reverse to keep months in chronological order
 
@@ -274,6 +280,7 @@ const TabContent = ({
         // Map prices for the past 12 months based on the calculated X-axis
         const allMonthsPrices = xAxis.map((month) => monthPriceMap[month] || 0); // Default to 0 if no data for the month
         console.log("xais", xAxis);
+        console.log("xais", allMonthsPrices);
         // Set X-axis and prices
         setXAxis(xAxis); // Update X-axis with the past 12 months
         setPrices(allMonthsPrices); // Update prices with monthly totals
@@ -535,18 +542,17 @@ const TabContent = ({
               <LineChart
                 xAxis={[
                   {
-                    // data: selectedTabData.xAxis,
-                    data: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-                    // valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
-                    valueFormatter: (value) => value, // Return value as is (since they are now strings)
+                    scaleType: "point",
+                    data: selectedTabData.xAxis,
+                    valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
                     tickMinStep: 1, // Ensures whole number steps
                     tickMaxStep: 1, // Prevents intermediate decimal ticks
                   },
                 ]} // Replace with dynamic data if needed
                 series={[
                   {
-                    // data: selectedTabData.data,
-                    data: [14999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15700],
+                    data: selectedTabData.data,
+                    // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14999, 0, 15700],
                     area: true,
                     baseline: "min",
                     color: "rgb(197, 235, 240)",
@@ -554,7 +560,7 @@ const TabContent = ({
                 ]}
                 width={800}
                 height={500}
-                // yAxis={[yAxis]}
+                yAxis={[yAxis]}
               />
             </div>
           </div>

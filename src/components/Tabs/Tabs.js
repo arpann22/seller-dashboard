@@ -194,6 +194,7 @@ const Tabs = ({ userData, setUserData }) => {
             currentDate.getMonth() - 2,
             1
           ); // Start of 3 months ago
+
           const lastThreeMonthsOrders = allCompletedOrders.filter((order) => {
             const dateCreated = order?.meta?._date_created?.[0];
             if (!dateCreated) return false;
@@ -202,26 +203,24 @@ const Tabs = ({ userData, setUserData }) => {
           });
           setLastThreeMonthsOrders(lastThreeMonthsOrders);
 
-          // Get the current month and year
-          // const currentDate = new Date();
-          // const currentYear = currentDate.getFullYear();
-          // const currentMonth = currentDate.getMonth(); // 0-based, so January = 0, February = 1, etc.
-
           const currentYearOrders = allCompletedOrders.filter((order) => {
+            // date created format -> "2023-12-25T13:54"
             const dateCreated = order?.meta?._date_created?.[0];
             if (!dateCreated) return false;
 
             const orderDate = new Date(dateCreated);
-            const today = new Date();
 
-            // Calculate the start date exactly one year ago
-            const startDate = new Date(
-              today.getFullYear() - 1,
-              today.getMonth(),
-              today.getDate()
-            );
+            // Get current date and set day to 1
+            const currentDate = new Date();
+            // currentDate.setMonth(1, 1);
 
-            return orderDate >= startDate && orderDate <= today;
+            // Calculate the start date 12 months ago
+            let startDate = new Date(currentDate);
+            startDate.setMonth(startDate.getMonth() - 11);
+            startDate.setDate(1);
+
+            // Check if order date is between 12 months ago and current date
+            return orderDate >= startDate && orderDate <= currentDate;
           });
 
           setCurrentYearOrders(currentYearOrders);
