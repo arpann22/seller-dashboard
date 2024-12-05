@@ -160,7 +160,9 @@ const Dashboard = ({
                       <h6>Top Buyer</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <div className={styles.svg_wrapper_bg_grey}>
+                    <div
+                      className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
+                    >
                       <FiMail />
                     </div>
                   </div>
@@ -226,7 +228,9 @@ const Dashboard = ({
                       <h6>Top Owed</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <div className={styles.svg_wrapper_bg_grey}>
+                    <div
+                      className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
+                    >
                       <FiMail />
                     </div>
                   </div>
@@ -342,7 +346,9 @@ const Dashboard = ({
                 <h6>25 July, 2024</h6>
               </span>
               <div className="ws-card-manage">
-                <h6>MANAGE</h6>
+                <a href="#">
+                  <h6>MANAGE</h6>
+                </a>
               </div>
             </div>
           </div>
@@ -400,7 +406,9 @@ const Dashboard = ({
                 <h6>25 July, 2024</h6>
               </span>
               <div className="ws-card-manage">
-                <h6>MANAGE</h6>
+                <a href="#">
+                  <h6>MANAGE</h6>
+                </a>
               </div>
             </div>
           </div>
@@ -416,7 +424,7 @@ const Dashboard = ({
               </div>
               <span className="ws-card-inner-contents">
                 <h5>Add new Domain !</h5>
-                <div className="ws_card_price_wrapper ws_flex gap_10">
+                <div className="ws_card_price_wrapper ws_flex gap_10 ws_card_price_wrapper_add_domain">
                   <p>Start Earning</p>
                 </div>
               </span>

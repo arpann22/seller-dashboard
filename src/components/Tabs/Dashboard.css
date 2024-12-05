@@ -9,7 +9,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: end;
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 .commission_profile_detail img {
   border-radius: 10px;
@@ -26,12 +26,17 @@
 .commission_profile_detail h5 {
   color: #001f3e;
   font-weight: 500;
+  font-size: 12px;
+}
+.commission_profile_detail .commissions_profile_mail {
+  padding: 8px;
+  border-radius: 10px;
 }
 .dashboard_commission_card {
   display: flex;
   justify-content: space-between;
   border: 1px solid #edf0f7;
-  padding: 20px;
+  padding: 25px 30px;
   border-radius: 15px;
   box-shadow: 0.122px 0.993px 15px 0px rgba(0, 34, 79, 0.02);
   margin-top: 20px;
@@ -42,7 +47,7 @@
   justify-content: center;
 }
 .commission_details {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 /* 
 .dashboard_commission_card_right .progress_circle {
@@ -83,6 +88,7 @@
 }
 .dashboard_domains_cards_wrapper .ws-card-manage h6 {
   font-weight: 400;
+  color: #fff;
 }
 .dashboard_domains_cards_wrapper .ws-card-contents .ws-card-inner-contents {
   gap: 0;
@@ -98,9 +104,14 @@
   font-size: 16px;
   font-weight: 500;
 }
+.dashboard_domains_cards_wrapper .ws_card_price_wrapper_add_domain p {
+  font-size: 12px;
+  font-weight: 400;
+}
 .dashboard_domains_cards_wrapper .ws-card-inner-contents h6 {
   color: #999999;
   text-align: start;
+  font-weight: 400;
 }
 .dashboard_domains_cards_wrapper .ws-card-inner-contents h6:first-child {
   color: #001f3e;
@@ -130,6 +141,9 @@
 .reviews_images_lists.dashboard_offer_customers img {
   width: 30px;
   height: 30px;
+}
+.dashboard_offer_customers span {
+  margin-left: -15px;
 }
 .reviews_images_lists.dashboard_offer_customers {
   position: absolute;
@@ -166,6 +180,14 @@
 .community_card_content_wrapper {
   margin-top: 75px;
 }
+.community_card_content_wrapper p {
+  font-size: 12px;
+  color: #67748e;
+}
+.community_card_content_wrapper p span {
+  font-size: 14px;
+  font-weight: 500;
+}
 .dashboard_community_card {
   box-shadow: 0.122px 0.993px 15px 0px rgba(0, 34, 79, 0.02);
   border: 1px solid rgb(237, 240, 247);
@@ -173,6 +195,7 @@
   padding: 40px 20px;
   flex: 1;
 }
+
 .dashboard_community_cards {
   margin-top: 30px;
   display: flex;
@@ -212,6 +235,7 @@
   padding: 5px 10px;
   border-radius: 10px;
   font-weight: 400;
+  color: #67748e;
 }
 .review_cust_detail {
   gap: 20px;
@@ -228,6 +252,9 @@
   border: 1px solid #edf0f7;
   padding: 40px 20px;
   border-radius: 15px;
+}
+.dashboard_review_card p {
+  color: #67748e;
 }
 .dashboard_reviews {
   width: 100%;

@@ -55,6 +55,17 @@ const timePeriodTabs = [
   },
 ];
 
+const AverageTimePeriodTabs = [
+  {
+    label: "This Year",
+    title: "Pie Chart for This Month",
+  },
+  {
+    label: "All the time",
+    title: "Pie Chart for All Time",
+  },
+
+]
 
 // sales distribution tabs
 
@@ -77,12 +88,16 @@ const Sales = ({ userData }) => {
   // sales tab start
 
   const [selectedTab, setSelectedTab] = useState("This Month");
-
+  const [AverageSelectedTab, setAverageSelectedTab] = useState("This Year");
   const handleTabClick = (tabLabel) => {
     setSelectedTab(tabLabel);
   };
+  const AveragehandleTabClick = (tabLabel) => {
+    setAverageSelectedTab(tabLabel);
+  };
 
   const selectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
+  const AverageSelectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
 
   // const getArcLabel = (data) => `${data.label}: ${data.value}%`; // Static arc label function
 
@@ -445,6 +460,37 @@ const Sales = ({ userData }) => {
             <h4>Average Sales Analysis</h4>
             <HiDotsVertical />
           </div>
+          <div className={styles.AverageSalestabsWrapper}>
+            {/* Tab Buttons */}
+            <div className={styles.sales_distribution_tab_labels}>
+              {AverageTimePeriodTabs.map((tab) => (
+                <button
+                  key={tab.label}
+                  onClick={() => AveragehandleTabClick(tab.label)}
+                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
+                    }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab Content */}
+            <div className={styles.AverageSalesTabsContent}>
+              {AverageSelectedTab === "This Year" && (
+                <div>
+                  <h2>{AverageTimePeriodTabs[0].title}</h2>
+                  <p>Content for "This Year" goes here. For example, a Pie Chart component.</p>
+                </div>
+              )}
+              {AverageSelectedTab === "All the time" && (
+                <div>
+                  <h2>{AverageTimePeriodTabs[1].title}</h2>
+                  <p>Content for "All the time" goes here. For example, a Pie Chart component.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div >
       {/* sales details section */}
@@ -579,8 +625,8 @@ const Sales = ({ userData }) => {
                       <div className={styles.recentOffers_card_details}>
                         <div
                           className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
                             }`}
                         >
                           {expanded[index] ? (

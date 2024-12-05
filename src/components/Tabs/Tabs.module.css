@@ -322,12 +322,12 @@ button.active svg path {
 }
 .tabs_list_footer li:last-child {
   border-top: 1px solid #edf0f7;
-  padding: 30px 0px;
+  padding: 20px 0px;
 }
 .tabs_list_footer li {
   color: #67748e;
   /* padding: 10px; */
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 .tabs_list_footer li img {
   height: 20px;
@@ -1144,7 +1144,7 @@ button.active svg path {
 .offers_tab_recent_offer_wrap {
   background-color: #fff;
   border-radius: 20px;
-  padding: 30px 20px;
+  padding: 30px 30px;
 }
 .recent_offers_cols {
   background-color: #f7f8fd;
@@ -1386,7 +1386,7 @@ button.active svg path {
   align-items: center;
 }
 .available_balance_card h6 {
-  color: #9b9b9b;
+  color: #acacac;
   font-weight: 500;
 }
 .available_balance_card h5 {
@@ -1515,6 +1515,7 @@ button.active svg path {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow-y: auto;
 }
 .my_orders_modal_overlay
   .my_orders_details_table
@@ -1750,6 +1751,9 @@ button.active svg path {
   gap: 0px;
   justify-content: center;
 }
+.AverageSalestabsWrapper .sales_distribution_tab_labels {
+  justify-content: start;
+}
 .sales_distribution_tab_labels button {
   border: transparent;
   color: #67748e;
@@ -1763,7 +1767,8 @@ button.active svg path {
   color: #fff;
   text-shadow: none;
 }
-.sales_distribution_chart_wrapper {
+.sales_distribution_chart_wrapper,
+.AverageSalestabsWrapper {
   padding: 20px;
 }
 .sellerCentralGraphTabsWrapper .sales_distribution_tab_labels {
