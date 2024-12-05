@@ -2039,3 +2039,81 @@ button.active svg path {
     margin: 0;
   }
 }
+
+/* sales status progress bar */
+
+.progressBars {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+.progressBar .progressBarFilled {
+  height: 50px;
+  border-radius: 50px;
+  position: relative;
+}
+.progressBarWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.progressImage {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50px;
+}
+.remaining_customers_progressBar {
+  position: absolute;
+  right: 0px;
+  transform: translate(-15%, -50%);
+  top: 50%;
+  display: flex;
+  align-items: center;
+}
+.progressBar {
+  width: 100%;
+  appearance: none;
+  height: 50px;
+  border-radius: 50px;
+  outline: none;
+}
+
+.progressBar::-webkit-slider-thumb {
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+.progressBarWrapper p {
+  position: absolute;
+  right: 20px;
+}
+.progressBars .progressBarWrapper:first-child .progressBar {
+  background-color: #f5f7fd;
+}
+
+.progressBars .progressBarWrapper:nth-child(2) .progressBar {
+  background-color: #f2fdff;
+}
+.progressBars .progressBarWrapper:nth-child(3) .progressBar {
+  background-color: #e5faf4;
+}
+.progressBars .progressBarWrapper .progressBar span {
+  color: #fff;
+  padding: 5px;
+  border-radius: 20px;
+  aspect-ratio: 1;
+  font-size: 12px;
+}
+.progressBars .progressBarWrapper:first-child .progressBar span {
+  background-color: #2164ff;
+}
+.progressBars .progressBarWrapper:nth-child(2) .progressBar span {
+  background-color: #21dff7;
+}
+.progressBars .progressBarWrapper:nth-child(3) .progressBar span {
+  background-color: #42cc7d;
+}

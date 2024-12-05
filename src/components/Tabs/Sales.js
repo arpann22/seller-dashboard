@@ -58,14 +58,61 @@ const timePeriodTabs = [
 const AverageTimePeriodTabs = [
   {
     label: "This Year",
-    title: "Pie Chart for This Month",
+    title: "Bar Graph for This Month",
   },
   {
     label: "All the time",
-    title: "Pie Chart for All Time",
+    title: "Bar Graph for All Time",
   },
 
 ]
+
+// progress bar sales stattus
+const ProgressBar = ({ value, max, color, backgroundColor, label, imgSrc, altText }) => {
+  const progressPercentage = (value / max) * 100;
+  // const remainingProgressCustomers = 
+
+  return (
+    <>
+      {/* <div className={styles.progressBarWrapper}>
+        <img src={imgSrc} alt={altText} className={styles.progressImage} />
+        <input
+          type="range"
+          max={max}
+          value={value}
+          disabled
+          className={styles.progressBar}
+          style={{
+            background: `linear-gradient(
+            to right,
+            ${color} ${progressPercentage}%,
+            ${backgroundColor} ${progressPercentage}%
+          )`,
+          }}
+        />
+        <p>{label}</p>
+      </div> */}
+      <div className={styles.progressBarWrapper}>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressBarFilled}
+            style={{
+              width: `${progressPercentage}%`,
+              backgroundColor: color,
+            }}
+          >
+            <div className={styles.remaining_customers_progressBar}>
+              <img src={imgSrc} alt={altText} className={styles.progressImage} />
+              <span>+4</span>
+            </div>
+          </div>
+
+        </div>
+        <p>{label}</p>
+      </div>
+    </>
+  );
+};
 
 // sales distribution tabs
 
@@ -386,6 +433,62 @@ const Sales = ({ userData }) => {
             <h4>Sales Status</h4>
             <HiDotsVertical />
           </div>
+          {/* <div className={styles.progressBars}>
+            <ProgressBar
+              value={1}
+              max={10}
+              color="#7ba2fc"
+              backgroundColor="#f5f7fd"
+              label="1 in progress"
+              imgSrc={cust_img}
+              altText="In progress"
+            />
+            <ProgressBar
+              value={5}
+              max={10}
+              color="#99eef9"
+              backgroundColor="#f2fdff"
+              label="5 pending"
+              imgSrc={cust_img}
+              altText="Pending"
+            />
+            <ProgressBar
+              value={10}
+              max={10}
+              color="#91edbb"
+              backgroundColor="#e5faf4"
+              label="10 paid"
+              imgSrc={cust_img}
+              altText="Paid"
+            />
+          </div> */}
+          <div className={styles.progressBars}>
+            <ProgressBar
+              value={2}
+              max={10}
+              color="#7ba2fc"
+              label="2 in progress"
+              imgSrc={cust_img}
+              altText="In progress"
+            />
+            <ProgressBar
+              value={4}
+              max={10}
+              color="#99eef9"
+              label="4 pending"
+              imgSrc={cust_img}
+              altText="Pending"
+            />
+            <ProgressBar
+              value={2}
+              max={10}
+              color="#91edbb"
+              label="2 paid"
+              imgSrc={cust_img}
+              altText="Paid"
+            />
+          </div>
+
         </div>
         <div className={styles.sales_first_column_card}>
           <div
@@ -480,13 +583,13 @@ const Sales = ({ userData }) => {
               {AverageSelectedTab === "This Year" && (
                 <div>
                   <h2>{AverageTimePeriodTabs[0].title}</h2>
-                  <p>Content for "This Year" goes here. For example, a Pie Chart component.</p>
+                  <p>Content for "This Year" goes here.</p>
                 </div>
               )}
               {AverageSelectedTab === "All the time" && (
                 <div>
                   <h2>{AverageTimePeriodTabs[1].title}</h2>
-                  <p>Content for "All the time" goes here. For example, a Pie Chart component.</p>
+                  <p>Content for "All the time" goes here.</p>
                 </div>
               )}
             </div>
