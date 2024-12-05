@@ -134,7 +134,7 @@ const Tabs = ({ userData, setUserData }) => {
   }, [userData.id]);
 
   // Fetch all order details based on the order IDs
-  const [orderDetails, setOrderDetails] = useState();
+  const [orderDetails, setOrderDetails] = useState([]);
   const [salesCurrentYear, setSalesCurrentYear] = useState(0);
   const [salesAllTime, setSalesAllTime] = useState(0);
   const [orderTotal, setOrderTotal] = useState(0);
@@ -177,8 +177,13 @@ const Tabs = ({ userData, setUserData }) => {
           const currentMonthOrders = allCompletedOrders.filter((order) => {
             const dateCreated = order?.meta?._date_created?.[0];
             if (!dateCreated) return false; // Skip if dateCreated is not available
-            const orderMonth = new Date(dateCreated).getMonth() + 1;
-            return orderMonth === current_month;
+
+            const orderDate = new Date(dateCreated);
+            const orderMonth = orderDate.getMonth() + 1; // Months are 0-based
+            const orderYear = orderDate.getFullYear(); // Get the year
+
+            // Check if order is from the current month and year
+            return orderMonth === current_month && orderYear === currentYear;
           });
 
           setCurrentMonthOrders(currentMonthOrders);
@@ -197,12 +202,28 @@ const Tabs = ({ userData, setUserData }) => {
           });
           setLastThreeMonthsOrders(lastThreeMonthsOrders);
 
+          // Get the current month and year
+          // const currentDate = new Date();
+          // const currentYear = currentDate.getFullYear();
+          // const currentMonth = currentDate.getMonth(); // 0-based, so January = 0, February = 1, etc.
+
           const currentYearOrders = allCompletedOrders.filter((order) => {
             const dateCreated = order?.meta?._date_created?.[0];
-            if (!dateCreated) return false; // Skip if dateCreated is not available
-            const orderYear = new Date(dateCreated).getFullYear();
-            return orderYear === currentYear;
+            if (!dateCreated) return false;
+
+            const orderDate = new Date(dateCreated);
+            const today = new Date();
+
+            // Calculate the start date exactly one year ago
+            const startDate = new Date(
+              today.getFullYear() - 1,
+              today.getMonth(),
+              today.getDate()
+            );
+
+            return orderDate >= startDate && orderDate <= today;
           });
+
           setCurrentYearOrders(currentYearOrders);
 
           const last_five_year = currentYear - 5;

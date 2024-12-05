@@ -105,13 +105,20 @@ const TabContent = ({
   console.log("tabcontentsss", fiveYearOrders);
   console.log("max", maxOrder);
 
-  const [prices, setPrices] = useState([]);
-  const [xAxis, setXAxis] = useState([]);
+  const [prices, setPrices] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [xAxis, setXAxis] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  const [yAxis, setYAxis] = useState({ min: 0, max: 12 }); // Default y-axis values
+  // const yAxis:
   // lastThreeMonthsOrders.map(()=>)
   useEffect(() => {
     function get_order_totals() {
-      console.log(selectedTab);
       if (selectedTab == "1 m") {
+        if (currentMonthOrders.length == 0) {
+          setPrices([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          setXAxis([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+          setYAxis({ min: 0, max: 12 });
+          return;
+        }
         const reversedOrders = currentMonthOrders.reverse();
 
         // Initialize an object to store daily totals
@@ -163,13 +170,20 @@ const TabContent = ({
         // Set the results
         setPrices(dailyPrices); // Set aggregated prices by day
         setXAxis(all_days); // Set X-axis labels
+        // Reset the yAxis if needed
+        setYAxis({ min: 0, max: Math.max(...dailyPrices) + 500 }); // Dynamically set max based on data
       }
 
       if (selectedTab == "3 m") {
         // Reverse the orders to ensure correct chronological order
         // const reversedOrders = [...lastThreeMonthsOrders].reverse();
+        if (lastThreeMonthsOrders.length == 0) {
+          setPrices([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          setXAxis([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+          setYAxis({ min: 0, max: 12 });
+          return;
+        }
         const reversedOrders = lastThreeMonthsOrders.reverse();
-
         // Initialize an object to store month-wise totals
         const monthPriceMap = {};
 
@@ -205,20 +219,33 @@ const TabContent = ({
         const lastThreeMonthsPrices = lastThreeMonths.map(
           (month) => monthPriceMap[month] || 0 // Default to 0 if no data for the month
         );
-
         // Update the state
         setPrices(lastThreeMonthsPrices);
         setXAxis(lastThreeMonths);
-
-        // console.log("prices", lastThreeMonthsPrices);
-        // console.log("lasts Three", lastThreeMonths);
-        // setMonths(Array.from({ length: 12 }, (_, i) => i + 1));
+        // Reset the yAxis if needed
+        setYAxis({ min: 0, max: Math.max(...lastThreeMonthsPrices) + 500 }); // Dynamically set max based on data
       }
 
       if (selectedTab == "1 y") {
         // Reverse the orders to ensure correct chronological order
         // const reversedOrders = [...lastThreeMonthsOrders].reverse();
+        if (currentYearOrders.length == 0) {
+          setPrices([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          setXAxis([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+          setYAxis({ min: 0, max: 12 });
+          return;
+        }
         const reversedOrders = currentYearOrders.reverse();
+
+        // Calculate the current month and initialize the X-axis
+        // const currentMonth = new Date().getMonth() + 1; // 1 = Jan, ..., 12 = Dec
+        const currentMonth = new Date().getMonth(); // 1 = Jan, ..., 12 = Dec
+
+        // Create the X-axis starting from last year's same month
+        const xAxis = Array.from({ length: 12 }, (_, i) => {
+          const month = (currentMonth - i) % 12 || 12; // Handle wrap-around for months
+          return month;
+        }).reverse(); // Reverse to keep months in chronological order
 
         // Initialize an object to store month-wise totals
         const monthPriceMap = {};
@@ -234,7 +261,7 @@ const TabContent = ({
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
             const dateObj = new Date(dateCreated);
-            const numericMonth = dateObj.getMonth() + 1; // 1 = Jan, 2 = Feb, ...
+            const numericMonth = dateObj.getMonth() + 1; // 1 = Jan, ..., 12 = Dec
 
             // Accumulate prices for the same month
             if (!monthPriceMap[numericMonth]) {
@@ -244,18 +271,13 @@ const TabContent = ({
           }
         });
 
-        // Map prices to all 12 months
-        const allMonthsPrices = Array(12)
-          .fill(0)
-          .map((_, i) => {
-            const monthIndex = i + 1;
-            return monthPriceMap[monthIndex] || 0; // Default to 0 if no data for the month
-          });
-
+        // Map prices for the past 12 months based on the calculated X-axis
+        const allMonthsPrices = xAxis.map((month) => monthPriceMap[month] || 0); // Default to 0 if no data for the month
+        console.log("xais", xAxis);
         // Set X-axis and prices
-        setXAxis(Array.from({ length: 12 }, (_, i) => i + 1)); // Months 1 to 12
+        setXAxis(xAxis); // Update X-axis with the past 12 months
         setPrices(allMonthsPrices); // Update prices with monthly totals
-
+        setYAxis({ min: 0, max: Math.max(...allMonthsPrices) + 500 }); // Dynamically set max based on data
         // setXAxis(lastThreeMonths);
       }
 
@@ -264,6 +286,12 @@ const TabContent = ({
         // const reversedOrders = [...lastThreeMonthsOrders].reverse();
 
         // Reverse orders to process them from oldest to newest
+        if (fiveYearOrders.length == 0) {
+          setPrices([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          setXAxis([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+          setYAxis({ min: 0, max: 12 });
+          return;
+        }
         const reversedOrders = fiveYearOrders.reverse();
 
         // Initialize an object to store year-wise totals
@@ -304,7 +332,7 @@ const TabContent = ({
 
         setXAxis(lastFiveYears); // Update X-axis with the last 5 years
         setPrices(lastFiveYearsPrices); // Update prices with the last 5 years' totals
-
+        setYAxis({ min: 0, max: Math.max(...lastFiveYearsPrices) + 500 }); // Dynamically set max based on data
         // setXAxis(lastFiveYears); // Update X-axis with the last 5 years
         // setPrices(lastFiveYearsPrices); // Update prices with the last 5 years' prices
 
@@ -313,8 +341,13 @@ const TabContent = ({
       if (selectedTab == "Max") {
         // Reverse the orders to ensure correct chronological order
         // Reverse orders to process them from oldest to newest
+        if (maxOrder.length == 0) {
+          setPrices([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          setXAxis([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+          setYAxis({ min: 0, max: 12 });
+          return;
+        }
         const reversedOrders = maxOrder.reverse();
-
         // Initialize an object to store year-wise totals
         const yearPriceMap = {};
 
@@ -358,16 +391,10 @@ const TabContent = ({
         const extendedYearsPrices = extendedYears.map(
           (year) => yearPriceMap[year] || 0
         );
-
         setXAxis(extendedYears); // Update X-axis with extended years
         setPrices(extendedYearsPrices); // Update prices with totals
-
-        console.log("extended years", extendedYears);
+        setYAxis({ min: 0, max: Math.max(...extendedYearsPrices) + 500 }); // Dynamically set max based on data
       }
-
-      // Update states with the extracted values
-      // setPrices(extractedPrices);
-      // setMonths(extractedMonths);
     }
     // if (lastThreeMonthsOrders.length > 0) {
     get_order_totals();
@@ -375,7 +402,6 @@ const TabContent = ({
   }, [lastThreeMonthsOrders, selectedTab]);
   useEffect(() => {
     console.log("Prices:", prices);
-    // console.log("Months:", months);
   }, [prices]);
 
   // chart tab starts
@@ -438,7 +464,6 @@ const TabContent = ({
     case "Sellers Central":
       return (
         <>
-          {console.log("prices", prices)}
           <div
             className={`${styles.salesOverViewTitle} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}
                     }`}
@@ -493,8 +518,9 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.activeTab : ""
+                  }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -507,11 +533,20 @@ const TabContent = ({
               className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}
             >
               <LineChart
-                xAxis={[{ data: selectedTabData.xAxis }]} // Replace with dynamic data if needed
+                xAxis={[
+                  {
+                    // data: selectedTabData.xAxis,
+                    data: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                    // valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
+                    valueFormatter: (value) => value, // Return value as is (since they are now strings)
+                    tickMinStep: 1, // Ensures whole number steps
+                    tickMaxStep: 1, // Prevents intermediate decimal ticks
+                  },
+                ]} // Replace with dynamic data if needed
                 series={[
                   {
-                    data: selectedTabData.data,
-                    // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14999, 0, 15700],
+                    // data: selectedTabData.data,
+                    data: [14999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15700],
                     area: true,
                     baseline: "min",
                     color: "rgb(197, 235, 240)",
@@ -519,6 +554,7 @@ const TabContent = ({
                 ]}
                 width={800}
                 height={500}
+                // yAxis={[yAxis]}
               />
             </div>
           </div>
