@@ -21,8 +21,6 @@ import unserialize from "locutus/php/var/unserialize";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { colors } from "@mui/material";
 
-
-
 // sales distribution tabs
 
 const timePeriodTabs = [
@@ -64,13 +62,21 @@ const AverageTimePeriodTabs = [
     label: "All the time",
     title: "Bar Graph for All Time",
   },
-
-]
+];
 
 // progress bar sales stattus
-const ProgressBar = ({ value, max, color, backgroundColor, label, imgSrc, altText }) => {
+const ProgressBar = ({
+  value,
+  max,
+  color,
+  backgroundColor,
+  label,
+  imgSrc,
+  altText,
+  plus,
+}) => {
   const progressPercentage = (value / max) * 100;
-  // const remainingProgressCustomers = 
+  // const remainingProgressCustomers =
 
   return (
     <>
@@ -101,12 +107,17 @@ const ProgressBar = ({ value, max, color, backgroundColor, label, imgSrc, altTex
               backgroundColor: color,
             }}
           >
-            <div className={styles.remaining_customers_progressBar}>
-              <img src={imgSrc} alt={altText} className={styles.progressImage} />
-              <span>+4</span>
-            </div>
+            {imgSrc && (
+              <div className={styles.remaining_customers_progressBar}>
+                <img
+                  src={imgSrc}
+                  alt={altText}
+                  className={styles.progressImage}
+                />
+                {plus && <span>+{plus}</span>}
+              </div>
+            )}
           </div>
-
         </div>
         <p>{label}</p>
       </div>
@@ -115,7 +126,6 @@ const ProgressBar = ({ value, max, color, backgroundColor, label, imgSrc, altTex
 };
 
 // sales distribution tabs
-
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -131,7 +141,6 @@ const handleReset = () => {
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const Sales = ({ userData }) => {
-
   // sales tab start
 
   const [selectedTab, setSelectedTab] = useState("This Month");
@@ -143,8 +152,12 @@ const Sales = ({ userData }) => {
     setAverageSelectedTab(tabLabel);
   };
 
-  const selectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
-  const AverageSelectedTabData = timePeriodTabs.find((tab) => tab.label === selectedTab);
+  const selectedTabData = timePeriodTabs.find(
+    (tab) => tab.label === selectedTab
+  );
+  const AverageSelectedTabData = timePeriodTabs.find(
+    (tab) => tab.label === selectedTab
+  );
 
   // const getArcLabel = (data) => `${data.label}: ${data.value}%`; // Static arc label function
 
@@ -212,7 +225,18 @@ const Sales = ({ userData }) => {
       setSortValue("");
     }
   }
+
+  const [pendingOrders, setPendingOrders] = useState(0);
+  const [progressOrders, setProgressOrders] = useState(0);
+  const [paidOrders, setPaidOrders] = useState();
   // Fetch all order details based on the order IDs
+
+  const [pendingOrdersCustomersId, setPendingOrdersCustomersId] = useState([]);
+  const [progressOrdersCustomersId, setProgressOrdersCustomersId] = useState(
+    []
+  );
+  const [paidOrdersCustomersId, setPaidOrdersCustomersId] = useState([]);
+
   useEffect(() => {
     if (orderIds.length > 0) {
       async function fetchAllOrderDetails() {
@@ -230,27 +254,71 @@ const Sales = ({ userData }) => {
 
           const allOrderDetails = await Promise.all(orderDetailsPromises);
 
-          function compareStatus(a, b) {
-            if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
-              return -1;
-            }
-            if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
-              return 1;
-            }
-            return 0;
-          }
+          // function compareStatus(a, b) {
+          //   if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
+          //     return -1;
+          //   }
+          //   if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
+          //     return 1;
+          //   }
+          //   return 0;
+          // }
           if (sortValue) {
             allOrderDetails.reverse();
           }
           setOrderDetails(allOrderDetails);
 
-          console.log(allOrderDetails);
+          const pendingOrders = allOrderDetails.filter(
+            (order) => order?.meta?._order_status?.[0] == "pending"
+          );
+          // const pendingImage = pendingOrders.map((order)=> )
+          // const pendingOrderCustomerIds = pendingOrders.map();
+
+          const progressOrder = allOrderDetails.filter(
+            (order) => order?.meta?._order_status?.[0] == "progress"
+          );
+
+          const paidOrders = allOrderDetails.filter(
+            (order) => order?.meta?._order_status?.[0] == "completed"
+          );
+
+          setPendingOrders(pendingOrders);
+          setProgressOrders(progressOrder);
+          setPaidOrders(paidOrders);
+          // console.log("pending order", pendingOrders);
+
+          // console.log("allorderdetails", allOrderDetails);
           // storing customer ids
           const customerIds = allOrderDetails.map((order) => {
             return order?.meta?._customer?.[0];
           });
           setCustomerIds(customerIds);
+          console.log("customer", customerIds);
+          if (customerIds) {
+            const pendingOrdersCustomersId = customerIds.filter((customer) =>
+              pendingOrders.some(
+                (order) => order?.meta?._customer?.[0] === customer
+              )
+            );
 
+            const progressOrdersCustomersId = customerIds.filter((customer) =>
+              progressOrder.some(
+                (order) => order?.meta?._customer?.[0] === customer
+              )
+            );
+
+            const paidOrdersCustomersId = customerIds.filter((customer) =>
+              paidOrders.some(
+                (order) => order?.meta?._customer?.[0] === customer
+              )
+            );
+            setPendingOrdersCustomersId(pendingOrdersCustomersId);
+            setProgressOrdersCustomersId(progressOrdersCustomersId);
+            setPaidOrdersCustomersId(paidOrdersCustomersId);
+            // console.log("pending order cus", pendingOrdersCustomersId);
+            // console.log("progres order cus", progressOrdersCustomersId);
+            // console.log("peapidnding order cus", paidOrdersCustomersId);
+          }
           // getting order products id with seller id
           const orderProducts = allOrderDetails.map((order) =>
             unserialize(order?.meta?._ordered_products?.[0])
@@ -275,6 +343,9 @@ const Sales = ({ userData }) => {
   }, [orderIds, sortValue]);
 
   const [customerDetails, setCustomerDetails] = useState([]);
+  const [progressImage, setProgressImage] = useState("");
+  const [pendingImage, setPendingImage] = useState("");
+  const [paidImage, setPaidImage] = useState("");
   useEffect(() => {
     async function fetchCustomerDetails() {
       try {
@@ -290,6 +361,45 @@ const Sales = ({ userData }) => {
         });
         const allCustomerDetails = await Promise.all(customerDetailsPormises);
         setCustomerDetails(allCustomerDetails);
+
+        if (pendingOrdersCustomersId.length > 0) {
+          // Find the first matching customer from allCustomerDetails
+          const matchedCustomer = allCustomerDetails.find((customer) =>
+            pendingOrdersCustomersId.includes(customer.id)
+          );
+
+          // Extract the image URL (assuming there’s an image property)
+          const customerImage = matchedCustomer?.user_image || null;
+          setPendingImage(customerImage);
+
+          console.log("matched Image:", matchedCustomer);
+          console.log("Customer Image:", customerImage);
+        }
+        if (progressOrdersCustomersId.length > 0) {
+          // Find the first matching customer from allCustomerDetails
+          const matchedCustomer = allCustomerDetails.find((customer) =>
+            progressOrdersCustomersId.includes(customer.id)
+          );
+
+          // Extract the image URL (assuming there’s an image property)
+          const customerImage = matchedCustomer?.user_image || null;
+          setProgressImage(customerImage);
+        }
+        if (paidOrdersCustomersId.length > 0) {
+          // Find the first matching customer from allCustomerDetails
+          const matchedCustomer = allCustomerDetails.find((customer) =>
+            paidOrdersCustomersId.includes(customer.id)
+          );
+
+          // Extract the image URL (assuming there’s an image property)
+          const customerImage = matchedCustomer?.user_image || null;
+          setPaidImage(customerImage);
+        }
+        // setProgressImage;
+        // setPendingImage;
+        // setPaidImage;
+
+        console.log("customer deatils", allCustomerDetails);
       } catch (err) {
         console.log(err);
       } finally {
@@ -388,11 +498,11 @@ const Sales = ({ userData }) => {
     height: 260,
     // legend: { hidden: false },
     legend: {
-      direction: 'row',
-      position: { vertical: 'bottom', horizontal: 'middle' },
+      direction: "row",
+      position: { vertical: "bottom", horizontal: "middle" },
       labelStyle: {
         fontSize: 12,
-        fill: '#67748e',
+        fill: "#67748e",
       },
       itemMarkWidth: 7,
       itemMarkHeight: 7,
@@ -462,33 +572,56 @@ const Sales = ({ userData }) => {
               altText="Paid"
             />
           </div> */}
+
           <div className={styles.progressBars}>
             <ProgressBar
-              value={2}
-              max={10}
+              value={progressOrders ? progressOrders.length : 0}
+              max={orderDetails ? orderDetails.length : 0}
               color="#7ba2fc"
-              label="2 in progress"
-              imgSrc={cust_img}
+              label={
+                progressOrders
+                  ? `${progressOrders.length} in progress`
+                  : "0 in progress"
+              }
+              imgSrc={
+                progressOrders && progressOrders.length > 0 ? progressImage : ""
+              }
               altText="In progress"
+              plus={
+                progressOrders && progressOrders.length > 1
+                  ? progressOrders.length - 1
+                  : ""
+              }
             />
             <ProgressBar
-              value={4}
-              max={10}
+              value={pendingOrders ? pendingOrders.length : 0}
+              max={orderDetails ? orderDetails.length : 0}
               color="#99eef9"
-              label="4 pending"
-              imgSrc={cust_img}
+              label={
+                pendingOrders ? `${pendingOrders.length} pending` : "0 pending"
+              }
+              imgSrc={
+                pendingOrders && pendingOrders.length > 0 ? pendingImage : ""
+              }
               altText="Pending"
+              plus={
+                pendingOrders && pendingOrders.length > 1
+                  ? pendingOrders.length - 1
+                  : ""
+              }
             />
             <ProgressBar
-              value={2}
-              max={10}
+              value={paidOrders ? paidOrders.length : 0}
+              max={orderDetails ? orderDetails.length : 0}
               color="#91edbb"
-              label="2 paid"
-              imgSrc={cust_img}
+              label={paidOrders ? `${paidOrders.length} paid` : "0 paid"}
+              imgSrc={paidOrders && paidOrders.length > 0 ? paidImage : ""}
               altText="Paid"
+              plus={
+                paidOrders && paidOrders.length > 1 ? paidOrders.length - 1 : ""
+              }
             />
           </div>
-
         </div>
         <div className={styles.sales_first_column_card}>
           <div
@@ -505,7 +638,9 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -515,9 +650,7 @@ const Sales = ({ userData }) => {
             {/* Static PieChart for the Selected Tab */}
             <div className={styles.sales_graph_svg}>
               <PieChart
-
                 margin={{ top: 100, bottom: 120 }}
-
                 series={[
                   {
                     outerRadius: 80,
@@ -570,8 +703,9 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    AverageSelectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -595,11 +729,10 @@ const Sales = ({ userData }) => {
             </div>
           </div>
         </div>
-      </div >
+      </div>
       {/* sales details section */}
-      < div
-        className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `
-        }
+      <div
+        className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `}
       >
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -727,10 +860,11 @@ const Sales = ({ userData }) => {
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
-                            }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${
+                            expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                          }`}
                         >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
@@ -744,8 +878,9 @@ const Sales = ({ userData }) => {
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {
@@ -878,7 +1013,7 @@ const Sales = ({ userData }) => {
             })}
           </div>
         </div>
-      </div >
+      </div>
     </>
   );
 };
