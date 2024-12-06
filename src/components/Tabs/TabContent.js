@@ -99,11 +99,11 @@ const TabContent = ({
   // tabs for sellercentral end
   const [selectedTab, setSelectedTab] = useState("1 m");
 
-  console.log("tabcontent", currentMonthOrders);
-  console.log("tabcontents", lastThreeMonthsOrders);
-  console.log("tabcontentss", currentYearOrders);
-  console.log("tabcontentsss", fiveYearOrders);
-  console.log("max", maxOrder);
+  // console.log("tabcontent", currentMonthOrders);
+  // console.log("tabcontents", lastThreeMonthsOrders);
+  // console.log("tabcontentss", currentYearOrders);
+  // console.log("tabcontentsss", fiveYearOrders);
+  // console.log("max", maxOrder);
 
   const [prices, setPrices] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [xAxis, setXAxis] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
@@ -279,8 +279,7 @@ const TabContent = ({
 
         // Map prices for the past 12 months based on the calculated X-axis
         const allMonthsPrices = xAxis.map((month) => monthPriceMap[month] || 0); // Default to 0 if no data for the month
-        console.log("xais", xAxis);
-        console.log("xais", allMonthsPrices);
+
         // Set X-axis and prices
         setXAxis(xAxis); // Update X-axis with the past 12 months
         setPrices(allMonthsPrices); // Update prices with monthly totals
@@ -407,9 +406,9 @@ const TabContent = ({
     get_order_totals();
     // }
   }, [lastThreeMonthsOrders, selectedTab]);
-  useEffect(() => {
-    console.log("Prices:", prices);
-  }, [prices]);
+  // useEffect(() => {
+  //   console.log("Prices:", prices);
+  // }, [prices]);
 
   // chart tab starts
   const timePeriodTabs = [
