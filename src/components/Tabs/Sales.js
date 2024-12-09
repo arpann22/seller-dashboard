@@ -236,6 +236,7 @@ const Sales = ({ userData }) => {
     []
   );
   const [paidOrdersCustomersId, setPaidOrdersCustomersId] = useState([]);
+  const [totalCompletedOrders, setTotalCompletedOrders] = useState(0);
 
   useEffect(() => {
     if (orderIds.length > 0) {
@@ -288,6 +289,21 @@ const Sales = ({ userData }) => {
 
           // pie chart starts
           console.log("paid orders", paidOrders);
+          setTotalCompletedOrders(paidOrders ? paidOrders.length : 0);
+
+          const oneTime = allOrderDetails.filter(
+            (order) => order?.meta?._order_type?.[0] == "one_time"
+          );
+          const leaseToOwn = allOrderDetails.filter(
+            (order) => order?.meta?._order_type?.[0] == "lease_to_own"
+          );
+          const offer = allOrderDetails.filter(
+            (order) => order?.meta?._order_type?.[0] == "offer"
+          );
+
+          setOneTime(oneTime ? oneTime.length : 0);
+          setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
+          setOffers(offer ? offer.length : 0);
 
           // pie chart ends
 
@@ -482,9 +498,9 @@ const Sales = ({ userData }) => {
   //   }
   // }, [domainNames]);
 
-  const [oneTime, setOneTime] = useState(10);
-  const [leaseToOwn, setLeaseToOwn] = useState(15);
-  const [offers, setOffers] = useState(20);
+  const [oneTime, setOneTime] = useState(0);
+  const [leaseToOwn, setLeaseToOwn] = useState(0);
+  const [offers, setOffers] = useState(0);
 
   const data = [
     { id: 0, value: oneTime, label: "one-time" },
