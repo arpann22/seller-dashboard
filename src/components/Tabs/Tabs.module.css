@@ -22,6 +22,9 @@
 .gap_20 {
   gap: 20px;
 }
+.gap_30 {
+  gap: 30px;
+}
 .p_relative {
   position: relative;
 }
@@ -411,9 +414,19 @@ button.active svg path {
   width: fit-content;
 }
 .sellerCentralInnerTabs .button_icon_wrapper:first-child {
-  border: 2px solid #edf0f7;
+  border: 3px solid #edf0f7;
   border-radius: 40px;
   min-width: 250px;
+}
+.sellerCentralInnerTabs
+  .button_icon_wrapper:first-child
+  .svg_bg_white:not(.active .svg_bg_white):not(
+    .sellerCentralInnerTabs .button_icon_wrapper:first-child:hover .svg_bg_white
+  ) {
+  background-color: #00d9f5;
+}
+.sellerCentralInnerTabs .button_icon_wrapper:first-child .svg_bg_white svg {
+  fill: #fff;
 }
 .sellerCentralInnerTabs .button_icon_wrapper:hover .stars_icon svg path,
 .sellerCentralInnerTabs .button_icon_wrapper.active .stars_icon svg path {
@@ -1180,7 +1193,7 @@ button.active svg path {
   gap: 4px;
 }
 .offer_status.pending {
-  background-color: #21dff754;
+  background-color: #21dff71f;
   color: #21dff7;
 }
 .offer_status.pending svg {
@@ -1227,7 +1240,7 @@ button.active svg path {
 .offer_tabs_navs {
   display: flex;
   list-style: none;
-  gap: 30px;
+  gap: 15px;
 }
 /* .offer_tabs_navs svg {
   background-color: #f7f8fd;
@@ -1356,7 +1369,7 @@ button.active svg path {
   );
   color: #fff;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1365,6 +1378,8 @@ button.active svg path {
 .available_balance_card h2 {
   color: #fff;
   text-align: start;
+  font-size: 35px;
+  font-weight: 500;
 }
 .available_balance_card h2 span {
   font-size: 12px;
@@ -1384,6 +1399,8 @@ button.active svg path {
 .available_balance_card_footer {
   gap: 40px;
   align-items: center;
+  margin-top: 30px;
+  justify-content: space-between;
 }
 .available_balance_card h6 {
   color: #acacac;
@@ -1560,7 +1577,7 @@ button.active svg path {
   top: 10px;
   right: 15px;
   font-size: 24px;
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #333;
   cursor: pointer;
   transition: color 0.2s ease;
@@ -1721,7 +1738,7 @@ button.active svg path {
 }
 .sales_first_column_wrapper .add_domain_media_setup_tile_wrapper {
   border-bottom: 1px solid #edf0f7;
-  padding: 20px;
+  padding: 30px;
 }
 .add_domain_media_setup_tile_wrapper img {
   width: 22px;
@@ -1753,6 +1770,9 @@ button.active svg path {
 }
 .AverageSalestabsWrapper .sales_distribution_tab_labels {
   justify-content: start;
+}
+.AverageSalestabsWrapper .AverageSalesTabsContent {
+  margin-top: 20px;
 }
 .sales_distribution_tab_labels button {
   border: transparent;
@@ -2046,7 +2066,7 @@ button.active svg path {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px;
+  padding: 30px;
 }
 .progressBar .progressBarFilled {
   height: 50px;
@@ -2061,15 +2081,17 @@ button.active svg path {
 }
 
 .progressImage {
-  width: 30px;
-  height: 30px;
-
+  width: 35px;
+  height: 35px;
   border-radius: 50px;
+  margin-right: -15px;
+  aspect-ratio: 1;
+  border: 2px solid #fff;
 }
 .remaining_customers_progressBar {
   position: absolute;
   right: 0px;
-  transform: translate(-15%, -50%);
+  transform: translate(-4%, -50%);
   top: 50%;
   display: flex;
   align-items: center;
@@ -2090,6 +2112,7 @@ button.active svg path {
 .progressBarWrapper p {
   position: absolute;
   right: 20px;
+  font-size: 12px;
 }
 .progressBars .progressBarWrapper:first-child .progressBar {
   background-color: #f5f7fd;
@@ -2103,7 +2126,7 @@ button.active svg path {
 }
 .progressBars .progressBarWrapper .progressBar span {
   color: #fff;
-  padding: 5px;
+  padding: 5px 7px;
   border-radius: 20px;
   aspect-ratio: 1;
   font-size: 12px;

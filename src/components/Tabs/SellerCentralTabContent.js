@@ -26,7 +26,9 @@ import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
 import { ReactComponent as DeleteIcon } from "./image/delete.svg";
 import { ReactComponent as RecentOffersIcon } from "./image/recents_offers.svg";
-import { ReactComponent as PaymentMethodIcon } from "./image/method.svg";
+// import { ReactComponent as PaymentMethodIcon } from "./image/method.svg";
+// import { ReactComponent as PaymentMethodIcon } from "./image/payment_method_icon.png";
+import payment_method_icon from "./image/payment_method_icon.png";
 
 
 const handleSubmit = (event) => {
@@ -318,8 +320,8 @@ const SellerCentralTabContent = ({
               <div
                 className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
               >
-                {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
-                <PaymentMethodIcon />
+                <img src={payment_method_icon} alt="Media Setup Icon" />
+                {/* <PaymentMethodIcon /> */}
                 <h4>Payment Method</h4>
               </div>
               <form>
