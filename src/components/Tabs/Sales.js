@@ -20,6 +20,7 @@ import unserialize from "locutus/php/var/unserialize";
 
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { colors } from "@mui/material";
+import date from "locutus/php/datetime/date";
 
 // progress bar sales stattus
 const ProgressBar = ({
@@ -105,6 +106,8 @@ const Sales = ({
 }) => {
   // sales distribution tabs starts
 
+  console.log(currentYearCompletedSales);
+
   const [selectedTab, setSelectedTab] = useState("This Month");
   const [AverageSelectedTab, setAverageSelectedTab] = useState("This Year");
   const [oneTime, setOneTime] = useState(0);
@@ -159,13 +162,13 @@ const Sales = ({
       if (selectedTab == "This Month") {
         console.log(currentMonthCompletedSales);
         if (currentMonthCompletedSales.length > 0) {
-          const oneTimes = currentMonthCompletedSales.filter(
+          const oneTime = currentMonthCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "one_time"
           );
-          const leaseToOwns = currentMonthCompletedSales.filter(
+          const leaseToOwn = currentMonthCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "lease_to_own"
           );
-          const offers = currentMonthCompletedSales.filter(
+          const offer = currentMonthCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "offer"
           );
 
@@ -301,7 +304,7 @@ const Sales = ({
   const [loading, setLoading] = useState(false);
 
   const [customerIds, setCustomerIds] = useState([]);
-
+  console.log('userdataod', userData.id);
   // fetching order ids by seller id
   useEffect(() => {
     async function fetchOrderBysellerId() {
@@ -317,6 +320,7 @@ const Sales = ({
         }
         const data = await res.json();
         setOrderIds(data);
+        console.log('orderssidids', data);
       } catch (err) {
         setError(err);
         // console.log(err);
@@ -327,7 +331,7 @@ const Sales = ({
     if (userData.id) {
       fetchOrderBysellerId();
     }
-  }, [userData.id]);
+  }, []);
 
   const [domainIds, setDomainIds] = useState([]);
 
@@ -737,9 +741,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -751,12 +754,14 @@ const Sales = ({
               {salesDistributionEmptyMsg ? (
                 <p>{salesDistributionEmptyMsg}</p>
               ) : (
+
                 <PieChart
                   margin={{ top: 100, bottom: 120 }}
                   series={[
                     {
                       outerRadius: 80,
-                      data: selectedTabData?.data,
+                      data: selectedTabData?.
+                        data,
                       arcLabel: getArcLabel,
                       cx: 150,
                     },
@@ -806,9 +811,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    AverageSelectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -963,11 +967,10 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${
-                            expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                          }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
+                            }`}
                         >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
@@ -981,9 +984,8 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
+                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                      }`}
                   >
                     {/* test js starts  */}
                     {(() => {

@@ -1951,7 +1951,7 @@ button.active svg path {
   }
   .sellerCentralInnerTabsButtons {
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 5px;
     justify-content: center;
   }
   .sellerCentralInnerTabs

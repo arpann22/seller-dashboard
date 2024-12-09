@@ -110,3 +110,8 @@
 .domains_hover_buttons.show {
   display: flex; /* Or whatever layout you're using */
 }
+.dashboard_domains_wrapper
+  .dashboard_domains_cards_wrapper
+  .draft_domain_last_card {
+  flex: 0 0 100%;
+}
