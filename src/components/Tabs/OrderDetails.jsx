@@ -118,16 +118,20 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
             </span>
             <div className={styles.order_details_popup}>
               <p>
-                Order #{order.id} was placed on{" "}
-                {new Date(order.meta._date_created[0]).toLocaleDateString(
-                  "en-US",
-                  {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  }
-                )}{" "}
-                and is currently {order.meta._order_status[0]}.
+                Order&nbsp;<span className={styles.fw_600}>#{order.id}</span>
+                &nbsp;was placed on&nbsp;
+                <span className={styles.fw_600}>
+                  {" "}
+                  {new Date(order.meta._date_created[0]).toLocaleDateString(
+                    "en-US",
+                    {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )}{" "}
+                </span>
+                &nbsp;and is currently {order.meta._order_status[0]}.
               </p>
               <h2>Order details</h2>
               <div>
@@ -233,7 +237,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                     </p>
                   )}
 
-                {order.meta._billing_city[0] && (
+                {/* {order.meta._billing_city[0] && (
                   <p>
                     <FaLocationDot />
                     {order.meta._billing_city[0]}
@@ -243,6 +247,16 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                 {order.meta._billing_address_1[0] && (
                   <p>
                     <FaAddressBook />
+                    {order.meta._billing_address_1[0]}
+                  </p>
+                  
+                )} */}
+                {(order.meta._billing_city[0] ||
+                  order.meta._billing_address_1[0]) && (
+                  <p>
+                    <FaLocationDot />
+                    {order.meta._billing_city[0] &&
+                      `${order.meta._billing_city[0]}, `}
                     {order.meta._billing_address_1[0]}
                   </p>
                 )}

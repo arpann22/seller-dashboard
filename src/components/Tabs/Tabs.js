@@ -3,7 +3,7 @@ import styles from "./Tabs.module.css";
 import UserDetails from "./UserDetails";
 import TabContent from "./TabContent";
 import SellerCentralTabContent from "./SellerCentralTabContent";
-import accountSettingIcon from "./image/settings.svg";
+import AccountSettingIcon from "./image/settings.svg";
 import logoutIcon from "./image/logout.svg";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { ReactComponent as MyOrderIcon } from "./image/orders.svg";
@@ -31,6 +31,17 @@ const Tabs = ({ userData, setUserData }) => {
       icon: <EditProfileIcon />,
       urlParam: "sellers-central",
     },
+    {
+      label: "Account Settings",
+      icon: (
+        <img
+          src={AccountSettingIcon}
+          alt="Account Settings Icon"
+          style={{ width: "20px" }}
+        />
+      ),
+      urlParam: "account-settings",
+    }
   ];
 
   const sellerCentralTabs = [
@@ -414,9 +425,9 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
             ? calculateOrderTotal(
-                allOtherCurrenciesOrders,
-                "_usd_products_price"
-              )
+              allOtherCurrenciesOrders,
+              "_usd_products_price"
+            )
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
@@ -449,9 +460,8 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                  tab.label === activeTab ? styles.active : ""
-                }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
+                  }`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -485,9 +495,8 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${
-                      tab.label === activeTab ? styles.active : ""
-                    }`}
+                    className={`${styles.dropdownOption} ${tab.label === activeTab ? styles.active : ""
+                      }`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -505,16 +514,16 @@ const Tabs = ({ userData, setUserData }) => {
         )}
 
         <ul className={styles.tabs_list_footer}>
-          <li>
+          {/* <li>
             <button
               className={`${styles.tabButton} ${styles.button_icon_wrapper}`}
             >
               <div className={styles.svg_bg_white}>
-                <img src={accountSettingIcon} alt="Account settings icon" />
+                <img src={AccountSettingIcon} alt="Account settings icon" />
               </div>
               Account Settings
             </button>
-          </li>
+          </li> */}
           {/* <li className={styles.button_icon_wrapper}>
             <button className={`${styles.tabButton} ${styles.button_icon_wrapper}`}>
               <div className={styles.svg_bg_white}>
@@ -565,9 +574,8 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${
-                    styles.button_icon_wrapper
-                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${styles.button_icon_wrapper
+                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>

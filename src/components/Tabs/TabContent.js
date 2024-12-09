@@ -79,6 +79,7 @@ import { ReactComponent as Sales_Overview_icon } from "./image/sales_overview.sv
 
 import { LineChart } from "@mui/x-charts/LineChart";
 import { c } from "locutus";
+import AccountSettings from "./AccountSettings";
 
 const TabContent = ({
   activeTab,
@@ -524,9 +525,8 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.activeTab : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -584,6 +584,10 @@ const TabContent = ({
           </div> */}
         </>
       );
+    case "Account Settings":
+      return (
+        <AccountSettings />
+      )
     default:
       return null;
   }

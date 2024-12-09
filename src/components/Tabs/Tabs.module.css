@@ -28,6 +28,9 @@
 .p_relative {
   position: relative;
 }
+.fw_600 {
+  font-weight: 600;
+}
 .mt_5 {
   margin-top: 5px;
 }
@@ -1618,7 +1621,7 @@ button.active svg path {
 }
 .order_details_popup p {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   display: flex;
