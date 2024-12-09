@@ -285,6 +285,12 @@ const Sales = ({ userData }) => {
           setPendingOrders(pendingOrders);
           setProgressOrders(progressOrder);
           setPaidOrders(paidOrders);
+
+          // pie chart starts
+          console.log("paid orders", paidOrders);
+
+          // pie chart ends
+
           // console.log("pending order", pendingOrders);
 
           // console.log("allorderdetails", allOrderDetails);
