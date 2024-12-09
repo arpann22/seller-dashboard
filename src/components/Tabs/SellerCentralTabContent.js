@@ -168,7 +168,7 @@ const SellerCentralTabContent = ({
                           </h5>
                         </div>
                         <div className={styles.recentOffers_card_details}>
-                          <div
+                          {/* <div
                             className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
                               ? styles.icon_close_wrapper
                               : styles.icon_add_wrapper
@@ -179,6 +179,13 @@ const SellerCentralTabContent = ({
                             ) : (
                               <FaPlus onClick={() => toggleExpanded(index)} />
                             )}
+                          </div> */}
+                          <div
+                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index] ? styles.icon_close_wrapper : styles.icon_add_wrapper
+                              }`}
+                            onClick={() => toggleExpanded(index)}
+                          >
+                            {expanded[index] ? <FaTimes /> : <FaPlus />}
                           </div>
                           <div className={styles.svg_wrapper_bg_grey}>
                             <FiMail />
