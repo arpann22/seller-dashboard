@@ -1277,6 +1277,10 @@ button.active svg path {
 .offer_tabs_navs li:hover {
   background-color: #00d9f5;
 }
+.offer_tabs_navs li.active svg path,
+.offer_tabs_navs li:hover svg path {
+  fill: #00d9f5 !important;
+}
 .extra_column_wrapper {
   /* margin-top: 10px; */
   overflow: hidden;
@@ -2090,7 +2094,8 @@ button.active svg path {
 }
 .remaining_customers_progressBar {
   position: absolute;
-  right: 0px;
+  /* right: 0px; */
+  left: 10px;
   transform: translate(-4%, -50%);
   top: 50%;
   display: flex;
@@ -2126,7 +2131,7 @@ button.active svg path {
 }
 .progressBars .progressBarWrapper .progressBar span {
   color: #fff;
-  padding: 5px 7px;
+  padding: 6px 8px;
   border-radius: 20px;
   aspect-ratio: 1;
   font-size: 12px;

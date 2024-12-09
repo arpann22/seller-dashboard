@@ -28,9 +28,9 @@ const timePeriodTabs = [
     label: "This Month",
     title: "Pie Chart for This Month",
     data: [
-      { value: 20, label: "One Time", color: "#2164ff" },
-      { value: 50, label: "Lease-to-Own", color: "#00d9f5" },
-      { value: 30, label: "Offers", color: "#094b8f" },
+      { value: 10, label: "One Time", color: "#2164ff" },
+      { value: 20, label: "Lease-to-Own", color: "#00d9f5" },
+      { value: 15, label: "Offers", color: "#094b8f" },
     ],
   },
   {
@@ -301,9 +301,9 @@ const Sales = ({ userData }) => {
             (order) => order?.meta?._order_type?.[0] == "offer"
           );
 
-          setOneTime(oneTime ? oneTime.length : 0);
-          setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
-          setOffers(offer ? offer.length : 0);
+          // setOneTime(oneTime ? oneTime.length : 0);
+          // setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
+          // setOffers(offer ? offer.length : 0);
 
           // pie chart ends
 
@@ -498,9 +498,9 @@ const Sales = ({ userData }) => {
   //   }
   // }, [domainNames]);
 
-  const [oneTime, setOneTime] = useState(0);
-  const [leaseToOwn, setLeaseToOwn] = useState(0);
-  const [offers, setOffers] = useState(0);
+  const [oneTime, setOneTime] = useState(10);
+  const [leaseToOwn, setLeaseToOwn] = useState(15);
+  const [offers, setOffers] = useState(20);
 
   const data = [
     { id: 0, value: oneTime, label: "one-time" },
@@ -508,10 +508,12 @@ const Sales = ({ userData }) => {
     { id: 2, value: offers, label: "offers" },
   ];
   const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+  console.log(TOTAL);
 
   const getArcLabel = (params) => {
     const percent = params.value / TOTAL;
-    return `${(percent * 100).toFixed(0)}%`;
+    return percent > 0 ? `${(percent * 100).toFixed(1)}%` : '';
+    // return `${(percent * 100).toFixed(0)}%`;
   };
 
   const sizing = {
@@ -554,7 +556,7 @@ const Sales = ({ userData }) => {
     <>
       {/* sales first col */}
       <div
-        className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_20} ${styles.fd_column}`}
+        className={`${styles.sales_first_column_wrapper} ${styles.ws_flex} ${styles.gap_30} ${styles.fd_column}`}
       >
         <div className={styles.sales_first_column_card}>
           <div
@@ -660,9 +662,8 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -676,7 +677,7 @@ const Sales = ({ userData }) => {
                 series={[
                   {
                     outerRadius: 80,
-                    data: selectedTabData.data,
+                    data: selectedTabData?.data,
                     arcLabel: getArcLabel,
                     cx: 150,
                   },
@@ -725,9 +726,8 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    AverageSelectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -882,11 +882,10 @@ const Sales = ({ userData }) => {
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${
-                            expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                          }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
+                            }`}
                         >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
@@ -900,9 +899,8 @@ const Sales = ({ userData }) => {
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
+                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                      }`}
                   >
                     {/* test js starts  */}
                     {(() => {
