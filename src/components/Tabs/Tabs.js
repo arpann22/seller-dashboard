@@ -587,7 +587,14 @@ const Tabs = ({ userData, setUserData }) => {
               soldDomains={soldDomains}
               salesAllTime={salesAllTime}
               salesCurrentYear={salesCurrentYear}
+              currentMonthSales={currentMonthOrders}
+              currentYearSales={currentYearOrders}
+              AllTimeSales={orderDetails}
             />
+            {/* const [currentMonthOrders, setCurrentMonthOrders] = useState([]);
+  const [lastThreeMonthsOrders, setLastThreeMonthsOrders] = useState([]);
+  const [currentYearOrders, setCurrentYearOrders] = useState([]);
+  const [fiveYearOrders, setFiveYearOrders] = useState([]); */}
           </div>
         </>
       )}

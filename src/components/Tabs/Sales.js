@@ -21,49 +21,6 @@ import unserialize from "locutus/php/var/unserialize";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { colors } from "@mui/material";
 
-// sales distribution tabs
-
-const timePeriodTabs = [
-  {
-    label: "This Month",
-    title: "Pie Chart for This Month",
-    data: [
-      { value: 10, label: "One Time", color: "#2164ff" },
-      { value: 20, label: "Lease-to-Own", color: "#00d9f5" },
-      { value: 15, label: "Offers", color: "#094b8f" },
-    ],
-  },
-  {
-    label: "This Year",
-    title: "Pie Chart for This Year",
-    data: [
-      { value: 30, label: "One Time", color: "#2164ff" },
-      { value: 50, label: "Lease-to-Own", color: "#00d9f5" },
-      { value: 20, label: "Offers", color: "#094b8f" },
-    ],
-  },
-  {
-    label: "All the Time",
-    title: "Pie Chart for All the Time",
-    data: [
-      { value: 60, label: "One Time", color: "#2164ff" },
-      { value: 20, label: "Lease-to-Own", color: "#00d9f5" },
-      { value: 20, label: "Offers", color: "#094b8f" },
-    ],
-  },
-];
-
-const AverageTimePeriodTabs = [
-  {
-    label: "This Year",
-    title: "Bar Graph for This Month",
-  },
-  {
-    label: "All the time",
-    title: "Bar Graph for All Time",
-  },
-];
-
 // progress bar sales stattus
 const ProgressBar = ({
   value,
@@ -140,11 +97,147 @@ const handleReset = () => {
 };
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
-const Sales = ({ userData }) => {
-  // sales tab start
+const Sales = ({
+  userData,
+  currentMonthCompletedSales,
+  currentYearCompletedSales,
+  AllTimeCompletedSales,
+}) => {
+  // sales distribution tabs starts
 
   const [selectedTab, setSelectedTab] = useState("This Month");
   const [AverageSelectedTab, setAverageSelectedTab] = useState("This Year");
+  const [oneTime, setOneTime] = useState(0);
+  const [leaseToOwn, setLeaseToOwn] = useState(0);
+  const [offer, setOffer] = useState(0);
+  const [distributionTotal, setDistributionTotal] = useState(0);
+
+  const [salesDistributionEmptyMsg, setSalesDistributionEmptyMsg] = useState();
+  const timePeriodTabs = [
+    {
+      label: "This Month",
+      title: "Pie Chart for This Month",
+      data: [
+        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
+        { value: offer, label: "Offers", color: "#094b8f" },
+      ],
+    },
+    {
+      label: "This Year",
+      title: "Pie Chart for This Year",
+      data: [
+        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
+        { value: offer, label: "Offers", color: "#094b8f" },
+      ],
+    },
+    {
+      label: "All the Time",
+      title: "Pie Chart for All the Time",
+      data: [
+        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
+        { value: offer, label: "Offers", color: "#094b8f" },
+      ],
+    },
+  ];
+
+  const AverageTimePeriodTabs = [
+    {
+      label: "This Year",
+      title: "Bar Graph for This Month",
+    },
+    {
+      label: "All the time",
+      title: "Bar Graph for All Time",
+    },
+  ];
+
+  useEffect(() => {
+    function fetchSalesDistribution() {
+      if (selectedTab == "This Month") {
+        console.log(currentMonthCompletedSales);
+        if (currentMonthCompletedSales.length > 0) {
+          const oneTimes = currentMonthCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "one_time"
+          );
+          const leaseToOwns = currentMonthCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "lease_to_own"
+          );
+          const offers = currentMonthCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "offer"
+          );
+
+          setOneTime(oneTime ? oneTime.length : 0);
+          setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
+          setOffer(offer ? offer.length : 0);
+          setDistributionTotal(currentMonthCompletedSales.length);
+          setSalesDistributionEmptyMsg();
+        } else {
+          setOneTime(0);
+          setLeaseToOwn(0);
+          setOffer(0);
+          setDistributionTotal(0);
+          setSalesDistributionEmptyMsg("No sales found.");
+        }
+      }
+      if (selectedTab == "This Year") {
+        console.log(currentYearCompletedSales);
+        if (currentYearCompletedSales.length > 0) {
+          const oneTime = currentYearCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "one_time"
+          );
+          const leaseToOwn = currentYearCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "lease_to_own"
+          );
+          const offer = currentYearCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "offer"
+          );
+          setOneTime(oneTime ? oneTime.length : 0);
+          setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
+          setOffer(offer ? offer.length : 0);
+          setDistributionTotal(currentYearCompletedSales.length);
+          setSalesDistributionEmptyMsg();
+        } else {
+          setOneTime(0);
+          setLeaseToOwn(0);
+          setOffer(0);
+          setDistributionTotal(0);
+          setSalesDistributionEmptyMsg("No sales found.");
+        }
+      }
+      if (selectedTab == "All the Time") {
+        console.log(AllTimeCompletedSales);
+        if (AllTimeCompletedSales.length > 0) {
+          const oneTime = AllTimeCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "one_time"
+          );
+          const leaseToOwn = AllTimeCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "lease_to_own"
+          );
+          const offer = AllTimeCompletedSales.filter(
+            (order) => order?.meta?._order_type?.[0] == "offer"
+          );
+          setOneTime(oneTime ? oneTime.length : 0);
+          setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
+          setOffer(offer ? offer.length : 0);
+          setDistributionTotal(AllTimeCompletedSales.length);
+          setSalesDistributionEmptyMsg();
+        } else {
+          setOneTime(0);
+          setLeaseToOwn(0);
+          setOffer(0);
+          setDistributionTotal(0);
+          setSalesDistributionEmptyMsg("No sales found.");
+        }
+      }
+      // currentMonthSales, currentYearSales, AllTimeSales
+      console.log("selected", selectedTab);
+    }
+    fetchSalesDistribution();
+  }, [selectedTab]);
+
   const handleTabClick = (tabLabel) => {
     setSelectedTab(tabLabel);
   };
@@ -158,6 +251,29 @@ const Sales = ({ userData }) => {
   const AverageSelectedTabData = timePeriodTabs.find(
     (tab) => tab.label === selectedTab
   );
+
+  //   const data = [
+  //     { id: 0, value: oneTime
+  // leaseToOwn
+  // offersoneTime, label: "one-time" },
+  //     { id: 1, value: oneTime
+  // leaseToOwn
+  // offersleaseToOwn, label: "lease-to-own" },
+  //     { id: 2, value: oneTime
+  // leaseToOwn
+  // offersoffers, label: "offers" },
+  //   ];
+  // const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+  const TOTAL = distributionTotal;
+  // console.log(TOTAL);
+
+  const getArcLabel = (params) => {
+    const percent = params.value / TOTAL;
+    return percent > 0 ? `${(percent * 100).toFixed(1)}%` : "";
+    // return `${(percent * 100).toFixed(0)}%`;
+  };
+
+  //  sales distribution tabs ends
 
   // const getArcLabel = (data) => `${data.label}: ${data.value}%`; // Static arc label function
 
@@ -287,29 +403,6 @@ const Sales = ({ userData }) => {
           setProgressOrders(progressOrder);
           setPaidOrders(paidOrders);
 
-          // pie chart starts
-          console.log("paid orders", paidOrders);
-          setTotalCompletedOrders(paidOrders ? paidOrders.length : 0);
-
-          const oneTime = allOrderDetails.filter(
-            (order) => order?.meta?._order_type?.[0] == "one_time"
-          );
-          const leaseToOwn = allOrderDetails.filter(
-            (order) => order?.meta?._order_type?.[0] == "lease_to_own"
-          );
-          const offer = allOrderDetails.filter(
-            (order) => order?.meta?._order_type?.[0] == "offer"
-          );
-
-          // setOneTime(oneTime ? oneTime.length : 0);
-          // setLeaseToOwn(leaseToOwn ? leaseToOwn.length : 0);
-          // setOffers(offer ? offer.length : 0);
-
-          // pie chart ends
-
-          // console.log("pending order", pendingOrders);
-
-          // console.log("allorderdetails", allOrderDetails);
           // storing customer ids
           const customerIds = allOrderDetails.map((order) => {
             return order?.meta?._customer?.[0];
@@ -498,24 +591,6 @@ const Sales = ({ userData }) => {
   //   }
   // }, [domainNames]);
 
-  const [oneTime, setOneTime] = useState(10);
-  const [leaseToOwn, setLeaseToOwn] = useState(15);
-  const [offers, setOffers] = useState(20);
-
-  const data = [
-    { id: 0, value: oneTime, label: "one-time" },
-    { id: 1, value: leaseToOwn, label: "lease-to-own" },
-    { id: 2, value: offers, label: "offers" },
-  ];
-  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
-  console.log(TOTAL);
-
-  const getArcLabel = (params) => {
-    const percent = params.value / TOTAL;
-    return percent > 0 ? `${(percent * 100).toFixed(1)}%` : '';
-    // return `${(percent * 100).toFixed(0)}%`;
-  };
-
   const sizing = {
     // margin: { right: 5 },
     // width: 400,
@@ -662,8 +737,9 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -672,24 +748,28 @@ const Sales = ({ userData }) => {
 
             {/* Static PieChart for the Selected Tab */}
             <div className={styles.sales_graph_svg}>
-              <PieChart
-                margin={{ top: 100, bottom: 120 }}
-                series={[
-                  {
-                    outerRadius: 80,
-                    data: selectedTabData?.data,
-                    arcLabel: getArcLabel,
-                    cx: 150,
-                  },
-                ]}
-                sx={{
-                  [`& .${pieArcLabelClasses.root}`]: {
-                    fill: "white",
-                    fontSize: 12,
-                  },
-                }}
-                {...sizing}
-              />
+              {salesDistributionEmptyMsg ? (
+                <p>{salesDistributionEmptyMsg}</p>
+              ) : (
+                <PieChart
+                  margin={{ top: 100, bottom: 120 }}
+                  series={[
+                    {
+                      outerRadius: 80,
+                      data: selectedTabData?.data,
+                      arcLabel: getArcLabel,
+                      cx: 150,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: "white",
+                      fontSize: 12,
+                    },
+                  }}
+                  {...sizing}
+                />
+              )}
             </div>
           </div>
           <div className={styles.sales_graph_svg}>
@@ -726,8 +806,9 @@ const Sales = ({ userData }) => {
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    AverageSelectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -882,10 +963,11 @@ const Sales = ({ userData }) => {
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
-                            }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${
+                            expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                          }`}
                         >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
@@ -899,8 +981,9 @@ const Sales = ({ userData }) => {
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {
