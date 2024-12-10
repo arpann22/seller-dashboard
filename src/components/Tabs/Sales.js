@@ -164,7 +164,6 @@ const Sales = ({
   useEffect(() => {
     function fetchSalesDistribution() {
       if (selectedTab == "This Month") {
-        console.log(currentMonthCompletedSales);
         if (currentMonthCompletedSales.length > 0) {
           const oneTime = currentMonthCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "one_time"
@@ -190,7 +189,6 @@ const Sales = ({
         }
       }
       if (selectedTab == "This Year") {
-        console.log(currentYearCompletedSales);
         if (currentYearCompletedSales.length > 0) {
           const oneTime = currentYearCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "one_time"
@@ -215,7 +213,6 @@ const Sales = ({
         }
       }
       if (selectedTab == "All the Time") {
-        console.log(AllTimeCompletedSales);
         if (AllTimeCompletedSales.length > 0) {
           const oneTime = AllTimeCompletedSales.filter(
             (order) => order?.meta?._order_type?.[0] == "one_time"
@@ -305,22 +302,106 @@ const Sales = ({
         return orderYear === currentYear; // Check if the order's year matches the current year
       });
 
+      // ------------------------------------------------------------------ test starts
+
+      // const sold_products = currentYearOrders.map((order) => {
+      //   return unserialize(order?.meta?._ordered_products?.[0]);
+      // });
+
+      // console.log("unserialize", sold_products);
+
+      // const NotSellerProducts = ordered_products.filter(
+      //   (product) => product.seller_id != userData.id
+      // );
+
+      // const allOrderdProductPrice = unserialize(
+      //   order?.meta?._products_price?.[0]
+      // );
+
+      // const sellerProductsOrderdPrice = allOrderdProductPrice.filter(
+      //   (product) =>
+      //     NotSellerProducts.some(
+      //       (sellerProduct) => sellerProduct.product_id == product.product_id
+      //     )
+      // );
+
+      // // Calculate the total price
+      // const totalSellerProductPrice = sellerProductsOrderdPrice.reduce(
+      //   (sum, product) => sum + parseFloat(product.price || 0), // Safely parse price as float and add
+      //   0 // Initial sum value
+      // );
+
+      // const overall_total = order?.meta?._order_total?.[0] || "";
+      // const total = totalSellerProductPrice
+      //   ? overall_total - totalSellerProductPrice
+      //   : overall_total;
+
+      // ------------------------------------------------------------------ test ends
+
       console.log("Current Year Orders:", currentYearOrders);
       const monthlySales = Array(12).fill(0); // Initialize 12 months with 0
+      if (currentYearOrders.length > 0) {
+        currentYearOrders.forEach((order) => {
+          //----------------------------------------- test starts
 
-      currentYearOrders.forEach((order) => {
-        const dateCreated = order?.meta?._date_created?.[0];
-        const orderMonth = new Date(dateCreated).getMonth(); // Get month (0-indexed)
+          const currency = order?.meta?._currency?.[0];
 
-        // Determine the order total based on currency
-        const isUSD = order?.meta?._currency?.[0] === "USD";
-        const orderTotal = isUSD
-          ? parseFloat(order?.meta?._order_total?.[0] || 0)
-          : parseFloat(order?.meta?._usd_order_total?.[0] || 0);
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
 
-        // Add to the respective month's total
-        monthlySales[orderMonth] += orderTotal;
-      });
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          console.log("sold products price", sold_products_price);
+          console.log("sold_prodcust", sold_products);
+          console.log("other seller products", otherSellerProducts);
+          console.log(
+            "other seller products price ",
+            otherSellerProductsOrderdPrice
+          );
+
+          //----------------------------------------- test ends
+
+          const dateCreated = order?.meta?._date_created?.[0];
+          const orderMonth = new Date(dateCreated).getMonth(); // Get month (0-indexed)
+
+          // Determine the order total based on currency
+          const isUSD = order?.meta?._currency?.[0] === "USD";
+          const orderTotal = isUSD
+            ? order?.meta?._order_total?.[0] || 0
+            : order?.meta?._usd_order_total?.[0] || 0;
+
+          let excludeOtherSellerProductPrice = orderTotal;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
+          // Add to the respective month's total
+          monthlySales[orderMonth] += excludeOtherSellerProductPrice;
+        });
+      }
 
       // console.log(monthlySales);
       if (monthlySales.length > 0) {
@@ -358,7 +439,6 @@ const Sales = ({
   const [loading, setLoading] = useState(false);
 
   const [customerIds, setCustomerIds] = useState([]);
-  console.log("userdataod", userData.id);
   // fetching order ids by seller id
   useEffect(() => {
     async function fetchOrderBysellerId() {
@@ -374,7 +454,6 @@ const Sales = ({
         }
         const data = await res.json();
         setOrderIds(data);
-        console.log("orderssidids", data);
       } catch (err) {
         setError(err);
         // console.log(err);
@@ -466,7 +545,7 @@ const Sales = ({
             return order?.meta?._customer?.[0];
           });
           setCustomerIds(customerIds);
-          console.log("customer", customerIds);
+
           if (customerIds) {
             const pendingOrdersCustomersId = customerIds.filter((customer) =>
               pendingOrders.some(
@@ -488,9 +567,6 @@ const Sales = ({
             setPendingOrdersCustomersId(pendingOrdersCustomersId);
             setProgressOrdersCustomersId(progressOrdersCustomersId);
             setPaidOrdersCustomersId(paidOrdersCustomersId);
-            // console.log("pending order cus", pendingOrdersCustomersId);
-            // console.log("progres order cus", progressOrdersCustomersId);
-            // console.log("peapidnding order cus", paidOrdersCustomersId);
           }
           // getting order products id with seller id
           const orderProducts = allOrderDetails.map((order) =>
@@ -544,9 +620,6 @@ const Sales = ({
           // Extract the image URL (assuming there’s an image property)
           const customerImage = matchedCustomer?.user_image || null;
           setPendingImage(customerImage);
-
-          console.log("matched Image:", matchedCustomer);
-          console.log("Customer Image:", customerImage);
         }
         if (progressOrdersCustomersId.length > 0) {
           // Find the first matching customer from allCustomerDetails
@@ -571,8 +644,6 @@ const Sales = ({
         // setProgressImage;
         // setPendingImage;
         // setPaidImage;
-
-        console.log("customer deatils", allCustomerDetails);
       } catch (err) {
         console.log(err);
       } finally {

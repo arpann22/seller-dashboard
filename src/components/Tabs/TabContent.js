@@ -81,6 +81,8 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { c } from "locutus";
 import AccountSettings from "./AccountSettings";
 
+import unserialize from "locutus/php/var/unserialize";
+
 const TabContent = ({
   activeTab,
   userData,
@@ -126,11 +128,49 @@ const TabContent = ({
         const dayPriceMap = {};
 
         reversedOrders.forEach((order) => {
+          // ---------------------------------------------------- starts
+          const currency = order?.meta?._currency?.[0];
+
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
+
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          // ---------------------------------------------------- ends
           // Extract price
           const price =
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
+
+          let excludeOtherSellerProductPrice = price;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
 
           // Extract and format day of the month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
@@ -142,7 +182,7 @@ const TabContent = ({
             if (!dayPriceMap[dayOfMonth]) {
               dayPriceMap[dayOfMonth] = 0; // Initialize if not present
             }
-            dayPriceMap[dayOfMonth] += price; // Add the price to the day's total
+            dayPriceMap[dayOfMonth] += excludeOtherSellerProductPrice; // Add the price to the day's total
           }
         });
 
@@ -189,12 +229,58 @@ const TabContent = ({
         const monthPriceMap = {};
 
         reversedOrders.forEach((order) => {
+          // ---------------------------------------------------- starts
+          const currency = order?.meta?._currency?.[0];
+
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
+
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          console.log("sold products price", sold_products_price);
+          console.log("sold_prodcust", sold_products);
+          console.log("other seller products", otherSellerProducts);
+          console.log(
+            "other seller products price ",
+            otherSellerProductsOrderdPrice
+          );
+
+          // ---------------------------------------------------- ends
+
           // Extract price
           const price =
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
 
+          let excludeOtherSellerProductPrice = price;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
           // Extract and format date as a numeric month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
@@ -205,7 +291,7 @@ const TabContent = ({
             if (!monthPriceMap[numericMonth]) {
               monthPriceMap[numericMonth] = 0; // Initialize if not present
             }
-            monthPriceMap[numericMonth] += price; // Add the price to the month's total
+            monthPriceMap[numericMonth] += excludeOtherSellerProductPrice; // Add the price to the month's total
           }
         });
 
@@ -258,12 +344,49 @@ const TabContent = ({
         const monthPriceMap = {};
 
         reversedOrders.forEach((order) => {
+          // ---------------------------------------------------- starts
+          const currency = order?.meta?._currency?.[0];
+
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
+
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          // ---------------------------------------------------- ends
           // Extract price
           const price =
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
 
+          let excludeOtherSellerProductPrice = price;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
           // Extract and format date as a numeric month
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
           if (dateCreated) {
@@ -274,7 +397,7 @@ const TabContent = ({
             if (!monthPriceMap[numericMonth]) {
               monthPriceMap[numericMonth] = 0; // Initialize if not present
             }
-            monthPriceMap[numericMonth] += price; // Add the price to the month's total
+            monthPriceMap[numericMonth] += excludeOtherSellerProductPrice; // Add the price to the month's total
           }
         });
 
@@ -305,11 +428,50 @@ const TabContent = ({
         const yearPriceMap = {};
 
         reversedOrders.forEach((order) => {
+          // ---------------------------------------------------- starts
+          const currency = order?.meta?._currency?.[0];
+
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
+
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          // ---------------------------------------------------- ends
+
           // Extract price
           const price =
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
+
+          let excludeOtherSellerProductPrice = price;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
 
           // Extract and format date as a numeric year
           const dateCreated = order?.meta?._date_created?.[0]; // Example: "2024-12-16T13:54"
@@ -321,7 +483,7 @@ const TabContent = ({
             if (!yearPriceMap[numericYear]) {
               yearPriceMap[numericYear] = 0; // Initialize if not present
             }
-            yearPriceMap[numericYear] += price; // Add the price to the year's total
+            yearPriceMap[numericYear] += excludeOtherSellerProductPrice; // Add the price to the year's total
           }
         });
 
@@ -359,10 +521,49 @@ const TabContent = ({
         const yearPriceMap = {};
 
         reversedOrders.forEach((order) => {
+          // ---------------------------------------------------- starts
+          const currency = order?.meta?._currency?.[0];
+
+          const sold_products = unserialize(
+            order?.meta?._ordered_products?.[0]
+          );
+          let sold_products_price = [];
+          if (currency == "USD") {
+            sold_products_price = unserialize(
+              order?.meta?._products_price?.[0]
+            );
+          } else {
+            sold_products_price = unserialize(
+              order?.meta?._usd_products_price?.[0]
+            );
+          }
+
+          const otherSellerProducts = sold_products.filter(
+            (product) => product.seller_id != userData.id
+          );
+
+          // get product of the other seller from order data
+          const otherSellerProductsOrderdPrice = sold_products_price.filter(
+            (product) =>
+              otherSellerProducts.some(
+                (sellerProduct) =>
+                  sellerProduct.product_id == product.product_id
+              )
+          );
+
+          // ---------------------------------------------------- ends
+
           const price =
             order?.meta?._currency?.[0] === "USD"
               ? parseInt(order?.meta?._order_total?.[0])
               : parseInt(order?.meta?._usd_total?.[0]);
+
+          let excludeOtherSellerProductPrice = price;
+          if (otherSellerProductsOrderdPrice.length > 0) {
+            otherSellerProductsOrderdPrice.forEach((product) => {
+              excludeOtherSellerProductPrice -= product.price; // Subtracting each product price from the total
+            });
+          }
 
           const dateCreated = order?.meta?._date_created?.[0];
           if (dateCreated) {
@@ -372,7 +573,7 @@ const TabContent = ({
             if (!yearPriceMap[numericYear]) {
               yearPriceMap[numericYear] = 0;
             }
-            yearPriceMap[numericYear] += price;
+            yearPriceMap[numericYear] += excludeOtherSellerProductPrice;
           }
         });
 
@@ -525,8 +726,9 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.activeTab : ""
+                  }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -585,9 +787,7 @@ const TabContent = ({
         </>
       );
     case "Account Settings":
-      return (
-        <AccountSettings />
-      )
+      return <AccountSettings />;
     default:
       return null;
   }
