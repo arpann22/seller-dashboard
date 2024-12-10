@@ -144,7 +144,27 @@ export default function Orders({ userData }) {
                     </h5>
                   </div>
 
-                  {/* Group Status, Total, and View */}
+                  {/* Group Status,Type, Total, and View */}
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Type</p>
+                    <h5
+                      className={`${styles.offer_status} ${order?.meta?._order_type?.[0]}`}
+                    >
+                      {(() => {
+                        if (order?.meta?._order_type?.[0]) {
+                          if (order.meta._order_type[0] == "offer") {
+                            return "Offer";
+                          } else if (
+                            order.meta._order_type[0] == "lease_to_own"
+                          ) {
+                            return "Lease To Own";
+                          } else if (order.meta._order_type[0] == "one_time") {
+                            return "One Time";
+                          }
+                        }
+                      })()}
+                    </h5>
+                  </div>
                   <div className={styles.recentOffers_card_titles}>
                     <p>Status</p>
                     <h5

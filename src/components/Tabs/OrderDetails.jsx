@@ -11,11 +11,6 @@ import unserialize from "locutus/php/var/unserialize";
 const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 
-const extractDomainId = (serializedString) => {
-  const match = serializedString.match(/s:\d+:"(\d+)";/);
-  return match ? match[1] : null;
-};
-
 const parseSerializedArray = (serialized) => {
   const matches = serialized.match(/s:\d+:"(.*?)";/g);
   if (!matches) return [];
@@ -51,7 +46,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
       try {
         const responses = await Promise.all(
           domainIds.map(async (domainId) => {
-            const res = await fetch(`${url}${domainId}`);
+            const res = await fetch(`${url}${domainId}/?_embed`);
             if (!res.ok) {
               const errorData = await res.json();
               throw new Error(errorData.message);
@@ -61,6 +56,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
           })
         );
 
+        console.log("ordered domains", responses);
         // Combine all domain details into one array or object
         // setDomainDetails(responses);
         setDomains(responses);
@@ -185,6 +181,15 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                             {/* Product Name */}
                             <div className={styles.recentOffers_cell}>
                               <p>Product</p>
+                              {domain._embedded &&
+                              domain._embedded["wp:featuredmedia"] ? (
+                                <img
+                                  src={
+                                    domain._embedded["wp:featuredmedia"][0]
+                                      .source_url
+                                  }
+                                />
+                              ) : null}
                               <h5>{domain?.title?.rendered || "N/A"}</h5>
                             </div>
 
