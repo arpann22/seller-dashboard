@@ -40,9 +40,10 @@ const Dashboard = ({
           throw new Error(errorData.message);
         }
         const data = await res.json();
-        // console.log(data)
+
         setDomains(data);
       } catch (err) {
+        console.log(err);
         // setErrorMessage(err.message);
       } finally {
         setLoading(false);

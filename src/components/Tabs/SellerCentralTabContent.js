@@ -53,7 +53,6 @@ const SellerCentralTabContent = ({
   currentYearSales,
   AllTimeSales,
 }) => {
-  console.log("current", currentYearSales);
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
 

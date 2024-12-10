@@ -41,7 +41,7 @@ const Tabs = ({ userData, setUserData }) => {
         />
       ),
       urlParam: "account-settings",
-    }
+    },
   ];
 
   const sellerCentralTabs = [
@@ -130,11 +130,11 @@ const Tabs = ({ userData, setUserData }) => {
           throw new Error(errorData.message);
         }
         const data = await res.json();
-        console.log(data);
+
         setSoldDomains(data);
       } catch (err) {
         // setError(err);
-        // console.log(err);
+        console.log(err);
       } finally {
         // setLoading(false);
       }
@@ -425,9 +425,9 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
             ? calculateOrderTotal(
-              allOtherCurrenciesOrders,
-              "_usd_products_price"
-            )
+                allOtherCurrenciesOrders,
+                "_usd_products_price"
+              )
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
@@ -460,8 +460,9 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${tab.label === activeTab ? styles.active : ""
-                  }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                  tab.label === activeTab ? styles.active : ""
+                }`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -495,8 +496,9 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${tab.label === activeTab ? styles.active : ""
-                      }`}
+                    className={`${styles.dropdownOption} ${
+                      tab.label === activeTab ? styles.active : ""
+                    }`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -574,8 +576,9 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${styles.button_icon_wrapper
-                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${
+                    styles.button_icon_wrapper
+                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>

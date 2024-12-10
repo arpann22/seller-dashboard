@@ -110,8 +110,6 @@ const Sales = ({
 }) => {
   // sales distribution tabs starts
 
-  console.log(currentYearCompletedSales);
-
   const [selectedTab, setSelectedTab] = useState("This Month");
   const [AverageSelectedTab, setAverageSelectedTab] = useState("This Year");
   const [oneTime, setOneTime] = useState(0);
@@ -237,7 +235,6 @@ const Sales = ({
         }
       }
       // currentMonthSales, currentYearSales, AllTimeSales
-      console.log("selected", selectedTab);
     }
     fetchSalesDistribution();
   }, [selectedTab]);
@@ -269,7 +266,6 @@ const Sales = ({
   //   ];
   // const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
   const TOTAL = distributionTotal;
-  // console.log(TOTAL);
 
   const getArcLabel = (params) => {
     const percent = params.value / TOTAL;
@@ -308,8 +304,6 @@ const Sales = ({
       //   return unserialize(order?.meta?._ordered_products?.[0]);
       // });
 
-      // console.log("unserialize", sold_products);
-
       // const NotSellerProducts = ordered_products.filter(
       //   (product) => product.seller_id != userData.id
       // );
@@ -338,7 +332,6 @@ const Sales = ({
 
       // ------------------------------------------------------------------ test ends
 
-      console.log("Current Year Orders:", currentYearOrders);
       const monthlySales = Array(12).fill(0); // Initialize 12 months with 0
       if (currentYearOrders.length > 0) {
         currentYearOrders.forEach((order) => {
@@ -373,14 +366,6 @@ const Sales = ({
               )
           );
 
-          console.log("sold products price", sold_products_price);
-          console.log("sold_prodcust", sold_products);
-          console.log("other seller products", otherSellerProducts);
-          console.log(
-            "other seller products price ",
-            otherSellerProductsOrderdPrice
-          );
-
           //----------------------------------------- test ends
 
           const dateCreated = order?.meta?._date_created?.[0];
@@ -403,7 +388,6 @@ const Sales = ({
         });
       }
 
-      // console.log(monthlySales);
       if (monthlySales.length > 0) {
         setUdata(monthlySales);
       }
