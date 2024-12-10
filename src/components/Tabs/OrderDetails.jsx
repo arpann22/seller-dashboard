@@ -23,7 +23,6 @@ const parseSerializedArray = (serialized) => {
 };
 
 export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
-  console.log(order);
   const domainIdString = order.meta._domain_ids[0];
   const products_price = order?.meta?._products_price
     ? order.meta._products_price[0]
@@ -36,8 +35,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
     productId: item.product_id,
     price: item.price,
   }));
-
-  // console.log(productPriceList);
 
   // const
   // const domainId = extractDomainId(domainIdString);
@@ -67,7 +64,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
         // Combine all domain details into one array or object
         // setDomainDetails(responses);
         setDomains(responses);
-        // console.log(responses);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -99,7 +95,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
 
   return (
     <>
-      {/* {console.log(domains)} */}
       {/* Modal Structure */}
       {isModalOpen && (
         <div

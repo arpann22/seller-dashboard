@@ -111,7 +111,6 @@ export default function Domains({ userData, setSellerCentralTab }) {
           throw new Error(errorData.message);
         }
         const data = await res.json();
-        console.log(data);
 
         // Refresh active and draft domains
         await fetchActiveDomains();
