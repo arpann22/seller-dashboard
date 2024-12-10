@@ -122,7 +122,12 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                     }
                   )}{" "}
                 </span>
-                &nbsp;and is currently {order.meta._order_status[0]}.
+                &nbsp;and is currently{" "}
+                <span className={order.meta._order_status[0]}>
+                  {" "}
+                  {order.meta._order_status[0]}.
+                </span>
+                &nbsp
               </p>
               <h2>Order details</h2>
               <div>

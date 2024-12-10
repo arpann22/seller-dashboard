@@ -40,10 +40,10 @@
 button label {
   cursor: pointer;
 }
-/* svg:not(.tox-icon svg) {
+svg:not(.tox-icon svg) {
   height: 18px;
   width: 18px;
-} */
+}
 .sales_graph_svg svg {
   width: 100% !important;
   height: 100% !important;

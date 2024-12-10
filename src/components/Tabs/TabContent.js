@@ -72,6 +72,7 @@ import styles from "./Tabs.module.css"; // Import styles
 import salesOverviewIcons from "./images/sales-overview.png";
 import totalSalesIcon from "./images/total-sales.png";
 import Orders from "./Orders";
+import MyOffers from './MyOffers.jsx'
 import { ReactComponent as Sales_distribution_icon } from "./image/total.svg";
 import { ReactComponent as Average_Sales_icon } from "./image/monthly.svg";
 import { ReactComponent as Total_Orders_icon } from "./image/total_orders.svg";
@@ -645,7 +646,7 @@ const TabContent = ({
     case "My Orders":
       return <Orders userData={userData} />;
     case "My Offers":
-      return <div>Content for My Offers</div>;
+      return <MyOffers />;
     // case "My Auctions":
     //   return <div>Content for My Auctions</div>;
     // case "My Support":
@@ -707,9 +708,8 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.activeTab : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
