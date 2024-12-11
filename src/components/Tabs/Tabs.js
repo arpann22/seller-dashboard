@@ -23,26 +23,72 @@ const currentUrl = window.location.origin;
 
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
-  const tabs = [
-    { label: "My Orders", icon: <MyOrderIcon />, urlParam: "my-orders" },
-    { label: "My Offers", icon: <MyOfferIcon />, urlParam: "my-offers" },
-    {
-      label: "Sellers Central",
-      icon: <EditProfileIcon />,
-      urlParam: "sellers-central",
-    },
-    {
-      label: "Account Settings",
-      icon: (
-        <img
-          src={AccountSettingIcon}
-          alt="Account Settings Icon"
-          style={{ width: "20px" }}
-        />
-      ),
-      urlParam: "account-settings",
-    },
-  ];
+  console.log("user", userData);
+  const user_roles = userData.roles;
+  console.log("user_roles", userData.roles);
+
+  // const [userTab, setUserTab] = useState(null);
+  const [activeTab, setActiveTab] = useState(null);
+  useEffect(() => {
+    const updateUserTabs = () => {};
+
+    if (userData) {
+      updateUserTabs();
+    }
+  }, [userData]);
+  const [tabs, setTabs] = useState([]);
+  const defaultTabs = () => {
+    let userTab = null;
+    if (userData && Array.isArray(userData.roles)) {
+      if (
+        userData.roles.includes("seller") ||
+        userData.roles.includes("administrator")
+      ) {
+        userTab = {
+          label: "Sellers Central",
+          icon: <EditProfileIcon />,
+          urlParam: "sellers-central",
+        };
+      } else {
+        userTab = {
+          label: "Become a Seller",
+          urlParam: "become-seller",
+        };
+      }
+    }
+    return [
+      { label: "My Orders", icon: <MyOrderIcon />, urlParam: "my-orders" },
+      { label: "My Offers", icon: <MyOfferIcon />, urlParam: "my-offers" },
+      userTab ? userTab : "",
+      {
+        label: "Account Settings",
+        icon: (
+          <img
+            src={AccountSettingIcon}
+            alt="Account Settings Icon"
+            style={{ width: "20px" }}
+          />
+        ),
+        urlParam: "account-settings",
+      },
+    ];
+  };
+  // Initialize tabs on load
+  useEffect(() => {
+    setTabs(defaultTabs());
+  }, [userData]);
+
+  // Refresh tabs function
+  const refreshTabs = () => {
+    setTabs(defaultTabs());
+  };
+
+  // Update activeTab when tabs are set
+  useEffect(() => {
+    if (tabs.length > 0) {
+      setActiveTab(tabs[0].label); // Safely set activeTab
+    }
+  }, [tabs]);
 
   const sellerCentralTabs = [
     {
@@ -70,7 +116,6 @@ const Tabs = ({ userData, setUserData }) => {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState(tabs[0].label);
   const [sellerCentralTab, setSellerCentralTab] = useState(
     sellerCentralTabs[0].label
   );
@@ -561,6 +606,7 @@ const Tabs = ({ userData, setUserData }) => {
           currentYearOrders={currentYearOrders}
           fiveYearOrders={fiveYearOrders}
           maxOrder={orderDetails}
+          refreshTabs={refreshTabs}
         />
       </div>
 

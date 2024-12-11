@@ -72,7 +72,7 @@ import styles from "./Tabs.module.css"; // Import styles
 import salesOverviewIcons from "./images/sales-overview.png";
 import totalSalesIcon from "./images/total-sales.png";
 import Orders from "./Orders";
-import MyOffers from './MyOffers.jsx'
+import MyOffers from "./MyOffers.jsx";
 import { ReactComponent as Sales_distribution_icon } from "./image/total.svg";
 import { ReactComponent as Average_Sales_icon } from "./image/monthly.svg";
 import { ReactComponent as Total_Orders_icon } from "./image/total_orders.svg";
@@ -83,6 +83,7 @@ import { c } from "locutus";
 import AccountSettings from "./AccountSettings";
 
 import unserialize from "locutus/php/var/unserialize";
+import BecomeSeller from "./BecomeSeller.jsx";
 
 const TabContent = ({
   activeTab,
@@ -97,6 +98,7 @@ const TabContent = ({
   currentYearOrders,
   fiveYearOrders,
   maxOrder,
+  refreshTabs,
 }) => {
   // tabs for sellercentral years months
 
@@ -708,8 +710,9 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.activeTab : ""
+                  }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -767,6 +770,8 @@ const TabContent = ({
           </div> */}
         </>
       );
+    case "Become a Seller":
+      return <BecomeSeller userData={userData} refreshTabs={refreshTabs} />;
     case "Account Settings":
       return <AccountSettings />;
     default:
