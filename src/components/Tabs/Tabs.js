@@ -25,7 +25,7 @@ const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
   console.log("user", userData);
   const user_roles = userData.roles;
-  console.log("user_roles", userData.roles);
+  console.log("user_roles", user_roles);
 
   // const [userTab, setUserTab] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
@@ -38,11 +38,18 @@ const Tabs = ({ userData, setUserData }) => {
   }, [userData]);
   const [tabs, setTabs] = useState([]);
   const defaultTabs = () => {
+    console.log("tab refreshed");
+    console.log("userData", userData);
     let userTab = null;
-    if (userData && Array.isArray(userData.roles)) {
+    if (userData && userData.roles) {
+      const roles = Array.isArray(userData.roles)
+        ? userData.roles
+        : Object.values(userData.roles);
       if (
-        userData.roles.includes("seller") ||
-        userData.roles.includes("administrator")
+        roles.includes("seller") ||
+        roles.includes("administrator") ||
+        roles == "seller" ||
+        roles == "administrator"
       ) {
         userTab = {
           label: "Sellers Central",

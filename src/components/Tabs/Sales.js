@@ -675,34 +675,34 @@ const Sales = ({
   // fetching domain registar details
   const [registarDetails, setRegistartDetails] = useState([]);
   const [registarLoading, setRegistarLoading] = useState(false);
-  // useEffect(() => {
-  //   async function fetchRegistar() {
-  //     try {
-  //       const domainRegistarPromises = domainNames.map(async (domainName) => {
-  //         const res = await fetch(
-  //           `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
-  //         );
-  //         if (!res.ok) {
-  //           const errorData = await res.json();
-  //           throw new Error(errorData.message);
-  //         }
-  //         return res.json(); // Return the order data
-  //       });
+  useEffect(() => {
+    async function fetchRegistar() {
+      try {
+        const domainRegistarPromises = domainNames.map(async (domainName) => {
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain-registar/${domainName}`
+          );
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message);
+          }
+          return res.json(); // Return the order data
+        });
 
-  //       const allDomainsRegistar = await Promise.all(domainRegistarPromises);
-  //       setRegistartDetails(allDomainsRegistar);
+        const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+        setRegistartDetails(allDomainsRegistar);
 
-  //       // setDomainDetails(allDomainDetails);
-  //     } catch (err) {
-  //       console.log(err);
-  //     } finally {
-  //       setRegistarLoading(false);
-  //     }
-  //   }
-  //   if (domainNames.length > 0) {
-  //     fetchRegistar();
-  //   }
-  // }, [domainNames]);
+        // setDomainDetails(allDomainDetails);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setRegistarLoading(false);
+      }
+    }
+    if (domainNames.length > 0) {
+      fetchRegistar();
+    }
+  }, [domainNames]);
 
   const sizing = {
     // margin: { right: 5 },

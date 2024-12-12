@@ -99,6 +99,7 @@ const TabContent = ({
   fiveYearOrders,
   maxOrder,
   refreshTabs,
+  refreshApp,
 }) => {
   // tabs for sellercentral years months
 
