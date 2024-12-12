@@ -5,3 +5,68 @@
 .my_offer_accepted_tab svg {
   fill: rgb(103, 116, 142);
 }
+.myOffers_wrapper .myOffers_flex3 {
+  flex: 3;
+}
+.myOffers_wrapper .myOffers_flex1 {
+  flex: 1;
+  justify-content: center;
+}
+.myOffers_wrapper .myOffers_icons {
+  margin: 0;
+}
+.myOffers_wrapper .svg_white svg path {
+  fill: #fff !important;
+}
+.myOffers_wrapper .svg_white svg {
+  display: flex;
+}
+.myOffers_d_flex {
+  display: flex;
+}
+.myOffers_extra_column_buttons button {
+  padding: 12px;
+  aspect-ratio: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.myOffers_wrapper .myOffers_extra_offer_form {
+  justify-content: space-around;
+}
+.myOffers_offer_image {
+  background: linear-gradient(-45deg, #00daf6, #119ffb 59%, #2164ff);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+}
+.myOffers_offer_image svg path {
+  fill: #fff;
+}
+.expiry_soon span {
+  background-color: #f6000c;
+  color: #fff;
+  padding: 1px 8px;
+  border-radius: 40px;
+  font-size: 12px;
+}
+.remake_offer_icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translate(-50%, -35%);
+}
+.myOffers_extra_offer_form input[type="number"] {
+  padding: 15px 40px;
+}
+@media screen and (max-width: 767px) {
+  .width_100 {
+    width: 100%;
+  }
+  .myOffers_offer_image {
+    width: fit-content !important;
+  }
+  .myOffers_wrapper .myOffers_flex1 {
+    justify-content: end;
+  }
+}

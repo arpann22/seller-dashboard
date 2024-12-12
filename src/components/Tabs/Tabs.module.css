@@ -1922,7 +1922,10 @@ button.active svg path {
     display: none;
   }
 }
-@media (max-width: 767px) {
+@media screen and (max-width: 767px) {
+  .hide_mobile {
+    display: none;
+  }
   .fd_column,
   .mob_fd_col {
     flex-direction: column;
@@ -1987,6 +1990,9 @@ button.active svg path {
   }
   .recentOffers_card .recentOffers_card_image {
     width: 100%;
+  }
+  .tabContent {
+    padding: 20px;
   }
   /* .offers_tab_recent_offer_wrap,
   .tabContent {
@@ -2064,6 +2070,10 @@ button.active svg path {
   }
   .extra_column .recentOffers_card_details {
     margin: 0;
+  }
+  .css-er3mnb {
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
