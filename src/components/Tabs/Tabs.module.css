@@ -839,6 +839,7 @@ button.active svg path {
   background-color: #67748e;
   position: relative;
   transition: background-color 0.3s;
+  cursor: pointer;
 }
 
 .toggle_switch.on {
@@ -1555,16 +1556,22 @@ button.active svg path {
   .my_orders_details_table
   .recentOffers_row
   div:nth-child(1) {
-  width: 35%;
+  width: 15%;
 }
 .my_orders_modal_overlay
   .my_orders_details_table
   .recentOffers_row
   div:nth-child(2) {
-  width: 25%;
+  width: 35%;
 }
 .my_orders_modal_overlay .my_orders_details_table .recentOffers_row {
   gap: 10px;
+}
+.my_orders_modal_overlay img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 /* Modal content box */
 .modal_content {
@@ -1743,6 +1750,9 @@ button.active svg path {
   background-color: #fff;
   border-radius: 15px;
 }
+.sales_distribution_chart_wrapper .sales_graph_svg {
+  margin: 20px 0;
+}
 .sales_first_column_wrapper .add_domain_media_setup_tile_wrapper {
   border-bottom: 1px solid #edf0f7;
   padding: 30px;
@@ -1781,6 +1791,18 @@ button.active svg path {
 .AverageSalestabsWrapper .AverageSalesTabsContent {
   margin-top: 20px;
 }
+.AverageSalesTabsContent svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+.AverageSalesTabsContent svg .MuiBarElement-root {
+  fill: linear-gradient(
+    90deg,
+    rgb(33, 100, 255) 0%,
+    rgb(17, 159, 251) 41%,
+    rgb(0, 218, 246) 100%
+  ) !important;
+}
 .sales_distribution_tab_labels button {
   border: transparent;
   color: #67748e;
@@ -1797,6 +1819,9 @@ button.active svg path {
 .sales_distribution_chart_wrapper,
 .AverageSalestabsWrapper {
   padding: 20px;
+}
+.sales_distribution_chart_wrapper {
+  padding: 20px 0;
 }
 .sellerCentralGraphTabsWrapper .sales_distribution_tab_labels {
   justify-content: end;
@@ -1948,7 +1973,8 @@ button.active svg path {
   .sellerCentralInnerTabs
     label:not(.sellerCentralInnerTabs button:first-child label),
   .offer_tabs_wrapper label,
-  .offers_tab_recent_offer_wrap label {
+  .offers_tab_recent_offer_wrap label,
+  .tabs_list_footer {
     display: none; /* Hide all labels on mobile screens */
   }
 

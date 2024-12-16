@@ -49,6 +49,7 @@
 .settingItem.toggle2FA {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 .accordionContent {
   display: flex;

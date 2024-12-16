@@ -110,7 +110,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
             <div className={styles.order_details_popup}>
               <p>
                 Order&nbsp;<span className={styles.fw_600}>#{order.id}</span>
-                &nbsp;was placed on&nbsp;
+                &nbsp;was placed on &nbsp;
                 <span className={styles.fw_600}>
                   {" "}
                   {new Date(order.meta._date_created[0]).toLocaleDateString(
@@ -185,7 +185,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                           <div className={styles.recentOffers_row}>
                             {/* Product Name */}
                             <div className={styles.recentOffers_cell}>
-                              <p>Product</p>
                               {domain._embedded &&
                               domain._embedded["wp:featuredmedia"] ? (
                                 <img
@@ -195,6 +194,9 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                                   }
                                 />
                               ) : null}
+                            </div>
+                            <div>
+                              <p>Product</p>
                               <h5>{domain?.title?.rendered || "N/A"}</h5>
                             </div>
 

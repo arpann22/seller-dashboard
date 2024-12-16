@@ -711,9 +711,8 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.activeTab : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -725,29 +724,58 @@ const TabContent = ({
             <div
               className={`${styles.sales_overview_graph} ${styles.sales_graph_svg} sales_overview_graph`}
             >
-              <LineChart
-                xAxis={[
-                  {
-                    scaleType: "point",
-                    data: selectedTabData.xAxis,
-                    valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
-                    tickMinStep: 1, // Ensures whole number steps
-                    tickMaxStep: 1, // Prevents intermediate decimal ticks
-                  },
-                ]} // Replace with dynamic data if needed
-                series={[
-                  {
-                    data: selectedTabData.data,
-                    // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14999, 0, 15700],
-                    area: true,
-                    baseline: "min",
-                    color: "rgb(197, 235, 240)",
-                  },
-                ]}
-                width={800}
-                height={500}
-                yAxis={[yAxis]}
-              />
+              {/* for desktop */}
+              <div className={styles.hide_mobile}>
+                <LineChart
+                  xAxis={[
+                    {
+                      scaleType: "point",
+                      data: selectedTabData.xAxis,
+                      valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
+                      tickMinStep: 1, // Ensures whole number steps
+                      tickMaxStep: 1, // Prevents intermediate decimal ticks
+                    },
+                  ]} // Replace with dynamic data if needed
+                  series={[
+                    {
+                      data: selectedTabData.data,
+                      // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14999, 0, 15700],
+                      area: true,
+                      baseline: "min",
+                      color: "rgb(197, 235, 240)",
+                    },
+                  ]}
+                  width={800}
+                  height={500}
+                  yAxis={[yAxis]}
+                />
+              </div>
+              {/* for mobile */}
+              <div className={styles.hide_desktop}>
+                <LineChart
+                  xAxis={[
+                    {
+                      scaleType: "point",
+                      data: selectedTabData.xAxis,
+                      valueFormatter: (value) => Math.round(value).toString(), // This will convert to integer
+                      tickMinStep: 1, // Ensures whole number steps
+                      tickMaxStep: 1, // Prevents intermediate decimal ticks
+                    },
+                  ]} // Replace with dynamic data if needed
+                  series={[
+                    {
+                      data: selectedTabData.data,
+                      // data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 14999, 0, 15700],
+                      area: true,
+                      baseline: "min",
+                      color: "rgb(197, 235, 240)",
+                    },
+                  ]}
+                  width={340}
+                  height={400}
+                  yAxis={[yAxis]}
+                />
+              </div>
             </div>
           </div>
           {/* <div

@@ -850,9 +850,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -919,9 +918,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    AverageSelectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -933,7 +931,7 @@ const Sales = ({
               {AverageSelectedTab === "This Year" && (
                 <div>
                   <h2>{AverageTimePeriodTabs[0].title}</h2>
-                  <p>Content for "This Year" goes here.</p>
+                  {/* <p>Content for "This Year" goes here.</p> */}
                   {/* <ChartContainer
                     width={500}
                     height={300}
@@ -943,23 +941,47 @@ const Sales = ({
                   >
                     <BarPlot />
                   </ChartContainer> */}
-                  <BarChart
-                    xAxis={[
-                      {
-                        scaleType: "band",
-                        data: xLabels,
-                      },
-                    ]}
-                    series={[
-                      {
-                        data: uData
-                          ? uData
-                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      },
-                    ]}
-                    width={500}
-                    height={300}
-                  />
+                  {/* for desktop */}
+                  <div className={styles.hide_mobile}>
+                    <BarChart
+                      xAxis={[
+                        {
+                          scaleType: "band",
+                          data: xLabels,
+                          colors: ['#2164ff'],
+                        },
+                      ]}
+                      series={[
+                        {
+                          data: uData
+                            ? uData
+                            : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        },
+                      ]}
+                      width={500}
+                      height={300}
+                    />
+                  </div>
+                  <div className={styles.hide_desktop}>
+                    {/* for mobile */}
+                    <BarChart
+                      xAxis={[
+                        {
+                          scaleType: "band",
+                          data: xLabels,
+                        },
+                      ]}
+                      series={[
+                        {
+                          data: uData
+                            ? uData
+                            : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        },
+                      ]}
+                      width={320}
+                      height={300}
+                    />
+                  </div>
                 </div>
               )}
               {AverageSelectedTab === "All the time" && (
@@ -1102,11 +1124,10 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${
-                            expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                          }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
+                            }`}
                         >
                           {expanded[index] ? (
                             <FaTimes onClick={() => toggleExpanded(index)} />
@@ -1120,9 +1141,8 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
+                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                      }`}
                   >
                     {/* test js starts  */}
                     {(() => {
