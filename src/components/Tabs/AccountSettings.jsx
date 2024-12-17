@@ -30,6 +30,13 @@ const AccountSettings = ({ userData }) => {
   const [settingsMessage, setSettingsMessage] = useState("");
   const [is2FaEnabled, set2FaEnabled] = useState(false);
 
+  useEffect(() => {
+    const two_fa_enabled = userData.two_fa_enabled;
+    if (two_fa_enabled) {
+      set2FaEnabled((prevState) => !prevState);
+    }
+  }, [userData]);
+
   // State for Notification Toggles
   const [notificationToggles, setNotificationToggles] = useState({
     domain: false,
