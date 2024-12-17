@@ -16,6 +16,7 @@ import { ReactComponent as DomainsIcon } from "./image/domains.svg";
 import { ReactComponent as ManageOffersIcon } from "./image/manage_offers.svg";
 import { ReactComponent as WalletIcon } from "./image/wallet.svg";
 import { ReactComponent as StarsIcon } from "./image/ai-stars.svg";
+import { ReactComponent as BecomeSellerIcon } from "./image/seller.svg";
 import unserialize from "locutus/php/var/unserialize";
 const logoutUrl = "/wp-login.php?action=logout&redirect_to=/login";
 
@@ -30,7 +31,7 @@ const Tabs = ({ userData, setUserData }) => {
   // const [userTab, setUserTab] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   useEffect(() => {
-    const updateUserTabs = () => {};
+    const updateUserTabs = () => { };
 
     if (userData) {
       updateUserTabs();
@@ -59,6 +60,7 @@ const Tabs = ({ userData, setUserData }) => {
       } else {
         userTab = {
           label: "Become a Seller",
+          icon: <BecomeSellerIcon />,
           urlParam: "become-seller",
         };
       }
@@ -477,9 +479,9 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
             ? calculateOrderTotal(
-                allOtherCurrenciesOrders,
-                "_usd_products_price"
-              )
+              allOtherCurrenciesOrders,
+              "_usd_products_price"
+            )
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
@@ -501,7 +503,7 @@ const Tabs = ({ userData, setUserData }) => {
   //----------------------------------------------------------- sales details ends
 
   return (
-    <div className={`${styles.tabs} ${styles.ws_container}`}>
+    <div className={`${styles.tabs} ${styles.ws_container} ${styles.dashboard_main_tabs}`}>
       <div className={styles.tabs_lists}>
         <UserDetails userData={userData} setUserData={setUserData} />
 
@@ -512,9 +514,8 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                  tab.label === activeTab ? styles.active : ""
-                }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${styles.dashboard_main_tabs_button} ${tab.label === activeTab ? styles.active : ""
+                  }`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -530,7 +531,7 @@ const Tabs = ({ userData, setUserData }) => {
         {isMobile && (
           <div className={`${styles.customDropdown} ${styles.tabLabels}`}>
             <button
-              className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton} ${styles.button_icon_wrapper}`}
+              className={`${styles.dropdownButton} ${styles.button} ${styles.tabButton} ${styles.button_icon_wrapper} ${styles.dashboard_main_tabs_button}`}
               onClick={toggleDropdown}
             >
               <div className={`${styles.selectedTab}`}>
@@ -548,9 +549,8 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${
-                      tab.label === activeTab ? styles.active : ""
-                    }`}
+                    className={`${styles.dropdownOption} ${styles.dashboard_main_tabs_button} ${tab.label === activeTab ? styles.active : ""
+                      }`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -629,9 +629,8 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${
-                    styles.button_icon_wrapper
-                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${styles.button_icon_wrapper
+                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>

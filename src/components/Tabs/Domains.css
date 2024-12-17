@@ -114,4 +114,6 @@
   .dashboard_domains_cards_wrapper
   .draft_domain_last_card {
   flex: 0 0 100%;
+  flex: none;
+  width: calc(25% - 15px);
 }

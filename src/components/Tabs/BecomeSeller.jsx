@@ -6,6 +6,8 @@ export default function BecomeSeller({ userData, refreshTabs }) {
   const [error, setError] = useState("");
   const [sellerSuccess, setSellerSuccess] = useState(false);
 
+  const [showPopup, setShowPopup] = useState(true);
+
   console.log("become a seller", isChecked);
   async function handleSubmit(e) {
     e.preventDefault();
@@ -45,6 +47,7 @@ export default function BecomeSeller({ userData, refreshTabs }) {
 
   function handleSellerSuccess() {
     window.location.reload();
+    setShowPopup(false);
   }
 
   const Become_seller = () => {
@@ -58,37 +61,31 @@ export default function BecomeSeller({ userData, refreshTabs }) {
       //     <input type="submit" value="Cancel" onClick={handleDeleteCancel} />
       //   </div>
       // </div>
-      <div className={styles.success_popup}>
-        <div>
-          <div>
-            {/* <DeleteIcon /> */}
-
-            <p>Congratulations! You are now a seller</p>
-          </div>
-          <div>
-            <input
-              type="submit"
-              value="Ok"
-              onClick={handleSellerSuccess}
-              // className={styles.deleteButton}
-            />
-            {/* <input
-              type="submit"
-              value="Cancel"
-              onClick={handleDeleteCancel}
-              className={styles.cancelButton}
-            /> */}
+      showPopup && (
+        <div className={styles.success_popup_overlay}>
+          <div className={styles.success_popup}>
+            <div>
+              <p>Congratulations! You are now a seller</p>
+            </div>
+            <div>
+              <input
+                type="submit"
+                value="Ok"
+                onClick={handleSellerSuccess}
+                className={`${styles.okButton} ${styles.hover_blue_white}`}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )
     );
   };
 
   return (
     <div>
       {sellerSuccess && <Become_seller />}
-      <form onSubmit={handleSubmit}>
-        <h5>Vendor Application</h5>
+      <form onSubmit={handleSubmit} className={styles.become_seller_form}>
+        <h4>Vendor Application</h4>
         <p>
           <input
             type="checkbox"
@@ -96,7 +93,7 @@ export default function BecomeSeller({ userData, refreshTabs }) {
             onChange={(e) => setIsChecked(e.target.checked)}
             required
           />{" "}
-          I have read and accepted the <a href="#"> terms and conditions.</a>
+          I have read and accepted the <a href="#">terms and conditions.</a>
         </p>
         <input type="submit" value="Become a Seller" />
       </form>

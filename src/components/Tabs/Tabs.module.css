@@ -158,6 +158,9 @@ body.page-id-5782 {
 .selectedTab svg path {
   fill: #00d9f5 !important;
 }
+.dashboard_main_tabs_button svg path {
+  fill: rgb(103, 116, 142);
+}
 .customDropdown .dropdownOptions {
   box-shadow: 0.122px 0.993px 31px 0px rgba(0, 34, 79, 0.04);
   background: #fff;
@@ -2183,4 +2186,62 @@ button.active svg path {
 }
 .progressBars .progressBarWrapper:nth-child(3) .progressBar span {
   background-color: #42cc7d;
+}
+/* become a seller */
+.success_popup_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.success_popup {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.success_popup p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #001f3e;
+}
+.success_popup .okButton {
+  background: #00d9f5;
+  border: transparent;
+  padding: 5px 30px;
+  color: #fff;
+  border-radius: 50px;
+  margin: 5px 0;
+  cursor: pointer;
+  border: 1px solid #00d9f5;
+}
+.become_seller_form p,
+.become_seller_form input[type="submit"] {
+  margin: 10px 0;
+}
+.become_seller_form input[type="submit"] {
+  margin: 10px 0;
+  background: #00d9f5;
+  border: transparent;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+}
+.become_seller_form p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
