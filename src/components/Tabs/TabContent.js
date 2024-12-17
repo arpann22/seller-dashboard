@@ -711,8 +711,9 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.activeTab : ""
+                  }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -802,7 +803,7 @@ const TabContent = ({
     case "Become a Seller":
       return <BecomeSeller userData={userData} refreshTabs={refreshTabs} />;
     case "Account Settings":
-      return <AccountSettings />;
+      return <AccountSettings userData={userData} />;
     default:
       return null;
   }

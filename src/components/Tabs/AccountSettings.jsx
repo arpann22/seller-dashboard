@@ -10,10 +10,10 @@
 // Language/Region Settings: Choose preferred language or region for localized features.
 // Choose standard currency option global.
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import accountstyles from "./AccountSettings.module.css";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaSpinner } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { IoCheckmarkOutline } from "react-icons/io5";
@@ -24,10 +24,11 @@ import { GrLogin } from "react-icons/gr";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdLanguage } from "react-icons/md";
 
-const AccountSettings = () => {
+const currentUrl = window.location.origin;
+const AccountSettings = ({ userData }) => {
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [settingsMessage, setSettingsMessage] = useState("");
-  const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
+  const [is2FaEnabled, set2FaEnabled] = useState(false);
 
   // State for Notification Toggles
   const [notificationToggles, setNotificationToggles] = useState({
@@ -39,8 +40,48 @@ const AccountSettings = () => {
     setActiveAccordion(activeAccordion === accordion ? null : accordion);
   };
 
-  const handleLeaseToOwnToggle = () => {
-    setLeaseToOwnEnabled((prevState) => !prevState);
+  const [twoFaSucessMessage, setTwoFaSuccessMessage] = useState("");
+  const [twoFaErrorMessage, setTwoFaErrorMessage] = useState("");
+  const [twoFaLoading, setTwoFaLoading] = useState(false);
+
+  const handle2faToggle = async () => {
+    set2FaEnabled((prevState) => !prevState);
+    const newIs2FaEnabled = !is2FaEnabled;
+    console.log("is2FaEnabled", newIs2FaEnabled);
+
+    try {
+      setTwoFaSuccessMessage("");
+      setTwoFaErrorMessage("");
+      setTwoFaLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/2fa-verification/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            two_fa_enabled: newIs2FaEnabled,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        setTwoFaErrorMessage("Error occured on 2fa verification");
+        throw new Error("Error occured on 2fa verification");
+      }
+      const data = await res.json();
+
+      if (data) {
+        setTwoFaSuccessMessage(data.message);
+      }
+      // const mediaData = await mediaResponse.json();
+      // return mediaData.id; // Get the media ID for the uploaded image
+    } catch (err) {
+      setTwoFaErrorMessage(err);
+    } finally {
+      setTwoFaLoading(false);
+    }
   };
 
   const handleSaveMessage = (message) => {
@@ -77,6 +118,16 @@ const AccountSettings = () => {
           </div>
           {activeAccordion === "password-management" && (
             <div className={accountstyles.accordionContent}>
+              {twoFaSucessMessage && <div> {twoFaSucessMessage} </div>}
+              {twoFaErrorMessage && <div> {twoFaErrorMessage} </div>}
+              {twoFaLoading && (
+                <div>
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
+                </div>
+              )}
+
               <div
                 className={`${accountstyles.settingItem} ${accountstyles.toggle2FA}`}
               >
@@ -88,13 +139,10 @@ const AccountSettings = () => {
                   <p>Enable or disable 2FA for added security.</p>
                 </div>
 
-                <div
-                  className={styles.toggle_button}
-                  onClick={handleLeaseToOwnToggle}
-                >
+                <div className={styles.toggle_button} onClick={handle2faToggle}>
                   <div
                     className={`${styles.toggle_switch} ${
-                      isLeaseToOwnEnabled ? styles.on : styles.off
+                      is2FaEnabled ? styles.on : styles.off
                     }`}
                   >
                     <div className={styles.toggle_indicator}>
