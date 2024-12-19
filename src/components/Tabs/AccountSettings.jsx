@@ -49,12 +49,11 @@ const AccountSettings = ({ userData }) => {
           throw new Error(errorData.message);
         }
         const data = await res.json();
-        console.log("location data", data);
+
         if (data) {
           setLoginActivity(data);
         }
       } catch (err) {
-        console.log("login activity error:", err.message);
       } finally {
         setActivityLoading(false);
       }
