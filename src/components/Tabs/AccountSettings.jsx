@@ -38,6 +38,25 @@ const AccountSettings = ({ userData }) => {
       set2FaEnabled((prevState) => !prevState);
     }
 
+    // notfication section stars
+    const domain_enquery_offers = userData.domain_enquery_offers;
+    const payment_update = userData.payment_update;
+    if (domain_enquery_offers) {
+      setNotificationToggles((prev) => ({
+        ...prev,
+        domain: !prev.domain,
+      }));
+    }
+
+    if (payment_update) {
+      setNotificationToggles((prev) => ({
+        ...prev,
+        payment: !prev.payment,
+      }));
+    }
+
+    // notification section ends
+
     async function fetchLoginActivity() {
       try {
         setActivityLoading(true);
@@ -151,7 +170,7 @@ const AccountSettings = ({ userData }) => {
       }
       const data = await res.json();
       if (data) {
-        // window.location.reload();
+        window.location.reload();
       }
     } catch (err) {
       setTwoFaErrorMessage(err);
@@ -160,7 +179,76 @@ const AccountSettings = ({ userData }) => {
     }
   };
 
-  const LogoutDevice = () => {
+  //
+  const [notificationData, setNotificationData] = useState([]);
+  const [notificationError, setNotifcationError] = useState("");
+  const [domainEnqueryLoader, setdomainEnqueryLoader] = useState(false);
+  const [paymentUpdateLoader, setPaymentUpdateLoader] = useState(false);
+  const handlePreferences = async (type) => {
+    let body = "";
+    if (type == "domain") {
+      setNotificationToggles((prev) => ({
+        ...prev,
+        domain: !prev.domain,
+      }));
+      const domainEnqueriesEnabled = !notificationToggles.domain;
+      body = JSON.stringify({
+        domain_enquery: domainEnqueriesEnabled,
+        // payment_update: paymentUpdateEnabled,
+      });
+    }
+
+    if (type == "payment") {
+      setNotificationToggles((prev) => ({
+        ...prev,
+        payment: !prev.payment,
+      }));
+
+      const paymentUpdateEnabled = !notificationToggles.payment;
+      body = JSON.stringify({
+        // domain_enquery: domainEnqueriesEnabled,
+        payment_update: paymentUpdateEnabled,
+      });
+    }
+
+    try {
+      if (type == "payment") {
+        setPaymentUpdateLoader(true);
+      }
+      if (type == "domain") {
+        setdomainEnqueryLoader(true);
+      }
+
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/preferences/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: body,
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.log("preferences error:", errorData.message);
+      }
+      const data = await res.json();
+      setNotificationData(data);
+    } catch (err) {
+      setNotifcationError(err.message);
+    } finally {
+      if (type == "payment") {
+        setPaymentUpdateLoader(false);
+      }
+      if (type == "domain") {
+        setdomainEnqueryLoader(false);
+      }
+    }
+  };
+
+  const LogoutDevicePopup = () => {
     return (
       // <div>
       //   <div>
@@ -192,7 +280,7 @@ const AccountSettings = ({ userData }) => {
 
   return (
     <div className={accountstyles.accountSettingsContainer}>
-      {showPopup && <LogoutDevice />}
+      {showPopup && <LogoutDevicePopup />}
 
       <h2>Account Settings</h2>
 
@@ -269,8 +357,10 @@ const AccountSettings = ({ userData }) => {
                 )}
                 <p>View recent login locations and devices.</p>
                 <ul className={accountstyles.loggedInDevices}>
-                  {loginActivity.map((location) => (
-                    <li>{location}</li>
+                  {loginActivity.map((location, index) => (
+                    <li>
+                      Device {index + 1} {location}
+                    </li>
                   ))}
                   {/* <li>Device 1: New York, USA</li>
                   <li>Device 2: London, UK</li> */}
@@ -316,17 +406,26 @@ const AccountSettings = ({ userData }) => {
                 </h4>
                 <p>Customize email or SMS notifications for:</p>
                 <ul>
+                  {notificationData &&
+                  notificationData?.preferences == "domain_enquery" ? (
+                    <div class="completed">{notificationData.message}</div>
+                  ) : (
+                    ""
+                  )}
+
+                  {domainEnqueryLoader && (
+                    <div>
+                      <div className="loading_overlay">
+                        <FaSpinner className="loading" />
+                      </div>
+                    </div>
+                  )}
                   <li>
                     <div>
                       <span>Domain inquiries/offers</span>
                       <div
                         className={styles.toggle_button}
-                        onClick={() =>
-                          setNotificationToggles((prev) => ({
-                            ...prev,
-                            domain: !prev.domain,
-                          }))
-                        }
+                        onClick={() => handlePreferences("domain")}
                       >
                         <div
                           className={`${styles.toggle_switch} ${
@@ -341,17 +440,26 @@ const AccountSettings = ({ userData }) => {
                       </div>
                     </div>
                   </li>
+                  {notificationData &&
+                  notificationData?.preferences == "payment_update" ? (
+                    <div class="completed"> {notificationData.message}</div>
+                  ) : (
+                    ""
+                  )}
+
+                  {paymentUpdateLoader && (
+                    <div>
+                      <div className="loading_overlay">
+                        <FaSpinner className="loading" />
+                      </div>
+                    </div>
+                  )}
                   <li>
                     <div>
                       <span>Payment updates</span>
                       <div
                         className={styles.toggle_button}
-                        onClick={() =>
-                          setNotificationToggles((prev) => ({
-                            ...prev,
-                            payment: !prev.payment,
-                          }))
-                        }
+                        onClick={() => handlePreferences("payment")}
                       >
                         <div
                           className={`${styles.toggle_switch} ${
