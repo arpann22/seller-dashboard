@@ -153,10 +153,10 @@ const Sales = ({
       label: "This Year",
       title: "Bar Graph for This Month",
     },
-    {
-      label: "All the time",
-      title: "Bar Graph for All Time",
-    },
+    // {
+    //   label: "All the time",
+    //   title: "Bar Graph for All Time",
+    // },
   ];
 
   useEffect(() => {
@@ -707,7 +707,7 @@ const Sales = ({
   const sizing = {
     // margin: { right: 5 },
     // width: 400,
-    height: 260,
+    height: 280,
     // legend: { hidden: false },
     legend: {
       direction: "row",
@@ -733,11 +733,22 @@ const Sales = ({
     );
   }
   if (orderIds.length == 0) {
-    return <div>Sales order is empty.</div>;
+    return (
+      <div
+        className={`${styles.sellers_error_wrapper} ${styles.order_error_msg_wrapper}`}
+      >
+        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>Sales order is empty.</div>
+      </div>);
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div
+        className={`${styles.sellers_error_wrapper} ${styles.order_error_msg_wrapper}`}
+      >
+        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>{error}</div>
+      </div>
+    );
   }
   // sunder js ends
   return (
@@ -870,7 +881,8 @@ const Sales = ({
                       outerRadius: 80,
                       data: selectedTabData?.data,
                       arcLabel: getArcLabel,
-                      cx: 150,
+                      cx: 120,
+                      cy: 0,
                     },
                   ]}
                   sx={{
@@ -928,11 +940,11 @@ const Sales = ({
 
             {/* Tab Content */}
             <div className={styles.AverageSalesTabsContent}>
-              {AverageSelectedTab === "This Year" && (
-                <div>
-                  <h2>{AverageTimePeriodTabs[0].title}</h2>
-                  {/* <p>Content for "This Year" goes here.</p> */}
-                  {/* <ChartContainer
+              {/* {AverageSelectedTab === "This Year" && ( */}
+              <div>
+                {/* <h2>{AverageTimePeriodTabs[0].title}</h2> */}
+                {/* <p>Content for "This Year" goes here.</p> */}
+                {/* <ChartContainer
                     width={500}
                     height={300}
                     series={[{ data: uData, label: "uv", type: "bar" }]}
@@ -941,55 +953,55 @@ const Sales = ({
                   >
                     <BarPlot />
                   </ChartContainer> */}
-                  {/* for desktop */}
-                  <div className={styles.hide_mobile}>
-                    <BarChart
-                      xAxis={[
-                        {
-                          scaleType: "band",
-                          data: xLabels,
-                          colors: ['#2164ff'],
-                        },
-                      ]}
-                      series={[
-                        {
-                          data: uData
-                            ? uData
-                            : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        },
-                      ]}
-                      width={500}
-                      height={300}
-                    />
-                  </div>
-                  <div className={styles.hide_desktop}>
-                    {/* for mobile */}
-                    <BarChart
-                      xAxis={[
-                        {
-                          scaleType: "band",
-                          data: xLabels,
-                        },
-                      ]}
-                      series={[
-                        {
-                          data: uData
-                            ? uData
-                            : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        },
-                      ]}
-                      width={320}
-                      height={300}
-                    />
-                  </div>
+                {/* for desktop */}
+                <div className={styles.hide_mobile}>
+                  <BarChart
+                    xAxis={[
+                      {
+                        scaleType: "band",
+                        data: xLabels,
+                        colors: ['#2164ff'],
+                      },
+                    ]}
+                    series={[
+                      {
+                        data: uData
+                          ? uData
+                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      },
+                    ]}
+                    width={500}
+                    height={300}
+                  />
                 </div>
-              )}
-              {AverageSelectedTab === "All the time" && (
-                <div>
-                  <h2>{AverageTimePeriodTabs[1].title}</h2>
-                  <p>Content for "All the time" goes here.</p>
+                <div className={styles.hide_desktop}>
+                  {/* for mobile */}
+                  <BarChart
+                    xAxis={[
+                      {
+                        scaleType: "band",
+                        data: xLabels,
+                      },
+                    ]}
+                    series={[
+                      {
+                        data: uData
+                          ? uData
+                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                      },
+                    ]}
+                    width={320}
+                    height={300}
+                  />
                 </div>
-              )}
+              </div>
+              {/* // )} */}
+              {/* // {AverageSelectedTab === "All the time" && ( */}
+              {/* //   <div>
+              //     <h2>{AverageTimePeriodTabs[1].title}</h2>
+              //     <p>Content for "All the time" goes here.</p>
+              //   </div> */}
+              {/* // )} */}
             </div>
           </div>
         </div>
@@ -1125,15 +1137,12 @@ const Sales = ({
                       <div className={styles.recentOffers_card_details}>
                         <div
                           className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
                             }`}
+                          onClick={() => toggleExpanded(index)}
                         >
-                          {expanded[index] ? (
-                            <FaTimes onClick={() => toggleExpanded(index)} />
-                          ) : (
-                            <FaPlus onClick={() => toggleExpanded(index)} />
-                          )}
+                          {expanded[index] ? <FaTimes /> : <FaPlus />}
                         </div>
                       </div>
                     </div>

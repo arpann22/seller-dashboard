@@ -176,12 +176,9 @@ const MyOffers = () => {
                               ? styles.icon_close_wrapper
                               : styles.icon_add_wrapper
                           }`}
+                          onClick={() => toggleExpanded(index)}
                         >
-                          {expanded[index] ? (
-                            <FaTimes onClick={() => toggleExpanded(index)} />
-                          ) : (
-                            <FaPlus onClick={() => toggleExpanded(index)} />
-                          )}
+                          {expanded[index] ? <FaTimes /> : <FaPlus />}
                         </div>
                       </div>
                     </div>

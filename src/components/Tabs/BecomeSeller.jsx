@@ -82,7 +82,7 @@ export default function BecomeSeller({ userData, refreshTabs }) {
   };
 
   return (
-    <div>
+    <div className={styles.becomeSellerWrapper}>
       {sellerSuccess && <Become_seller />}
       <form onSubmit={handleSubmit} className={styles.become_seller_form}>
         <h4>Vendor Application</h4>
@@ -93,9 +93,14 @@ export default function BecomeSeller({ userData, refreshTabs }) {
             onChange={(e) => setIsChecked(e.target.checked)}
             required
           />{" "}
-          I have read and accepted the <a href="#">terms and conditions.</a>
+          I have read and accepted the{" "}
+          <a href="/terms-conditions/">terms and conditions.</a>
         </p>
-        <input type="submit" value="Become a Seller" />
+        <input
+          type="submit"
+          value="Become a Seller"
+          className={styles.hover_blue_white}
+        />
       </form>
 
       {error && <p> {error}</p>}

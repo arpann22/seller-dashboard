@@ -67,7 +67,15 @@ export default function Orders({ userData }) {
   }, [orderIds]);
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div
+        className={`${styles.sellers_error_wrapper} ${styles.order_error_msg_wrapper}`}
+      >
+        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>
+          {error}
+        </div>
+      </div>
+    );
   }
 
   return (

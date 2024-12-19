@@ -125,9 +125,10 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                 &nbsp;and is currently{" "}
                 <span className={order.meta._order_status[0]}>
                   {" "}
+                  &nbsp;
                   {order.meta._order_status[0]}.
                 </span>
-                &nbsp
+                &nbsp;
               </p>
               <h2>Order details</h2>
               <div>
@@ -208,24 +209,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                                 {productPrice}
                               </h5>
                             </div>
-
-                            {/* Subtotal */}
-                            <div className={styles.recentOffers_cell}>
-                              <p>Subtotal</p>
-                              <h5>
-                                {order.meta._currency_symbol?.[0]}
-                                {order.meta._order_subtotal[0]}
-                              </h5>
-                            </div>
-
-                            {/* Total */}
-                            <div className={styles.recentOffers_cell}>
-                              <p>Total</p>
-                              <h5>
-                                {order.meta._currency_symbol?.[0]}
-                                {order.meta._order_total[0]}
-                              </h5>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -233,18 +216,19 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                   })}
                 </div>
               </div>
-              <h2>Billing address</h2>
-              <div className={styles.orderDetailPopupBilling}>
-                {order.meta._billing_first_name[0] &&
-                  order.meta._billing_last_name[0] && (
-                    <p className={styles.billing_name}>
-                      <IoPersonSharp />
-                      {order.meta._billing_first_name[0]}{" "}
-                      {order.meta._billing_last_name[0]}
-                    </p>
-                  )}
+              <div className={styles.orderDeatilsModalFooter}>
+                <div className={styles.orderDetailPopupBilling}>
+                  <h2>Billing address</h2>
+                  {order.meta._billing_first_name[0] &&
+                    order.meta._billing_last_name[0] && (
+                      <p className={styles.billing_name}>
+                        <IoPersonSharp />
+                        {order.meta._billing_first_name[0]}{" "}
+                        {order.meta._billing_last_name[0]}
+                      </p>
+                    )}
 
-                {/* {order.meta._billing_city[0] && (
+                  {/* {order.meta._billing_city[0] && (
                   <p>
                     <FaLocationDot />
                     {order.meta._billing_city[0]}
@@ -258,36 +242,56 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                   </p>
                   
                 )} */}
-                {(order.meta._billing_city[0] ||
-                  order.meta._billing_address_1[0]) && (
-                  <p>
-                    <FaLocationDot />
-                    {order.meta._billing_city[0] &&
-                      `${order.meta._billing_city[0]}, `}
-                    {order.meta._billing_address_1[0]}
-                  </p>
-                )}
+                  {(order.meta._billing_city[0] ||
+                    order.meta._billing_address_1[0]) && (
+                    <p>
+                      <FaLocationDot />
+                      {order.meta._billing_city[0] &&
+                        `${order.meta._billing_city[0]}, `}
+                      {order.meta._billing_address_1[0]}
+                    </p>
+                  )}
 
-                {order.meta._billing_address_2[0] && (
-                  <p>
-                    <FaAddressBook />
-                    {order.meta._billing_address_2[0]}
-                  </p>
-                )}
+                  {order.meta._billing_address_2[0] && (
+                    <p>
+                      <FaAddressBook />
+                      {order.meta._billing_address_2[0]}
+                    </p>
+                  )}
 
-                {order.meta._billing_phone[0] && (
-                  <p>
-                    <FaPhone />
-                    {order.meta._billing_phone[0]}
-                  </p>
-                )}
+                  {order.meta._billing_phone[0] && (
+                    <p>
+                      <FaPhone />
+                      {order.meta._billing_phone[0]}
+                    </p>
+                  )}
 
-                {order.meta._billing_email[0] && (
-                  <p>
-                    <MdEmail />
-                    {order.meta._billing_email[0]}
-                  </p>
-                )}
+                  {order.meta._billing_email[0] && (
+                    <p>
+                      <MdEmail />
+                      {order.meta._billing_email[0]}
+                    </p>
+                  )}
+                </div>
+                <div className={styles.orderDetailsTotals}>
+                  <div className={styles.recentOffers_cell}>
+                    {/* Subtotal */}
+                    <p>Subtotal:</p>
+                    <h5>
+                      {order.meta._currency_symbol?.[0]}
+                      {order.meta._order_subtotal[0]}
+                    </h5>
+                  </div>
+
+                  {/* Total */}
+                  <div className={styles.recentOffers_cell}>
+                    <p>Total:</p>
+                    <h5>
+                      {order.meta._currency_symbol?.[0]}
+                      {order.meta._order_total[0]}
+                    </h5>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

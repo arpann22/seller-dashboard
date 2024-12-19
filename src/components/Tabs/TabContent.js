@@ -711,9 +711,8 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.activeTab : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
+                    }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
@@ -772,7 +771,7 @@ const TabContent = ({
                       color: "rgb(197, 235, 240)",
                     },
                   ]}
-                  width={340}
+                  width={300}
                   height={400}
                   yAxis={[yAxis]}
                 />
