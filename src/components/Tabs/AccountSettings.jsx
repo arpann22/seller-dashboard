@@ -30,10 +30,38 @@ const AccountSettings = ({ userData }) => {
   const [settingsMessage, setSettingsMessage] = useState("");
   const [is2FaEnabled, set2FaEnabled] = useState(false);
 
+  const [loginActivity, setLoginActivity] = useState([]);
+  const [activtyLoading, setActivityLoading] = useState(false);
   useEffect(() => {
     const two_fa_enabled = userData.two_fa_enabled;
     if (two_fa_enabled) {
       set2FaEnabled((prevState) => !prevState);
+    }
+
+    async function fetchLoginActivity() {
+      try {
+        setActivityLoading(true);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wstr/v1/login-activity/${userData.id}`
+        );
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data = await res.json();
+        console.log("location data", data);
+        if (data) {
+          setLoginActivity(data);
+        }
+      } catch (err) {
+        console.log("login activity error:", err.message);
+      } finally {
+        setActivityLoading(false);
+      }
+    }
+
+    if (userData.id) {
+      fetchLoginActivity();
     }
   }, [userData]);
 
@@ -54,7 +82,6 @@ const AccountSettings = ({ userData }) => {
   const handle2faToggle = async () => {
     set2FaEnabled((prevState) => !prevState);
     const newIs2FaEnabled = !is2FaEnabled;
-    console.log("is2FaEnabled", newIs2FaEnabled);
 
     try {
       setTwoFaSuccessMessage("");
@@ -96,8 +123,78 @@ const AccountSettings = ({ userData }) => {
     setTimeout(() => setSettingsMessage(""), 3000); // Clear message after 3 seconds
   };
 
+  //================================= logout of all devices
+  const [logoutErrorMessage, setLogoutErrorMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleLogoutPopup = () => {
+    setShowPopup(true);
+  };
+  const handleLogout = async () => {
+    try {
+      setTwoFaLoading(true);
+      setLogoutErrorMessage("");
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/logout-all-device/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            logut: true,
+          }),
+        }
+      );
+      if (!res.ok) {
+        setLogoutErrorMessage("Error occured on logging out all devices");
+        throw new Error("Error occured on logging out all devices");
+      }
+      const data = await res.json();
+      if (data) {
+        // window.location.reload();
+      }
+    } catch (err) {
+      setTwoFaErrorMessage(err);
+    } finally {
+      setTwoFaLoading(false);
+    }
+  };
+
+  const LogoutDevice = () => {
+    return (
+      // <div>
+      //   <div>
+      //     <p>Are you sure want to delete?</p>
+      //   </div>
+      //   <div>
+      //     <input type="submit" value="Delete" onClick={handleDeleteConfirm} />
+      //     <input type="submit" value="Cancel" onClick={handleDeleteCancel} />
+      //   </div>
+      // </div>
+
+      <div className={styles.success_popup_overlay}>
+        <div className={styles.success_popup}>
+          <div>
+            <p>Are you sure want to logout all devices.</p>
+          </div>
+          <div>
+            <input
+              type="submit"
+              value="Ok"
+              onClick={handleLogout}
+              className={`${styles.okButton} ${styles.hover_blue_white}`}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={accountstyles.accountSettingsContainer}>
+      {showPopup && <LogoutDevice />}
+
       <h2>Account Settings</h2>
 
       {/* Password Management Accordion */}
@@ -164,16 +261,25 @@ const AccountSettings = ({ userData }) => {
                   <GrLogin />
                   Login Activity
                 </h4>
+                {activtyLoading && (
+                  <div>
+                    <div className="loading_overlay">
+                      <FaSpinner className="loading" />
+                    </div>
+                  </div>
+                )}
                 <p>View recent login locations and devices.</p>
                 <ul className={accountstyles.loggedInDevices}>
-                  <li>Device 1: New York, USA</li>
-                  <li>Device 2: London, UK</li>
+                  {loginActivity.map((location) => (
+                    <li>{location}</li>
+                  ))}
+                  {/* <li>Device 1: New York, USA</li>
+                  <li>Device 2: London, UK</li> */}
                 </ul>
+                {logoutErrorMessage && <div> {logoutErrorMessage}</div>}
                 <button
                   className={styles.hover_blue_white}
-                  onClick={() =>
-                    handleSaveMessage("Logged out of all devices.")
-                  }
+                  onClick={handleLogoutPopup}
                 >
                   Log out of all devices
                 </button>
