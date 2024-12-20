@@ -254,9 +254,9 @@ export default function Domains({ userData, setSellerCentralTab }) {
               >
                 <SaveDraftIcon />
               </div>
-              <div>
+              {/* <div>
                 <AddProductIcon />
-              </div>
+              </div> */}
               <div onClick={() => handleDelete(domain.id)}>
                 <DeleteIcon />
               </div>

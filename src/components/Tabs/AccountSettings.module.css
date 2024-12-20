@@ -27,11 +27,11 @@
 }
 .settingsAccoridionContainer {
   background-color: #f7f8fd;
-  padding: 15px;
+  padding: 10px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   margin: 40px 0;
 }
 .accordionContentWrapper {

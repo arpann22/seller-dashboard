@@ -27,6 +27,7 @@
   transition: background-color 0.3s;
   flex: 0 0 auto;
   border: 2px solid rgb(247, 249, 253);
+  gap: 10px;
 }
 .cardSelectorIndustriesWrapper .card {
   width: fit-content;
