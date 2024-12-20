@@ -24,14 +24,11 @@ const currentUrl = window.location.origin;
 
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs
-  console.log("user", userData);
   const user_roles = userData.roles;
-  console.log("user_roles", user_roles);
-
   // const [userTab, setUserTab] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   useEffect(() => {
-    const updateUserTabs = () => { };
+    const updateUserTabs = () => {};
 
     if (userData) {
       updateUserTabs();
@@ -39,8 +36,6 @@ const Tabs = ({ userData, setUserData }) => {
   }, [userData]);
   const [tabs, setTabs] = useState([]);
   const defaultTabs = () => {
-    console.log("tab refreshed");
-    console.log("userData", userData);
     let userTab = null;
     if (userData && userData.roles) {
       const roles = Array.isArray(userData.roles)
@@ -479,9 +474,9 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
             ? calculateOrderTotal(
-              allOtherCurrenciesOrders,
-              "_usd_products_price"
-            )
+                allOtherCurrenciesOrders,
+                "_usd_products_price"
+              )
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
@@ -503,7 +498,9 @@ const Tabs = ({ userData, setUserData }) => {
   //----------------------------------------------------------- sales details ends
 
   return (
-    <div className={`${styles.tabs} ${styles.ws_container} ${styles.dashboard_main_tabs}`}>
+    <div
+      className={`${styles.tabs} ${styles.ws_container} ${styles.dashboard_main_tabs}`}
+    >
       <div className={styles.tabs_lists}>
         <UserDetails userData={userData} setUserData={setUserData} />
 
@@ -514,8 +511,9 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${styles.dashboard_main_tabs_button} ${tab.label === activeTab ? styles.active : ""
-                  }`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                  styles.dashboard_main_tabs_button
+                } ${tab.label === activeTab ? styles.active : ""}`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -549,8 +547,9 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${styles.dashboard_main_tabs_button} ${tab.label === activeTab ? styles.active : ""
-                      }`}
+                    className={`${styles.dropdownOption} ${
+                      styles.dashboard_main_tabs_button
+                    } ${tab.label === activeTab ? styles.active : ""}`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -629,8 +628,9 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${styles.button_icon_wrapper
-                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${
+                    styles.button_icon_wrapper
+                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>
