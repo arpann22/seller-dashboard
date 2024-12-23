@@ -53,6 +53,7 @@ export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
+  const [generateTaxonomies, setIsGenerated] = useState([]);
   // const [content, setContent] = useState("");
 
   const [domainName, setDomainName] = useState("");
@@ -322,6 +323,15 @@ export default function AddDomain({ styles, userData }) {
       setSelectedCategories((prevObj) => [...prevObj, ...cat_array]); // handeling category
 
       setSelectedTags((prevObj) => [...prevObj, ...tag_array]); // handeling tags
+      // Set the generated flag to true
+
+      const generate_taxonomy_id = [
+        ...new Set([
+          ...tag_array.map((item) => item.id),
+          ...cat_array.map((item) => item.id),
+        ]),
+      ];
+      setIsGenerated(generate_taxonomy_id);
     } catch (err) {
       console.log(err);
       setDomainNameError(err);
@@ -1349,6 +1359,7 @@ export default function AddDomain({ styles, userData }) {
                 items={category}
                 selectedItems={selectedCategories}
                 setSelectedItems={setSelectedCategories}
+                generateTaxonomies={generateTaxonomies}
               />
             )}
           </div>
@@ -1478,6 +1489,7 @@ export default function AddDomain({ styles, userData }) {
                   items={tags}
                   selectedItems={selectedTags}
                   setSelectedItems={setSelectedTags}
+                  generateTaxonomies={generateTaxonomies}
                 />
               )}
             </div>
@@ -1506,6 +1518,7 @@ export default function AddDomain({ styles, userData }) {
                 items={industry}
                 selectedItems={selectedIndustries}
                 setSelectedItems={setSelectedIndustries}
+                generateTaxonomies={generateTaxonomies}
               />
             )}
           </div>
