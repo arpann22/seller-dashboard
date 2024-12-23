@@ -77,7 +77,7 @@ const CardSelector = ({
                   generateTaxonomies.includes(item.id) &&
                   selectedItems.some(
                     (selectedItem) => selectedItem.id === item.id
-                  ) && <span>{item.subtitle}</span>}
+                  ) && <span>Ai-Pick</span>}
               </>
             ) : (
               <>
@@ -87,7 +87,7 @@ const CardSelector = ({
                     generateTaxonomies.includes(item.id) &&
                     selectedItems.some(
                       (selectedItem) => selectedItem.id === item.id
-                    ) && <span>{item.subtitle}</span>}
+                    ) && <span>Ai-Pick</span>}
 
                   <RxCross2 />
                   <GoPlus />
