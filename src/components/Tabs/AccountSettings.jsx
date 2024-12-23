@@ -608,7 +608,7 @@ const AccountSettings = () => {
                   </p>
                   {console.log(languageData)}
                   {languageData && languageData.preferences == "language" ? (
-                    <div class="completed"> {notificationData.message}</div>
+                    <div class="completed"> {languageData.message}</div>
                   ) : (
                     ""
                   )}
@@ -937,7 +937,7 @@ const AccountSettings = () => {
                 <div>
                   <p>Choose standard currency option globally:</p>
                   {languageData && languageData.preferences == "currency" ? (
-                    <div class="completed"> {notificationData.message}</div>
+                    <div class="completed"> {languageData.message}</div>
                   ) : (
                     ""
                   )}
