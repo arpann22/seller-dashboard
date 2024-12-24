@@ -28,7 +28,8 @@ import { ReactComponent as DeleteIcon } from "./image/delete.svg";
 import { ReactComponent as RecentOffersIcon } from "./image/recents_offers.svg";
 // import { ReactComponent as PaymentMethodIcon } from "./image/method.svg";
 // import { ReactComponent as PaymentMethodIcon } from "./image/payment_method_icon.png";
-import payment_method_icon from "./image/payment_method_icon.png";
+import payment_method_icon from "./image/payment_method_icon.png"
+import { AiOutlineClose } from "react-icons/ai";;
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -55,6 +56,8 @@ const SellerCentralTabContent = ({
 }) => {
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
   const [selectedCard, setSelectedCard] = useState(null);
+  const [isPaypalPopupOpen, setPaypalPopupOpen] = useState(false);
+  const [isBankPopupOpen, setBankPopupOpen] = useState(false);
 
   const editorRef = useRef(null);
   const [activeTab, setActiveTab] = useState("active");
@@ -67,6 +70,10 @@ const SellerCentralTabContent = ({
   };
   const handleCardSelect = (cardId) => {
     setSelectedCard(cardId); // Set the selected card
+  };
+  const handleClosePopup = () => {
+    setPaypalPopupOpen(false);
+    setBankPopupOpen(false);
   };
   switch (activeInnerTab) {
     case "Add New Domain":
@@ -188,11 +195,10 @@ const SellerCentralTabContent = ({
                             )}
                           </div> */}
                           <div
-                            className={`${styles.svg_wrapper_bg_grey} ${
-                              expanded[index]
-                                ? styles.icon_close_wrapper
-                                : styles.icon_add_wrapper
-                            }`}
+                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                              }`}
                             onClick={() => toggleExpanded(index)}
                           >
                             {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -206,9 +212,8 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -348,9 +353,8 @@ const SellerCentralTabContent = ({
                 >
                   {/* Card 1 */}
                   <label
-                    className={`${styles.card} ${
-                      selectedCard === 1 ? styles.selected : ""
-                    }`}
+                    className={`${styles.card} ${selectedCard === 1 ? styles.selected : ""
+                      }`}
                   >
                     <input
                       type="radio"
@@ -369,16 +373,15 @@ const SellerCentralTabContent = ({
                       <div className={styles.svg_wrapper_bg}>
                         <PayPalIcon />
                       </div>
-                      {/* <img
-                      src={paypal_icon}
-                      alt="Paypal Icon"
-                      className={styles.card_image}
-                    /> */}
                       <div>
                         <h4>Paypal</h4>
                         <p>Connect your Paypal Account</p>
                       </div>
-                      <button className={styles.edit_profile_button}>
+                      <button
+                        type="button"
+                        className={styles.edit_profile_button}
+                        onClick={() => setPaypalPopupOpen(true)}
+                      >
                         Edit Email
                       </button>
                     </div>
@@ -386,9 +389,8 @@ const SellerCentralTabContent = ({
 
                   {/* Card 2 */}
                   <label
-                    className={`${styles.card} ${
-                      selectedCard === 2 ? styles.selected : ""
-                    }`}
+                    className={`${styles.card} ${selectedCard === 2 ? styles.selected : ""
+                      }`}
                   >
                     <input
                       type="radio"
@@ -407,20 +409,78 @@ const SellerCentralTabContent = ({
                       <div className={styles.svg_wrapper_bg}>
                         <BankIcon />
                       </div>
-                      {/* <img
-                      src={bank_transfer_icon}
-                      alt="Bank Transfer Icon"
-                      className={styles.card_image}
-                    /> */}
+
                       <div>
                         <h4>Bank Transfer</h4>
                         <p>Connect your Bank Account</p>
                       </div>
-                      <button className={styles.edit_profile_button}>
+                      <button
+                        type="button"
+                        className={styles.edit_profile_button}
+                        onClick={() => setBankPopupOpen(true)}
+                      >
                         Bank Settings
                       </button>
                     </div>
                   </label>
+
+                  {/* Paypal Email Popup */}
+                  {isPaypalPopupOpen && (
+                    <div className={styles.popup}>
+                      <div className={styles.popup_content}>
+                        <AiOutlineClose
+                          className={styles.close_icon}
+                          onClick={handleClosePopup}
+                        />
+                        <h4>Enter PayPal Email</h4>
+                        <input
+                          type="email"
+                          placeholder="Enter your PayPal email"
+                          className={styles.input_field}
+                        />
+                        <div className={styles.popup_actions}>
+
+                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white}`}>
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Bank Settings Popup */}
+                  {isBankPopupOpen && (
+                    <div className={styles.popup}>
+                      <div className={styles.popup_content}>
+                        <AiOutlineClose
+                          className={styles.close_icon}
+                          onClick={handleClosePopup}
+                        />
+                        <h4>Enter Bank Details</h4>
+                        <input
+                          type="text"
+                          placeholder="Enter your bank name"
+                          className={styles.input_field}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Enter your bank account number"
+                          className={styles.input_field}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Enter your account name"
+                          className={styles.input_field}
+                        />
+                        <textarea name="notes" placeholder="Notes.."></textarea>
+                        <div className={styles.popup_actions}>
+                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white}`}>
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </form>
             </div>

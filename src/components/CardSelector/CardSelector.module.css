@@ -82,12 +82,12 @@
   font-size: 14px;
 }
 .cardSelectorWrapper .icon img {
-  width: 30px;
+  width: 45px;
   background-color: #fff;
   padding: 8px;
   border-radius: 5px;
   object-fit: contain;
-  height: 30px;
+  height: 45px;
 }
 .card.selected .icon img {
   background-color: rgb(247, 249, 253);

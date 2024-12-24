@@ -30,9 +30,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 .myOffers_wrapper .myOffers_extra_offer_form {
   justify-content: space-around;
+}
+.myOffers_extra_offer_form .remake_offer_icon svg {
+  height: 24px;
+  width: 24px;
+}
+.myOffers_extra_offer_form input[type="number"] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
 }
 .myOffers_offer_image {
   background: linear-gradient(-45deg, #00daf6, #119ffb 59%, #2164ff);
