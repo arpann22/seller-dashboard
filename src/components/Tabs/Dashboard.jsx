@@ -444,7 +444,7 @@ const Dashboard = ({
             <h4>From Community</h4>
             <HiDotsVertical />
           </div>
-          <div className={`${styles.fd_column} dashboard_community_cards `}>
+          <div className={`${styles.tablet_fd_col} dashboard_community_cards `}>
             <div className="dashboard_community_card community_reviews">
               <div class="reviews_images_lists ws_flex jc_center ai_center">
                 <img src={cust_img} />

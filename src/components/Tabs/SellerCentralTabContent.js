@@ -436,11 +436,11 @@ const SellerCentralTabContent = ({
                         <input
                           type="email"
                           placeholder="Enter your PayPal email"
-                          className={styles.input_field}
+                          className={`${styles.input_field} paypal_email_address`}
                         />
                         <div className={styles.popup_actions}>
 
-                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white}`}>
+                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white} save_paypal_email_address`}>
                             Save
                           </button>
                         </div>
@@ -460,21 +460,21 @@ const SellerCentralTabContent = ({
                         <input
                           type="text"
                           placeholder="Enter your bank name"
-                          className={styles.input_field}
+                          className={`${styles.input_field} customer_bank_name`}
                         />
                         <input
                           type="number"
                           placeholder="Enter your bank account number"
-                          className={styles.input_field}
+                          className={`${styles.input_field} customer_bank_acc_number`}
                         />
                         <input
                           type="text"
                           placeholder="Enter your account name"
-                          className={styles.input_field}
+                          className={`${styles.input_field} customer_bank_acc_name`}
                         />
                         <textarea name="notes" placeholder="Notes.."></textarea>
-                        <div className={styles.popup_actions}>
-                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white}`}>
+                        <div className={`${styles.popup_actions} customer_bank_notes`}>
+                          <button type="button" className={`${styles.save_button} ${styles.hover_blue_white} save_customer_bank_details`}>
                             Save
                           </button>
                         </div>

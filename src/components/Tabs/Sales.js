@@ -123,27 +123,27 @@ const Sales = ({
       label: "This Month",
       title: "Pie Chart for This Month",
       data: [
-        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: oneTime, label: "One Time", color: "#197EFC" },
         { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
-        { value: offer, label: "Offers", color: "#094b8f" },
+        { value: offer, label: "Offers", color: "#084FAE" },
       ],
     },
     {
       label: "This Year",
       title: "Pie Chart for This Year",
       data: [
-        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: oneTime, label: "One Time", color: "#197EFC" },
         { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
-        { value: offer, label: "Offers", color: "#094b8f" },
+        { value: offer, label: "Offers", color: "#084FAE" },
       ],
     },
     {
       label: "All the Time",
       title: "Pie Chart for All the Time",
       data: [
-        { value: oneTime, label: "One Time", color: "#2164ff" },
+        { value: oneTime, label: "One Time", color: "#197EFC" },
         { value: leaseToOwn, label: "Lease-to-Own", color: "#00d9f5" },
-        { value: offer, label: "Offers", color: "#094b8f" },
+        { value: offer, label: "Offers", color: "#084FAE" },
       ],
     },
   ];
@@ -955,26 +955,49 @@ const Sales = ({
                   </ChartContainer> */}
                 {/* for desktop */}
                 <div className={styles.hide_mobile}>
-                  <BarChart
-                    xAxis={[
-                      {
-                        scaleType: "band",
-                        data: xLabels,
-                        colors: ['#2164ff'],
-                      },
-                    ]}
-                    series={[
-                      {
-                        data: uData
-                          ? uData
-                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      },
-                    ]}
-                    width={500}
-                    height={300}
-                  />
+                  <div style={{ position: "relative" }}>
+                    {/* SVG Definitions for Custom Gradients */}
+                    <svg width="0" height="0">
+                      <defs>
+                        <linearGradient id="customGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="rgb(33,100,255)" />
+                          <stop offset="41%" stopColor="rgb(17,159,251)" />
+                          <stop offset="100%" stopColor="rgb(17,159,251)" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <BarChart
+                      xAxis={[
+                        {
+                          scaleType: "band",
+                          data: xLabels,
+                          grid: false, // Disable grid lines for x-axis
+                        },
+                      ]}
+                      series={[
+                        {
+                          data: uData
+                            ? uData
+                            : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Data points
+                          color: "url(#customGradient)", // Use the custom gradient
+                        },
+                      ]}
+                      width={600}
+                      height={300}
+
+                    />
+                  </div>
                 </div>
                 <div className={styles.hide_desktop}>
+                  <svg width="0" height="0">
+                    <defs>
+                      <linearGradient id="customGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="rgb(33,100,255)" />
+                        <stop offset="41%" stopColor="rgb(17,159,251)" />
+                        <stop offset="100%" stopColor="rgb(17,159,251)" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                   {/* for mobile */}
                   <BarChart
                     xAxis={[
@@ -987,7 +1010,8 @@ const Sales = ({
                       {
                         data: uData
                           ? uData
-                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // Data points
+                        color: "url(#customGradient)", // Use the custom gradient
                       },
                     ]}
                     width={320}
@@ -1137,8 +1161,8 @@ const Sales = ({
                       <div className={styles.recentOffers_card_details}>
                         <div
                           className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
                             }`}
                           onClick={() => toggleExpanded(index)}
                         >

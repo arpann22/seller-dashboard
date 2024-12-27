@@ -3,3 +3,8 @@
     flex-direction: column;
   }
 }
+@media screen and (max-width: 1024px) {
+  .tablet_fd_col {
+    flex-direction: column;
+  }
+}
