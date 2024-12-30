@@ -353,18 +353,41 @@ const Sales = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // const otherSellerProducts = sold_products.filter(
+          //   (product) => product.seller_id != userData.id
+          // );
+
+          // // get product of the other seller from order data
+          // const otherSellerProductsOrderdPrice = sold_products_price.filter(
+          //   (product) =>
+          //     otherSellerProducts.some(
+          //       (sellerProduct) =>
+          //         sellerProduct.product_id == product.product_id
+          //     )
+          // );
+
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
+            );
 
           //----------------------------------------- test ends
 
@@ -737,8 +760,11 @@ const Sales = ({
       <div
         className={`${styles.sellers_error_wrapper} ${styles.order_error_msg_wrapper}`}
       >
-        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>Sales order is empty.</div>
-      </div>);
+        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>
+          Sales order is empty.
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -746,7 +772,9 @@ const Sales = ({
       <div
         className={`${styles.sellers_error_wrapper} ${styles.order_error_msg_wrapper}`}
       >
-        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>{error}</div>
+        <div className={`${styles.sellers_error} ${styles.order_error_msg}`}>
+          {error}
+        </div>
       </div>
     );
   }
@@ -861,8 +889,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -930,8 +959,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    AverageSelectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -959,7 +989,14 @@ const Sales = ({
                     {/* SVG Definitions for Custom Gradients */}
                     <svg width="0" height="0">
                       <defs>
-                        <linearGradient id="customGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+                        <linearGradient
+                          id="customGradient"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                          gradientUnits="userSpaceOnUse"
+                        >
                           <stop offset="0%" stopColor="rgb(33,100,255)" />
                           <stop offset="41%" stopColor="rgb(17,159,251)" />
                           <stop offset="100%" stopColor="rgb(17,159,251)" />
@@ -984,14 +1021,20 @@ const Sales = ({
                       ]}
                       width={600}
                       height={300}
-
                     />
                   </div>
                 </div>
                 <div className={styles.hide_desktop}>
                   <svg width="0" height="0">
                     <defs>
-                      <linearGradient id="customGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+                      <linearGradient
+                        id="customGradient"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                        gradientUnits="userSpaceOnUse"
+                      >
                         <stop offset="0%" stopColor="rgb(33,100,255)" />
                         <stop offset="41%" stopColor="rgb(17,159,251)" />
                         <stop offset="100%" stopColor="rgb(17,159,251)" />
@@ -1160,10 +1203,11 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
-                            }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${
+                            expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                          }`}
                           onClick={() => toggleExpanded(index)}
                         >
                           {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -1174,8 +1218,9 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {

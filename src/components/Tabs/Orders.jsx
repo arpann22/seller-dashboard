@@ -3,6 +3,7 @@ import OrderDetails from "./OrderDetails";
 import styles from "./Tabs.module.css"; // Import styles
 import cust_img from "./images/cust_image.png";
 import { FaCircle } from "react-icons/fa6";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Orders({ userData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
@@ -16,11 +17,12 @@ export default function Orders({ userData }) {
   const [orderDetails, setOrderDetails] = useState([]); // Store all order details
   const [modalOpen, setModalOpen] = useState(false); // Modal is initially closed
   const [selectedOrder, setSelectedOrder] = useState(null); // To track which order is selected
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch order IDs through API based on the user's ID
   useEffect(() => {
     if (userData.id) {
+      setIsLoading(true);
       async function fetchOrderIds() {
         try {
           const res = await fetch(`${url}${userData.id}`);
@@ -30,10 +32,11 @@ export default function Orders({ userData }) {
           } else {
             const data = await res.json();
             setOrderIds(data);
-            setIsLoading(false);
+            // setIsLoading(false);
           }
         } catch (err) {
           setError(err.message);
+          setIsLoading(false);
         }
       }
 
@@ -59,10 +62,14 @@ export default function Orders({ userData }) {
           setOrderDetails(allOrderDetails);
         } catch (err) {
           setError(err.message);
+        } finally {
+          setIsLoading(false);
         }
       }
 
       fetchAllOrderDetails();
+    } else {
+      setIsLoading(false);
     }
   }, [orderIds]);
 
@@ -78,6 +85,13 @@ export default function Orders({ userData }) {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="loading_overlay">
+        <FaSpinner className="loading" />
+      </div>
+    );
+  }
   return (
     <div>
       {!isLoading && (
