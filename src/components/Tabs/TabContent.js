@@ -143,18 +143,41 @@ const TabContent = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // const otherSellerProducts = sold_products.filter(
+          //   (product) => product.seller_id != userData.id
+          // );
+
+          // // get product of the other seller from order data
+          // const otherSellerProductsOrderdPrice = sold_products_price.filter(
+          //   (product) =>
+          //     otherSellerProducts.some(
+          //       (sellerProduct) =>
+          //         sellerProduct.product_id == product.product_id
+          //     )
+          // );
+
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
+            );
 
           // ---------------------------------------------------- ends
           // Extract price
@@ -244,18 +267,28 @@ const TabContent = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
+            );
           // ---------------------------------------------------- ends
 
           // Extract price
@@ -349,19 +382,40 @@ const TabContent = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // const otherSellerProducts = sold_products.filter(
+          //   (product) => product.seller_id != userData.id
+          // );
+
+          // // get product of the other seller from order data
+          // const otherSellerProductsOrderdPrice = sold_products_price.filter(
+          //   (product) =>
+          //     otherSellerProducts.some(
+          //       (sellerProduct) =>
+          //         sellerProduct.product_id == product.product_id
+          //     )
+          // );
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
-
+            );
           // ---------------------------------------------------- ends
           // Extract price
           const price =
@@ -433,18 +487,41 @@ const TabContent = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // const otherSellerProducts = sold_products.filter(
+          //   (product) => product.seller_id != userData.id
+          // );
+
+          // // get product of the other seller from order data
+          // const otherSellerProductsOrderdPrice = sold_products_price.filter(
+          //   (product) =>
+          //     otherSellerProducts.some(
+          //       (sellerProduct) =>
+          //         sellerProduct.product_id == product.product_id
+          //     )
+          // );
+
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
+            );
 
           // ---------------------------------------------------- ends
 
@@ -526,18 +603,41 @@ const TabContent = ({
             );
           }
 
-          const otherSellerProducts = sold_products.filter(
+          // const otherSellerProducts = sold_products.filter(
+          //   (product) => product.seller_id != userData.id
+          // );
+
+          // // get product of the other seller from order data
+          // const otherSellerProductsOrderdPrice = sold_products_price.filter(
+          //   (product) =>
+          //     otherSellerProducts.some(
+          //       (sellerProduct) =>
+          //         sellerProduct.product_id == product.product_id
+          //     )
+          // );
+
+          // Ensure sold_products is an array, otherwise set it to an empty array
+          const sold_products_array = Array.isArray(sold_products)
+            ? sold_products
+            : [];
+
+          const otherSellerProducts = sold_products_array.filter(
             (product) => product.seller_id != userData.id
           );
 
+          // Ensure sold_products_price is an array, otherwise set it to an empty array
+          const sold_products_price_array = Array.isArray(sold_products_price)
+            ? sold_products_price
+            : [];
+
           // get product of the other seller from order data
-          const otherSellerProductsOrderdPrice = sold_products_price.filter(
-            (product) =>
+          const otherSellerProductsOrderdPrice =
+            sold_products_price_array.filter((product) =>
               otherSellerProducts.some(
                 (sellerProduct) =>
                   sellerProduct.product_id == product.product_id
               )
-          );
+            );
 
           // ---------------------------------------------------- ends
 
@@ -711,8 +811,9 @@ const TabContent = ({
               {timePeriodTabs.map((tab) => (
                 <button
                   key={tab.label}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.activeTab : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.activeTab : ""
+                  }`}
                   onClick={() => handleTabClick(tab.label)}
                 >
                   {tab.label}
