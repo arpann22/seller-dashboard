@@ -1122,16 +1122,40 @@ const Sales = ({
                 order?.meta?._ordered_products?.[0]
               );
 
-              const NotSellerProducts = ordered_products.filter(
-                (product) => product.seller_id != userData.id
-              );
+              // const NotSellerProducts = ordered_products.filter(
+              //   (product) => product.seller_id != userData.id
+              // );
 
-              const allOrderdProductPrice = unserialize(
-                order?.meta?._products_price?.[0]
-              );
+              // const allOrderdProductPrice = unserialize(
+              //   order?.meta?._products_price?.[0]
+              // );
 
+              // const sellerProductsOrderdPrice = allOrderdProductPrice.filter(
+              //   (product) =>
+              //     NotSellerProducts.some(
+              //       (sellerProduct) =>
+              //         sellerProduct.product_id == product.product_id
+              //     )
+              // );
+
+              // Ensure ordered_products is an array before calling .filter
+              const NotSellerProducts = Array.isArray(ordered_products)
+                ? ordered_products.filter(
+                    (product) => product.seller_id != userData.id
+                  )
+                : [];
+
+              // Ensure allOrderdProductPrice is an array before calling .filter
+              const allOrderdProductPrice = Array.isArray(
+                unserialize(order?.meta?._products_price?.[0])
+              )
+                ? unserialize(order?.meta?._products_price?.[0])
+                : [];
+
+              // Ensure NotSellerProducts is an array before using it in .some
               const sellerProductsOrderdPrice = allOrderdProductPrice.filter(
                 (product) =>
+                  Array.isArray(NotSellerProducts) &&
                   NotSellerProducts.some(
                     (sellerProduct) =>
                       sellerProduct.product_id == product.product_id
