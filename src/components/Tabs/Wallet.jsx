@@ -34,7 +34,9 @@ export default function Wallet({
     setPaypalPopupOpen(false);
     setBankPopupOpen(false);
   };
-
+  /**
+   * Bank details states and functions
+   */
   const [bankDetails, setBankDetails] = useState({
     bank_name: "",
     account_number: "",
@@ -59,7 +61,6 @@ export default function Wallet({
       const data = await res.json();
       if (data) {
         setBankDetails(data[0]);
-        console.log(data[0]);
       }
     } catch (error) {
       setBankError(
@@ -69,8 +70,42 @@ export default function Wallet({
       setBankLoading(false);
     }
   };
+
+  /**
+   * Paypal details states and functions
+   */
+  const [paypalDetails, setPaypalDetails] = useState({ paypal_email: "" });
+  const [paypalLoading, setPaypalLoading] = useState(false);
+  const [paypalError, setPaypalError] = useState("");
+  const [paypalSuccess, setPaypalSuccess] = useState("");
+
+  const fetchPaypalDetails = async () => {
+    try {
+      setPaypalLoading(true);
+      const res = await fetch(`${currentUrl}/wp-json/wstr/v1/paypal-details`);
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setBankError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setPaypalDetails(data[0]);
+      }
+    } catch (error) {
+      setPaypalError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setPaypalLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchBankDetails();
+    fetchPaypalDetails();
   }, [userData.id]);
 
   /**
@@ -114,6 +149,41 @@ export default function Wallet({
     }
   };
 
+  const handlePaypalDetailsSave = async (e) => {
+    e.preventDefault();
+    try {
+      setPaypalSuccess("");
+      setPaypalError("");
+      setPaypalLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/update-user-paypal-details/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/JSON",
+          },
+          body: JSON.stringify(paypalDetails),
+        }
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setPaypalError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setPaypalSuccess(data.message || "Paypal details saved successfully.");
+      }
+    } catch (error) {
+      setPaypalError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setPaypalLoading(false);
+    }
+  };
   return (
     <>
       <div className={`${styles.wallet_top_wrapper} ${styles.ws_flex}`}>
@@ -256,15 +326,36 @@ export default function Wallet({
                       onClick={handleClosePopup}
                     />
                     <h4>Enter PayPal Email</h4>
+                    {paypalLoading && (
+                      <div>
+                        <div className="loading_overlay">
+                          <FaSpinner className="loading" />
+                        </div>
+                      </div>
+                    )}
+                    {paypalSuccess && (
+                      <div className="completed">{paypalSuccess}</div>
+                    )}
+                    {paypalError && (
+                      <div className="refunded">{paypalError}</div>
+                    )}
                     <input
                       type="email"
                       placeholder="Enter your PayPal email"
                       className={`${styles.input_field} paypal_email_address`}
+                      value={paypalDetails.paypal_email}
+                      onChange={(e) =>
+                        setPaypalDetails({
+                          ...paypalDetails,
+                          paypal_email: e.target.value,
+                        })
+                      }
                     />
                     <div className={styles.popup_actions}>
                       <button
                         type="button"
                         className={`${styles.save_button} ${styles.hover_blue_white} save_paypal_email_address`}
+                        onClick={handlePaypalDetailsSave}
                       >
                         Save
                       </button>
@@ -329,7 +420,7 @@ export default function Wallet({
                         })
                       }
                     />
-                    <textarea
+                    {/* <textarea
                       name="notes"
                       placeholder="Notes.."
                       onChange={(e) =>
@@ -338,7 +429,7 @@ export default function Wallet({
                           notes: e.target.value,
                         })
                       }
-                    ></textarea>
+                    ></textarea> */}
                     <div
                       className={`${styles.popup_actions} customer_bank_notes`}
                     >
