@@ -217,6 +217,26 @@ export default function Orders({ userData }) {
                       View
                     </button>
                   </div>
+
+                  {(() => {
+                    const order_type = order?.meta?._order_type?.[0];
+                    const subscription_id = order?.meta?._subscription_id?.[0];
+                    if (order_type == "lease_to_own" && subscription_id) {
+                      return (
+                        <div className={styles.recentOffers_card_titles}>
+                          <button
+                            className={styles.hover_white}
+                            // onClick={() => {
+                            //   setSelectedOrder(order);
+                            //   setModalOpen(true);
+                            // }}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      );
+                    }
+                  })()}
                 </div>
               </div>
             ))}

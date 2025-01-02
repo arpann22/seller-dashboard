@@ -63,8 +63,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
             return data;
           })
         );
-
-        console.log("ordered domains", responses);
         // Combine all domain details into one array or object
         // setDomainDetails(responses);
         setDomains(responses);
