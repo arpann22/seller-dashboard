@@ -31,6 +31,14 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
     price: item.price,
   }));
 
+  const discountInfo = order?.meta?._discount_info?.[0] || "";
+  const unSerializeDiscountInfo = unserialize(discountInfo);
+  const discountAmount = unSerializeDiscountInfo?.[0]?.usd_amount;
+
+  const invoice_url = order?.meta?._invoice_url?.[0] || "";
+
+  const _coupon_code = order?.meta?._coupon_code?.[0] || "";
+
   // const
   // const domainId = extractDomainId(domainIdString);
 
@@ -216,6 +224,14 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                   })}
                 </div>
               </div>
+              {invoice_url && ( // Invoice
+                <small>
+                  <a href={invoice_url} target="_blank" rel="noreferrer">
+                    {" "}
+                    Download Invoice
+                  </a>
+                </small>
+              )}
               <div className={styles.orderDeatilsModalFooter}>
                 <div className={styles.orderDetailPopupBilling}>
                   <h2>Billing address</h2>
@@ -282,6 +298,20 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                       {order.meta._order_subtotal[0]}
                     </h5>
                   </div>
+                  {discountAmount && ( // Discount
+                    <div className={styles.recentOffers_cell}>
+                      <p>Discount:</p>
+                      <h5>
+                        -{order.meta._currency_symbol?.[0]}
+                        {discountAmount}
+                      </h5>
+                      {_coupon_code && (
+                        <small>
+                          <p>Coupon: {_coupon_code}</p>
+                        </small>
+                      )}
+                    </div>
+                  )}
 
                   {/* Total */}
                   <div className={styles.recentOffers_cell}>
