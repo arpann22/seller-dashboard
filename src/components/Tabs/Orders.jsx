@@ -73,6 +73,46 @@ export default function Orders({ userData }) {
     }
   }, [orderIds]);
 
+  const [subscriptionSuccess, setSubscriptionSuccess] = useState("");
+  const [subscriptionError, setSubscriptionError] = useState("");
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+
+  const handleCancelSubscription = async (subscription_id) => {
+    // console.log(subscription_id);
+    const cancel_subscription_url = `${currentUrl}/wp-json/wstr/v1/cancel-subscription/`;
+    const cancel_data = {
+      subscription_id: subscription_id,
+    };
+    try {
+      setSubscriptionLoading(true);
+      const res = await fetch(cancel_subscription_url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cancel_data),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setSubscriptionError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setSubscriptionSuccess(data.message || "Order cancelled successfully.");
+      }
+    } catch (error) {
+      setSubscriptionError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
   if (error) {
     return (
       <div
@@ -144,6 +184,19 @@ export default function Orders({ userData }) {
           <div
             className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table}`}
           >
+            {subscriptionLoading && (
+              <div>
+                <div className="loading_overlay">
+                  <FaSpinner className="loading" />
+                </div>
+              </div>
+            )}
+            {subscriptionSuccess && (
+              <div className="completed">{subscriptionSuccess}</div>
+            )}
+            {subscriptionError && (
+              <div className="refunded">{subscriptionError}</div>
+            )}
             {orderDetails.map((order) => (
               <div key={order.id} className={styles.recentOffers_wrapper}>
                 <div className={styles.recentOffers_card}>
@@ -221,15 +274,25 @@ export default function Orders({ userData }) {
                   {(() => {
                     const order_type = order?.meta?._order_type?.[0];
                     const subscription_id = order?.meta?._subscription_id?.[0];
-                    if (order_type == "lease_to_own" && subscription_id) {
+                    // leas to own AND parent id chaina AND cancelled == 0
+                    const parent_subscription_id =
+                      order?.meta?._parent_subscription_id?.[0];
+                    const cancelled = order?.meta?._cancelled?.[0];
+                    // console.log(cancelled);
+                    // console.log(parent_subscription_id);
+                    // console.log(order_type);
+                    if (
+                      order_type == "lease_to_own" &&
+                      !parent_subscription_id &&
+                      cancelled == 0
+                    ) {
                       return (
                         <div className={styles.recentOffers_card_titles}>
                           <button
                             className={styles.hover_white}
-                            // onClick={() => {
-                            //   setSelectedOrder(order);
-                            //   setModalOpen(true);
-                            // }}
+                            onClick={() => {
+                              handleCancelSubscription(subscription_id);
+                            }}
                           >
                             Cancel
                           </button>
