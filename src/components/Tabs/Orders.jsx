@@ -20,26 +20,45 @@ export default function Orders({ userData }) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch order IDs through API based on the user's ID
+  async function fetchOrderIds() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${url}${userData.id}`);
+      if (!res.ok) {
+        const errorData = await res.json();
+        setError(errorData.message);
+      } else {
+        const data = await res.json();
+        setOrderIds(data);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  }
+
+  async function fetchAllOrderDetails() {
+    try {
+      const orderDetailsPromises = orderIds.map(async (orderId) => {
+        const res = await fetch(`${order_url}${orderId}`);
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        return res.json(); // Return the order data
+      });
+
+      const allOrderDetails = await Promise.all(orderDetailsPromises);
+      setOrderDetails(allOrderDetails);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   useEffect(() => {
     if (userData.id) {
-      setIsLoading(true);
-      async function fetchOrderIds() {
-        try {
-          const res = await fetch(`${url}${userData.id}`);
-          if (!res.ok) {
-            const errorData = await res.json();
-            setError(errorData.message);
-          } else {
-            const data = await res.json();
-            setOrderIds(data);
-            // setIsLoading(false);
-          }
-        } catch (err) {
-          setError(err.message);
-          setIsLoading(false);
-        }
-      }
-
       fetchOrderIds();
     }
   }, [userData.id]);
@@ -47,26 +66,6 @@ export default function Orders({ userData }) {
   // Fetch all order details based on the order IDs
   useEffect(() => {
     if (orderIds.length > 0) {
-      async function fetchAllOrderDetails() {
-        try {
-          const orderDetailsPromises = orderIds.map(async (orderId) => {
-            const res = await fetch(`${order_url}${orderId}`);
-            if (!res.ok) {
-              const errorData = await res.json();
-              throw new Error(errorData.message);
-            }
-            return res.json(); // Return the order data
-          });
-
-          const allOrderDetails = await Promise.all(orderDetailsPromises);
-          setOrderDetails(allOrderDetails);
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-
       fetchAllOrderDetails();
     } else {
       setIsLoading(false);
@@ -77,11 +76,15 @@ export default function Orders({ userData }) {
   const [subscriptionError, setSubscriptionError] = useState("");
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
 
-  const handleCancelSubscription = async (subscription_id) => {
+  const [subscriptionId, setSubscriptionId] = useState(0);
+  const [subsPopup, setSubsPopup] = useState(false);
+
+  const handleCancelSubscription = async () => {
+    setSubsPopup(false);
     // console.log(subscription_id);
     const cancel_subscription_url = `${currentUrl}/wp-json/wstr/v1/cancel-subscription/`;
     const cancel_data = {
-      subscription_id: subscription_id,
+      subscription_id: subscriptionId,
     };
     try {
       setSubscriptionLoading(true);
@@ -103,6 +106,8 @@ export default function Orders({ userData }) {
       const data = await res.json();
       if (data) {
         setSubscriptionSuccess(data.message || "Order cancelled successfully.");
+        // Refresh order data
+        await refreshOrderData();
       }
     } catch (error) {
       setSubscriptionError(
@@ -112,6 +117,20 @@ export default function Orders({ userData }) {
       setSubscriptionLoading(false);
     }
   };
+  const refreshOrderData = async () => {
+    try {
+      setIsLoading(true);
+      await fetchOrderIds();
+      await fetchAllOrderDetails();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  function handleSubsPopup(subscription_id) {
+    setSubscriptionId(subscription_id);
+    setSubsPopup(true);
+  }
 
   if (error) {
     return (
@@ -132,8 +151,29 @@ export default function Orders({ userData }) {
       </div>
     );
   }
+  const OrderSubscriptionCancel = () => {
+    return (
+      <div className={styles.success_popup_overlay}>
+        <div className={styles.success_popup}>
+          <div>
+            <p>Are you sure want to cancel order?</p>
+          </div>
+          <div>
+            <input
+              type="submit"
+              value="Ok"
+              onClick={handleCancelSubscription}
+              className={`${styles.okButton} ${styles.hover_blue_white}`}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
+      {subsPopup && <OrderSubscriptionCancel />}
       {!isLoading && (
         <div>
           {/* <table className={styles.my_orders_table}>
@@ -284,14 +324,19 @@ export default function Orders({ userData }) {
                     if (
                       order_type == "lease_to_own" &&
                       !parent_subscription_id &&
-                      cancelled == 0
+                      cancelled == 0 &&
+                      order?.meta?._order_status != "cancelled" &&
+                      order?.meta?._order_status != "refunded"
                     ) {
                       return (
                         <div className={styles.recentOffers_card_titles}>
                           <button
                             className={styles.hover_white}
+                            // onClick={() => {
+                            //   handleCancelSubscription(subscription_id);
+                            // }}
                             onClick={() => {
-                              handleCancelSubscription(subscription_id);
+                              handleSubsPopup(subscription_id);
                             }}
                           >
                             Cancel
