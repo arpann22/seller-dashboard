@@ -151,7 +151,7 @@ export default function Orders({ userData }) {
       </div>
     );
   }
-  const OrderSubscriptionCancel = () => {
+  const OrderSubscriptionCancelPopup = () => {
     return (
       <div className={styles.success_popup_overlay}>
         <div className={styles.success_popup}>
@@ -173,7 +173,7 @@ export default function Orders({ userData }) {
 
   return (
     <div>
-      {subsPopup && <OrderSubscriptionCancel />}
+      {subsPopup && <OrderSubscriptionCancelPopup />}
       {!isLoading && (
         <div>
           {/* <table className={styles.my_orders_table}>

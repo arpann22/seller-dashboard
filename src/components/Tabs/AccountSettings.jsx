@@ -382,12 +382,18 @@ const AccountSettings = () => {
           <div>
             <p>Are you sure you want to log out from all devices?</p>
           </div>
-          <div>
+          <div className={accountstyles.logOutAllbtnWrapper}>
             <input
               type="submit"
               value="Ok"
               onClick={handleLogout}
               className={`${styles.okButton} ${styles.hover_blue_white}`}
+            />
+            <input
+              type="button"
+              value="Cancel"
+              onClick={() => setShowPopup(false)} // Close the popup
+              className={`${styles.cancelButton} ${styles.hover_blue_white}`}
             />
           </div>
         </div>
