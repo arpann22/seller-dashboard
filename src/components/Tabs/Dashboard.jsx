@@ -15,6 +15,8 @@ import domain_img from "./images/chatseek.com.png";
 import plus_bg_icon from "./images/plus-bg-icon.png";
 import cust_img from "./images/cust_image.png";
 import domains_add_domain_img from "./images/domains_add_domain_img.png";
+import WalletBalance from "./WalletBalance.jsx";
+// import CustReviews from "./CustReviews";
 
 const progress = 50; //
 const currentUrl = window.location.origin;
@@ -64,7 +66,7 @@ const Dashboard = ({
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>Sales Report</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           {loading ? (
             <div>
@@ -136,7 +138,7 @@ const Dashboard = ({
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>Commissions</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           <div className="dashboard_commission_cards">
             <div
@@ -442,7 +444,7 @@ const Dashboard = ({
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>From Community</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           <div className={`${styles.tablet_fd_col} dashboard_community_cards `}>
             <div className="dashboard_community_card community_reviews">
@@ -462,7 +464,8 @@ const Dashboard = ({
                 <div className={styles.community_card_detail_wrapper}>
                   <h2 className="ws_text_start">74</h2>
                   <p>
-                    Reviews <span>+5 This Month</span>
+                    {/* People have viewed <span>your domains</span> */}
+                    People have viewed your domains.
                   </p>
                 </div>
               </div>
@@ -484,7 +487,8 @@ const Dashboard = ({
                 <div className={styles.community_card_detail_wrapper}>
                   <h2 className="ws_text_start">74</h2>
                   <p>
-                    Followers <span>+5 This Month</span>
+                    {/* Followers <span>+5 This Month</span> */}
+                    People have sent an offer.
                   </p>
                 </div>
               </div>
@@ -494,98 +498,8 @@ const Dashboard = ({
         <div
           className={`${styles.wallet_available_balance} dashboard_cust_reviews_wrapper`}
         >
-          <div
-            className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
-          >
-            <h4>Latest Reviews</h4>
-            <HiDotsVertical />
-          </div>
-          <div className="dashboard_reviews">
-            <div className="dashboard_review_card">
-              <p>
-                “Excellent experience! The domain transfer was smooth and quick.
-                The seller was professional and provided great communication
-                throughout the process. Highly recommend!"
-              </p>
-              <div className="review_cust_detail ws_dashboard_flex">
-                <img src={cust_img}></img>
-
-                <div>
-                  <span class="cust_review_point">
-                    5.0
-                    <Reviews />
-                  </span>
-                  <h5>Micheal Jackson</h5>
-                </div>
-                <a href="#" className="ml_auto">
-                  <span className="ml_auto">Reply</span>
-                </a>
-              </div>
-            </div>
-            <div className="dashboard_review_card">
-              <p>
-                “Excellent experience! The domain transfer was smooth and quick.
-                The seller was professional and provided great communication
-                throughout the process. Highly recommend!"
-              </p>
-              <div className="review_cust_detail ws_dashboard_flex">
-                <img src={cust_img}></img>
-
-                <div>
-                  <span class="cust_review_point">
-                    5.0
-                    <Reviews />
-                  </span>
-                  <h5>Micheal Jackson</h5>
-                </div>
-                <a href="#" className="ml_auto">
-                  <span className="ml_auto">Reply</span>
-                </a>
-              </div>
-            </div>
-            <div className="dashboard_review_card">
-              <p>
-                “Excellent experience! The domain transfer was smooth and quick.
-                The seller was professional and provided great communication
-                throughout the process. Highly recommend!"
-              </p>
-              <div className="review_cust_detail ws_dashboard_flex">
-                <img src={cust_img}></img>
-
-                <div>
-                  <span class="cust_review_point">
-                    5.0
-                    <Reviews />
-                  </span>
-                  <h5>Micheal Jackson</h5>
-                </div>
-                <a href="#" className="ml_auto">
-                  <span className="ml_auto">Reply</span>
-                </a>
-              </div>
-            </div>
-            <div className="dashboard_review_card">
-              <p>
-                “Excellent experience! The domain transfer was smooth and quick.
-                The seller was professional and provided great communication
-                throughout the process. Highly recommend!"
-              </p>
-              <div className="review_cust_detail ws_dashboard_flex">
-                <img src={cust_img}></img>
-
-                <div>
-                  <span class="cust_review_point">
-                    5.0
-                    <Reviews />
-                  </span>
-                  <h5>Micheal Jackson</h5>
-                </div>
-                <a href="#" className="ml_auto">
-                  <span className="ml_auto">Reply</span>
-                </a>
-              </div>
-            </div>
-          </div>
+          {/* <CustReviews /> */}
+          <WalletBalance />
         </div>
       </div>
     </>

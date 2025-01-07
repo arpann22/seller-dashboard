@@ -1,6 +1,6 @@
 import styles from "./Tabs.module.css"; // Import styles
 import { ReactComponent as PayPalIcon } from "./image/paypal.svg";
-import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
+// import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
 
 import PaymentStatusTabs from "./PaymentStatusTabs";
@@ -13,7 +13,7 @@ import payment_method_icon from "./image/payment_method_icon.png";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCheckCircle, FaSpinner } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
+import WalletBalance from "./WalletBalance.jsx";
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 
@@ -21,9 +21,11 @@ export default function Wallet({
   selectedCard,
   isPaypalPopupOpen,
   isBankPopupOpen,
+  isCryptoPopupOpen,
   setSelectedCard,
   setPaypalPopupOpen,
   setBankPopupOpen,
+  setCryptoPopupOpen,
   mediaSetupIcon,
   userData,
 }) {
@@ -33,6 +35,7 @@ export default function Wallet({
   const handleClosePopup = () => {
     setPaypalPopupOpen(false);
     setBankPopupOpen(false);
+    setCryptoPopupOpen(false);
   };
   /**
    * Bank details states and functions
@@ -188,46 +191,7 @@ export default function Wallet({
     <>
       <div className={`${styles.wallet_top_wrapper} ${styles.ws_flex}`}>
         <div className={styles.wallet_available_balance}>
-          <div
-            className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
-          >
-            <div className={styles.small_svg}>
-              <AvailableBalanceIcon />
-            </div>
-            <h4>Available Balance</h4>
-          </div>
-          <div className={styles.available_balance_card}>
-            <div
-              className={`${styles.available_balance_card_shapes} ${styles.justify_space_between} ${styles.ws_flex}`}
-            >
-              <img src={available_balance_circle}></img>
-              {/* <img src={available_balance_right_icon}></img> */}
-              <div className={styles.balanceInfoIcon}>
-                <IoMdInformationCircle />
-              </div>
-            </div>
-            <div>
-              <h5>Account Balance</h5>
-              <h2 className="ws_text_center">
-                205,700 <span>USD</span>
-              </h2>
-            </div>
-            <div
-              className={`${styles.available_balance_card_footer} ${styles.ws_flex} ${styles.f_wrap}`}
-            >
-              <div>
-                <h6>Holder</h6>
-                <h5>Jenny Remigton</h5>
-              </div>
-              <div>
-                <h6>Payment Method</h6>
-                <h5>PAYPAL</h5>
-              </div>
-              <div>
-                <button>Request Payout</button>
-              </div>
-            </div>
-          </div>
+          <WalletBalance />
         </div>
         {/* Payment Method */}
         <div className={styles.wallet_available_balance}>
@@ -317,6 +281,47 @@ export default function Wallet({
                 </div>
               </label>
 
+              {/* Card 3 */}
+              <label
+                className={`${styles.card} ${
+                  selectedCard === 3 ? styles.selected : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  // value="bankTransfer"
+                  checked={selectedCard === 3}
+                  onChange={() => handleCardSelect(3)}
+                  className={styles.radio_input}
+                />
+                <div className={styles.card_content}>
+                  {selectedCard === 3 && (
+                    <span className={styles.check_icon}>
+                      <FaCheckCircle />
+                    </span>
+                  )}
+                  <div className={styles.svg_wrapper_bg}>
+                    <BankIcon />
+                  </div>
+
+                  <div>
+                    <h4>Crypto Wallet</h4>
+                    <p>Connect your Crypto Wallet</p>
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.edit_profile_button}
+                    onClick={() => {
+                      console.log("Button clicked");
+                      setCryptoPopupOpen(true);
+                    }}
+                  >
+                    Edit Wallet
+                  </button>
+                </div>
+              </label>
+
               {/* Paypal Email Popup */}
               {isPaypalPopupOpen && (
                 <div className={styles.popup}>
@@ -385,18 +390,6 @@ export default function Wallet({
                     )}
                     {bankError && <div className="refunded">{bankError}</div>}
                     <input
-                      type="text"
-                      placeholder="Enter your bank name"
-                      className={`${styles.input_field} customer_bank_name`}
-                      value={bankDetails.bank_name}
-                      onChange={(e) =>
-                        setBankDetails({
-                          ...bankDetails,
-                          bank_name: e.target.value,
-                        })
-                      }
-                    />
-                    <input
                       type="number"
                       placeholder="Enter your bank account number"
                       className={`${styles.input_field} customer_bank_acc_number`}
@@ -420,6 +413,52 @@ export default function Wallet({
                         })
                       }
                     />
+                    <input
+                      type="text"
+                      placeholder="Enter your bank name"
+                      className={`${styles.input_field} customer_bank_name`}
+                      value={bankDetails.bank_name}
+                      onChange={(e) =>
+                        setBankDetails({
+                          ...bankDetails,
+                          bank_name: e.target.value,
+                        })
+                      }
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="State"
+                      className={`${styles.input_field} customer_address_state`}
+                      // onChange={(e) =>
+                      //   setBankDetails({
+                      //     ...bankDetails,
+                      //     bank_name: e.target.value,
+                      //   })
+                      // }
+                    />
+                    <input
+                      type="text"
+                      placeholder="City"
+                      className={`${styles.input_field} customer_address_city`}
+                      // onChange={(e) =>
+                      //   setBankDetails({
+                      //     ...bankDetails,
+                      //     bank_name: e.target.value,
+                      //   })
+                      // }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Swift Code"
+                      className={`${styles.input_field} customer_swift_code`}
+                      // onChange={(e) =>
+                      //   setBankDetails({
+                      //     ...bankDetails,
+                      //     bank_name: e.target.value,
+                      //   })
+                      // }
+                    />
                     {/* <textarea
                       name="notes"
                       placeholder="Notes.."
@@ -441,6 +480,52 @@ export default function Wallet({
                         Save
                       </button>
                     </div>
+                  </div>
+                </div>
+              )}
+              {/* crypto wallet popup */}
+              {isCryptoPopupOpen && (
+                <div className={styles.popup}>
+                  <div className={styles.popup_content}>
+                    <AiOutlineClose
+                      className={styles.close_icon}
+                      onClick={handleClosePopup}
+                    />
+                    <h4>Enter Wallet ID</h4>
+                    {/* {paypalLoading && (
+                      <div>
+                        <div className="loading_overlay">
+                          <FaSpinner className="loading" />
+                        </div>
+                      </div>
+                    )} */}
+                    {/* {paypalSuccess && (
+                      <div className="completed">{paypalSuccess}</div>
+                    )}
+                    {paypalError && (
+                      <div className="refunded">{paypalError}</div>
+                    )} */}
+                    <input
+                      type="email"
+                      placeholder="Enter your Walled ID"
+                      className={`${styles.input_field} crypto_wallet_id`}
+                      value={paypalDetails.paypal_email}
+                      onChange={(e) =>
+                        setPaypalDetails({
+                          ...paypalDetails,
+                          paypal_email: e.target.value,
+                        })
+                      }
+                    />
+                    {/* <div className={styles.popup_actions}>
+                      <button
+                        type="button"
+                        className={`${styles.save_button} ${styles.hover_blue_white} save_paypal_email_address`}
+                        onClick={handlePaypalDetailsSave}
+                      >
+                        Save
+                      </button>
+                    </div> */}
                   </div>
                 </div>
               )}

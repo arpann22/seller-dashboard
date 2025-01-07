@@ -51,6 +51,7 @@ const SellerCentralTabContent = ({
   const [selectedCard, setSelectedCard] = useState(null);
   const [isPaypalPopupOpen, setPaypalPopupOpen] = useState(false);
   const [isBankPopupOpen, setBankPopupOpen] = useState(false);
+  const [isCryptoPopupOpen, setCryptoPopupOpen] = useState(false)
 
   const editorRef = useRef(null);
   const [activeTab, setActiveTab] = useState("active");
@@ -182,11 +183,10 @@ const SellerCentralTabContent = ({
                             )}
                           </div> */}
                           <div
-                            className={`${styles.svg_wrapper_bg_grey} ${
-                              expanded[index]
-                                ? styles.icon_close_wrapper
-                                : styles.icon_add_wrapper
-                            }`}
+                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                              }`}
                             onClick={() => toggleExpanded(index)}
                           >
                             {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -200,9 +200,8 @@ const SellerCentralTabContent = ({
 
                     {/* Expanded content as a new column below */}
                     <div
-                      className={`${styles.extra_column_wrapper} ${
-                        expanded[index] ? styles.expanded : ""
-                      }`}
+                      className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                        }`}
                     >
                       <div className={styles.extra_column}>
                         <div className={styles.recentOffers_card}>
@@ -275,7 +274,7 @@ const SellerCentralTabContent = ({
               className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
               <img src={mediaSetupIcon} alt="Media Setup Icon" />
-              <h4>Offers</h4>
+              <h4>Past Offers</h4>
             </div>
             <OfferTabs />
           </div>
@@ -287,10 +286,12 @@ const SellerCentralTabContent = ({
           <Wallet
             selectedCard={selectedCard}
             isPaypalPopupOpen={isPaypalPopupOpen}
+            isCryptoPopupOpen={isCryptoPopupOpen}
             isBankPopupOpen={isBankPopupOpen}
             setSelectedCard={setSelectedCard}
             setPaypalPopupOpen={setPaypalPopupOpen}
             setBankPopupOpen={setBankPopupOpen}
+            setCryptoPopupOpen={setCryptoPopupOpen}
             mediaSetupIcon={mediaSetupIcon}
             userData={userData}
           />

@@ -138,7 +138,7 @@ const Sales = ({
       ],
     },
     {
-      label: "All the Time",
+      label: "All Time",
       title: "Pie Chart for All the Time",
       data: [
         { value: oneTime, label: "One Time", color: "#197EFC" },
@@ -792,7 +792,7 @@ const Sales = ({
             <img src={sales_status_icon}></img>
 
             <h4>Sales Status</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           {/* <div className={styles.progressBars}>
             <ProgressBar
@@ -880,7 +880,7 @@ const Sales = ({
           >
             <img src={sales_distribution_icon} alt="Media Setup Icon" />
             <h4>Sales Distribution</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           <div className={styles.sales_distribution_chart_wrapper}>
             {/* Tab Buttons */}
@@ -889,9 +889,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    selectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -950,7 +949,7 @@ const Sales = ({
           >
             <img src={average_sales_icon} alt="Media Setup Icon" />
             <h4>Average Sales Analysis</h4>
-            <HiDotsVertical />
+            {/* <HiDotsVertical /> */}
           </div>
           <div className={styles.AverageSalestabsWrapper}>
             {/* Tab Buttons */}
@@ -959,9 +958,8 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${
-                    AverageSelectedTab === tab.label ? styles.active : ""
-                  }`}
+                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -1141,8 +1139,8 @@ const Sales = ({
               // Ensure ordered_products is an array before calling .filter
               const NotSellerProducts = Array.isArray(ordered_products)
                 ? ordered_products.filter(
-                    (product) => product.seller_id != userData.id
-                  )
+                  (product) => product.seller_id != userData.id
+                )
                 : [];
 
               // Ensure allOrderdProductPrice is an array before calling .filter
@@ -1227,11 +1225,10 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${
-                            expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                          }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                            ? styles.icon_close_wrapper
+                            : styles.icon_add_wrapper
+                            }`}
                           onClick={() => toggleExpanded(index)}
                         >
                           {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -1242,9 +1239,8 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
+                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
+                      }`}
                   >
                     {/* test js starts  */}
                     {(() => {
