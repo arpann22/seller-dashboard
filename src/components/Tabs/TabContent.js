@@ -749,7 +749,7 @@ const TabContent = ({
     case "My Orders":
       return <Orders userData={userData} />;
     case "My Offers":
-      return <MyOffers />;
+      return <MyOffers userData={userData} />;
     // case "My Auctions":
     //   return <div>Content for My Auctions</div>;
     // case "My Support":

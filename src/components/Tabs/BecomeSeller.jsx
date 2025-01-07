@@ -37,7 +37,6 @@ export default function BecomeSeller({ userData, refreshTabs }) {
           setSellerSuccess(true);
           // location.reload();
         }
-        console.log("become-seller", data);
       } catch (err) {
         setError(err);
         console.log(err);

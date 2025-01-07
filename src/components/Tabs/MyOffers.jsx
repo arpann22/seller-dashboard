@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import "./MyOffers.css"; // Import styles specific to this component
 import styles from "./Tabs.module.css";
@@ -25,9 +25,89 @@ const handleReset = () => {
   }
   // You can add more logic if needed, such as resetting state or other form elements
 };
-const MyOffers = () => {
+
+const MyOffers = ({ userData }) => {
+  // const currentUrl = "https://new-webstarter.codepixelz.tech";
+  const currentUrl = window.location.origin;
   const [activeTab, setActiveTab] = useState("active");
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
+
+  // Offers section starts ----------------------------------------------
+  const [offers, setOffers] = useState([]);
+  const [offerError, setOfferError] = useState("");
+  const [offerLoading, setOfferLoading] = useState(false);
+
+  async function fetchOffers() {
+    // Fetch offers from the API
+    try {
+      setOfferLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/offers/${userData.id}`
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setOfferError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setOffers(data);
+      }
+    } catch (error) {
+      setOfferError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setOfferLoading(false);
+    }
+  }
+  useEffect(() => {
+    if (userData.id) {
+      fetchOffers();
+    }
+  }, [userData.id]);
+
+  const pendingOffers = offers.filter((offer) => offer.status == "pending");
+  // Map pending offers to include formatted expiry dates
+  const pendingOffersWithFormattedDates = pendingOffers.map((offer) => {
+    const dateString = offer.offer_expiry_date;
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Calculate days left until expiry
+    const currentDate = new Date();
+    const timeDiff = date - currentDate;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    return {
+      ...offer,
+      formattedDate,
+      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+    };
+  });
+
+  const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
+  const declinedOffers = offers.filter((offer) => offer.status == "declined");
+
+  const handelOfferDecline = () => {
+    console.log("clicked");
+    refreshOrderData();
+  };
+  const refreshOrderData = async () => {
+    try {
+      // setIsLoading(true);
+      await fetchOffers();
+      console.log("clickeddd");
+    } catch (err) {
+      // setError(err.message);
+    }
+  };
+
+  // Offers section ends ----------------------------------------------
 
   // Function to toggle the expanded state for each card
   const toggleExpanded = (index) => {
@@ -97,7 +177,7 @@ const MyOffers = () => {
         <div>
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-              {[1, 2, 3].map((item, index) => (
+              {pendingOffersWithFormattedDates.map((offer, index) => (
                 <div
                   key={index}
                   className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
@@ -110,15 +190,18 @@ const MyOffers = () => {
                       className={`${styles.recentOffers_card} myOffers_flex3`}
                     >
                       <div className={styles.recentOffers_card_image}>
-                        <img src={domain_img} alt="Domain" />
+                        <img src={offer.domain_image} alt="Domain" />
                       </div>
                       <div className={styles.recentOffers_card_titles}>
                         <p>Product</p>
-                        <h5>debugbot.com</h5>
+                        <h5>{offer.domain_title}</h5>
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <p>My Offer</p>
-                        <h6>$5000</h6>
+                        <h6>
+                          {offer?.currency ? offer.currency : ""}
+                          {offer?.offer_amount ? offer.offer_amount : "000"}
+                        </h6>
                       </div>
                     </div>
                     <div
@@ -136,14 +219,14 @@ const MyOffers = () => {
                       >
                         <p className="expiry_soon">
                           Offer Expiry
-                          <span> Soon </span>
+                          {offer.isExpiringSoon && <span> Soon </span>}
                         </p>
-                        <h5>Dec 8, 2025</h5>
+                        <h5>{offer.formattedDate}</h5>
                       </div>
                       <div
                         className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
                       >
-                        <p>Status</p>
+                        <p>{offer.status}</p>
                         <h5
                           className={`${styles.offer_status} ${styles.pending}`}
                         >
@@ -193,11 +276,11 @@ const MyOffers = () => {
                     <div className={styles.extra_column}>
                       <div className={styles.recentOffers_card}>
                         <div className={styles.recentOffers_card_image}>
-                          <img src={domain_img}></img>
+                          <img src={offer.domain_image}></img>
                         </div>
                         <div className={styles.recentOffers_card_titles}>
                           <p>Select Counter Offer</p>
-                          <h5>debugbot.com</h5>
+                          <h5>{offer.domain_title}</h5>
                         </div>
                         <div className={styles.recentOffers_card_details}>
                           <p>Save</p>
@@ -229,6 +312,7 @@ const MyOffers = () => {
                           <button
                             type="button"
                             className={styles.declineButton}
+                            onClick={handelOfferDecline}
                           >
                             <div className={`svg_white`}>
                               <OfferDecline />

@@ -315,15 +315,14 @@ export default function Orders({ userData }) {
                     const order_type = order?.meta?._order_type?.[0];
                     const subscription_id = order?.meta?._subscription_id?.[0];
                     // leas to own AND parent id chaina AND cancelled == 0
-                    const parent_subscription_id =
-                      order?.meta?._parent_subscription_id?.[0];
+                    const parent_order_id = order?.meta?._parent_order_id?.[0];
                     const cancelled = order?.meta?._cancelled?.[0];
                     // console.log(cancelled);
                     // console.log(parent_subscription_id);
                     // console.log(order_type);
                     if (
                       order_type == "lease_to_own" &&
-                      !parent_subscription_id &&
+                      !parent_order_id &&
                       cancelled == 0 &&
                       order?.meta?._order_status != "cancelled" &&
                       order?.meta?._order_status != "refunded"
