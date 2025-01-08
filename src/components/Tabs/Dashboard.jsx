@@ -59,7 +59,7 @@ const Dashboard = ({
   return (
     <>
       <div
-        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_top_wrapper}`}
+        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_top_wrapper} ${styles.tabs_fd_col}`}
       >
         <div className={styles.wallet_available_balance}>
           <div
@@ -437,7 +437,7 @@ const Dashboard = ({
       </div>
       {/*bottom row */}
       <div
-        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_small_margin} `}
+        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.dashboard_small_margin} ${styles.tabs_fd_col}  `}
       >
         <div className={styles.wallet_available_balance}>
           <div

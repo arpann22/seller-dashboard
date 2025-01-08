@@ -40,6 +40,9 @@
 button label {
   cursor: pointer;
 }
+.fw_wrap {
+  flex-wrap: wrap;
+}
 svg:not(.tox-icon svg) {
   height: 18px;
   width: 18px;
@@ -226,6 +229,9 @@ body.page-id-5782 {
 }
 .profileDetails {
   position: relative;
+}
+.wstr_message_icon {
+  display: none !important;
 }
 .profileDetails svg {
   color: #00cd97;
@@ -1866,6 +1872,9 @@ button.active svg path {
   flex: 1;
 }
 /* sales deatils */
+.sales_first_column_wrapper {
+  flex-wrap: wrap;
+}
 .sales_first_column_wrapper .sales_first_column_card {
   flex: 2.5;
   border: 1px solid #edf0f7;
@@ -1904,7 +1913,7 @@ button.active svg path {
 }
 .sales_distribution_tab_labels {
   display: flex;
-  gap: 0px;
+  gap: 4px;
   justify-content: center;
 }
 .sales_distribution_tab_labels button {
@@ -1947,6 +1956,9 @@ button.active svg path {
 }
 .sales_distribution_chart_wrapper {
   padding: 30px;
+}
+.sellerCentralGraphTabsWrapper {
+  padding: 30px 0px;
 }
 .sellerCentralGraphTabsWrapper .sales_distribution_tab_labels {
   justify-content: end;
@@ -2102,6 +2114,10 @@ button.active svg path {
   .tabs_list_footer {
     display: none; /* Hide all labels on mobile screens */
   }
+  .profileEmail {
+    min-width: auto;
+    word-break: break-word;
+  }
 
   .sellerCentralInnerTabs .specialTabLabel {
     display: block;
@@ -2144,6 +2160,7 @@ button.active svg path {
   }
   .tabContent {
     padding: 20px;
+    max-height: max-content;
   }
   .tabs_lists {
     flex: 100%;
@@ -2386,4 +2403,20 @@ button.active svg path {
 }
 .become_seller_form p a {
   text-decoration: underline;
+}
+@media screen and (max-width: 450px) {
+  .orderDeatilsModalFooter {
+    flex-direction: column;
+  }
+  .offerForm input[type="number"] {
+    width: 100%;
+  }
+  .dashboard_mob_w_100 {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .tabs_fd_col {
+    flex-direction: column;
+  }
 }

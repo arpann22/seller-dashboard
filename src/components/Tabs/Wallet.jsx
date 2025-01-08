@@ -1,5 +1,6 @@
 import styles from "./Tabs.module.css"; // Import styles
 import { ReactComponent as PayPalIcon } from "./image/paypal.svg";
+import { ReactComponent as CryptoIcon } from "./image/generic-cryptocurrency.svg";
 // import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 import { ReactComponent as BankIcon } from "./image/bank.svg";
 
@@ -189,7 +190,9 @@ export default function Wallet({
   };
   return (
     <>
-      <div className={`${styles.wallet_top_wrapper} ${styles.ws_flex}`}>
+      <div
+        className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.fw_wrap}`}
+      >
         <div className={styles.wallet_available_balance}>
           <WalletBalance />
         </div>
@@ -302,7 +305,7 @@ export default function Wallet({
                     </span>
                   )}
                   <div className={styles.svg_wrapper_bg}>
-                    <BankIcon />
+                    <CryptoIcon />
                   </div>
 
                   <div>

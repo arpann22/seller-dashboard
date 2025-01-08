@@ -101,7 +101,7 @@
   flex: 0 0 calc(25% - 15px);
 }
 .dashboard_domains_cards_wrapper .ws_card_price_wrapper p {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
 }
 .dashboard_domains_cards_wrapper .ws_card_price_wrapper_add_domain p {
@@ -294,5 +294,10 @@
   }
   .dashboard_commission_card {
     gap: 20px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .dashboard_community_cards {
+    flex-direction: column;
   }
 }

@@ -125,8 +125,9 @@ const OfferTabs = () => {
                                                     <FaPlus onClick={() => toggleExpanded(index)} />
                                                 )}
                                             </div>
-                                            <div className={styles.svg_wrapper_bg_grey}>
-                                                <FiMail /></div>
+                                            {/* <div className={styles.svg_wrapper_bg_grey}>
+                                                <FiMail />
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +149,7 @@ const OfferTabs = () => {
                                             </div>
                                         </div>
                                         <form className={styles.offerForm} onSubmit={handleSubmit}>
-                                            <div className={styles.p_relative}>
+                                            <div className={`${styles.p_relative} ${styles.dashboard_mob_w_100}`}>
                                                 <input
                                                     type="number"
                                                     className={styles.offerInput}

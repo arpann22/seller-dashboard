@@ -198,7 +198,7 @@ export default function UserDetails({ userData, setUserData }) {
           </div>
           Edit Profile
         </button>
-        <div className={styles.p_relative}>
+        <div className={`${styles.p_relative}  ${styles.wstr_message_icon}`}>
           <div className={`${styles.svg_bg_white} ${styles.mailIcon}`}>
             <EmailIcon />
           </div>
