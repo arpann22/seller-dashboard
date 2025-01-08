@@ -131,6 +131,7 @@ const MyOffers = ({ userData }) => {
       if (data) {
         // setCounterSuccess(data);
         setCounterSuccess(data || "Offer Sent Successfully.");
+        refreshOrderData();
       }
     } catch (error) {
       setCounterError(
@@ -139,9 +140,6 @@ const MyOffers = ({ userData }) => {
     } finally {
       setCounterLoading(false);
     }
-
-    // console.log("offer", offer_id);
-    // console.log("counter offer", counterOffer);
   };
 
   // remake an offer ends
@@ -153,6 +151,7 @@ const MyOffers = ({ userData }) => {
   const refreshOrderData = async () => {
     try {
       // setIsLoading(true);
+      setOfferLoading(true);
       await fetchOffers();
       console.log("clickeddd");
     } catch (err) {
@@ -169,6 +168,21 @@ const MyOffers = ({ userData }) => {
       [index]: !prevExpanded[index], // Toggle visibility
     }));
   };
+
+  if (offerLoading) {
+    return (
+      <div>
+        <div className="loading_overlay">
+          <FaSpinner className="loading" />
+        </div>
+      </div>
+    );
+  }
+
+  if (offerError) {
+    return <div className="cancelled">{offerError}</div>;
+  }
+
   return (
     <div className="myOffersContainer">
       <div
@@ -265,6 +279,29 @@ const MyOffers = ({ userData }) => {
                           {offer?.offer_amount ? offer.offer_amount : "000"}
                         </h6>
                       </div>
+                      {offer?.counter_offers &&
+                        offer?.counter_offers.map(
+                          (counter_offer, counter_offer_index) => {
+                            if (
+                              offer?.counter_offers.length - 1 ==
+                              counter_offer_index
+                            ) {
+                              return (
+                                <div
+                                  className={styles.recentOffers_card_details}
+                                >
+                                  <p>Counter price</p>
+                                  <h6>
+                                    {offer?.currency ? offer.currency : ""}
+                                    {counter_offer?.counter_price
+                                      ? counter_offer.counter_price
+                                      : "000"}
+                                  </h6>
+                                </div>
+                              );
+                            }
+                          }
+                        )}
                     </div>
                     <div
                       className={`${styles.recentOffers_card} myOffers_flex3`}
@@ -276,6 +313,7 @@ const MyOffers = ({ userData }) => {
                           <MyOfferIcon />
                         </div>
                       </div>
+                      {console.log("offers", offers)}
                       <div
                         className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
                       >
@@ -312,9 +350,9 @@ const MyOffers = ({ userData }) => {
                       <div
                         className={`${styles.recentOffers_card_details} myOffers_icons`}
                       >
-                        <div className={styles.svg_wrapper_bg_grey}>
+                        {/* <div className={styles.svg_wrapper_bg_grey}>
                           <FiMail />
-                        </div>
+                        </div> */}
                         <div
                           className={`${styles.svg_wrapper_bg_grey} ${
                             expanded[index]
@@ -329,79 +367,209 @@ const MyOffers = ({ userData }) => {
                     </div>
                   </div>
                   {/* Expanded content as a new column below */}
+
+                  {/* {
+                    offer?.counter_offers.forEach((counter_offer, index) => {
+                      console.log('offfer,',counter_offer);
+                      console.log(index);
+                    })
+                    // offer?.counter_offers.foreach()
+                  } */}
+                  {/* changes by sunder */}
+
                   <div
                     className={`${styles.extra_column_wrapper} ${
                       expanded[index] ? styles.expanded : ""
                     }`}
                   >
-                    <div className={styles.extra_column}>
-                      <div className={styles.recentOffers_card}>
-                        <div className={styles.recentOffers_card_image}>
-                          <img src={offer.domain_image}></img>
-                        </div>
-                        <div className={styles.recentOffers_card_titles}>
-                          <p>Select Counter Offer</p>
-                          <h5>{offer.domain_title}</h5>
-                        </div>
-                        <div className={styles.recentOffers_card_details}>
-                          <p>Save</p>
-                          <h6>$5000</h6>
-                        </div>
-                      </div>
-                      <form
-                        className={`${styles.offerForm} myOffers_extra_offer_form`}
-                        onSubmit={handleSubmit}
-                      >
-                        <div className={styles.p_relative}>
-                          <input
-                            type="text"
-                            className={styles.offerInput}
-                            placeholder="Remake an Offer"
-                            onChange={(e) => setCounterOffer(e.target.value)}
-                          />
-                          <span className="remake_offer_icon">
-                            <RemakeOfferIcon />
-                          </span>
-                          <button
-                            type="submit"
-                            className={styles.submitButton}
-                            onClick={() =>
-                              handleCounterOfferSubmit(offer.offer_id)
-                            }
-                          >
-                            <span className={styles.arrow}>&#8594;</span>{" "}
-                            {/* Arrow symbol */}
-                          </button>
-                        </div>
-                        <div
-                          className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
-                        >
-                          <button
-                            type="button"
-                            className={styles.declineButton}
-                            onClick={handelOfferDecline}
-                          >
-                            <div className={`svg_white`}>
-                              <OfferDecline />
-                            </div>
-                          </button>
-                          <button type="button" className={styles.acceptButton}>
-                            <div className={`${styles.small_svg} svg_white `}>
-                              <CartIcon />
-                            </div>
-                          </button>
+                    {/*
+                   mapping through the counter offers
+                   checking the first index of the counter offer sent by the seller
+                  */}
+                    {offer?.counter_offers &&
+                      offer?.counter_offers.map(
+                        (counter_offer, counter_offer_index) => {
+                          const firstMatchIndex =
+                            offer?.counter_offers.findIndex(
+                              (offer) => offer.by_user_id !== userData.id
+                            );
 
-                          {/* Reset button with delete icon */}
-                          {/* <button
+                          return (
+                            <div className={styles.extra_column}>
+                              <div className={styles.recentOffers_card}>
+                                <div className={styles.recentOffers_card_image}>
+                                  <img src={offer.domain_image}></img>
+                                </div>
+                                <div
+                                  className={styles.recentOffers_card_titles}
+                                >
+                                  <p>Select Counter Offer</p>
+                                  <h5>{offer.domain_title}</h5>
+                                </div>
+                                <div
+                                  className={styles.recentOffers_card_details}
+                                >
+                                  <p>Save</p>
+                                  <h6>
+                                    {offer.currency}
+                                    {counter_offer.counter_price}
+                                  </h6>
+                                </div>
+                              </div>
+
+                              {/* {counter_offer.by_userid != userData.id} */}
+
+                              <form
+                                className={`${styles.offerForm} myOffers_extra_offer_form`}
+                                onSubmit={handleSubmit}
+                              >
+                                {counter_offer_index == 0 && (
+                                  <div className={styles.p_relative}>
+                                    <input
+                                      type="text"
+                                      className={styles.offerInput}
+                                      placeholder="Remake an Offer"
+                                      onChange={(e) =>
+                                        setCounterOffer(e.target.value)
+                                      }
+                                    />
+                                    <span className="remake_offer_icon">
+                                      <RemakeOfferIcon />
+                                    </span>
+                                    <button
+                                      type="submit"
+                                      className={styles.submitButton}
+                                      onClick={() =>
+                                        handleCounterOfferSubmit(offer.offer_id)
+                                      }
+                                    >
+                                      <span className={styles.arrow}>
+                                        &#8594;
+                                      </span>{" "}
+                                      {/* Arrow symbol */}
+                                    </button>
+                                  </div>
+                                )}
+                                {counter_offer_index == firstMatchIndex && (
+                                  <div
+                                    className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                                  >
+                                    <button
+                                      type="button"
+                                      className={styles.declineButton}
+                                      onClick={handelOfferDecline}
+                                    >
+                                      <div className={`svg_white`}>
+                                        <OfferDecline />
+                                      </div>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className={styles.acceptButton}
+                                    >
+                                      <div
+                                        className={`${styles.small_svg} svg_white `}
+                                      >
+                                        <CartIcon />
+                                      </div>
+                                    </button>
+
+                                    {/* Reset button with delete icon */}
+                                    {/* <button
                             type="button"
                             className={styles.resetButton}
                             onClick={handleReset}
                           >
                             <DeleteIcon />
                           </button> */}
+                                  </div>
+                                )}
+                              </form>
+                            </div>
+                          );
+                        }
+                      )}
+
+                    {/* No counter offers starts ------------------------------------------- */}
+                    {offer?.counter_offers.length == 0 && (
+                      <div className={styles.extra_column}>
+                        <div className={styles.recentOffers_card}>
+                          <div className={styles.recentOffers_card_image}>
+                            <img src={offer.domain_image}></img>
+                          </div>
+                          <div className={styles.recentOffers_card_titles}>
+                            <p>Select Counter Offer</p>
+                            <h5>{offer.domain_title}</h5>
+                          </div>
+                          <div className={styles.recentOffers_card_details}>
+                            <p>Save</p>
+                            <h6>
+                              {offer.currency}
+                              {offer.offer_amount}
+                            </h6>
+                          </div>
                         </div>
-                      </form>
-                    </div>
+
+                        {/* {counter_offer.by_userid != userData.id} */}
+                        <form
+                          className={`${styles.offerForm} myOffers_extra_offer_form`}
+                          onSubmit={handleSubmit}
+                        >
+                          <div className={styles.p_relative}>
+                            <input
+                              type="text"
+                              className={styles.offerInput}
+                              placeholder="Remake an Offer"
+                              onChange={(e) => setCounterOffer(e.target.value)}
+                            />
+                            <span className="remake_offer_icon">
+                              <RemakeOfferIcon />
+                            </span>
+                            <button
+                              type="submit"
+                              className={styles.submitButton}
+                              onClick={() =>
+                                handleCounterOfferSubmit(offer.offer_id)
+                              }
+                            >
+                              <span className={styles.arrow}>&#8594;</span>{" "}
+                              {/* Arrow symbol */}
+                            </button>
+                          </div>
+
+                          <div
+                            className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                          >
+                            <button
+                              type="button"
+                              className={styles.declineButton}
+                              onClick={handelOfferDecline}
+                            >
+                              <div className={`svg_white`}>
+                                <OfferDecline />
+                              </div>
+                            </button>
+                            <button
+                              type="button"
+                              className={styles.acceptButton}
+                            >
+                              <div className={`${styles.small_svg} svg_white `}>
+                                <CartIcon />
+                              </div>
+                            </button>
+
+                            {/* Reset button with delete icon */}
+                            {/* <button
+                        type="button"
+                        className={styles.resetButton}
+                        onClick={handleReset}
+                      >
+                        <DeleteIcon />
+                      </button> */}
+                          </div>
+                        </form>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -409,7 +577,7 @@ const MyOffers = ({ userData }) => {
           )}
 
           {activeTab === "declined" && (
-            <div>Declined offers content goes here</div>
+            <div>Accepted offers content goes here</div>
           )}
           {activeTab === "accepted" && (
             <div>Accepted offers content goes here</div>
