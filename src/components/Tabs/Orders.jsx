@@ -81,6 +81,8 @@ export default function Orders({ userData }) {
 
   const handleCancelSubscription = async () => {
     setSubsPopup(false);
+    setSubscriptionSuccess("");
+    setSubscriptionError("");
     // console.log(subscription_id);
     const cancel_subscription_url = `${currentUrl}/wp-json/wstr/v1/cancel-subscription/`;
     const cancel_data = {

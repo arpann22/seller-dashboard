@@ -9,7 +9,7 @@ import { ReactComponent as OfferDecline } from "./image/offers_declined.svg";
 import { ReactComponent as CartIcon } from "./image/sales_overview.svg";
 import { ReactComponent as RemakeOfferIcon } from "./image/pricing_setup.svg";
 import { ReactComponent as DeleteIcon } from "./image/delete.svg";
-import { FaCircle, FaTimes } from "react-icons/fa"; // Import necessary icons
+import { FaCircle, FaSpinner, FaTimes } from "react-icons/fa"; // Import necessary icons
 import { FaPlus } from "react-icons/fa6";
 import { FiMail } from "react-icons/fi";
 import domain_img from "./images/chatseek.com.png";
@@ -93,6 +93,59 @@ const MyOffers = ({ userData }) => {
   const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
   const declinedOffers = offers.filter((offer) => offer.status == "declined");
 
+  // remake an offer starts
+  const [counterOffer, setCounterOffer] = useState(0);
+  const [counterLoading, setCounterLoading] = useState(false);
+  const [counterError, setCounterError] = useState("");
+  const [counterSuccess, setCounterSuccess] = useState("");
+
+  const handleCounterOfferSubmit = async (offer_id) => {
+    // const counter_offer_data = {
+    //   counter_offer: counterOffer,
+    // };
+    try {
+      setCounterError("");
+      setCounterSuccess("");
+      setCounterLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/update-counter-offer/${offer_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            counter_offer: counterOffer,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setCounterError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        // setCounterSuccess(data);
+        setCounterSuccess(data || "Offer Sent Successfully.");
+      }
+    } catch (error) {
+      setCounterError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCounterLoading(false);
+    }
+
+    // console.log("offer", offer_id);
+    // console.log("counter offer", counterOffer);
+  };
+
+  // remake an offer ends
+
   const handelOfferDecline = () => {
     console.log("clicked");
     refreshOrderData();
@@ -174,6 +227,15 @@ const MyOffers = ({ userData }) => {
           </div>
         </div>
         {/* Tab content */}
+        {counterLoading && (
+          <div>
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          </div>
+        )}
+        {counterError && <div className="refunded">{counterError}</div>}
+        {counterSuccess && <div className="completed">{counterSuccess}</div>}
         <div>
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
@@ -266,7 +328,6 @@ const MyOffers = ({ userData }) => {
                       </div>
                     </div>
                   </div>
-
                   {/* Expanded content as a new column below */}
                   <div
                     className={`${styles.extra_column_wrapper} ${
@@ -293,15 +354,21 @@ const MyOffers = ({ userData }) => {
                       >
                         <div className={styles.p_relative}>
                           <input
-                            type="number"
+                            type="text"
                             className={styles.offerInput}
                             placeholder="Remake an Offer"
-                            min="0"
+                            onChange={(e) => setCounterOffer(e.target.value)}
                           />
                           <span className="remake_offer_icon">
                             <RemakeOfferIcon />
                           </span>
-                          <button type="submit" className={styles.submitButton}>
+                          <button
+                            type="submit"
+                            className={styles.submitButton}
+                            onClick={() =>
+                              handleCounterOfferSubmit(offer.offer_id)
+                            }
+                          >
                             <span className={styles.arrow}>&#8594;</span>{" "}
                             {/* Arrow symbol */}
                           </button>
