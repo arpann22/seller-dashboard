@@ -73,7 +73,7 @@ const MyOffers = ({ userData }) => {
   const pendingOffers = offers.filter((offer) => offer.status == "pending");
   // Map pending offers to include formatted expiry dates
   const pendingOffersWithFormattedDates = pendingOffers.map((offer) => {
-    const dateString = offer.offer_expiry_date;
+    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
     const date = new Date(dateString);
     const options = { year: "numeric", month: "short", day: "numeric" };
     const formattedDate = date.toLocaleDateString("en-US", options);
@@ -91,7 +91,42 @@ const MyOffers = ({ userData }) => {
   });
 
   const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
+  const acceptedOffersWithFormattedDates = acceptedOffers.map((offer) => {
+    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Calculate days left until expiry
+    const currentDate = new Date();
+    const timeDiff = date - currentDate;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    return {
+      ...offer,
+      formattedDate,
+      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+    };
+  });
+
   const declinedOffers = offers.filter((offer) => offer.status == "declined");
+  const declinedOffersWithFormattedDates = declinedOffers.map((offer) => {
+    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Calculate days left until expiry
+    const currentDate = new Date();
+    const timeDiff = date - currentDate;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    return {
+      ...offer,
+      formattedDate,
+      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+    };
+  });
 
   // remake an offer starts
   const [counterOffer, setCounterOffer] = useState(0);
@@ -169,20 +204,6 @@ const MyOffers = ({ userData }) => {
     }));
   };
 
-  if (offerLoading) {
-    return (
-      <div>
-        <div className="loading_overlay">
-          <FaSpinner className="loading" />
-        </div>
-      </div>
-    );
-  }
-
-  if (offerError) {
-    return <div className="cancelled">{offerError}</div>;
-  }
-
   return (
     <div className="myOffersContainer">
       <div
@@ -240,6 +261,14 @@ const MyOffers = ({ userData }) => {
             <label>Sort </label>
           </div>
         </div>
+        {offerLoading && (
+          <div>
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          </div>
+        )}
+        {offerError && <div className="cancelled">{offerError}</div>}
         {/* Tab content */}
         {counterLoading && (
           <div>
@@ -253,92 +282,90 @@ const MyOffers = ({ userData }) => {
         <div>
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-              {pendingOffersWithFormattedDates.map((offer, index) => (
-                <div
-                  key={index}
-                  className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
-                >
-                  {/* Offer card */}
+              {pendingOffers.length > 0 ? (
+                pendingOffersWithFormattedDates &&
+                pendingOffersWithFormattedDates.map((offer, index) => (
                   <div
-                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    key={index}
+                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
                   >
+                    {/* Offer card */}
                     <div
-                      className={`${styles.recentOffers_card} myOffers_flex3`}
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
                     >
-                      <div className={styles.recentOffers_card_image}>
-                        <img src={offer.domain_image} alt="Domain" />
-                      </div>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Product</p>
-                        <h5>{offer.domain_title}</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>My Offer</p>
-                        <h6>
-                          {offer?.currency ? offer.currency : ""}
-                          {offer?.offer_amount ? offer.offer_amount : "000"}
-                        </h6>
-                      </div>
-                      {offer?.counter_offers &&
-                        offer?.counter_offers.map(
-                          (counter_offer, counter_offer_index) => {
-                            if (
-                              offer?.counter_offers.length - 1 ==
-                              counter_offer_index
-                            ) {
-                              return (
-                                <div
-                                  className={styles.recentOffers_card_details}
-                                >
-                                  <p>Counter price</p>
-                                  <h6>
-                                    {offer?.currency ? offer.currency : ""}
-                                    {counter_offer?.counter_price
-                                      ? counter_offer.counter_price
-                                      : "000"}
-                                  </h6>
-                                </div>
-                              );
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div className={styles.recentOffers_card_image}>
+                          <img src={offer.domain_image} alt="Domain" />
+                        </div>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Product</p>
+                          <h5>{offer.domain_title}</h5>
+                        </div>
+                        <div className={styles.recentOffers_card_details}>
+                          <p>My Offer</p>
+                          <h6>
+                            {offer?.currency ? offer.currency : ""}
+                            {offer?.offer_amount ? offer.offer_amount : "000"}
+                          </h6>
+                        </div>
+                        {offer?.counter_offers &&
+                          offer?.counter_offers.map(
+                            (counter_offer, counter_offer_index) => {
+                              if (counter_offer_index == 0) {
+                                return (
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Counter price</p>
+                                    <h6>
+                                      {offer?.currency ? offer.currency : ""}
+                                      {counter_offer?.counter_price
+                                        ? counter_offer.counter_price
+                                        : "000"}
+                                    </h6>
+                                  </div>
+                                );
+                              }
                             }
-                          }
-                        )}
-                    </div>
-                    <div
-                      className={`${styles.recentOffers_card} myOffers_flex3`}
-                    >
-                      <div class="width_100">
+                          )}
+                      </div>
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div class="width_100">
+                          <div
+                            className={`${styles.recentOffers_card_image} myOffers_offer_image`}
+                          >
+                            <MyOfferIcon />
+                          </div>
+                        </div>
                         <div
-                          className={`${styles.recentOffers_card_image} myOffers_offer_image`}
+                          className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
                         >
-                          <MyOfferIcon />
+                          <p className="expiry_soon">
+                            Offer Expiry
+                            {offer.isExpiringSoon && <span> Soon </span>}
+                          </p>
+                          <h5>{offer.formattedDate}</h5>
+                        </div>
+                        <div
+                          className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
+                        >
+                          <p>Pending</p>
+                          <h5
+                            className={`${styles.offer_status} ${styles.pending}`}
+                          >
+                            <FaCircle />
+                            {offer.status}
+                          </h5>
                         </div>
                       </div>
-                      {console.log("offers", offers)}
                       <div
-                        className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
+                        className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
                       >
-                        <p className="expiry_soon">
-                          Offer Expiry
-                          {offer.isExpiringSoon && <span> Soon </span>}
-                        </p>
-                        <h5>{offer.formattedDate}</h5>
-                      </div>
-                      <div
-                        className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
-                      >
-                        <p>{offer.status}</p>
-                        <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
-                        >
-                          <FaCircle />
-                          Pending
-                        </h5>
-                      </div>
-                    </div>
-                    <div
-                      className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
-                    >
-                      {/* <div className={styles.recentOffers_card_titles}>
+                        {/* <div className={styles.recentOffers_card_titles}>
                         <p>Status</p>
                         <h5
                           className={`${styles.offer_status} ${styles.pending}`}
@@ -347,240 +374,770 @@ const MyOffers = ({ userData }) => {
                           Pending
                         </h5>
                       </div> */}
-                      <div
-                        className={`${styles.recentOffers_card_details} myOffers_icons`}
-                      >
-                        {/* <div className={styles.svg_wrapper_bg_grey}>
+                        <div
+                          className={`${styles.recentOffers_card_details} myOffers_icons`}
+                        >
+                          {/* <div className={styles.svg_wrapper_bg_grey}>
                           <FiMail />
                         </div> */}
-                        <div
-                          className={`${styles.svg_wrapper_bg_grey} ${
-                            expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                          }`}
-                          onClick={() => toggleExpanded(index)}
-                        >
-                          {expanded[index] ? <FaTimes /> : <FaPlus />}
+                          <div
+                            className={`${styles.svg_wrapper_bg_grey} ${
+                              expanded[index]
+                                ? styles.icon_close_wrapper
+                                : styles.icon_add_wrapper
+                            }`}
+                            onClick={() => toggleExpanded(index)}
+                          >
+                            {expanded[index] ? <FaTimes /> : <FaPlus />}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  {/* Expanded content as a new column below */}
+                    {/* Expanded content as a new column below */}
 
-                  {/* {
+                    {/* {
                     offer?.counter_offers.forEach((counter_offer, index) => {
                       console.log('offfer,',counter_offer);
                       console.log(index);
                     })
                     // offer?.counter_offers.foreach()
                   } */}
-                  {/* changes by sunder */}
+                    {/* changes by sunder */}
 
-                  <div
-                    className={`${styles.extra_column_wrapper} ${
-                      expanded[index] ? styles.expanded : ""
-                    }`}
-                  >
-                    {/*
+                    <div
+                      className={`${styles.extra_column_wrapper} ${
+                        expanded[index] ? styles.expanded : ""
+                      }`}
+                    >
+                      {/*
                    mapping through the counter offers
                    checking the first index of the counter offer sent by the seller
                   */}
-                    {offer?.counter_offers &&
-                      offer?.counter_offers.map(
-                        (counter_offer, counter_offer_index) => {
-                          const firstMatchIndex =
-                            offer?.counter_offers.findIndex(
-                              (offer) => offer.by_user_id !== userData.id
-                            );
+                      {offer?.counter_offers &&
+                        offer?.counter_offers.map(
+                          (counter_offer, counter_offer_index) => {
+                            const firstMatchIndex =
+                              offer?.counter_offers.findIndex(
+                                (offer) => offer.by_user_id !== userData.id
+                              );
 
-                          return (
-                            <div className={styles.extra_column}>
-                              <div className={styles.recentOffers_card}>
-                                <div className={styles.recentOffers_card_image}>
-                                  <img src={offer.domain_image}></img>
-                                </div>
-                                <div
-                                  className={styles.recentOffers_card_titles}
-                                >
-                                  <p>Select Counter Offer</p>
-                                  <h5>{offer.domain_title}</h5>
-                                </div>
-                                <div
-                                  className={styles.recentOffers_card_details}
-                                >
-                                  <p>Save</p>
-                                  <h6>
-                                    {offer.currency}
-                                    {counter_offer.counter_price}
-                                  </h6>
-                                </div>
-                              </div>
-
-                              {/* {counter_offer.by_userid != userData.id} */}
-
-                              <form
-                                className={`${styles.offerForm} myOffers_extra_offer_form`}
-                                onSubmit={handleSubmit}
-                              >
-                                {counter_offer_index == 0 && (
-                                  <div className={styles.p_relative}>
-                                    <input
-                                      type="text"
-                                      className={styles.offerInput}
-                                      placeholder="Remake an Offer"
-                                      onChange={(e) =>
-                                        setCounterOffer(e.target.value)
-                                      }
-                                    />
-                                    <span className="remake_offer_icon">
-                                      <RemakeOfferIcon />
-                                    </span>
-                                    <button
-                                      type="submit"
-                                      className={styles.submitButton}
-                                      onClick={() =>
-                                        handleCounterOfferSubmit(offer.offer_id)
-                                      }
-                                    >
-                                      <span className={styles.arrow}>
-                                        &#8594;
-                                      </span>{" "}
-                                      {/* Arrow symbol */}
-                                    </button>
-                                  </div>
-                                )}
-                                {counter_offer_index == firstMatchIndex && (
+                            return (
+                              <div className={styles.extra_column}>
+                                <div className={styles.recentOffers_card}>
                                   <div
-                                    className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                                    className={styles.recentOffers_card_image}
                                   >
-                                    <button
-                                      type="button"
-                                      className={styles.declineButton}
-                                      onClick={handelOfferDecline}
-                                    >
-                                      <div className={`svg_white`}>
-                                        <OfferDecline />
-                                      </div>
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className={styles.acceptButton}
-                                    >
-                                      <div
-                                        className={`${styles.small_svg} svg_white `}
-                                      >
-                                        <CartIcon />
-                                      </div>
-                                    </button>
+                                    <img src={offer.domain_image}></img>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Select Counter Offer</p>
+                                    <h5>{offer.domain_title}</h5>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Save</p>
+                                    <h6>
+                                      {offer.currency}
+                                      {counter_offer.counter_price}
+                                    </h6>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Status</p>
+                                    <h6 class="counter">
+                                      {/* {offer.currency}
+                                    {counter_offer.counter_price} */}
+                                      Countered
+                                    </h6>
+                                  </div>
+                                </div>
 
-                                    {/* Reset button with delete icon */}
-                                    {/* <button
+                                {/* {counter_offer.by_userid != userData.id} */}
+
+                                <form
+                                  className={`${styles.offerForm} myOffers_extra_offer_form`}
+                                  onSubmit={handleSubmit}
+                                >
+                                  {counter_offer_index == 0 && (
+                                    <div className={styles.p_relative}>
+                                      <input
+                                        type="text"
+                                        className={styles.offerInput}
+                                        placeholder="Remake an Offer"
+                                        onChange={(e) =>
+                                          setCounterOffer(e.target.value)
+                                        }
+                                      />
+                                      <span className="remake_offer_icon">
+                                        <RemakeOfferIcon />
+                                      </span>
+                                      <button
+                                        type="submit"
+                                        className={styles.submitButton}
+                                        onClick={() =>
+                                          handleCounterOfferSubmit(
+                                            offer.offer_id
+                                          )
+                                        }
+                                      >
+                                        <span className={styles.arrow}>
+                                          &#8594;
+                                        </span>{" "}
+                                        {/* Arrow symbol */}
+                                      </button>
+                                    </div>
+                                  )}
+                                  {counter_offer_index == firstMatchIndex && (
+                                    <div
+                                      className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                                    >
+                                      <button
+                                        type="button"
+                                        className={styles.declineButton}
+                                        onClick={handelOfferDecline}
+                                      >
+                                        <div className={`svg_white`}>
+                                          <OfferDecline />
+                                        </div>
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className={styles.acceptButton}
+                                      >
+                                        <div
+                                          className={`${styles.small_svg} svg_white `}
+                                        >
+                                          <CartIcon />
+                                        </div>
+                                      </button>
+
+                                      {/* Reset button with delete icon */}
+                                      {/* <button
                             type="button"
                             className={styles.resetButton}
                             onClick={handleReset}
                           >
                             <DeleteIcon />
                           </button> */}
-                                  </div>
-                                )}
-                              </form>
+                                    </div>
+                                  )}
+                                </form>
+                              </div>
+                            );
+                          }
+                        )}
+
+                      {/* No counter offers starts ------------------------------------------- */}
+                      {offer?.counter_offers.length == 0 && (
+                        <div className={styles.extra_column}>
+                          <div className={styles.recentOffers_card}>
+                            <div className={styles.recentOffers_card_image}>
+                              <img src={offer.domain_image}></img>
                             </div>
-                          );
-                        }
-                      )}
-
-                    {/* No counter offers starts ------------------------------------------- */}
-                    {offer?.counter_offers.length == 0 && (
-                      <div className={styles.extra_column}>
-                        <div className={styles.recentOffers_card}>
-                          <div className={styles.recentOffers_card_image}>
-                            <img src={offer.domain_image}></img>
-                          </div>
-                          <div className={styles.recentOffers_card_titles}>
-                            <p>Select Counter Offer</p>
-                            <h5>{offer.domain_title}</h5>
-                          </div>
-                          <div className={styles.recentOffers_card_details}>
-                            <p>Save</p>
-                            <h6>
-                              {offer.currency}
-                              {offer.offer_amount}
-                            </h6>
-                          </div>
-                        </div>
-
-                        {/* {counter_offer.by_userid != userData.id} */}
-                        <form
-                          className={`${styles.offerForm} myOffers_extra_offer_form`}
-                          onSubmit={handleSubmit}
-                        >
-                          <div className={styles.p_relative}>
-                            <input
-                              type="text"
-                              className={styles.offerInput}
-                              placeholder="Remake an Offer"
-                              onChange={(e) => setCounterOffer(e.target.value)}
-                            />
-                            <span className="remake_offer_icon">
-                              <RemakeOfferIcon />
-                            </span>
-                            <button
-                              type="submit"
-                              className={styles.submitButton}
-                              onClick={() =>
-                                handleCounterOfferSubmit(offer.offer_id)
-                              }
-                            >
-                              <span className={styles.arrow}>&#8594;</span>{" "}
-                              {/* Arrow symbol */}
-                            </button>
+                            <div className={styles.recentOffers_card_titles}>
+                              <p>Select Counter Offer</p>
+                              <h5>{offer.domain_title}</h5>
+                            </div>
+                            <div className={styles.recentOffers_card_details}>
+                              <p>Save</p>
+                              <h6>
+                                {offer.currency}
+                                {offer.offer_amount}
+                              </h6>
+                            </div>
                           </div>
 
-                          <div
-                            className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                          {/* {counter_offer.by_userid != userData.id} */}
+                          <form
+                            className={`${styles.offerForm} myOffers_extra_offer_form`}
+                            onSubmit={handleSubmit}
                           >
-                            <button
-                              type="button"
-                              className={styles.declineButton}
-                              onClick={handelOfferDecline}
-                            >
-                              <div className={`svg_white`}>
-                                <OfferDecline />
-                              </div>
-                            </button>
-                            <button
-                              type="button"
-                              className={styles.acceptButton}
-                            >
-                              <div className={`${styles.small_svg} svg_white `}>
-                                <CartIcon />
-                              </div>
-                            </button>
+                            <div className={styles.p_relative}>
+                              <input
+                                type="text"
+                                className={styles.offerInput}
+                                placeholder="Remake an Offer"
+                                onChange={(e) =>
+                                  setCounterOffer(e.target.value)
+                                }
+                              />
+                              <span className="remake_offer_icon">
+                                <RemakeOfferIcon />
+                              </span>
+                              <button
+                                type="submit"
+                                className={styles.submitButton}
+                                onClick={() =>
+                                  handleCounterOfferSubmit(offer.offer_id)
+                                }
+                              >
+                                <span className={styles.arrow}>&#8594;</span>{" "}
+                                {/* Arrow symbol */}
+                              </button>
+                            </div>
 
-                            {/* Reset button with delete icon */}
-                            {/* <button
+                            <div
+                              className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                            >
+                              <button
+                                type="button"
+                                className={styles.declineButton}
+                                onClick={handelOfferDecline}
+                              >
+                                <div className={`svg_white`}>
+                                  <OfferDecline />
+                                </div>
+                              </button>
+                              <button
+                                type="button"
+                                className={styles.acceptButton}
+                              >
+                                <div
+                                  className={`${styles.small_svg} svg_white `}
+                                >
+                                  <CartIcon />
+                                </div>
+                              </button>
+
+                              {/* Reset button with delete icon */}
+                              {/* <button
                         type="button"
                         className={styles.resetButton}
                         onClick={handleReset}
                       >
                         <DeleteIcon />
                       </button> */}
-                          </div>
-                        </form>
-                      </div>
-                    )}
+                            </div>
+                          </form>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : offerLoading == false ? (
+                <div>No Active Offers at the Moment. </div>
+              ) : (
+                ""
+              )}
             </div>
           )}
 
           {activeTab === "declined" && (
-            <div>Accepted offers content goes here</div>
+            <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+              {/* declinedOffers
+declinedOffersWithFormattedDates
+Declined */}
+              {declinedOffers.length > 0 ? (
+                declinedOffersWithFormattedDates &&
+                declinedOffersWithFormattedDates.map((offer, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                  >
+                    {/* Offer card */}
+                    <div
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    >
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div className={styles.recentOffers_card_image}>
+                          <img src={offer.domain_image} alt="Domain" />
+                        </div>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Product</p>
+                          <h5>{offer.domain_title}</h5>
+                        </div>
+                        <div className={styles.recentOffers_card_details}>
+                          <p>My Offer</p>
+                          <h6>
+                            {offer?.currency ? offer.currency : ""}
+                            {offer?.offer_amount ? offer.offer_amount : "000"}
+                          </h6>
+                        </div>
+                        {offer?.counter_offers &&
+                          offer?.counter_offers.map(
+                            (counter_offer, counter_offer_index) => {
+                              if (counter_offer_index == 0) {
+                                return (
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Counter price</p>
+                                    <h6>
+                                      {offer?.currency ? offer.currency : ""}
+                                      {counter_offer?.counter_price
+                                        ? counter_offer.counter_price
+                                        : "000"}
+                                    </h6>
+                                  </div>
+                                );
+                              }
+                            }
+                          )}
+                      </div>
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div class="width_100">
+                          <div
+                            className={`${styles.recentOffers_card_image} myOffers_offer_image`}
+                          >
+                            <MyOfferIcon />
+                          </div>
+                        </div>
+                        <div
+                          className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
+                        >
+                          <p className="expiry_soon">
+                            Offer Expiry
+                            {offer.isExpiringSoon && <span> Soon </span>}
+                          </p>
+                          <h5>{offer.formattedDate}</h5>
+                        </div>
+                        <div
+                          className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
+                        >
+                          <p>Declined</p>
+                          <h5
+                            className={`${styles.offer_status} ${styles.pending}`}
+                          >
+                            <FaCircle />
+                            {offer.status}
+                          </h5>
+                        </div>
+                      </div>
+                      <div
+                        className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
+                      >
+                        {/* <div className={styles.recentOffers_card_titles}>
+             <p>Status</p>
+             <h5
+               className={`${styles.offer_status} ${styles.pending}`}
+             >
+               <FaCircle />
+               Pending
+             </h5>
+           </div> */}
+                        <div
+                          className={`${styles.recentOffers_card_details} myOffers_icons`}
+                        >
+                          {/* <div className={styles.svg_wrapper_bg_grey}>
+               <FiMail />
+             </div> */}
+                          <div
+                            className={`${styles.svg_wrapper_bg_grey} ${
+                              expanded[index]
+                                ? styles.icon_close_wrapper
+                                : styles.icon_add_wrapper
+                            }`}
+                            onClick={() => toggleExpanded(index)}
+                          >
+                            {expanded[index] ? <FaTimes /> : <FaPlus />}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Expanded content as a new column below */}
+
+                    {/* {
+         offer?.counter_offers.forEach((counter_offer, index) => {
+           console.log('offfer,',counter_offer);
+           console.log(index);
+         })
+         // offer?.counter_offers.foreach()
+       } */}
+                    {/* changes by sunder */}
+
+                    <div
+                      className={`${styles.extra_column_wrapper} ${
+                        expanded[index] ? styles.expanded : ""
+                      }`}
+                    >
+                      {/*
+        mapping through the counter offers
+        checking the first index of the counter offer sent by the seller
+       */}
+                      {offer?.counter_offers &&
+                        offer?.counter_offers.map(
+                          (counter_offer, counter_offer_index) => {
+                            const firstMatchIndex =
+                              offer?.counter_offers.findIndex(
+                                (offer) => offer.by_user_id !== userData.id
+                              );
+
+                            return (
+                              <div className={styles.extra_column}>
+                                <div className={styles.recentOffers_card}>
+                                  <div
+                                    className={styles.recentOffers_card_image}
+                                  >
+                                    <img src={offer.domain_image}></img>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Select Counter Offer</p>
+                                    <h5>{offer.domain_title}</h5>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Save</p>
+                                    <h6>
+                                      {offer.currency}
+                                      {counter_offer.counter_price}
+                                    </h6>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Status</p>
+                                    <h6 class="counter">
+                                      {/* {offer.currency}
+                         {counter_offer.counter_price} */}
+                                      Declined
+                                    </h6>
+                                  </div>
+                                </div>
+
+                                {/* {counter_offer.by_userid != userData.id} */}
+                              </div>
+                            );
+                          }
+                        )}
+
+                      {/* No counter offers starts ------------------------------------------- */}
+                      {offer?.counter_offers.length == 0 && (
+                        <div className={styles.extra_column}>
+                          <div className={styles.recentOffers_card}>
+                            <div className={styles.recentOffers_card_image}>
+                              <img src={offer.domain_image}></img>
+                            </div>
+                            <div className={styles.recentOffers_card_titles}>
+                              <p>Select Counter Offer</p>
+                              <h5>{offer.domain_title}</h5>
+                            </div>
+                            <div className={styles.recentOffers_card_details}>
+                              <p>Save</p>
+                              <h6>
+                                {offer.currency}
+                                {offer.offer_amount}
+                              </h6>
+                            </div>
+                            <div className={styles.recentOffers_card_details}>
+                              <p>Status</p>
+                              <h6>Declined</h6>
+                            </div>
+                          </div>
+
+                          {/* {counter_offer.by_userid != userData.id} */}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div>No Offers Have Been Declined.</div>
+              )}
+            </div>
           )}
           {activeTab === "accepted" && (
-            <div>Accepted offers content goes here</div>
+            <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+              {acceptedOffers.length > 0 ? (
+                acceptedOffersWithFormattedDates &&
+                acceptedOffersWithFormattedDates.map((offer, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                  >
+                    {/* Offer card */}
+                    <div
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    >
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div className={styles.recentOffers_card_image}>
+                          <img src={offer.domain_image} alt="Domain" />
+                        </div>
+                        <div className={styles.recentOffers_card_titles}>
+                          <p>Product</p>
+                          <h5>{offer.domain_title}</h5>
+                        </div>
+                        <div className={styles.recentOffers_card_details}>
+                          <p>My Offer</p>
+                          <h6>
+                            {offer?.currency ? offer.currency : ""}
+                            {offer?.offer_amount ? offer.offer_amount : "000"}
+                          </h6>
+                        </div>
+                        {offer?.counter_offers &&
+                          offer?.counter_offers.map(
+                            (counter_offer, counter_offer_index) => {
+                              if (counter_offer_index == 0) {
+                                return (
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Counter price</p>
+                                    <h6>
+                                      {offer?.currency ? offer.currency : ""}
+                                      {counter_offer?.counter_price
+                                        ? counter_offer.counter_price
+                                        : "000"}
+                                    </h6>
+                                  </div>
+                                );
+                              }
+                            }
+                          )}
+                      </div>
+                      <div
+                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                      >
+                        <div class="width_100">
+                          <div
+                            className={`${styles.recentOffers_card_image} myOffers_offer_image`}
+                          >
+                            <MyOfferIcon />
+                          </div>
+                        </div>
+                        <div
+                          className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
+                        >
+                          <p className="expiry_soon">
+                            Offer Expiry
+                            {offer.isExpiringSoon && <span> Soon </span>}
+                          </p>
+                          <h5>{offer.formattedDate}</h5>
+                        </div>
+                        <div
+                          className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
+                        >
+                          <p>Accepted</p>
+                          <h5
+                            className={`${styles.offer_status} ${styles.pending}`}
+                          >
+                            <FaCircle />
+                            {offer.status}
+                          </h5>
+                        </div>
+                      </div>
+                      <div
+                        className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
+                      >
+                        {/* <div className={styles.recentOffers_card_titles}>
+                    <p>Status</p>
+                    <h5
+                      className={`${styles.offer_status} ${styles.pending}`}
+                    >
+                      <FaCircle />
+                      Pending
+                    </h5>
+                  </div> */}
+                        <div
+                          className={`${styles.recentOffers_card_details} myOffers_icons`}
+                        >
+                          {/* <div className={styles.svg_wrapper_bg_grey}>
+                      <FiMail />
+                    </div> */}
+                          <div
+                            className={`${styles.svg_wrapper_bg_grey} ${
+                              expanded[index]
+                                ? styles.icon_close_wrapper
+                                : styles.icon_add_wrapper
+                            }`}
+                            onClick={() => toggleExpanded(index)}
+                          >
+                            {expanded[index] ? <FaTimes /> : <FaPlus />}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Expanded content as a new column below */}
+
+                    {/* {
+                offer?.counter_offers.forEach((counter_offer, index) => {
+                  console.log('offfer,',counter_offer);
+                  console.log(index);
+                })
+                // offer?.counter_offers.foreach()
+              } */}
+                    {/* changes by sunder */}
+
+                    <div
+                      className={`${styles.extra_column_wrapper} ${
+                        expanded[index] ? styles.expanded : ""
+                      }`}
+                    >
+                      {/*
+               mapping through the counter offers
+               checking the first index of the counter offer sent by the seller
+              */}
+                      {offer?.counter_offers &&
+                        offer?.counter_offers.map(
+                          (counter_offer, counter_offer_index) => {
+                            const firstMatchIndex =
+                              offer?.counter_offers.findIndex(
+                                (offer) => offer.by_user_id !== userData.id
+                              );
+
+                            return (
+                              <div className={styles.extra_column}>
+                                <div className={styles.recentOffers_card}>
+                                  <div
+                                    className={styles.recentOffers_card_image}
+                                  >
+                                    <img src={offer.domain_image}></img>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_titles}
+                                  >
+                                    <p>Select Counter Offer</p>
+                                    <h5>{offer.domain_title}</h5>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Save</p>
+                                    <h6>
+                                      {offer.currency}
+                                      {counter_offer.counter_price}
+                                    </h6>
+                                  </div>
+                                  <div
+                                    className={styles.recentOffers_card_details}
+                                  >
+                                    <p>Status</p>
+                                    <h6 class="counter">
+                                      {/* {offer.currency}
+                                {counter_offer.counter_price} */}
+                                      Countered
+                                    </h6>
+                                  </div>
+                                </div>
+
+                                {/* {counter_offer.by_userid != userData.id} */}
+
+                                <form
+                                  className={`${styles.offerForm} myOffers_extra_offer_form`}
+                                  onSubmit={handleSubmit}
+                                >
+                                  {counter_offer_index == 0 && (
+                                    <div
+                                      className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                                    >
+                                      {/* <button
+                                        type="button"
+                                        className={styles.declineButton}
+                                        onClick={handelOfferDecline}
+                                      >
+                                        <div className={`svg_white`}>
+                                          <OfferDecline />
+                                        </div>
+                                      </button> */}
+                                      <button
+                                        type="button"
+                                        className={styles.acceptButton}
+                                      >
+                                        <div
+                                          className={`${styles.small_svg} svg_white `}
+                                        >
+                                          <CartIcon />
+                                        </div>
+                                      </button>
+
+                                      {/* Reset button with delete icon */}
+                                      {/* <button
+                     type="button"
+                     className={styles.resetButton}
+                     onClick={handleReset}
+                   >
+                     <DeleteIcon />
+                   </button> */}
+                                    </div>
+                                  )}
+                                  {/* {counter_offer_index == firstMatchIndex && (
+                                  
+                                  )} */}
+                                </form>
+                              </div>
+                            );
+                          }
+                        )}
+
+                      {/* No counter offers starts ------------------------------------------- */}
+                      {offer?.counter_offers.length == 0 && (
+                        <div className={styles.extra_column}>
+                          <div className={styles.recentOffers_card}>
+                            <div className={styles.recentOffers_card_image}>
+                              <img src={offer.domain_image}></img>
+                            </div>
+                            <div className={styles.recentOffers_card_titles}>
+                              <p>Select Counter Offer</p>
+                              <h5>{offer.domain_title}</h5>
+                            </div>
+                            <div className={styles.recentOffers_card_details}>
+                              <p>Save</p>
+                              <h6>
+                                {offer.currency}
+                                {offer.offer_amount}
+                              </h6>
+                            </div>
+                          </div>
+
+                          {/* {counter_offer.by_userid != userData.id} */}
+                          <form
+                            className={`${styles.offerForm} myOffers_extra_offer_form`}
+                            onSubmit={handleSubmit}
+                          >
+                            <div
+                              className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
+                            >
+                              {/* <button
+                                type="button"
+                                className={styles.declineButton}
+                                onClick={handelOfferDecline}
+                              >
+                                <div className={`svg_white`}>
+                                  <OfferDecline />
+                                </div>
+                              </button> */}
+                              <button
+                                type="button"
+                                className={styles.acceptButton}
+                              >
+                                <div
+                                  className={`${styles.small_svg} svg_white `}
+                                >
+                                  <CartIcon />
+                                </div>
+                              </button>
+
+                              {/* Reset button with delete icon */}
+                              {/* <button
+                    type="button"
+                    className={styles.resetButton}
+                    onClick={handleReset}
+                  >
+                    <DeleteIcon />
+                  </button> */}
+                            </div>
+                          </form>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div>No Offers Have Been Accepted.</div>
+              )}
+            </div>
           )}
         </div>
       </div>
