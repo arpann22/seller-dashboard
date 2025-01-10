@@ -940,7 +940,7 @@ button.active svg path {
 .cardSelectorWrapper {
   overflow: auto;
   background-color: #fff;
-  padding: 40px;
+  padding: 30px;
   gap: 15px;
   border-radius: 15px;
 }
@@ -1110,7 +1110,7 @@ button.active svg path {
   display: flex;
   justify-content: center;
   gap: 10px 20px;
-  margin-bottom: 20px;
+  margin: 30px 0;
   flex-wrap: wrap;
 }
 .save_button_wrappers svg path {
@@ -1128,7 +1128,7 @@ button.active svg path {
   font-weight: 500;
   justify-content: center;
   width: fit-content;
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 .save_button_wrappers svg {
@@ -1627,10 +1627,17 @@ button.active svg path {
   border-radius: 10px;
 }
 /* payment status */
+.export_icon_wrapper {
+  cursor: pointer;
+}
 .payment_status_wrapper {
   background-color: #fff;
   margin: 30px 0;
   border-radius: 20px;
+}
+.payment_status_wrapper .recent_offers_cols {
+  max-height: 800px;
+  overflow: auto;
 }
 .payment_status_wrapper .paymentStatus_title_wrapper {
   border-bottom: 1px solid #e1e7ff;
@@ -1645,7 +1652,7 @@ button.active svg path {
 /* Modal overlay */
 .my_orders_modal_overlay {
   position: fixed;
-  top: 0;
+  top: 15px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -1697,6 +1704,8 @@ button.active svg path {
   position: relative;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-in-out;
+  max-height: 90%;
+  overflow: auto;
 }
 
 /* Close button */
@@ -2417,6 +2426,29 @@ button.active svg path {
 }
 @media screen and (max-width: 1024px) {
   .tabs_fd_col {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 991px) {
+  .dashboard_main_tabs {
+    flex-direction: column;
+  }
+  .tabContent {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+@media screen and (min-width: 991px) and (max-width: 1300px) {
+  .my_orders_details_table .recentOffers_card {
+    flex-wrap: wrap;
+  }
+  .my_orders_details_table
+    .recentOffers_card
+    div:not(.modal_content .recentOffers_card div) {
+    /* flex: 1; */
+    width: 30%;
+  }
+  .dashboard_main_tabs .salesDetails_wrapper {
     flex-direction: column;
   }
 }

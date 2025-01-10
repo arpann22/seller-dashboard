@@ -1,5 +1,6 @@
 import save_draft_icon from './images/edit-profile.png'
 import { useState } from 'react';
+import { jsPDF } from 'jspdf';
 import { FaCircle, FaPlus, FaTimes } from 'react-icons/fa'; // Import necessary icons
 import { FiMail } from 'react-icons/fi';
 import styles from './Tabs.module.css'; // Import styles
@@ -24,6 +25,64 @@ const handleReset = () => {
     }
     // You can add more logic if needed, such as resetting state or other form elements
 };
+// export as pdf start
+const handleExportPDF = (paymentStatusData, isSingle = true) => {
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(16);
+    doc.text(isSingle ? 'Order Details' : 'All Order Details', 10, 10);
+
+    // Details
+    doc.setFontSize(12);
+
+    if (isSingle) {
+        // Single Order
+        const selectedData = paymentStatusData;
+        doc.text(`Product: ${selectedData.product}`, 10, 20);
+        doc.text(`Order ID: ${selectedData.orderId}`, 10, 30);
+        doc.text(`Total Commission: ${selectedData.commission}`, 10, 40);
+        doc.text(`Date: ${selectedData.date}`, 10, 50);
+        doc.text(`Status: ${selectedData.status}`, 10, 60);
+    } else {
+        // All Orders
+        paymentStatusData.forEach((item, index) => {
+            doc.text(`Product: ${item.product}`, 10, 20 + (index * 60));
+            doc.text(`Order ID: ${item.orderId}`, 10, 30 + (index * 60));
+            doc.text(`Total Commission: ${item.commission}`, 10, 40 + (index * 60));
+            doc.text(`Date: ${item.date}`, 10, 50 + (index * 60));
+            doc.text(`Status: ${item.status}`, 10, 60 + (index * 60));
+        });
+    }
+
+    // Save PDF
+    const filename = isSingle ? `${paymentStatusData.product}_Payment_status.pdf` : 'AllPaymentsDetails.pdf';
+    doc.save(filename);
+};
+const paymentStatusData = [
+    {
+        product: "debugbot.com",
+        orderId: "VLX245789",
+        commission: "$4850.00",
+        date: "Oct 20, 2024",
+        status: "Pending"
+    },
+    {
+        product: "anotherproduct.com",
+        orderId: "XYZ123456",
+        commission: "$3500.00",
+        date: "Nov 05, 2024",
+        status: "Completed"
+    },
+    {
+        product: "thirdproduct.com",
+        orderId: "XYZ123456555",
+        commission: "$2500.00",
+        date: "Nov 09, 2024",
+        status: "Completed"
+    }
+];
+// export as pdf end
 const OfferTabs = () => {
     const [activeTab, setActiveTab] = useState('active');
 
@@ -59,10 +118,13 @@ const OfferTabs = () => {
                         <label>  Sort</label>
 
                     </div>
-                    <div className={styles.offerSorts}>
+                    {/* <div className={`${styles.offerSorts} ${styles.payment_status_export_all}`}>
                         <ExportIcon />
                         <label>  Export</label>
-
+                    </div> */}
+                    <div className={`${styles.offerSorts} ${styles.payment_status_export_all}`} onClick={() => handleExportPDF(paymentStatusData, false)}>
+                        <ExportIcon />
+                        <label> Export</label>
                     </div>
                 </div>
 
@@ -70,8 +132,8 @@ const OfferTabs = () => {
             {/* Tab content */}
             <div className={styles.tab_content}>
                 {activeTab === 'active' && (
-                    <div className={`${styles.ws_flex} ${styles.recent_offers_cols} `}>
-                        {[1, 2, 3].map((item, index) => (
+                    <div className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.payment_status_cols} `}>
+                        {paymentStatusData.map((item, index) => (
                             <div key={index} className={styles.recentOffers_wrapper}>
                                 {/* Offer card */}
                                 <div className={`${styles.ws_flex} ${styles.gap_5} ${styles.fd_column}`}>
@@ -81,49 +143,44 @@ const OfferTabs = () => {
                                         </div>
                                         <div className={styles.recentOffers_card_titles}>
                                             <p>Product</p>
-                                            <h5>debugbot.com</h5>
+                                            <h5>{item.product}</h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
                                             <p>Order ID</p>
-                                            <h5>VLX245789</h5>
+                                            <h5>{item.orderId}</h5>
                                         </div>
                                     </div>
                                     <div className={styles.recentOffers_card}>
-                                        {/* <div className={styles.recentOffers_card_image}>
-                                            <img src={domain_img} alt="Domain" />
-                                        </div> */}
-                                        <div className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers} `}>
+                                        <div className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}>
                                             <p className='online'> Total Commission
                                                 <FaCircle />
                                             </p>
-                                            <h5>$4850.00</h5>
+                                            <h5>{item.commission}</h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
                                             <p>Date</p>
-                                            <h6>Oct 20, 2024</h6>
+                                            <h6>{item.date}</h6>
                                         </div>
                                     </div>
-                                    <div className={`${styles.recentOffers_card} ${styles.offer_status_cards} `}>
+                                    <div className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}>
                                         <div className={styles.recentOffers_card_titles}>
                                             <p>Status</p>
-                                            <h5 className={`${styles.offer_status} ${styles.pending} `}>
+                                            <h5 className={`${styles.offer_status} ${styles.pending}`}>
                                                 <FaCircle />
-                                                Pending
+                                                {item.status}
                                             </h5>
                                         </div>
                                         <div className={styles.recentOffers_card_details}>
-                                            {/* <img src={payment_status_icon}></img> */}
-                                            <div className={styles.svg_wrapper_bg_grey}>
+                                            <div className={`${styles.svg_wrapper_bg_grey} ${styles.export_icon_wrapper}`} onClick={() => handleExportPDF(paymentStatusData[index], true)}>
                                                 <ExportIcon />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                        ))
-                        }
-                    </div >
+                        ))}
+                    </div>
+
                 )
                 }
 

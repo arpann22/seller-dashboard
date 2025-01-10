@@ -20,6 +20,7 @@
     "ckeditor5": "^43.3.1",
     "ckeditor5-premium-features": "^43.3.1",
     "codemirror": "^6.0.1",
+    "jspdf": "^2.5.2",
     "locutus": "^2.0.32",
     "markdown-it": "^14.1.0",
     "path-browserify": "^1.0.1",

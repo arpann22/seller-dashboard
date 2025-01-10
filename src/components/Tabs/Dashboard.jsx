@@ -163,11 +163,11 @@ const Dashboard = ({
                       <h6>Top Buyer</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <div
+                    {/* <div
                       className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
                     >
                       <FiMail />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -231,11 +231,11 @@ const Dashboard = ({
                       <h6>Top Owed</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    <div
+                    {/* <div
                       className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
                     >
                       <FiMail />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

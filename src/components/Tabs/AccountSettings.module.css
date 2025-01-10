@@ -111,7 +111,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .notificationSettings ul label {
   display: flex;
@@ -142,7 +142,7 @@
   justify-content: space-between;
 }
 .notificationSettings ul {
-  gap: 30px;
+  gap: 40px;
 }
 .logOutAllbtnWrapper input[type="button"] {
   background: #fff;
@@ -163,5 +163,8 @@
   .accordionContent {
     margin: 20px 10px;
     padding: 15px;
+  }
+  .preferneces_settings select {
+    width: 100%;
   }
 }
