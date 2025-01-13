@@ -17,14 +17,6 @@ const handleSubmit = (event) => {
   event.preventDefault();
   // Handle the input value submission here
 };
-const handleReset = () => {
-  // Reset the input field
-  const inputField = document.querySelector(`.${styles.offerInput}`);
-  if (inputField) {
-    inputField.value = "";
-  }
-  // You can add more logic if needed, such as resetting state or other form elements
-};
 
 const MyOffers = ({ userData }) => {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
@@ -49,7 +41,6 @@ const MyOffers = ({ userData }) => {
         const errorData = await res.json();
         const errorMessage =
           errorData?.message || "Something went wrong. Please try again later.";
-        setOfferError(errorMessage);
         throw new Error(errorMessage);
       }
       const data = await res.json();
@@ -159,7 +150,6 @@ const MyOffers = ({ userData }) => {
         const errorData = await res.json();
         const errorMessage =
           errorData?.message || "Something went wrong. Please try again later.";
-        setCounterError(errorMessage);
         throw new Error(errorMessage);
       }
       const data = await res.json();
@@ -179,16 +169,49 @@ const MyOffers = ({ userData }) => {
 
   // remake an offer ends
 
-  const handelOfferDecline = () => {
-    console.log("clicked");
-    refreshOrderData();
+  const handelOfferDecline = async (offer_id, type, counter_offer_id) => {
+    try {
+      setCounterError("");
+      setCounterSuccess("");
+      setCounterLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/accept-delete-offers/${offer_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: type,
+            counter_offer_id: counter_offer_id,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCounterSuccess(data || "Offer Declined Successfully.");
+        refreshOrderData();
+      }
+    } catch (error) {
+      setCounterError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCounterLoading(false);
+    }
   };
   const refreshOrderData = async () => {
     try {
       // setIsLoading(true);
       setOfferLoading(true);
       await fetchOffers();
-      console.log("clickeddd");
     } catch (err) {
       // setError(err.message);
     }
@@ -301,7 +324,13 @@ const MyOffers = ({ userData }) => {
                         </div>
                         <div className={styles.recentOffers_card_titles}>
                           <p>Product</p>
-                          <h5>{offer.domain_title}</h5>
+
+                          <a
+                            href={offer?.permalink ? offer.permalink : ""}
+                            target="_blank"
+                          >
+                            <h5>{offer.domain_title}</h5>
+                          </a>
                         </div>
                         <div className={styles.recentOffers_card_details}>
                           <p>My Offer</p>
@@ -365,15 +394,6 @@ const MyOffers = ({ userData }) => {
                       <div
                         className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
                       >
-                        {/* <div className={styles.recentOffers_card_titles}>
-                        <p>Status</p>
-                        <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
-                        >
-                          <FaCircle />
-                          Pending
-                        </h5>
-                      </div> */}
                         <div
                           className={`${styles.recentOffers_card_details} myOffers_icons`}
                         >
@@ -394,15 +414,6 @@ const MyOffers = ({ userData }) => {
                       </div>
                     </div>
                     {/* Expanded content as a new column below */}
-
-                    {/* {
-                    offer?.counter_offers.forEach((counter_offer, index) => {
-                      console.log('offfer,',counter_offer);
-                      console.log(index);
-                    })
-                    // offer?.counter_offers.foreach()
-                  } */}
-                    {/* changes by sunder */}
 
                     <div
                       className={`${styles.extra_column_wrapper} ${
@@ -448,11 +459,7 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_details}
                                   >
                                     <p>Status</p>
-                                    <h6 class="counter">
-                                      {/* {offer.currency}
-                                    {counter_offer.counter_price} */}
-                                      Countered
-                                    </h6>
+                                    <h6 class="counter">Countered</h6>
                                   </div>
                                 </div>
 
@@ -498,7 +505,13 @@ const MyOffers = ({ userData }) => {
                                       <button
                                         type="button"
                                         className={styles.declineButton}
-                                        onClick={handelOfferDecline}
+                                        onClick={() =>
+                                          handelOfferDecline(
+                                            offer.offer_id,
+                                            "decline",
+                                            counter_offer.counter_offer_id
+                                          )
+                                        }
                                       >
                                         <div className={`svg_white`}>
                                           <OfferDecline />
@@ -514,15 +527,6 @@ const MyOffers = ({ userData }) => {
                                           <CartIcon />
                                         </div>
                                       </button>
-
-                                      {/* Reset button with delete icon */}
-                                      {/* <button
-                            type="button"
-                            className={styles.resetButton}
-                            onClick={handleReset}
-                          >
-                            <DeleteIcon />
-                          </button> */}
                                     </div>
                                   )}
                                 </form>
@@ -548,6 +552,10 @@ const MyOffers = ({ userData }) => {
                                 {offer.currency}
                                 {offer.offer_amount}
                               </h6>
+                            </div>
+                            <div className={styles.recentOffers_card_details}>
+                              <p>Status</p>
+                              <h6>Pending</h6>
                             </div>
                           </div>
 
@@ -579,39 +587,6 @@ const MyOffers = ({ userData }) => {
                                 {/* Arrow symbol */}
                               </button>
                             </div>
-
-                            <div
-                              className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
-                            >
-                              <button
-                                type="button"
-                                className={styles.declineButton}
-                                onClick={handelOfferDecline}
-                              >
-                                <div className={`svg_white`}>
-                                  <OfferDecline />
-                                </div>
-                              </button>
-                              <button
-                                type="button"
-                                className={styles.acceptButton}
-                              >
-                                <div
-                                  className={`${styles.small_svg} svg_white `}
-                                >
-                                  <CartIcon />
-                                </div>
-                              </button>
-
-                              {/* Reset button with delete icon */}
-                              {/* <button
-                        type="button"
-                        className={styles.resetButton}
-                        onClick={handleReset}
-                      >
-                        <DeleteIcon />
-                      </button> */}
-                            </div>
                           </form>
                         </div>
                       )}
@@ -628,9 +603,6 @@ const MyOffers = ({ userData }) => {
 
           {activeTab === "declined" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-              {/* declinedOffers
-declinedOffersWithFormattedDates
-Declined */}
               {declinedOffers.length > 0 ? (
                 declinedOffersWithFormattedDates &&
                 declinedOffersWithFormattedDates.map((offer, index) => (
@@ -650,7 +622,12 @@ Declined */}
                         </div>
                         <div className={styles.recentOffers_card_titles}>
                           <p>Product</p>
-                          <h5>{offer.domain_title}</h5>
+                          <a
+                            href={offer?.permalink ? offer.permalink : ""}
+                            target="_blank"
+                          >
+                            <h5>{offer.domain_title}</h5>
+                          </a>
                         </div>
                         <div className={styles.recentOffers_card_details}>
                           <p>My Offer</p>
@@ -867,7 +844,12 @@ Declined */}
                         </div>
                         <div className={styles.recentOffers_card_titles}>
                           <p>Product</p>
-                          <h5>{offer.domain_title}</h5>
+                          <a
+                            href={offer?.permalink ? offer.permalink : ""}
+                            target="_blank"
+                          >
+                            <h5>{offer.domain_title}</h5>
+                          </a>
                         </div>
                         <div className={styles.recentOffers_card_details}>
                           <p>My Offer</p>
@@ -931,21 +913,9 @@ Declined */}
                       <div
                         className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
                       >
-                        {/* <div className={styles.recentOffers_card_titles}>
-                    <p>Status</p>
-                    <h5
-                      className={`${styles.offer_status} ${styles.pending}`}
-                    >
-                      <FaCircle />
-                      Pending
-                    </h5>
-                  </div> */}
                         <div
                           className={`${styles.recentOffers_card_details} myOffers_icons`}
                         >
-                          {/* <div className={styles.svg_wrapper_bg_grey}>
-                      <FiMail />
-                    </div> */}
                           <div
                             className={`${styles.svg_wrapper_bg_grey} ${
                               expanded[index]
@@ -961,24 +931,15 @@ Declined */}
                     </div>
                     {/* Expanded content as a new column below */}
 
-                    {/* {
-                offer?.counter_offers.forEach((counter_offer, index) => {
-                  console.log('offfer,',counter_offer);
-                  console.log(index);
-                })
-                // offer?.counter_offers.foreach()
-              } */}
-                    {/* changes by sunder */}
-
                     <div
                       className={`${styles.extra_column_wrapper} ${
                         expanded[index] ? styles.expanded : ""
                       }`}
                     >
                       {/*
-               mapping through the counter offers
-               checking the first index of the counter offer sent by the seller
-              */}
+                        mapping through the counter offers
+                        checking the first index of the counter offer sent by the seller
+                        */}
                       {offer?.counter_offers &&
                         offer?.counter_offers.map(
                           (counter_offer, counter_offer_index) => {
@@ -1015,56 +976,35 @@ Declined */}
                                   >
                                     <p>Status</p>
                                     <h6 class="counter">
-                                      {/* {offer.currency}
-                                {counter_offer.counter_price} */}
-                                      Countered
+                                      {counter_offer.status == "accepted"
+                                        ? "Accepted"
+                                        : "Countered"}
                                     </h6>
                                   </div>
                                 </div>
-
-                                {/* {counter_offer.by_userid != userData.id} */}
 
                                 <form
                                   className={`${styles.offerForm} myOffers_extra_offer_form`}
                                   onSubmit={handleSubmit}
                                 >
-                                  {counter_offer_index == 0 && (
-                                    <div
-                                      className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
-                                    >
-                                      {/* <button
-                                        type="button"
-                                        className={styles.declineButton}
-                                        onClick={handelOfferDecline}
+                                  {counter_offer.by_user_id == userData.id &&
+                                    counter_offer.status == "accepted" && (
+                                      // {counter_offer_index == 0 && (
+                                      <div
+                                        className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
                                       >
-                                        <div className={`svg_white`}>
-                                          <OfferDecline />
-                                        </div>
-                                      </button> */}
-                                      <button
-                                        type="button"
-                                        className={styles.acceptButton}
-                                      >
-                                        <div
-                                          className={`${styles.small_svg} svg_white `}
+                                        <button
+                                          type="button"
+                                          className={styles.acceptButton}
                                         >
-                                          <CartIcon />
-                                        </div>
-                                      </button>
-
-                                      {/* Reset button with delete icon */}
-                                      {/* <button
-                     type="button"
-                     className={styles.resetButton}
-                     onClick={handleReset}
-                   >
-                     <DeleteIcon />
-                   </button> */}
-                                    </div>
-                                  )}
-                                  {/* {counter_offer_index == firstMatchIndex && (
-                                  
-                                  )} */}
+                                          <div
+                                            className={`${styles.small_svg} svg_white `}
+                                          >
+                                            <CartIcon />
+                                          </div>
+                                        </button>
+                                      </div>
+                                    )}
                                 </form>
                               </div>
                             );
@@ -1099,15 +1039,6 @@ Declined */}
                             <div
                               className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
                             >
-                              {/* <button
-                                type="button"
-                                className={styles.declineButton}
-                                onClick={handelOfferDecline}
-                              >
-                                <div className={`svg_white`}>
-                                  <OfferDecline />
-                                </div>
-                              </button> */}
                               <button
                                 type="button"
                                 className={styles.acceptButton}
@@ -1118,15 +1049,6 @@ Declined */}
                                   <CartIcon />
                                 </div>
                               </button>
-
-                              {/* Reset button with delete icon */}
-                              {/* <button
-                    type="button"
-                    className={styles.resetButton}
-                    onClick={handleReset}
-                  >
-                    <DeleteIcon />
-                  </button> */}
                             </div>
                           </form>
                         </div>

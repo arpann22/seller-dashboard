@@ -1,6 +1,6 @@
 import { ReactComponent as DeleteIcon } from "./image/delete.svg";
 import { ReactComponent as RecentOffersIcon } from "./image/recents_offers.svg";
-import { FaTimes } from "react-icons/fa"; // Import necessary icons
+import { FaSpinner, FaTimes } from "react-icons/fa"; // Import necessary icons
 // import categories_icon from './images.categories-icon.png';
 
 import { FaCircle } from "react-icons/fa6";
@@ -197,7 +197,6 @@ export default function ManageOffers({
         const errorData = await res.json();
         const errorMessage =
           errorData?.message || "Something went wrong. Please try again later.";
-        setCounterError(errorMessage);
         throw new Error(errorMessage);
       }
       const data = await res.json();
@@ -217,20 +216,64 @@ export default function ManageOffers({
 
   // remake an offer ends
 
-  const handelOfferDecline = () => {
-    console.log("clicked");
-    refreshOrderData();
+  // handle accept, delete and decline of an offers
+  const [manageLoading, setManageLoading] = useState(false);
+  const [manageError, setManageError] = useState("");
+  const [manageSuccess, setManageSuccess] = useState("");
+
+  const handleAcceptDelete = async (offer_id, type, counter_offer_id) => {
+    if (!type) {
+      return;
+    }
+    try {
+      setManageError("");
+      setManageSuccess("");
+      setManageLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/accept-delete-offers/${offer_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: type,
+            counter_offer_id: counter_offer_id,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        // setCounterSuccess(data);
+        setManageSuccess(data || "Offer Sent Successfully.");
+        refreshOrderData();
+      }
+    } catch (error) {
+      setManageError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setManageLoading(false);
+    }
   };
+
   const refreshOrderData = async () => {
     try {
       // setIsLoading(true);
       setOfferLoading(true);
       await fetchOffers();
-      console.log("clickeddd");
     } catch (err) {
       // setError(err.message);
     }
   };
+
   // manage offers section ends ============================================
 
   // Function to toggle the expanded state for each card
@@ -243,13 +286,6 @@ export default function ManageOffers({
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle the input value submission here
-  };
-  const handleReset = () => {
-    // Reset the input field
-    const inputField = document.querySelector(`.${styles.offerInput}`);
-    if (inputField) {
-      inputField.value = "";
-    }
   };
 
   return (
@@ -266,6 +302,24 @@ export default function ManageOffers({
           <div
             className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin}`}
           >
+            {offerLoading && (
+              <div>
+                <div className="loading_overlay">
+                  <FaSpinner className="loading" />
+                </div>
+              </div>
+            )}
+            {offerError && <div className="cancelled">{offerError}</div>}
+
+            {manageLoading && (
+              <div>
+                <div className="loading_overlay">
+                  <FaSpinner className="loading" />
+                </div>
+              </div>
+            )}
+            {manageError && <div className="refunded">{manageError}</div>}
+            {manageSuccess && <div className="completed">{manageSuccess}</div>}
             {offers.length > 0 ? (
               offersWithFormattedDates &&
               offersWithFormattedDates.map((offer, index) => (
@@ -285,7 +339,12 @@ export default function ManageOffers({
                       </div>
                       <div className={styles.recentOffers_card_titles}>
                         <p>Product</p>
-                        <h5>{offer.domain_title}</h5>
+                        <a
+                          href={offer?.permalink ? offer.permalink : ""}
+                          target="_blank"
+                        >
+                          <h5>{offer.domain_title}</h5>
+                        </a>
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <p>Offer Amount</p>
@@ -404,7 +463,14 @@ export default function ManageOffers({
                                   className={styles.recentOffers_card_titles}
                                 >
                                   <p>Product</p>
-                                  <h5>{offer.domain_title}</h5>
+                                  <a
+                                    href={
+                                      offer?.permalink ? offer.permalink : ""
+                                    }
+                                    target="_blank"
+                                  >
+                                    <h5>{offer.domain_title}</h5>
+                                  </a>
                                 </div>
                                 <div
                                   className={styles.recentOffers_card_details}
@@ -449,6 +515,11 @@ export default function ManageOffers({
                                         <button
                                           type="submit"
                                           className={styles.submitButton}
+                                          onClick={() =>
+                                            handleCounterOfferSubmit(
+                                              offer.offer_id
+                                            )
+                                          }
                                         >
                                           <span className={styles.arrow}>
                                             &#8594;
@@ -462,12 +533,26 @@ export default function ManageOffers({
                                         <button
                                           type="button"
                                           className={`${styles.acceptButton} ${styles.hover_white_dark}`}
+                                          onClick={() =>
+                                            handleAcceptDelete(
+                                              offer.offer_id,
+                                              "accept",
+                                              counter_offer.counter_offer_id
+                                            )
+                                          }
                                         >
                                           Accept
                                         </button>
                                         <button
                                           type="button"
                                           className={`${styles.declineButton} ${styles.hover_white}`}
+                                          onClick={() =>
+                                            handleAcceptDelete(
+                                              offer.offer_id,
+                                              "decline",
+                                              counter_offer.counter_offer_id
+                                            )
+                                          }
                                         >
                                           Decline
                                         </button>
@@ -476,7 +561,13 @@ export default function ManageOffers({
                                         <button
                                           type="button"
                                           className={styles.resetButton}
-                                          onClick={handleReset}
+                                          onClick={() =>
+                                            handleAcceptDelete(
+                                              offer.offer_id,
+                                              "delete",
+                                              counter_offer.counter_offer_id
+                                            )
+                                          }
                                         >
                                           {/* <img src={delete_reset_icon} /> */}
                                           <DeleteIcon />
@@ -500,7 +591,12 @@ export default function ManageOffers({
                           </div>
                           <div className={styles.recentOffers_card_titles}>
                             <p>Product</p>
-                            <h5>{offer.domain_title}</h5>
+                            <a
+                              href={offer?.permalink ? offer.permalink : ""}
+                              target="_blank"
+                            >
+                              <h5>{offer.domain_title}</h5>
+                            </a>
                           </div>
                           <div className={styles.recentOffers_card_details}>
                             <p>Offer Amount</p>
@@ -531,6 +627,9 @@ export default function ManageOffers({
                               <button
                                 type="submit"
                                 className={styles.submitButton}
+                                onClick={() =>
+                                  handleCounterOfferSubmit(offer.offer_id)
+                                }
                               >
                                 <span className={styles.arrow}>&#8594;</span>{" "}
                                 {/* Arrow symbol */}
@@ -542,12 +641,18 @@ export default function ManageOffers({
                               <button
                                 type="button"
                                 className={`${styles.acceptButton} ${styles.hover_white_dark}`}
+                                onClick={() =>
+                                  handleAcceptDelete(offer.offer_id, "delete")
+                                }
                               >
                                 Accept
                               </button>
                               <button
                                 type="button"
                                 className={`${styles.declineButton} ${styles.hover_white}`}
+                                onClick={() =>
+                                  handleAcceptDelete(offer.offer_id, "delete")
+                                }
                               >
                                 Decline
                               </button>
@@ -556,7 +661,9 @@ export default function ManageOffers({
                               <button
                                 type="button"
                                 className={styles.resetButton}
-                                onClick={handleReset}
+                                onClick={() =>
+                                  handleAcceptDelete(offer.offer_id, "delete")
+                                }
                               >
                                 {/* <img src={delete_reset_icon} /> */}
                                 <DeleteIcon />
@@ -574,7 +681,7 @@ export default function ManageOffers({
             ) : (
               ""
             )}
-            {[1, 2, 3].map((item, index) => (
+            {[1].map((item, index) => (
               <div key={index} className={styles.recentOffers_wrapper}>
                 {/* Offer card */}
                 <div
@@ -703,11 +810,7 @@ export default function ManageOffers({
                         </button>
 
                         {/* Reset button with delete icon */}
-                        <button
-                          type="button"
-                          className={styles.resetButton}
-                          onClick={handleReset}
-                        >
+                        <button type="button" className={styles.resetButton}>
                           {/* <img src={delete_reset_icon} /> */}
                           <DeleteIcon />
                         </button>
@@ -738,6 +841,12 @@ export default function ManageOffers({
           userData={userData}
           setCounterOffer={setCounterOffer}
           offerLoading={offerLoading}
+          handleCounterOfferSubmit={handleCounterOfferSubmit}
+          offerError={offerError}
+          handleAcceptDelete={handleAcceptDelete}
+          currentUrl={currentUrl}
+          setOfferLoading={setOfferLoading}
+          fetchOffers={fetchOffers}
         />
       </div>
     </>
