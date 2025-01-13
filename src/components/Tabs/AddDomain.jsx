@@ -17,12 +17,11 @@ import { FaSpinner } from "react-icons/fa";
 import add_product_icon from "./images/add_product.png";
 import save_draft_icon from "./images/save_draft.png";
 import mediaSetupIcon from "./images/media_setup_icon.png";
-
+import { RxCross2 } from "react-icons/rx";
 import domain_img from "./images/chatseek.com.png";
 import mobstyles from "./Tabs.module.mobile.css";
 import { IoMdInformationCircle } from "react-icons/io";
 import domainAppraisalHeadingImage from "./images/domain_appraisal_heading_image.png";
-import { RxCross2 } from "react-icons/rx";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import CardSelector from "../CardSelector/CardSelector.js";
 import categories_icon from "./images/categories-icon.png";
@@ -454,6 +453,8 @@ export default function AddDomain({ styles, userData }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null); // For the actual file object
   const [audioFile, setAudioFile] = useState(null);
+  const [audioURL, setAudioURL] = useState(null); // Holds the audio URL for display
+  const audioInputRef = useRef(null); // Reference to the file input element
   const [thumbnailId, setThumbnailId] = useState(null); // For existing thumbnail ID
   const [audioId, setAudioId] = useState(null); // For existing audio ID
 
@@ -469,6 +470,14 @@ export default function AddDomain({ styles, userData }) {
     const file = event.target.files[0];
     if (file) {
       setAudioFile(file); // Store audio file for API request
+      setAudioURL(URL.createObjectURL(file)); // Generate and store audio URL
+    }
+  };
+  const handleRemoveAudio = () => {
+    setAudioFile(null); // Clear audio file
+    setAudioURL(null); // Clear audio URL
+    if (audioInputRef.current) {
+      audioInputRef.current.value = ""; // Reset file input value
     }
   };
   // getting tld from domain name
@@ -939,15 +948,62 @@ export default function AddDomain({ styles, userData }) {
             >
               {/* first card */}
               <div className={styles.media_content_wrapper}>
-                <img
-                  src={attachAudioimg}
-                  alt="attach audio image"
-                  className={styles.media_image}
-                />
+                {/* Conditionally render audio player or initial image */}
+                {audioURL ? (
+                  <div className={styles.audioWrapper}>
+                    <audio
+                      controls
+                      className={styles.media_audio}
+                      style={{
+                        width: "100%",
+                        height: "40px",
+                      }}
+                    >
+                      <source
+                        src={audioURL}
+                        type={audioFile?.type || "audio/mpeg"}
+                      />
+                      Your browser does not support the audio element.
+                    </audio>
+                    {/* Remove Button */}
+                    <button
+                      onClick={handleRemoveAudio}
+                      className={styles.removeAudioButton}
+                      style={{
+                        position: "absolute",
+                        top: "-10px",
+                        right: "-10px",
+                        background: "#00d9f5",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: "20px",
+                        height: "20px",
+                        cursor: "pointer",
+                        padding: "3px",
+                      }}
+                    >
+                      <RxCross2 />
+                    </button>
+                  </div>
+                ) : (
+                  <div className={styles.initial_image_wrapper}>
+                    <img
+                      src={attachAudioimg}
+                      alt="attach audio"
+                      className={styles.media_image}
+                    />
+                  </div>
+                )}
+
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
-                    <h5>Attach My Audio</h5>
-                    <p>Let Your Voice Do The Talking!</p>
+                    <h5>{audioURL ? "Audio Uploaded" : "Attach My Audio"}</h5>
+                    <p>
+                      {audioURL
+                        ? "Your uploaded audio is ready to play."
+                        : "Let Your Voice Do The Talking!"}
+                    </p>
                   </div>
 
                   <div className={styles.audio_column}>
@@ -955,6 +1011,8 @@ export default function AddDomain({ styles, userData }) {
                       type="file"
                       accept="audio/*"
                       onChange={handleAudioChange}
+                      ref={audioInputRef} // Attach reference to input
+                      className={styles.audio_input}
                     />
                   </div>
                 </div>
@@ -1086,7 +1144,7 @@ export default function AddDomain({ styles, userData }) {
                     Get Your <span>FREE </span> Custom Logo in Just 72 Hours!
                   </h5>
 
-                  <a href="#">Get Started</a>
+                  <a href="/services">Get Started</a>
                 </div>
               </div>
             </div>
@@ -1115,6 +1173,7 @@ export default function AddDomain({ styles, userData }) {
                     <h5>Estimated Value</h5>
                     <h3>
                       ${estimated_value && estimated_value}
+                      &nbsp;
                       <span>USD</span>
                     </h3>
                     <p>

@@ -106,7 +106,7 @@
   width: 14px;
   height: 14px;
   border-radius: 20px;
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 .card.selected .cardContent svg {
   background-color: rgb(247, 249, 253);

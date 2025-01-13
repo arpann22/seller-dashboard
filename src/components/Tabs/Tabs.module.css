@@ -602,6 +602,20 @@ button.active svg path {
   border-radius: 100px;
   padding: 20px;
 }
+audio::-webkit-media-controls-panel {
+  background-color: #fff;
+}
+.audioWrapper {
+  border: 2px solid #00d9f5;
+  padding: 15px 5px;
+  border-radius: 10px;
+  position: relative;
+}
+.removeAudioButton svg {
+  height: 14px !important;
+  width: 14px !important;
+}
+
 .media_content_wrapper {
   border: 1px solid #edf0f7;
   border-radius: 15px;
@@ -870,8 +884,8 @@ button.active svg path {
 }
 .toggle_switch {
   width: 50px;
-  height: 24px;
-  border-radius: 12px;
+  height: 30px;
+  border-radius: 50px;
   background-color: #67748e;
   position: relative;
   transition: background-color 0.3s;
@@ -889,26 +903,29 @@ button.active svg path {
 }
 .toggle_indicator svg {
   position: absolute;
-  top: 1px;
+  top: 3px;
+  left: 3px;
   width: 20px;
   color: #00d9f5;
+  height: 15px !important;
+  width: 15px !important;
 }
 .toggle_switch.off svg {
   color: #67748e;
 }
 .toggle_indicator {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background-color: white;
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 4px;
+  left: 4px;
   transition: transform 0.3s;
 }
 
 .toggle_switch.on .toggle_indicator {
-  transform: translateX(26px);
+  transform: translateX(20px);
 }
 .price_tile_wrapper {
   border-bottom: 1px solid rgb(237, 240, 247);
@@ -1383,6 +1400,7 @@ button.active svg path {
 .offerForm .resetButton {
   background-color: #fff;
   padding: 10px 14px;
+  display: flex;
 }
 .extra_column_wrapper .recentOffers_card {
   background-color: transparent;
