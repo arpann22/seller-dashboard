@@ -286,7 +286,9 @@ export default function Domains({ userData, setSellerCentralTab }) {
               </h5>
               <div className="ws_card_price_wrapper ws_flex gap_10">
                 <p className="regular_price">${regularPrice.toFixed(2)}</p>
-                <p className="sale_price">${salePrice.toFixed(2)}</p>
+                {salePrice > 0 && (
+                  <p className="sale_price">${salePrice.toFixed(2)}</p>
+                )}
               </div>
             </span>
             <div className="ws-card-likes">
@@ -303,7 +305,6 @@ export default function Domains({ userData, setSellerCentralTab }) {
 
   // handeling edit icon click
   function handleIconClick(domain_id) {
-    // window.open('http://stackoverflow.com', '_blank');
     setSellerCentralTab("Add New Domain");
     localStorage.setItem("editable_domain_id", domain_id);
   }
