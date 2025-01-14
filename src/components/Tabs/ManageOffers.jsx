@@ -24,6 +24,9 @@ export default function ManageOffers({
   const [offerError, setOfferError] = useState("");
   const [offerLoading, setOfferLoading] = useState(false);
 
+  const [pendingAcceptedOffers, setPendingAcceptedOffers] = useState([]);
+  const [declinedOffers, setDeclinedOffers] = useState([]);
+
   async function fetchOffers() {
     // Fetch offers from the API
     try {
@@ -42,6 +45,16 @@ export default function ManageOffers({
       const data = await res.json();
       if (data) {
         setOffers(data);
+        // Filter offers with status "pending" or "accepted"
+        const pending_accepted_offers = data.filter(
+          (offer) => offer.status === "pending" || offer.status === "accepted"
+        );
+        setPendingAcceptedOffers(pending_accepted_offers);
+
+        const declined_offers = data.filter(
+          (offer) => offer.status == "declined"
+        );
+        setDeclinedOffers(declined_offers);
       }
     } catch (error) {
       setOfferError(
@@ -78,71 +91,6 @@ export default function ManageOffers({
     };
   });
 
-  const pendingOffers = offers.filter((offer) => offer.status == "pending");
-  // Map pending offers to include formatted expiry dates
-  const pendingOffersWithFormattedDates = pendingOffers.map((offer) => {
-    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
-    const date = new Date(dateString);
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-
-    // Calculate days left until expiry
-    const currentDate = new Date();
-    const timeDiff = date - currentDate;
-    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    return {
-      ...offer,
-      formattedDate,
-      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
-    };
-  });
-
-  const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
-  const acceptedOffersWithFormattedDates = acceptedOffers.map((offer) => {
-    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
-    const date = new Date(dateString);
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-
-    // Calculate days left until expiry
-    const currentDate = new Date();
-    const timeDiff = date - currentDate;
-    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    return {
-      ...offer,
-      formattedDate,
-      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
-    };
-  });
-
-  const declinedOffers = offers.filter((offer) => offer.status == "declined");
-  const declinedOffersWithFormattedDates = declinedOffers.map((offer) => {
-    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
-    const date = new Date(dateString);
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-
-    // Calculate days left until expiry
-    const currentDate = new Date();
-    const timeDiff = date - currentDate;
-    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    return {
-      ...offer,
-      formattedDate,
-      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
-    };
-  });
-
-  // offers with both accepted and pending status
-
-  // Filter offers with status "pending" or "accepted"
-  const pendingAcceptedOffers = offers.filter(
-    (offer) => offer.status === "pending" || offer.status === "accepted"
-  );
-
   // Map relevant offers to include formatted expiry dates and expiry status
   const pendingAcceptedOffersWithFomattedDates = pendingAcceptedOffers.map(
     (offer) => {
@@ -165,6 +113,91 @@ export default function ManageOffers({
       };
     }
   );
+
+  const [sortValue, setSortValue] = useState("");
+  const [isReversed, setIsReversed] = useState(true); // Track the reversal state
+
+  function handleSort() {
+    setIsReversed(!isReversed);
+    {
+      console.log(activeTab);
+    }
+    if (activeTab == "active") {
+      const sortedOffers = [...pendingAcceptedOffers].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setPendingAcceptedOffers(sortedOffers);
+    }
+    if (activeTab == "declined") {
+      const sortedOffers = [...declinedOffers].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setDeclinedOffers(sortedOffers);
+    }
+  }
+
+  // const pendingOffers = offers.filter((offer) => offer.status == "pending");
+  // // Map pending offers to include formatted expiry dates
+  // const pendingOffersWithFormattedDates = pendingOffers.map((offer) => {
+  //   const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+  //   const date = new Date(dateString);
+  //   const options = { year: "numeric", month: "short", day: "numeric" };
+  //   const formattedDate = date.toLocaleDateString("en-US", options);
+
+  //   // Calculate days left until expiry
+  //   const currentDate = new Date();
+  //   const timeDiff = date - currentDate;
+  //   const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+  //   return {
+  //     ...offer,
+  //     formattedDate,
+  //     isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+  //   };
+  // });
+
+  // const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
+  // const acceptedOffersWithFormattedDates = acceptedOffers.map((offer) => {
+  //   const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+  //   const date = new Date(dateString);
+  //   const options = { year: "numeric", month: "short", day: "numeric" };
+  //   const formattedDate = date.toLocaleDateString("en-US", options);
+
+  //   // Calculate days left until expiry
+  //   const currentDate = new Date();
+  //   const timeDiff = date - currentDate;
+  //   const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+  //   return {
+  //     ...offer,
+  //     formattedDate,
+  //     isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+  //   };
+  // });
+
+  const declinedOffersWithFormattedDates = declinedOffers.map((offer) => {
+    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Calculate days left until expiry
+    const currentDate = new Date();
+    const timeDiff = date - currentDate;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    return {
+      ...offer,
+      formattedDate,
+      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+    };
+  });
+
+  // offers with both accepted and pending status
 
   // remake an offer starts
   const [counterOffer, setCounterOffer] = useState(0);
@@ -558,7 +591,7 @@ export default function ManageOffers({
                                         </button>
 
                                         {/* Reset button with delete icon */}
-                                        <button
+                                        {/* <button
                                           type="button"
                                           className={styles.resetButton}
                                           onClick={() =>
@@ -569,9 +602,8 @@ export default function ManageOffers({
                                             )
                                           }
                                         >
-                                          {/* <img src={delete_reset_icon} /> */}
                                           <DeleteIcon />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </>
                                   )}
@@ -642,7 +674,7 @@ export default function ManageOffers({
                                 type="button"
                                 className={`${styles.acceptButton} ${styles.hover_white_dark}`}
                                 onClick={() =>
-                                  handleAcceptDelete(offer.offer_id, "delete")
+                                  handleAcceptDelete(offer.offer_id, "accept")
                                 }
                               >
                                 Accept
@@ -651,23 +683,22 @@ export default function ManageOffers({
                                 type="button"
                                 className={`${styles.declineButton} ${styles.hover_white}`}
                                 onClick={() =>
-                                  handleAcceptDelete(offer.offer_id, "delete")
+                                  handleAcceptDelete(offer.offer_id, "decline")
                                 }
                               >
                                 Decline
                               </button>
 
                               {/* Reset button with delete icon */}
-                              <button
+                              {/* <button
                                 type="button"
                                 className={styles.resetButton}
                                 onClick={() =>
                                   handleAcceptDelete(offer.offer_id, "delete")
                                 }
                               >
-                                {/* <img src={delete_reset_icon} /> */}
                                 <DeleteIcon />
-                              </button>
+                              </button> */}
                             </div>
                           </form>
                         )}
@@ -681,145 +712,6 @@ export default function ManageOffers({
             ) : (
               ""
             )}
-            {[1].map((item, index) => (
-              <div key={index} className={styles.recentOffers_wrapper}>
-                {/* Offer card */}
-                <div
-                  className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
-                >
-                  <div className={styles.recentOffers_card}>
-                    <div className={styles.recentOffers_card_image}>
-                      <img src={domain_img} alt="Domain" />
-                    </div>
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Product</p>
-                      <h5>debugbot.com</h5>
-                    </div>
-                    <div className={styles.recentOffers_card_details}>
-                      <p>Offer Amount</p>
-                      <h6>$5000</h6>
-                    </div>
-                  </div>
-                  <div className={styles.recentOffers_card}>
-                    <div className={styles.recentOffers_card_image}>
-                      <img src={domain_img} alt="Domain" />
-                    </div>
-                    <div
-                      className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
-                    >
-                      <p className="online">
-                        Customer Online
-                        <FaCircle />
-                      </p>
-                      <h5>Charles Bedford</h5>
-                    </div>
-                    <div className={styles.recentOffers_card_details}>
-                      <p>Offer Expiry</p>
-                      <h6>Oct 20, 2024</h6>
-                    </div>
-                  </div>
-                  <div
-                    className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}
-                  >
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Status</p>
-                      <h5
-                        className={`${styles.offer_status} ${styles.pending}`}
-                      >
-                        <FaCircle />
-                        Pending
-                      </h5>
-                    </div>
-                    <div className={styles.recentOffers_card_details}>
-                      {/* <div
-                            className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                              ? styles.icon_close_wrapper
-                              : styles.icon_add_wrapper
-                              }`}
-                          >
-                            {expanded[index] ? (
-                              <FaTimes onClick={() => toggleExpanded(index)} />
-                            ) : (
-                              <FaPlus onClick={() => toggleExpanded(index)} />
-                            )}
-                          </div> */}
-                      <div
-                        className={`${styles.svg_wrapper_bg_grey} ${
-                          expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
-                        }`}
-                        onClick={() => toggleExpanded(index)}
-                      >
-                        {expanded[index] ? <FaTimes /> : <FaPlus />}
-                      </div>
-                      {/* <div className={styles.svg_wrapper_bg_grey}>
-                            <FiMail />
-                          </div> */}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Expanded content as a new column below */}
-                <div
-                  className={`${styles.extra_column_wrapper} ${
-                    expanded[index] ? styles.expanded : ""
-                  }`}
-                >
-                  <div className={styles.extra_column}>
-                    <div className={styles.recentOffers_card}>
-                      <div className={styles.recentOffers_card_image}>
-                        <img src={domain_img}></img>
-                      </div>
-                      <div className={styles.recentOffers_card_titles}>
-                        <p>Product</p>
-                        <h5>debugbot.com</h5>
-                      </div>
-                      <div className={styles.recentOffers_card_details}>
-                        <p>Offer Amount</p>
-                        <h6>$5000</h6>
-                      </div>
-                    </div>
-                    <form className={styles.offerForm} onSubmit={handleSubmit}>
-                      <div
-                        className={`${styles.p_relative} ${styles.dashboard_mob_w_100}`}
-                      >
-                        <input
-                          type="number"
-                          className={styles.offerInput}
-                          placeholder="Enter your counter offer"
-                          min="0"
-                        />
-                        <button type="submit" className={styles.submitButton}>
-                          <span className={styles.arrow}>&#8594;</span>{" "}
-                          {/* Arrow symbol */}
-                        </button>
-                      </div>
-                      <div className={`${styles.ws_flex} ${styles.gap_10}`}>
-                        <button
-                          type="button"
-                          className={`${styles.acceptButton} ${styles.hover_white_dark}`}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          type="button"
-                          className={`${styles.declineButton} ${styles.hover_white}`}
-                        >
-                          Decline
-                        </button>
-
-                        {/* Reset button with delete icon */}
-                        <button type="button" className={styles.resetButton}>
-                          {/* <img src={delete_reset_icon} /> */}
-                          <DeleteIcon />
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -847,6 +739,9 @@ export default function ManageOffers({
           currentUrl={currentUrl}
           setOfferLoading={setOfferLoading}
           fetchOffers={fetchOffers}
+          handleSort={handleSort}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       </div>
     </>

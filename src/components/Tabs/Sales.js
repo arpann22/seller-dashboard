@@ -478,12 +478,22 @@ const Sales = ({
   const [sortValue, setSortValue] = useState("");
   const [isReversed, setIsReversed] = useState(true); // Track the reversal state
 
+  // function handleSort() {
+  //   setSortValue("sort");
+  //   setIsReversed(!isReversed);
+  //   if (isReversed == false) {
+  //     setSortValue("");
+  //   }
+  // }
+
   function handleSort() {
-    setSortValue("sort");
     setIsReversed(!isReversed);
-    if (isReversed == false) {
-      setSortValue("");
-    }
+    const sortedOffers = [...orderDetails].sort((a, b) => {
+      if (a.id < b.id) return isReversed ? 1 : -1;
+      if (a.id > b.id) return isReversed ? -1 : 1;
+      return 0;
+    });
+    setOrderDetails(sortedOffers);
   }
 
   const [pendingOrders, setPendingOrders] = useState(0);
@@ -515,18 +525,9 @@ const Sales = ({
 
           const allOrderDetails = await Promise.all(orderDetailsPromises);
 
-          // function compareStatus(a, b) {
-          //   if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
-          //     return -1;
-          //   }
-          //   if (a?.meta?._order_status?.[0] < b?.meta?._order_status?.[0]) {
-          //     return 1;
-          //   }
-          //   return 0;
+          // if (sortValue) {
+          //   allOrderDetails.reverse();
           // }
-          if (sortValue) {
-            allOrderDetails.reverse();
-          }
           setOrderDetails(allOrderDetails);
 
           const pendingOrders = allOrderDetails.filter(
@@ -596,7 +597,8 @@ const Sales = ({
 
       fetchAllOrderDetails();
     }
-  }, [orderIds, sortValue]);
+    // }, [orderIds, sortValue]);
+  }, [orderIds]);
 
   const [customerDetails, setCustomerDetails] = useState([]);
   const [progressImage, setProgressImage] = useState("");
@@ -889,8 +891,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -958,8 +961,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    AverageSelectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -1081,22 +1085,9 @@ const Sales = ({
           <img src={sales_details_icon} alt="Media Setup Icon" />
           <h4>Sales Details</h4>
           <div className={styles.offerSorts} onClick={handleSort}>
-            {/* <div className={styles.offerSorts}> */}
-            {/* <img src={sort_icon}></img> */}
             <SortIcon />
             <label>Sort</label>
           </div>
-          {/* <div>
-            <select
-              onChange={(e) => setSortValue(e.target.value)}
-              value={sortValue}
-            >
-              <option value="">sort</option>
-              <option value="price">By price</option>
-              <option value="order_id">Order id</option>
-              <option value="status">Order Status</option>
-            </select>
-          </div> */}
         </div>
         <div className={styles.dashboard_small_margin}>
           <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
@@ -1139,8 +1130,8 @@ const Sales = ({
               // Ensure ordered_products is an array before calling .filter
               const NotSellerProducts = Array.isArray(ordered_products)
                 ? ordered_products.filter(
-                  (product) => product.seller_id != userData.id
-                )
+                    (product) => product.seller_id != userData.id
+                  )
                 : [];
 
               // Ensure allOrderdProductPrice is an array before calling .filter
@@ -1225,10 +1216,11 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
-                            ? styles.icon_close_wrapper
-                            : styles.icon_add_wrapper
-                            }`}
+                          className={`${styles.svg_wrapper_bg_grey} ${
+                            expanded[index]
+                              ? styles.icon_close_wrapper
+                              : styles.icon_add_wrapper
+                          }`}
                           onClick={() => toggleExpanded(index)}
                         >
                           {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -1239,8 +1231,9 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {

@@ -30,8 +30,11 @@ const OfferTabs = ({
   currentUrl,
   setOfferLoading,
   fetchOffers,
+  handleSort,
+  activeTab,
+  setActiveTab,
 }) => {
-  const [activeTab, setActiveTab] = useState("active");
+  // const [activeTab, setActiveTab] = useState("active");
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
 
   // handle accept, delete and decline of an offers
@@ -131,7 +134,7 @@ const OfferTabs = ({
             <label>Declined</label>
           </li>
         </ul>
-        <div className={styles.offerSorts}>
+        <div className={styles.offerSorts} onClick={handleSort}>
           {/* <img src={sort_icon}></img> */}
           <SortIcon />
           <label>Sort </label>
@@ -396,7 +399,7 @@ const OfferTabs = ({
                                         </button>
 
                                         {/* Reset button with delete icon */}
-                                        <button
+                                        {/* <button
                                           type="button"
                                           className={styles.resetButton}
                                           onClick={() =>
@@ -407,9 +410,8 @@ const OfferTabs = ({
                                             )
                                           }
                                         >
-                                          {/* <img src={delete_reset_icon} /> */}
                                           <DeleteIcon />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </>
                                   )}
@@ -499,7 +501,7 @@ const OfferTabs = ({
                               </button>
 
                               {/* Reset button with delete icon */}
-                              <button
+                              {/* <button
                                 type="button"
                                 className={styles.resetButton}
                                 onClick={() =>
@@ -509,9 +511,8 @@ const OfferTabs = ({
                                   )
                                 }
                               >
-                                {/* <img src={delete_reset_icon} /> */}
                                 <DeleteIcon />
-                              </button>
+                              </button> */}
                             </div>
                           </form>
                         )}
@@ -767,7 +768,7 @@ const OfferTabs = ({
                                         </button>
 
                                         {/* Reset button with delete icon */}
-                                        <button
+                                        {/* <button
                                           type="button"
                                           className={styles.resetButton}
                                           onClick={() =>
@@ -778,9 +779,8 @@ const OfferTabs = ({
                                             )
                                           }
                                         >
-                                          {/* <img src={delete_reset_icon} /> */}
                                           <DeleteIcon />
-                                        </button>
+                                        </button> */}
                                       </div>
                                     </>
                                   )}
@@ -873,7 +873,7 @@ const OfferTabs = ({
                               </button>
 
                               {/* Reset button with delete icon */}
-                              <button
+                              {/* <button
                                 type="button"
                                 className={styles.resetButton}
                                 onClick={() =>
@@ -883,9 +883,8 @@ const OfferTabs = ({
                                   )
                                 }
                               >
-                                {/* <img src={delete_reset_icon} /> */}
                                 <DeleteIcon />
-                              </button>
+                              </button> */}
                             </div>
                           </form>
                         )}

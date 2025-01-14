@@ -29,6 +29,9 @@ const MyOffers = ({ userData }) => {
   const [offerError, setOfferError] = useState("");
   const [offerLoading, setOfferLoading] = useState(false);
 
+  const [sortValue, setSortValue] = useState("");
+  const [isReversed, setIsReversed] = useState(true); // Track the reversal state
+
   async function fetchOffers() {
     // Fetch offers from the API
     try {
@@ -45,6 +48,9 @@ const MyOffers = ({ userData }) => {
       }
       const data = await res.json();
       if (data) {
+        if (sortValue) {
+          data.reverse();
+        }
         setOffers(data);
       }
     } catch (error) {
@@ -60,6 +66,28 @@ const MyOffers = ({ userData }) => {
       fetchOffers();
     }
   }, [userData.id]);
+
+  // function for handeling sort
+  // function handleSort() {
+  //   setIsReversed(!isReversed);
+  //   if (activeTab === "active") {
+  //     setSortValue(isReversed ? "sort" : "");
+  //   } else if (activeTab === "declined") {
+  //     setSortValue(isReversed ? "sort" : "");
+  //   } else if (activeTab === "accepted") {
+  //     setSortValue(isReversed ? "sort" : "");
+  //   }
+  // }
+  // Function for handling sort
+  function handleSort() {
+    setIsReversed(!isReversed);
+    const sortedOffers = [...offers].sort((a, b) => {
+      if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+      if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+      return 0;
+    });
+    setOffers(sortedOffers);
+  }
 
   const pendingOffers = offers.filter((offer) => offer.status == "pending");
   // Map pending offers to include formatted expiry dates
@@ -126,9 +154,6 @@ const MyOffers = ({ userData }) => {
   const [counterSuccess, setCounterSuccess] = useState("");
 
   const handleCounterOfferSubmit = async (offer_id) => {
-    // const counter_offer_data = {
-    //   counter_offer: counterOffer,
-    // };
     try {
       setCounterError("");
       setCounterSuccess("");
@@ -217,6 +242,51 @@ const MyOffers = ({ userData }) => {
     }
   };
 
+  const [cartError, setCartError] = useState("");
+  const [cartSuccess, setCartSuccess] = useState("");
+  const [cartLoading, setCartLoading] = useState(false);
+  // Add to the cart for offer section
+  const handleOfferCart = async (offer_id, domain_id, amount, type) => {
+    try {
+      setCartError("");
+      setCartSuccess("");
+      setCartLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/offers-cart/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            offer_id: offer_id,
+            domain_id: domain_id,
+            amount: amount,
+            type: type,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCartSuccess(data || "Added to the cart successfully");
+        // refreshOrderData();
+      }
+    } catch (error) {
+      setCartError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCartLoading(false);
+    }
+  };
+
   // Offers section ends ----------------------------------------------
 
   // Function to toggle the expanded state for each card
@@ -278,7 +348,7 @@ const MyOffers = ({ userData }) => {
               <label>Accepted</label>
             </li>
           </ul>
-          <div className={styles.offerSorts}>
+          <div className={styles.offerSorts} onClick={handleSort}>
             {/* <img src={sort_icon}></img> */}
             <SortIcon />
             <label>Sort </label>
@@ -302,6 +372,17 @@ const MyOffers = ({ userData }) => {
         )}
         {counterError && <div className="refunded">{counterError}</div>}
         {counterSuccess && <div className="completed">{counterSuccess}</div>}
+
+        {cartLoading && (
+          <div>
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          </div>
+        )}
+        {cartError && <div className="refunded">{cartError}</div>}
+        {cartSuccess && <div className="completed">{cartSuccess}</div>}
+
         <div>
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
@@ -444,7 +525,14 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_titles}
                                   >
                                     <p>Select Counter Offer</p>
-                                    <h5>{offer.domain_title}</h5>
+                                    <a
+                                      href={
+                                        offer?.permalink ? offer.permalink : ""
+                                      }
+                                      target="_blank"
+                                    >
+                                      <h5>{offer.domain_title}</h5>
+                                    </a>
                                   </div>
                                   <div
                                     className={styles.recentOffers_card_details}
@@ -520,6 +608,14 @@ const MyOffers = ({ userData }) => {
                                       <button
                                         type="button"
                                         className={styles.acceptButton}
+                                        onClick={() =>
+                                          handleOfferCart(
+                                            offer.offer_id,
+                                            offer.domain_id,
+                                            counter_offer.counter_price,
+                                            "offer"
+                                          )
+                                        }
                                       >
                                         <div
                                           className={`${styles.small_svg} svg_white `}
@@ -544,7 +640,12 @@ const MyOffers = ({ userData }) => {
                             </div>
                             <div className={styles.recentOffers_card_titles}>
                               <p>Select Counter Offer</p>
-                              <h5>{offer.domain_title}</h5>
+                              <a
+                                href={offer?.permalink ? offer.permalink : ""}
+                                target="_blank"
+                              >
+                                <h5>{offer.domain_title}</h5>
+                              </a>
                             </div>
                             <div className={styles.recentOffers_card_details}>
                               <p>Save</p>
@@ -759,7 +860,14 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_titles}
                                   >
                                     <p>Select Counter Offer</p>
-                                    <h5>{offer.domain_title}</h5>
+                                    <a
+                                      href={
+                                        offer?.permalink ? offer.permalink : ""
+                                      }
+                                      target="_blank"
+                                    >
+                                      <h5>{offer.domain_title}</h5>
+                                    </a>
                                   </div>
                                   <div
                                     className={styles.recentOffers_card_details}
@@ -797,7 +905,12 @@ const MyOffers = ({ userData }) => {
                             </div>
                             <div className={styles.recentOffers_card_titles}>
                               <p>Select Counter Offer</p>
-                              <h5>{offer.domain_title}</h5>
+                              <a
+                                href={offer?.permalink ? offer.permalink : ""}
+                                target="_blank"
+                              >
+                                <h5>{offer.domain_title}</h5>
+                              </a>
                             </div>
                             <div className={styles.recentOffers_card_details}>
                               <p>Save</p>
@@ -960,7 +1073,14 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_titles}
                                   >
                                     <p>Select Counter Offer</p>
-                                    <h5>{offer.domain_title}</h5>
+                                    <a
+                                      href={
+                                        offer?.permalink ? offer.permalink : ""
+                                      }
+                                      target="_blank"
+                                    >
+                                      <h5>{offer.domain_title}</h5>
+                                    </a>
                                   </div>
                                   <div
                                     className={styles.recentOffers_card_details}
@@ -996,6 +1116,14 @@ const MyOffers = ({ userData }) => {
                                         <button
                                           type="button"
                                           className={styles.acceptButton}
+                                          onClick={() =>
+                                            handleOfferCart(
+                                              offer.offer_id,
+                                              offer.domain_id,
+                                              counter_offer.counter_price,
+                                              "offer"
+                                            )
+                                          }
                                         >
                                           <div
                                             className={`${styles.small_svg} svg_white `}
@@ -1020,7 +1148,12 @@ const MyOffers = ({ userData }) => {
                             </div>
                             <div className={styles.recentOffers_card_titles}>
                               <p>Select Counter Offer</p>
-                              <h5>{offer.domain_title}</h5>
+                              <a
+                                href={offer?.permalink ? offer.permalink : ""}
+                                target="_blank"
+                              >
+                                <h5>{offer.domain_title}</h5>
+                              </a>
                             </div>
                             <div className={styles.recentOffers_card_details}>
                               <p>Save</p>
@@ -1042,6 +1175,14 @@ const MyOffers = ({ userData }) => {
                               <button
                                 type="button"
                                 className={styles.acceptButton}
+                                onClick={() =>
+                                  handleOfferCart(
+                                    offer.offer_id,
+                                    offer.domain_id,
+                                    offer.offer_amount,
+                                    "offer"
+                                  )
+                                }
                               >
                                 <div
                                   className={`${styles.small_svg} svg_white `}
