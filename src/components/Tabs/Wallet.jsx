@@ -91,7 +91,7 @@ export default function Wallet({
         const errorData = await res.json();
         const errorMessage =
           errorData?.message || "Something went wrong. Please try again later.";
-        setBankError(errorMessage);
+        setPaypalError(errorMessage);
         throw new Error(errorMessage);
       }
       const data = await res.json();
@@ -107,9 +107,42 @@ export default function Wallet({
     }
   };
 
+  /**
+   * Crypto details states and functions
+   */
+  const [cryptoDetails, setCryptoDetails] = useState({ crypto_wallet_id: "" });
+  const [cryptoLoading, setCryptoLoading] = useState(false);
+  const [cryptoError, setCryptoError] = useState("");
+  const [cryptoSuccess, setCryptoSuccess] = useState("");
+
+  const fetchCryptoDetails = async () => {
+    try {
+      setCryptoLoading(true);
+      const res = await fetch(`${currentUrl}/wp-json/wstr/v1/crypto-details`);
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setCryptoError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCryptoDetails(data[0]);
+      }
+    } catch (error) {
+      setCryptoError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCryptoLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchBankDetails();
     fetchPaypalDetails();
+    fetchCryptoDetails();
   }, [userData.id]);
 
   /**
@@ -188,6 +221,43 @@ export default function Wallet({
       setPaypalLoading(false);
     }
   };
+
+  const handleCryptoDetailsSave = async (e) => {
+    e.preventDefault();
+    try {
+      setCryptoSuccess("");
+      setCryptoError("");
+      setCryptoLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/update-crypto-details/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/JSON",
+          },
+          body: JSON.stringify(cryptoDetails),
+        }
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setCryptoError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCryptoSuccess(data.message || "Crypto details saved successfully.");
+      }
+    } catch (error) {
+      setCryptoError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCryptoLoading(false);
+    }
+  };
+
   return (
     <>
       <div
@@ -494,32 +564,45 @@ export default function Wallet({
                       className={styles.close_icon}
                       onClick={handleClosePopup}
                     />
+
                     <h4>Enter Wallet ID</h4>
-                    {/* {paypalLoading && (
+                    {cryptoLoading && (
                       <div>
                         <div className="loading_overlay">
                           <FaSpinner className="loading" />
                         </div>
                       </div>
-                    )} */}
-                    {/* {paypalSuccess && (
-                      <div className="completed">{paypalSuccess}</div>
                     )}
-                    {paypalError && (
-                      <div className="refunded">{paypalError}</div>
-                    )} */}
+                    {cryptoSuccess && (
+                      <div className="completed">{cryptoSuccess}</div>
+                    )}
+                    {cryptoError && (
+                      <div className="refunded">{cryptoError}</div>
+                    )}
+
                     <input
                       type="email"
                       placeholder="Enter your Walled ID"
                       className={`${styles.input_field} crypto_wallet_id`}
-                      value={paypalDetails.paypal_email}
+                      value={cryptoDetails.crypto_wallet_id}
                       onChange={(e) =>
-                        setPaypalDetails({
-                          ...paypalDetails,
-                          paypal_email: e.target.value,
+                        setCryptoDetails({
+                          ...cryptoDetails,
+                          crypto_wallet_id: e.target.value,
                         })
                       }
                     />
+                    <div
+                      className={`${styles.popup_actions} customer_bank_notes`}
+                    >
+                      <button
+                        type="button"
+                        className={`${styles.save_button} ${styles.hover_blue_white} save_customer_bank_details`}
+                        onClick={handleCryptoDetailsSave}
+                      >
+                        Save
+                      </button>
+                    </div>
                     {/* <div className={styles.popup_actions}>
                       <button
                         type="button"
