@@ -46,6 +46,9 @@ export default function Wallet({
     account_number: "",
     account_name: "",
     notes: "",
+    bank_state: "",
+    bank_city: "",
+    bank_swift_code: "",
   });
   const [bankLoading, setBankLoading] = useState(false);
   const [bankError, setBankError] = useState("");
@@ -503,45 +506,38 @@ export default function Wallet({
                       type="text"
                       placeholder="State"
                       className={`${styles.input_field} customer_address_state`}
-                      // onChange={(e) =>
-                      //   setBankDetails({
-                      //     ...bankDetails,
-                      //     bank_name: e.target.value,
-                      //   })
-                      // }
+                      value={bankDetails.bank_state}
+                      onChange={(e) =>
+                        setBankDetails({
+                          ...bankDetails,
+                          bank_state: e.target.value,
+                        })
+                      }
                     />
                     <input
                       type="text"
                       placeholder="City"
                       className={`${styles.input_field} customer_address_city`}
-                      // onChange={(e) =>
-                      //   setBankDetails({
-                      //     ...bankDetails,
-                      //     bank_name: e.target.value,
-                      //   })
-                      // }
+                      value={bankDetails.bank_city}
+                      onChange={(e) =>
+                        setBankDetails({
+                          ...bankDetails,
+                          bank_city: e.target.value,
+                        })
+                      }
                     />
                     <input
                       type="text"
                       placeholder="Swift Code"
                       className={`${styles.input_field} customer_swift_code`}
-                      // onChange={(e) =>
-                      //   setBankDetails({
-                      //     ...bankDetails,
-                      //     bank_name: e.target.value,
-                      //   })
-                      // }
-                    />
-                    {/* <textarea
-                      name="notes"
-                      placeholder="Notes.."
+                      value={bankDetails.bank_swift_code}
                       onChange={(e) =>
                         setBankDetails({
                           ...bankDetails,
-                          notes: e.target.value,
+                          bank_swift_code: e.target.value,
                         })
                       }
-                    ></textarea> */}
+                    />
                     <div
                       className={`${styles.popup_actions} customer_bank_notes`}
                     >
