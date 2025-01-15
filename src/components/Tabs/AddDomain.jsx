@@ -379,7 +379,6 @@ export default function AddDomain({ styles, userData }) {
         }
         const data = await res.json();
         setCategory(data);
-        console.log(data);
       } catch (err) {
         setCatError(err.message);
       } finally {
@@ -1526,7 +1525,6 @@ export default function AddDomain({ styles, userData }) {
                 }}
                 onChange={(event, editor) => {
                   const data = editor.getData();
-                  console.log({ data });
                 }}
               />
             </div>

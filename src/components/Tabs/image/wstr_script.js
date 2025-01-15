@@ -273,7 +273,6 @@ jQuery(document).ready(function ($) {
     });
     // single product add class to checked element on payment option
     $('.payment-option').on('change', function () {
-      console.log('arpan');
       // Remove 'active' class from all groups
       $('.payment_form_group').removeClass('active');
 

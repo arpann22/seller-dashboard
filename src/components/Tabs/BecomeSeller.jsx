@@ -7,8 +7,6 @@ export default function BecomeSeller({ userData, refreshTabs }) {
   const [sellerSuccess, setSellerSuccess] = useState(false);
 
   const [showPopup, setShowPopup] = useState(true);
-
-  console.log("become a seller", isChecked);
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");

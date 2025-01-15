@@ -389,7 +389,6 @@ export default function Wallet({
                     type="button"
                     className={styles.edit_profile_button}
                     onClick={() => {
-                      console.log("Button clicked");
                       setCryptoPopupOpen(true);
                     }}
                   >

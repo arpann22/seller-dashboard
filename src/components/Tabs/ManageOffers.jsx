@@ -119,9 +119,6 @@ export default function ManageOffers({
 
   function handleSort() {
     setIsReversed(!isReversed);
-    {
-      console.log(activeTab);
-    }
     if (activeTab == "active") {
       const sortedOffers = [...pendingAcceptedOffers].sort((a, b) => {
         if (a.created_at < b.created_at) return isReversed ? 1 : -1;
@@ -708,7 +705,9 @@ export default function ManageOffers({
                 </div>
               ))
             ) : offerLoading == false ? (
-              <div>No Offers at the Moment. </div>
+              <div className={styles.order_error_msg}>
+                <div>No Offers at the Moment. </div>
+              </div>
             ) : (
               ""
             )}

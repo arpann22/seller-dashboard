@@ -59,8 +59,6 @@ const AccountSettings = () => {
       });
   }, []);
 
-  console.log("userdata", userData);
-
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [is2FaEnabled, set2FaEnabled] = useState(false);
 
@@ -136,7 +134,6 @@ const AccountSettings = () => {
         if (data) {
           setCurrenceis(data);
         }
-        console.log(data);
       } catch (err) {
         console.log("login activity error:", err.message);
       } finally {
@@ -352,7 +349,6 @@ const AccountSettings = () => {
       }
       const data = await res.json();
 
-      console.log("lagngugae", data);
       setLanguageData(data);
     } catch (err) {
       console.log(err.message);
@@ -612,7 +608,6 @@ const AccountSettings = () => {
                   <p>
                     Choose preferred language or region for localized features.
                   </p>
-                  {console.log(languageData)}
                   {languageData && languageData.preferences == "language" ? (
                     <div class="completed"> {languageData.message}</div>
                   ) : (

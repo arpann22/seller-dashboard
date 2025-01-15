@@ -319,9 +319,6 @@ export default function Orders({ userData }) {
                     // leas to own AND parent id chaina AND cancelled == 0
                     const parent_order_id = order?.meta?._parent_order_id?.[0];
                     const cancelled = order?.meta?._cancelled?.[0];
-                    // console.log(cancelled);
-                    // console.log(parent_subscription_id);
-                    // console.log(order_type);
                     if (
                       order_type == "lease_to_own" &&
                       !parent_order_id &&

@@ -213,6 +213,7 @@ body.page-id-5782 {
   color: #fd334f;
   background-color: #fff;
   border-radius: 15px;
+  padding: 20px 0;
 }
 .sellers_error {
   color: #fd334f;
@@ -1417,6 +1418,9 @@ audio::-webkit-media-controls-panel {
   align-items: center;
   color: #67748e;
   border: 1px solid #edf0f7;
+}
+.offerSorts:hover {
+  background-color: #eff2fa;
 }
 .offerSorts img {
   width: 15px;

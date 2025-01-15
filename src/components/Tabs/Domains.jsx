@@ -12,8 +12,8 @@ import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
 import { ReactComponent as ActiveDomainsIcon } from "./image/active_domains.svg";
 import { ReactComponent as DraftsDomainsIcon } from "./image/domain_drafts.svg";
 import { FaSpinner } from "react-icons/fa";
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
-const currentUrl = window.location.origin;
+const currentUrl = "https://new-webstarter.codepixelz.tech";
+// const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
@@ -50,6 +50,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
       }
       const data = await res.json();
       setDomains(data);
+      // console.log(data);
     } catch (err) {
       setErrorMessage(err.message);
     } finally {
@@ -284,8 +285,16 @@ export default function Domains({ userData, setSellerCentralTab }) {
                   {domain.title.rendered}
                 </a>
               </h5>
-              <div className="ws_card_price_wrapper ws_flex gap_10">
+              {/* <div className="ws_card_price_wrapper ws_flex gap_10">
                 <p className="regular_price">${regularPrice.toFixed(2)}</p>
+                {salePrice > 0 && (
+                  <p className="sale_price">${salePrice.toFixed(2)}</p>
+                )}
+              </div> */}
+              <div className="ws_card_price_wrapper ws_flex gap_10">
+                <p className={`${salePrice > 0 ? "on_sale" : ""}`}>
+                  ${regularPrice.toFixed(2)}
+                </p>
                 {salePrice > 0 && (
                   <p className="sale_price">${salePrice.toFixed(2)}</p>
                 )}

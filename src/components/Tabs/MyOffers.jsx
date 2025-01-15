@@ -695,8 +695,12 @@ const MyOffers = ({ userData }) => {
                   </div>
                 ))
               ) : offerLoading == false ? (
-                <div>No Active Offers at the Moment. </div>
+                // <div className={styles.order_error_msg_wrapper}>
+                <div className={styles.order_error_msg}>
+                  No Active Offers at the Moment.{" "}
+                </div>
               ) : (
+                // </div>
                 ""
               )}
             </div>
@@ -824,8 +828,6 @@ const MyOffers = ({ userData }) => {
 
                     {/* {
          offer?.counter_offers.forEach((counter_offer, index) => {
-           console.log('offfer,',counter_offer);
-           console.log(index);
          })
          // offer?.counter_offers.foreach()
        } */}
@@ -932,7 +934,9 @@ const MyOffers = ({ userData }) => {
                   </div>
                 ))
               ) : (
-                <div>No Offers Have Been Declined.</div>
+                <div className={styles.order_error_msg}>
+                  <div>No Offers Have Been Declined.</div>
+                </div>
               )}
             </div>
           )}
@@ -1198,7 +1202,9 @@ const MyOffers = ({ userData }) => {
                   </div>
                 ))
               ) : (
-                <div>No Offers Have Been Accepted.</div>
+                <div className={styles.order_error_msg}>
+                  <div>No Offers Have Been Accepted.</div>
+                </div>
               )}
             </div>
           )}

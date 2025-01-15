@@ -155,7 +155,6 @@ export default function UserDetails({ userData, setUserData }) {
         return response.json();
       })
       .then((data) => {
-        console.log("Profile updated:", data);
         // setIsPopupOpen(false);
         setSuccessMessage("Profile updated successfully!"); // Set success message
       })
@@ -218,7 +217,6 @@ export default function UserDetails({ userData, setUserData }) {
               className={styles.closeIcon}
               onClick={togglePopup} // Close popup when clicked
             />
-            {console.log(formData)}
             <h2>Edit Profile</h2>
             <form onSubmit={handleSubmit}>
               <label>
