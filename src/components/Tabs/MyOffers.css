@@ -40,7 +40,7 @@
   height: 24px;
   width: 24px;
 }
-.myOffers_extra_offer_form input[type="number"] {
+.myOffers_extra_offer_form input[type="text"] {
   -webkit-appearance: none;
   -moz-appearance: textfield;
 }
@@ -66,7 +66,7 @@
   top: 50%;
   transform: translate(-50%, -35%);
 }
-.myOffers_extra_offer_form input[type="number"] {
+.myOffers_extra_offer_form input[type="text"] {
   padding: 15px 40px;
 }
 @media screen and (max-width: 767px) {

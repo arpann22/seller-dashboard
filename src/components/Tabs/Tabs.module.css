@@ -1359,7 +1359,7 @@ audio::-webkit-media-controls-panel {
 /* .offer_tabs_wrapper .recent_offers_cols {
   flex-direction: column;
 } */
-.offerForm input[type="number"] {
+.offerForm input[type="text"] {
   border: 1px solid #e1e7ff;
   padding: 15px;
   border-radius: 50px;
