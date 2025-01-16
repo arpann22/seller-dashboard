@@ -48,6 +48,7 @@ const SellerCentralTabContent = ({
             soldDomains={soldDomains}
             salesAllTime={salesAllTime}
             salesCurrentYear={salesCurrentYear}
+            setSellerCentralTab={setSellerCentralTab}
           />
         </>
       );

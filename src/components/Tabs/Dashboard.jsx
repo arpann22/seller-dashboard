@@ -27,7 +27,15 @@ const Dashboard = ({
   soldDomains,
   salesAllTime,
   salesCurrentYear,
+  setSellerCentralTab,
 }) => {
+  function handleManageOffers() {
+    setSellerCentralTab("Manage Offers");
+  }
+  function handleAddDomainRedirect() {
+    setSellerCentralTab("Add New Domain");
+  }
+
   const [domains, setDomains] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -55,6 +63,83 @@ const Dashboard = ({
       fetchDomainsForSale();
     }
   }, [userData.id]);
+
+  const currentUrl = window.location.origin;
+  const [activeTab, setActiveTab] = useState("active");
+  const [expanded, setExpanded] = useState({}); // Track which card is expanded
+
+  // manage offers section starts ----------------------------------------------
+  const [offers, setOffers] = useState([]);
+  const [offerError, setOfferError] = useState("");
+  const [offerLoading, setOfferLoading] = useState(false);
+
+  const [pendingAcceptedOffers, setPendingAcceptedOffers] = useState([]);
+  const [declinedOffers, setDeclinedOffers] = useState([]);
+
+  async function fetchOffers() {
+    // Fetch offers from the API
+    try {
+      setOfferLoading(true);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/manage-offers/${userData.id}`
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setOfferError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setOffers(data);
+        // Filter offers with status "pending" or "accepted"
+        const pending_accepted_offers = data.filter(
+          (offer) => offer.status === "pending" || offer.status === "accepted"
+        );
+        setPendingAcceptedOffers(pending_accepted_offers);
+
+        const declined_offers = data.filter(
+          (offer) => offer.status == "declined"
+        );
+        setDeclinedOffers(declined_offers);
+      }
+    } catch (error) {
+      setOfferError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setOfferLoading(false);
+    }
+  }
+  useEffect(() => {
+    if (userData.id) {
+      fetchOffers();
+    }
+  }, [userData.id]);
+
+  // Format offers and include formatted expiry dates for the first three offers
+  const offersWithFormattedDates = offers.map((offer, index) => {
+    if (index >= 3) return offer; // Return the offer as-is if beyond the first three
+
+    const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Calculate days left until expiry
+    const currentDate = new Date();
+    const timeDiff = date - currentDate;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    return {
+      ...offer,
+      formattedDate,
+      isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
+    };
+  });
+  // manage offers section ends ----------------------------------------------
 
   return (
     <>
@@ -291,132 +376,101 @@ const Dashboard = ({
         >
           {/* <img src={active_domains_icon}></img> */}
           <h4>Recent Offers</h4>
-          <h5>Manage Offers</h5>
+          <h5 onClick={handleManageOffers}>Manage Offers</h5>
         </div>
+        {offerLoading && (
+          <div>
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          </div>
+        )}
+        {offerError && <div className="cancelled">{offerError}</div>}
         <div
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
         >
-          <div className="swiper-slide ws-cards-container-noHover p_relative ws_cards_domains_active_draft">
-            {/* Premium Icon */}
-            <div className="premium_icon status">
-              <h6
-                className={`${styles.offer_status} ${styles.pending} pending`}
-              >
-                <FaCircle />
-                Pending
-              </h6>
-            </div>
+          {offers.length > 0 ? (
+            offersWithFormattedDates.map((offer, index) => {
+              let status = "";
+              if (offer?.status == "pending") {
+                status = "Pending";
+              } else if (offer?.status == "accepted") {
+                status = "Accepted";
+              } else if (offer?.status == "declined") {
+                status = "Declined";
+              }
 
-            <div class="reviews_images_lists ws_flex jc_center ai_center dashboard_offer_customers">
-              <img src={cust_img} />
-              <img src={cust_img} />
-              <span>+3</span>
-            </div>
+              const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                const options = {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                };
+                return date.toLocaleDateString("en-US", options);
+              };
 
-            {/* Hover buttons */}
-            {/* <div class="domains_hover_buttons">
-              <div
-                className="domianEditIcon"
-                onClick={() => handleIconClick(domain.id)}
-              >
-                <img src={save_draft_icon} />
-              </div>
-              <div>
-                <img src={add_product_icon} />
-              </div>
-              <div>
-                <img src={delete_reset_icon} />
-              </div>
-            </div> */}
-            {/* Card Image */}
-            <div className="ws-card-img">
-              <img src={domain_img || "default-image.png"} />
-            </div>
-            {/* Card Contents */}
-            <div className="ws-card-contents ws-flex">
-              {/* <Logo
-                logoImageId={logoImageId}
-                domain_title={domain.title.rendered}
-                featuredImageUrl={featuredImageUrl}
-              /> */}
-              <img src={cust_img || "default-image.png"} />
-              <span className="ws-card-inner-contents">
-                <h6>Hamar Sheriff</h6>
-                <div className="ws_card_price_wrapper ws_flex gap_10">
-                  {/* <p className="regular_price">$2000</p> */}
-                  <p className="sale_price">$1500</p>
+              // Example usage
+              // const inputDate = "2025-01-14 16:23:29";
+              const formattedDate = formatDate(offer.created_at);
+              return (
+                <div
+                  key={index}
+                  className="swiper-slide ws-cards-container-noHover p_relative ws_cards_domains_active_draft"
+                >
+                  {console.log(offer)}
+                  {/* Premium Icon */}
+                  <div className="premium_icon status">
+                    <h6 className={`${styles.offer_status} ${offer.status}`}>
+                      <FaCircle />
+                      {status}
+                    </h6>
+                  </div>
+
+                  {/* <div className="reviews_images_lists ws_flex jc_center ai_center dashboard_offer_customers">
+                    <img src={offer.buyer_image} />
+                    <img src={offer.buyer_image} />
+                    <span>+3</span>
+                  </div> */}
+
+                  {/* Card Image */}
+                  <div className="ws-card-img">
+                    <img src={offer.domain_image} />
+                  </div>
+
+                  {/* Card Contents */}
+                  <div className="ws-card-contents ws-flex">
+                    <img src={offer.buyer_image} />
+                    <span className="ws-card-inner-contents">
+                      <h6>{offer.buyer_name || "Unknown Name"}</h6>
+                      <div className="ws_card_price_wrapper ws_flex gap_10">
+                        {/* <p className="regular_price">${offer.regularPrice}</p> */}
+                        <p className="sale_price">${offer.offer_amount}</p>
+                      </div>
+                      <h6>{formattedDate}</h6>
+                    </span>
+                    <div className="ws-card-manage">
+                      <a href="javascript:void(0)" onClick={handleManageOffers}>
+                        <h6>MANAGE</h6>
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <h6>25 July, 2024</h6>
-              </span>
-              <div className="ws-card-manage">
-                <a href="#">
-                  <h6>MANAGE</h6>
-                </a>
-              </div>
+              );
+            })
+          ) : offerLoading == false ? (
+            <div className={styles.order_error_msg}>
+              <div>No Offers at the Moment. </div>
             </div>
-          </div>
-          {/* card 2 */}
-          <div className="swiper-slide ws-cards-container-noHover p_relative ws_cards_domains_active_draft">
-            {/* Premium Icon */}
-            <div className="premium_icon status">
-              <h6
-                className={`${styles.offer_status} ${styles.pending} counter_offer`}
-              >
-                <FaCircle />
-                Counter Offer
-              </h6>
-            </div>
+          ) : (
+            ""
+          )}
 
-            {/* <div class="reviews_images_lists ws_flex jc_center ai_center dashboard_offer_customers">
-              <img src={cust_img} />
-              <img src={cust_img} />
-              <span>+3</span>
-            </div> */}
-
-            {/* Hover buttons */}
-            {/* <div class="domains_hover_buttons">
-              <div
-                className="domianEditIcon"
-                onClick={() => handleIconClick(domain.id)}
-              >
-                <img src={save_draft_icon} />
-              </div>
-              <div>
-                <img src={add_product_icon} />
-              </div>
-              <div>
-                <img src={delete_reset_icon} />
-              </div>
-            </div> */}
-            {/* Card Image */}
-            <div className="ws-card-img">
-              <img src={domain_img || "default-image.png"} />
-            </div>
-            {/* Card Contents */}
-            <div className="ws-card-contents ws-flex">
-              {/* <Logo
-                logoImageId={logoImageId}
-                domain_title={domain.title.rendered}
-                featuredImageUrl={featuredImageUrl}
-              /> */}
-              <img src={cust_img || "default-image.png"} />
-              <span className="ws-card-inner-contents">
-                <h6>Hamar Sheriff</h6>
-                <div className="ws_card_price_wrapper ws_flex gap_10">
-                  {/* <p className="regular_price">$2000</p> */}
-                  <p className="sale_price">$1500</p>
-                </div>
-                <h6>25 July, 2024</h6>
-              </span>
-              <div className="ws-card-manage">
-                <a href="#">
-                  <h6>MANAGE</h6>
-                </a>
-              </div>
-            </div>
-          </div>
           {/* stataic add domain  */}
-          <div className="ws-cards-container-noHover swiper-slide dashboard_domain_cards ws-cards-container-add-domain">
+          <div
+            className="ws-cards-container-noHover swiper-slide dashboard_domain_cards ws-cards-container-add-domain"
+            onClick={handleAddDomainRedirect}
+          >
             {/* Card Image */}
             <div className="ws-card-img">
               <img src={domains_add_domain_img} />
