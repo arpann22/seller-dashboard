@@ -244,7 +244,7 @@ const OfferTabs = ({
                       <div className={styles.recentOffers_card_titles}>
                         <p>Status</p>
                         <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
+                          className={`${styles.offer_status} ${styles.offer.status}`}
                         >
                           <FaCircle />
                           {offer.status}
