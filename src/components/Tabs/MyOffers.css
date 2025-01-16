@@ -5,6 +5,9 @@
 .my_offer_accepted_tab svg {
   fill: rgb(103, 116, 142);
 }
+.myOffers_wrapper .myOffers_flex2 {
+  flex: 2;
+}
 .myOffers_wrapper .myOffers_flex3 {
   flex: 3;
 }
@@ -98,6 +101,9 @@
 .acceptedOfferWrap .accepted_extra_col_wrap {
   justify-content: space-between;
   gap: 30px;
+}
+.manageOffer_extra_col_flex2 {
+  flex: 2;
 }
 @media screen and (max-width: 767px) {
   .width_100 {

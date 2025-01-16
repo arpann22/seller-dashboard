@@ -166,7 +166,7 @@ const OfferTabs = ({
               pendingAcceptedOffersWithFomattedDates.map((offer, index) => (
                 <div
                   key={index}
-                  className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                  className={`${styles.recentOffers_wrapper} myOffers_wrapper manageOffer_recents_wrap `}
                 >
                   {/* Offer card */}
                   <div
@@ -215,7 +215,9 @@ const OfferTabs = ({
                           }
                         )}
                     </div>
-                    <div className={styles.recentOffers_card}>
+                    <div
+                      className={`${styles.recentOffers_card} myOffers_flex2`}
+                    >
                       <div className={styles.recentOffers_card_image}>
                         <img src={domain_img} alt="Domain" />
                       </div>
@@ -295,8 +297,12 @@ const OfferTabs = ({
                             );
 
                           return (
-                            <div className={styles.extra_column}>
-                              <div className={styles.recentOffers_card}>
+                            <div
+                              className={`${styles.extra_column} manageOffer_extra_col_wrap`}
+                            >
+                              <div
+                                className={`${styles.recentOffers_card} manageOffer_extra_col_flex2`}
+                              >
                                 <div className={styles.recentOffers_card_image}>
                                   <img src={offer.domain_image}></img>
                                 </div>
@@ -326,7 +332,7 @@ const OfferTabs = ({
                                   className={styles.recentOffers_card_details}
                                 >
                                   <p>Status</p>
-                                  <h6 class="counter">
+                                  <h6 class="countered">
                                     {/* {offer.currency}
                                                             {counter_offer.counter_price} */}
                                     Countered
@@ -613,7 +619,7 @@ const OfferTabs = ({
                       <div className={styles.recentOffers_card_titles}>
                         <p>Status</p>
                         <h5
-                          className={`${styles.offer_status} ${styles.pending}`}
+                          className={`${styles.offer_status} ${styles.declined}`}
                         >
                           <FaCircle />
                           {offer.status}
@@ -697,7 +703,7 @@ const OfferTabs = ({
                                   className={styles.recentOffers_card_details}
                                 >
                                   <p>Status</p>
-                                  <h6 class="counter">
+                                  <h6 class="countered">
                                     {/* {offer.currency}
                                                              {counter_offer.counter_price} */}
                                     Countered

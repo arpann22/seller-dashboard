@@ -330,7 +330,7 @@ export default function ManageOffers({
         </div>
         <div>
           <div
-            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin}`}
+            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.dashboard_small_margin} manageOffer_recents_wrap`}
           >
             {offerLoading && (
               <div>
@@ -404,7 +404,9 @@ export default function ManageOffers({
                           }
                         )}
                     </div>
-                    <div className={styles.recentOffers_card}>
+                    <div
+                      className={`${styles.recentOffers_card} myOffers_flex2`}
+                    >
                       <div className={styles.recentOffers_card_image}>
                         <img src={domain_img} alt="Domain" />
                       </div>
@@ -484,8 +486,12 @@ export default function ManageOffers({
                             );
 
                           return (
-                            <div className={styles.extra_column}>
-                              <div className={styles.recentOffers_card}>
+                            <div
+                              className={`${styles.extra_column} manageOffer_extra_col_wrap`}
+                            >
+                              <div
+                                className={`${styles.recentOffers_card} manageOffer_extra_col_flex2`}
+                              >
                                 <div className={styles.recentOffers_card_image}>
                                   <img src={offer.domain_image}></img>
                                 </div>
@@ -515,7 +521,7 @@ export default function ManageOffers({
                                   className={styles.recentOffers_card_details}
                                 >
                                   <p>Status</p>
-                                  <h6 class="counter">
+                                  <h6 class="countered">
                                     {/* {offer.currency}
                                                 {counter_offer.counter_price} */}
                                     Countered
