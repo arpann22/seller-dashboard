@@ -240,13 +240,30 @@ export default function Orders({ userData }) {
               <div className="refunded">{subscriptionError}</div>
             )}
             {orderDetails.map((order) => (
-              <div key={order.id} className={styles.recentOffers_wrapper}>
+              <div
+                key={order.id}
+                className={styles.recentOffers_wrapper}
+                id={order?.meta && !order.meta._parent_order_id ? order.id : ""}
+              >
                 <div className={styles.recentOffers_card}>
                   {/* Group Order and Date */}
                   <div className={styles.recentOffers_card_titles}>
                     <p>Order</p>
                     <h5>{order.id}</h5>
+                    {order?.meta?._parent_order_id ? (
+                      <>
+                        <small>
+                          Parent id :{" "}
+                          <a href={`#${order.meta._parent_order_id}`}>
+                            {order.meta._parent_order_id}
+                          </a>
+                        </small>
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </div>
+
                   <div className={styles.recentOffers_card_titles}>
                     <p>Date</p>
                     <h5>
