@@ -8,6 +8,26 @@
 .myOffers_wrapper .myOffers_flex3 {
   flex: 3;
 }
+.myOffers_wrapper .myOffers_flex10 {
+  flex: 10;
+}
+.myOffers_wrapper .myOffers_flex6 {
+  flex: 6;
+}
+
+.myOffers_extra_col.myOffers_countereed input[type="text"] {
+  width: auto;
+}
+.myOffers_wrapper .myOffers_countered_title {
+  max-width: 50%;
+  word-break: break-all;
+}
+.myOffers_extra_col .myOffers_extra_col_first_col {
+  flex: 2;
+}
+.myOffers_extra_col_not_countered .myOffers_extra_col_first_col {
+  flex: 3;
+}
 .myOffers_wrapper .myOffers_flex1 {
   flex: 1;
   justify-content: center;
@@ -69,6 +89,16 @@
 .myOffers_extra_offer_form input[type="text"] {
   padding: 15px 40px;
 }
+.acceptedOfferWrap form {
+  flex: none;
+}
+.acceptedOfferWrap .accepted_extra_col_wrap div {
+  margin: 0;
+}
+.acceptedOfferWrap .accepted_extra_col_wrap {
+  justify-content: space-between;
+  gap: 30px;
+}
 @media screen and (max-width: 767px) {
   .width_100 {
     width: 100%;
@@ -78,5 +108,20 @@
   }
   .myOffers_wrapper .myOffers_flex1 {
     justify-content: end;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .myOffers_wrapper .myOffers_extra_col {
+    flex-direction: column;
+  }
+  .myOffers_wrapper .myOffers_extra_col:not(.myOffers_extra_col:last-child) {
+    border-bottom: 1px solid #edf0f7;
+    padding-bottom: 20px;
+  }
+  .dashboard_tab_w_100 {
+    width: 100%;
+  }
+  .myOffers_wrapper .myOffers_countered_title {
+    max-width: 100%;
   }
 }

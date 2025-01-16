@@ -1193,7 +1193,7 @@ audio::-webkit-media-controls-panel {
   border-radius: 10px;
   padding: 20px;
   flex: 1;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
 }
 .recentOffers_card_image img {
@@ -1203,10 +1203,11 @@ audio::-webkit-media-controls-panel {
   border-radius: 10px;
 }
 .recentOffers_card_titles h5 {
-  font-size: 16px;
+  font-size: 14px;
   color: #001f3e;
   font-weight: 500;
 }
+
 .recentOffers_card_details h5,
 .recentOffers_card_details h6 {
   font-weight: 500;
@@ -1219,11 +1220,17 @@ audio::-webkit-media-controls-panel {
 }
 .recent_offers_cols {
   background-color: #f7f8fd;
+  /* background-color: #fff; */
   padding: 10px;
   border-radius: 15px;
   gap: 15px;
   flex-direction: column;
 }
+/* .recent_offers_cols .recentOffers_wrapper {
+  background-color: #f7f8fd;
+  padding: 10px;
+  border-radius: 15px;
+} */
 .recentOffers_card_details {
   margin-left: auto;
 }
@@ -1250,6 +1257,13 @@ audio::-webkit-media-controls-panel {
   align-items: center;
   gap: 4px;
 }
+.offer_status.declined {
+  background-color: #fd334f5e;
+  color: #fd334f;
+}
+.offer_status.declined svg {
+  color: #fd334f;
+}
 .offer_status.pending {
   background-color: #21dff71f;
   color: #21dff7;
@@ -1257,11 +1271,13 @@ audio::-webkit-media-controls-panel {
 .offer_status.pending svg {
   color: #21dff7;
 }
-.offer_status.countered {
+.offer_status.countered,
+.offer_status.accepted {
   background-color: #00cd984a;
   color: #00cd98;
 }
-.offer_status.countered svg {
+.offer_status.countered svg,
+.offer_status.accepted svg {
   color: #00cd98;
 }
 .recentOffers_card_details .svg_wrapper_bg_grey,
@@ -2269,6 +2285,9 @@ audio::-webkit-media-controls-panel {
   .extra_column .recentOffers_card {
     width: 100%;
     align-items: start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
   }
   .extra_column .recentOffers_card_details {
     margin: 0;
@@ -2471,6 +2490,11 @@ audio::-webkit-media-controls-panel {
     width: 30%;
   }
   .dashboard_main_tabs .salesDetails_wrapper {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .recentOffers_wrapper .myOffersWrap {
     flex-direction: column;
   }
 }

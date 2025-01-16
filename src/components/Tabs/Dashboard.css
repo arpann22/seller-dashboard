@@ -135,6 +135,12 @@
 .status .pending svg {
   color: rgb(245, 185, 3);
 }
+.status .declined svg {
+  color: #fd334f;
+}
+.status .accepted svg {
+  color: #00cd98;
+}
 .status .counter_offer svg {
   color: #00d9f5;
 }

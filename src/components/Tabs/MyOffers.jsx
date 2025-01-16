@@ -395,15 +395,17 @@ const MyOffers = ({ userData }) => {
                   >
                     {/* Offer card */}
                     <div
-                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column} ${styles.myOffersWrap}`}
                     >
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex10`}
                       >
                         <div className={styles.recentOffers_card_image}>
                           <img src={offer.domain_image} alt="Domain" />
                         </div>
-                        <div className={styles.recentOffers_card_titles}>
+                        <div
+                          className={`${styles.recentOffers_card_titles} myOffers_countered_title `}
+                        >
                           <p>Product</p>
 
                           <a
@@ -442,7 +444,7 @@ const MyOffers = ({ userData }) => {
                           )}
                       </div>
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex6`}
                       >
                         <div class="width_100">
                           <div
@@ -463,7 +465,7 @@ const MyOffers = ({ userData }) => {
                         <div
                           className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
                         >
-                          <p>Pending</p>
+                          <p>Status</p>
                           <h5
                             className={`${styles.offer_status} ${styles.pending}`}
                           >
@@ -514,15 +516,19 @@ const MyOffers = ({ userData }) => {
                               );
 
                             return (
-                              <div className={styles.extra_column}>
-                                <div className={styles.recentOffers_card}>
+                              <div
+                                className={`${styles.extra_column} myOffers_extra_col myOffers_countereed`}
+                              >
+                                <div
+                                  className={`${styles.recentOffers_card} myOffers_extra_col_first_col dashboard_tab_w_100`}
+                                >
                                   <div
                                     className={styles.recentOffers_card_image}
                                   >
                                     <img src={offer.domain_image}></img>
                                   </div>
                                   <div
-                                    className={styles.recentOffers_card_titles}
+                                    className={`${styles.recentOffers_card_titles} myOffers_countered_title`}
                                   >
                                     <p>Select Counter Offer</p>
                                     <a
@@ -547,14 +553,14 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_details}
                                   >
                                     <p>Status</p>
-                                    <h6 class="counter">Countered</h6>
+                                    <h6 class="countered">Countered</h6>
                                   </div>
                                 </div>
 
                                 {/* {counter_offer.by_userid != userData.id} */}
 
                                 <form
-                                  className={`${styles.offerForm} myOffers_extra_offer_form`}
+                                  className={`${styles.offerForm} myOffers_extra_offer_form dashboard_tab_w_100`}
                                   onSubmit={handleSubmit}
                                 >
                                   {counter_offer_index == 0 && (
@@ -633,8 +639,12 @@ const MyOffers = ({ userData }) => {
 
                       {/* No counter offers starts ------------------------------------------- */}
                       {offer?.counter_offers.length == 0 && (
-                        <div className={styles.extra_column}>
-                          <div className={styles.recentOffers_card}>
+                        <div
+                          className={`${styles.extra_column} myOffers_extra_col myOffers_extra_col_not_countered`}
+                        >
+                          <div
+                            className={`${styles.recentOffers_card} myOffers_extra_col_first_col dashboard_tab_w_100`}
+                          >
                             <div className={styles.recentOffers_card_image}>
                               <img src={offer.domain_image}></img>
                             </div>
@@ -662,7 +672,7 @@ const MyOffers = ({ userData }) => {
 
                           {/* {counter_offer.by_userid != userData.id} */}
                           <form
-                            className={`${styles.offerForm} myOffers_extra_offer_form`}
+                            className={`${styles.offerForm} myOffers_extra_offer_form dashboard_tab_w_100`}
                             onSubmit={handleSubmit}
                           >
                             <div className={styles.p_relative}>
@@ -717,10 +727,10 @@ const MyOffers = ({ userData }) => {
                   >
                     {/* Offer card */}
                     <div
-                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column} ${styles.myOffersWrap}`}
                     >
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex10`}
                       >
                         <div className={styles.recentOffers_card_image}>
                           <img src={offer.domain_image} alt="Domain" />
@@ -763,7 +773,7 @@ const MyOffers = ({ userData }) => {
                           )}
                       </div>
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex6`}
                       >
                         <div class="width_100">
                           <div
@@ -784,9 +794,9 @@ const MyOffers = ({ userData }) => {
                         <div
                           className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
                         >
-                          <p>Declined</p>
+                          <p>Status</p>
                           <h5
-                            className={`${styles.offer_status} ${styles.pending}`}
+                            className={`${styles.offer_status} ${styles.declined}`}
                           >
                             <FaCircle />
                             {offer.status}
@@ -851,7 +861,7 @@ const MyOffers = ({ userData }) => {
                               );
 
                             return (
-                              <div className={styles.extra_column}>
+                              <div className={`${styles.extra_column}`}>
                                 <div className={styles.recentOffers_card}>
                                   <div
                                     className={styles.recentOffers_card_image}
@@ -884,7 +894,7 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_details}
                                   >
                                     <p>Status</p>
-                                    <h6 class="counter">
+                                    <h6 class="cancelled">
                                       {/* {offer.currency}
                          {counter_offer.counter_price} */}
                                       Declined
@@ -947,14 +957,14 @@ const MyOffers = ({ userData }) => {
                 acceptedOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
-                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                    className={`${styles.recentOffers_wrapper} myOffers_wrapper acceptedOfferWrap `}
                   >
                     {/* Offer card */}
                     <div
-                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                      className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column} ${styles.myOffersWrap} `}
                     >
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex10`}
                       >
                         <div className={styles.recentOffers_card_image}>
                           <img src={offer.domain_image} alt="Domain" />
@@ -997,7 +1007,7 @@ const MyOffers = ({ userData }) => {
                           )}
                       </div>
                       <div
-                        className={`${styles.recentOffers_card} myOffers_flex3`}
+                        className={`${styles.recentOffers_card} myOffers_flex6`}
                       >
                         <div class="width_100">
                           <div
@@ -1018,9 +1028,9 @@ const MyOffers = ({ userData }) => {
                         <div
                           className={`${styles.recentOffers_card_details} ${styles.offer_status_cards} ${styles.recentOffers_card_titles}`}
                         >
-                          <p>Accepted</p>
+                          <p>Status</p>
                           <h5
-                            className={`${styles.offer_status} ${styles.pending}`}
+                            className={`${styles.offer_status} ${styles.accepted}`}
                           >
                             <FaCircle />
                             {offer.status}
@@ -1066,26 +1076,33 @@ const MyOffers = ({ userData }) => {
                               );
 
                             return (
-                              <div className={styles.extra_column}>
-                                <div className={styles.recentOffers_card}>
+                              <div className={`${styles.extra_column} `}>
+                                <div
+                                  className={`${styles.recentOffers_card} accepted_extra_col_wrap`}
+                                >
                                   <div
-                                    className={styles.recentOffers_card_image}
+                                    className={`${styles.recentOffers_card_image} ${styles.ws_flex} ${styles.gap_10}`}
                                   >
                                     <img src={offer.domain_image}></img>
-                                  </div>
-                                  <div
-                                    className={styles.recentOffers_card_titles}
-                                  >
-                                    <p>Select Counter Offer</p>
-                                    <a
-                                      href={
-                                        offer?.permalink ? offer.permalink : ""
+                                    <div
+                                      className={
+                                        styles.recentOffers_card_titles
                                       }
-                                      target="_blank"
                                     >
-                                      <h5>{offer.domain_title}</h5>
-                                    </a>
+                                      <p>Select Counter Offer</p>
+                                      <a
+                                        href={
+                                          offer?.permalink
+                                            ? offer.permalink
+                                            : ""
+                                        }
+                                        target="_blank"
+                                      >
+                                        <h5>{offer.domain_title}</h5>
+                                      </a>
+                                    </div>
                                   </div>
+
                                   <div
                                     className={styles.recentOffers_card_details}
                                   >
@@ -1099,45 +1116,44 @@ const MyOffers = ({ userData }) => {
                                     className={styles.recentOffers_card_details}
                                   >
                                     <p>Status</p>
-                                    <h6 class="counter">
+                                    <h6 class="countered">
                                       {counter_offer.status == "accepted"
                                         ? "Accepted"
                                         : "Countered"}
                                     </h6>
                                   </div>
-                                </div>
-
-                                <form
-                                  className={`${styles.offerForm} myOffers_extra_offer_form`}
-                                  onSubmit={handleSubmit}
-                                >
-                                  {counter_offer.by_user_id == userData.id &&
-                                    counter_offer.status == "accepted" && (
-                                      // {counter_offer_index == 0 && (
-                                      <div
-                                        className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
-                                      >
-                                        <button
-                                          type="button"
-                                          className={styles.acceptButton}
-                                          onClick={() =>
-                                            handleOfferCart(
-                                              offer.offer_id,
-                                              offer.domain_id,
-                                              counter_offer.counter_price,
-                                              "offer"
-                                            )
-                                          }
+                                  <form
+                                    className={`${styles.offerForm} myOffers_extra_offer_form`}
+                                    onSubmit={handleSubmit}
+                                  >
+                                    {counter_offer.by_user_id == userData.id &&
+                                      counter_offer.status == "accepted" && (
+                                        // {counter_offer_index == 0 && (
+                                        <div
+                                          className={`${styles.ws_flex} ${styles.gap_10} myOffers_extra_column_buttons `}
                                         >
-                                          <div
-                                            className={`${styles.small_svg} svg_white `}
+                                          <button
+                                            type="button"
+                                            className={styles.acceptButton}
+                                            onClick={() =>
+                                              handleOfferCart(
+                                                offer.offer_id,
+                                                offer.domain_id,
+                                                counter_offer.counter_price,
+                                                "offer"
+                                              )
+                                            }
                                           >
-                                            <CartIcon />
-                                          </div>
-                                        </button>
-                                      </div>
-                                    )}
-                                </form>
+                                            <div
+                                              className={`${styles.small_svg} svg_white `}
+                                            >
+                                              <CartIcon />
+                                            </div>
+                                          </button>
+                                        </div>
+                                      )}
+                                  </form>
+                                </div>
                               </div>
                             );
                           }
