@@ -252,7 +252,7 @@ export default function Orders({ userData }) {
                     <h5>{order.id}</h5>
                     {order?.meta?._parent_order_id ? (
                       <>
-                        <small>
+                        <small className={styles.parentID_orders}>
                           <a href={`#${order.meta._parent_order_id}`}>
                             {/* { "("{order.meta._parent_order_id}")"} */}
                             {"("}
@@ -320,48 +320,54 @@ export default function Orders({ userData }) {
                       {order.meta._order_total[0]}
                     </h5>
                   </div>
-                  <div className={styles.recentOffers_card_titles}>
-                    <button
-                      className={styles.hover_white}
-                      onClick={() => {
-                        setSelectedOrder(order);
-                        setModalOpen(true);
-                      }}
-                    >
-                      View
-                    </button>
-                  </div>
+                  <div
+                    className={`${styles.ws_flex} ${styles.gap_5} ${styles.orderTable_btn_wrapper}`}
+                  >
+                    <div className={styles.recentOffers_card_titles}>
+                      <button
+                        className={styles.hover_white}
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setModalOpen(true);
+                        }}
+                      >
+                        View
+                      </button>
+                    </div>
 
-                  {(() => {
-                    const order_type = order?.meta?._order_type?.[0];
-                    const subscription_id = order?.meta?._subscription_id?.[0];
-                    // leas to own AND parent id chaina AND cancelled == 0
-                    const parent_order_id = order?.meta?._parent_order_id?.[0];
-                    const cancelled = order?.meta?._cancelled?.[0];
-                    if (
-                      order_type == "lease_to_own" &&
-                      !parent_order_id &&
-                      cancelled == 0 &&
-                      order?.meta?._order_status != "cancelled" &&
-                      order?.meta?._order_status != "refunded"
-                    ) {
-                      return (
-                        <div className={styles.recentOffers_card_titles}>
-                          <button
-                            className={styles.hover_white}
-                            // onClick={() => {
-                            //   handleCancelSubscription(subscription_id);
-                            // }}
-                            onClick={() => {
-                              handleSubsPopup(subscription_id);
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      );
-                    }
-                  })()}
+                    {(() => {
+                      const order_type = order?.meta?._order_type?.[0];
+                      const subscription_id =
+                        order?.meta?._subscription_id?.[0];
+                      // leas to own AND parent id chaina AND cancelled == 0
+                      const parent_order_id =
+                        order?.meta?._parent_order_id?.[0];
+                      const cancelled = order?.meta?._cancelled?.[0];
+                      if (
+                        order_type == "lease_to_own" &&
+                        !parent_order_id &&
+                        cancelled == 0 &&
+                        order?.meta?._order_status != "cancelled" &&
+                        order?.meta?._order_status != "refunded"
+                      ) {
+                        return (
+                          <div className={styles.recentOffers_card_titles}>
+                            <button
+                              className={styles.myOrder_cancel_btn}
+                              // onClick={() => {
+                              //   handleCancelSubscription(subscription_id);
+                              // }}
+                              onClick={() => {
+                                handleSubsPopup(subscription_id);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        );
+                      }
+                    })()}
+                  </div>
                 </div>
               </div>
             ))}
