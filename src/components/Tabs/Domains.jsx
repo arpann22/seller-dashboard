@@ -300,7 +300,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
                 )}
               </div>
             </span>
-            <div className="ws-card-likes">
+            <div className="ws-card-likes disable-favourite">
               <h6>
                 <span>{favouriteCount}</span>
                 <i className="fa-solid fa-heart"></i>
