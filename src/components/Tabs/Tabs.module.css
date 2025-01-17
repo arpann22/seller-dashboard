@@ -1580,7 +1580,8 @@ audio::-webkit-media-controls-panel {
 }
 
 .paymentMethodcard_section .input_field,
-.paymentMethodcard_section .popup textarea {
+.paymentMethodcard_section .popup textarea,
+.paymentMethodcard_section .popup select {
   width: 100%;
   padding: 15px;
   margin: 15px 0;
@@ -1588,6 +1589,10 @@ audio::-webkit-media-controls-panel {
   border-radius: 50px;
   font-size: 14px;
   color: #001f3e;
+}
+.paymentMethodcard_section .popup select {
+  color: #666666;
+  font-size: 12px;
 }
 .paymentMethodcard_section .popup textarea {
   border-radius: 15px;
