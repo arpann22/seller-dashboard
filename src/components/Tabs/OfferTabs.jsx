@@ -244,7 +244,7 @@ const OfferTabs = ({
                       <div className={styles.recentOffers_card_titles}>
                         <p>Status</p>
                         <h5
-                          className={`${styles.offer_status} ${styles.offer.status}`}
+                          className={`${styles.offer_status} ${offer?.status}`}
                         >
                           <FaCircle />
                           {offer.status}
@@ -592,7 +592,9 @@ const OfferTabs = ({
                           }
                         )}
                     </div>
-                    <div className={styles.recentOffers_card}>
+                    <div
+                      className={`${styles.recentOffers_card} myOffers_flex2`}
+                    >
                       <div className={styles.recentOffers_card_image}>
                         <img src={domain_img} alt="Domain" />
                       </div>

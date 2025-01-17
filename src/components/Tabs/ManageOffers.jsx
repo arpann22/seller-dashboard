@@ -433,7 +433,7 @@ export default function ManageOffers({
                       <div className={styles.recentOffers_card_titles}>
                         <p>Status</p>
                         <h5
-                          className={`${styles.offer_status} ${styles.offer?.status}`}
+                          className={`${styles.offer_status} ${offer?.status}`}
                         >
                           <FaCircle />
                           {offer.status}

@@ -1256,6 +1256,7 @@ audio::-webkit-media-controls-panel {
   display: flex;
   align-items: center;
   gap: 4px;
+  text-transform: capitalize;
 }
 .offer_status.declined {
   background-color: #fd334f5e;
@@ -1273,8 +1274,10 @@ audio::-webkit-media-controls-panel {
 }
 .offer_status.countered,
 .offer_status.accepted {
-  background-color: #00cd984a;
   color: #00cd98;
+}
+.offer_status.accepted {
+  background-color: #00cd984a;
 }
 .offer_status.countered svg,
 .offer_status.accepted svg {

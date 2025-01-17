@@ -312,7 +312,7 @@ const MyOffers = ({ userData }) => {
       <div className={styles.offer_tabs_wrapper}>
         {/* Nav tabs */}
         <div
-          className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.dashboard_small_margin}`}
+          className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.gap_10} ${styles.dashboard_small_margin}`}
         >
           <ul className={`${styles.nav_tabs} ${styles.offer_tabs_navs}`}>
             <li
@@ -861,7 +861,9 @@ const MyOffers = ({ userData }) => {
                               );
 
                             return (
-                              <div className={`${styles.extra_column}`}>
+                              <div
+                                className={`${styles.extra_column} offer_extra_col`}
+                              >
                                 <div className={styles.recentOffers_card}>
                                   <div
                                     className={styles.recentOffers_card_image}
