@@ -253,9 +253,11 @@ export default function Orders({ userData }) {
                     {order?.meta?._parent_order_id ? (
                       <>
                         <small>
-                          Parent id :{" "}
                           <a href={`#${order.meta._parent_order_id}`}>
+                            {/* { "("{order.meta._parent_order_id}")"} */}
+                            {"("}
                             {order.meta._parent_order_id}
+                            {")"}
                           </a>
                         </small>
                       </>
