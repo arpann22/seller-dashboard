@@ -108,18 +108,18 @@
 .card_count {
   position: absolute;
   position: absolute;
-  right: 20px;
-  top: -14px;
+  right: 10px;
+  top: -10px;
   padding: 2px;
   border-radius: 20px;
-  padding: 2px 8px;
+  padding: 2px 6px;
   aspect-ratio: 1;
   background: #00d9f5;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 25px;
+  height: 20px;
 }
 .card_count p {
   font-size: 14px;
@@ -134,6 +134,9 @@
   }
   .myOffers_wrapper .myOffers_flex1 {
     justify-content: end;
+  }
+  .card_count {
+    right: 0;
   }
 }
 @media screen and (max-width: 1300px) {

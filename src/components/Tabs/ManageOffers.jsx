@@ -355,7 +355,9 @@ export default function ManageOffers({
               offersWithFormattedDates.map((offer, index) => (
                 <div
                   key={index}
-                  className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                  className={`${styles.recentOffers_wrapper} myOffers_wrapper ${
+                    expanded[index] ? styles.expandedBorder : ""
+                  } `}
                 >
                   {/* Offer card */}
                   <div

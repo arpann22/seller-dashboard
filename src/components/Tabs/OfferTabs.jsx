@@ -172,7 +172,11 @@ const OfferTabs = ({
               pendingAcceptedOffersWithFomattedDates.map((offer, index) => (
                 <div
                   key={index}
-                  className={`${styles.recentOffers_wrapper} myOffers_wrapper manageOffer_recents_wrap `}
+                  className={`${
+                    styles.recentOffers_wrapper
+                  } myOffers_wrapper manageOffer_recents_wrap ${
+                    expanded[index] ? styles.expandedBorder : ""
+                  } `}
                 >
                   {/* Offer card */}
                   <div
@@ -549,7 +553,11 @@ const OfferTabs = ({
               declinedOffersWithFormattedDates.map((offer, index) => (
                 <div
                   key={index}
-                  className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                  className={`${
+                    styles.recentOffers_wrapper
+                  } myOffers_wrapper  ${
+                    expanded[index] ? styles.expandedBorder : ""
+                  }`}
                 >
                   {/* Offer card */}
                   <div

@@ -401,7 +401,11 @@ const MyOffers = ({ userData }) => {
                 pendingOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
-                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                    className={`${
+                      styles.recentOffers_wrapper
+                    } myOffers_wrapper ${
+                      expanded[index] ? styles.expandedBorder : ""
+                    }`}
                   >
                     {/* Offer card */}
                     <div
@@ -733,7 +737,11 @@ const MyOffers = ({ userData }) => {
                 declinedOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
-                    className={`${styles.recentOffers_wrapper} myOffers_wrapper `}
+                    className={`${
+                      styles.recentOffers_wrapper
+                    } myOffers_wrapper ${
+                      expanded[index] ? styles.expandedBorder : ""
+                    }  `}
                   >
                     {/* Offer card */}
                     <div
@@ -969,7 +977,11 @@ const MyOffers = ({ userData }) => {
                 acceptedOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
-                    className={`${styles.recentOffers_wrapper} myOffers_wrapper acceptedOfferWrap `}
+                    className={`${
+                      styles.recentOffers_wrapper
+                    } myOffers_wrapper acceptedOfferWrap ${
+                      expanded[index] ? styles.expandedBorder : ""
+                    } `}
                   >
                     {/* Offer card */}
                     <div
