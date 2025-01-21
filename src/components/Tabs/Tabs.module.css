@@ -113,7 +113,7 @@ body.page-id-5782 {
 .tabs_lists {
   flex: 1;
   height: 100%;
-  max-width: 360px;
+  max-width: 330px;
 }
 .tabLabels {
   display: flex;
@@ -264,7 +264,7 @@ body.page-id-5782 {
 .ws_container {
   max-width: 1440px;
   margin: auto;
-  padding: 0 20px;
+  /* padding: 0 20px; */
   margin-top: 40px;
 }
 .dashboard_section_margin {
@@ -295,6 +295,7 @@ body.page-id-5782 {
   color: #999999;
   font-size: 12px;
   min-width: 200px;
+  word-break: break-word;
 }
 
 .editProfileButton {
@@ -2500,6 +2501,9 @@ button.myOrder_cancel_btn {
 @media screen and (max-width: 1024px) {
   .tabs_fd_col {
     flex-direction: column;
+  }
+  .tabs_lists {
+    max-width: 100%;
   }
 }
 @media screen and (max-width: 991px) {
