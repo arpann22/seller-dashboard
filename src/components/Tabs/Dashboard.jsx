@@ -450,8 +450,8 @@ const Dashboard = ({
                       <h6>{formattedDate}</h6>
                     </span>
                     <div className="ws-card-manage">
-                      <a href="javascript:void(0)" onClick={handleManageOffers}>
-                        <h6>MANAGE</h6>
+                      <a onClick={handleManageOffers}>
+                        <h6 onClick={handleManageOffers}>MANAGE</h6>
                       </a>
                     </div>
                   </div>

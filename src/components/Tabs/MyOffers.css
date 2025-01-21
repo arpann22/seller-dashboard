@@ -58,6 +58,7 @@
 }
 .myOffers_wrapper .myOffers_extra_offer_form {
   justify-content: space-around;
+  /* padding: 20px; */
 }
 .myOffers_extra_offer_form .remake_offer_icon svg {
   height: 24px;

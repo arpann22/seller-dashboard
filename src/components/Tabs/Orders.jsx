@@ -4,6 +4,7 @@ import styles from "./Tabs.module.css"; // Import styles
 import cust_img from "./images/cust_image.png";
 import { FaCircle } from "react-icons/fa6";
 import { FaSpinner } from "react-icons/fa";
+// import { IoCloseOutline } from "react-icons/io5";
 
 export default function Orders({ userData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
@@ -107,7 +108,7 @@ export default function Orders({ userData }) {
       }
       const data = await res.json();
       if (data) {
-        setSubscriptionSuccess(data.message || "Order cancelled successfully.");
+        setSubscriptionSuccess(data.message || "Order cancelled.");
         // Refresh order data
         await refreshOrderData();
       }
@@ -234,7 +235,7 @@ export default function Orders({ userData }) {
               </div>
             )}
             {subscriptionSuccess && (
-              <div className="completed">{subscriptionSuccess}</div>
+              <div className="success_msg">{subscriptionSuccess}</div>
             )}
             {subscriptionError && (
               <div className="refunded">{subscriptionError}</div>

@@ -221,7 +221,7 @@ const MyOffers = ({ userData }) => {
       }
       const data = await res.json();
       if (data) {
-        setCounterSuccess(data || "Offer Declined Successfully.");
+        setCounterSuccess(data || "Offer Declined.");
         refreshOrderData();
       }
     } catch (error) {
