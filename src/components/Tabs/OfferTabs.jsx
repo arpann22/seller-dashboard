@@ -122,6 +122,9 @@ const OfferTabs = ({
               <OfferActive />
             </div>
             <label> Active</label>
+            <span className={`${styles.card_count} card_count`}>
+              <p>{pendingAcceptedOffersWithFomattedDates.length}</p>
+            </span>
           </li>
           <li
             className={`${activeTab === "declined" ? styles.active : ""}`}
@@ -132,6 +135,9 @@ const OfferTabs = ({
               <OfferDecline />
             </div>
             <label>Declined</label>
+            <span className={`${styles.card_count} card_count`}>
+              <p>{declinedOffersWithFormattedDates.length}</p>
+            </span>
           </li>
         </ul>
         <div className={styles.offerSorts} onClick={handleSort}>
@@ -170,7 +176,7 @@ const OfferTabs = ({
                 >
                   {/* Offer card */}
                   <div
-                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}  ${styles.fw_wrap} manageOffer_recents_wrap_tab_col`}
                   >
                     <div
                       className={`${styles.recentOffers_card} myOffers_flex3`}
@@ -547,7 +553,7 @@ const OfferTabs = ({
                 >
                   {/* Offer card */}
                   <div
-                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column} ${styles.fw_wrap} manageOffer_recents_wrap_tab_col`}
                   >
                     <div
                       className={`${styles.recentOffers_card} myOffers_flex3`}
@@ -674,7 +680,9 @@ const OfferTabs = ({
                             );
 
                           return (
-                            <div className={styles.extra_column}>
+                            <div
+                              className={`${styles.extra_column} manageOffer_extra_col_wrap`}
+                            >
                               <div className={styles.recentOffers_card}>
                                 <div className={styles.recentOffers_card_image}>
                                   <img src={offer.domain_image}></img>

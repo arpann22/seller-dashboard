@@ -105,6 +105,26 @@
 .manageOffer_extra_col_flex2 {
   flex: 2;
 }
+.card_count {
+  position: absolute;
+  position: absolute;
+  right: 20px;
+  top: -14px;
+  padding: 2px;
+  border-radius: 20px;
+  padding: 2px 8px;
+  aspect-ratio: 1;
+  background: #00d9f5;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+}
+.card_count p {
+  font-size: 14px;
+  line-height: 14px;
+}
 @media screen and (max-width: 767px) {
   .width_100 {
     width: 100%;
@@ -120,14 +140,23 @@
   .myOffers_wrapper .myOffers_extra_col {
     flex-direction: column;
   }
-  .myOffers_wrapper .myOffers_extra_col:not(.myOffers_extra_col:last-child) {
+  .myOffers_wrapper .myOffers_extra_col:not(.myOffers_extra_col:last-child),
+  .manageOffer_extra_col_wrap:not(.manageOffer_extra_col_wrap:last-child) {
     border-bottom: 1px solid #edf0f7;
     padding-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .dashboard_tab_w_100 {
     width: 100%;
   }
   .myOffers_wrapper .myOffers_countered_title {
     max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .manageOffer_recents_wrap_tab_col {
+    flex-direction: column;
   }
 }

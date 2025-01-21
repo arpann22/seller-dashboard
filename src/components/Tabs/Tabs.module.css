@@ -1345,6 +1345,12 @@ audio::-webkit-media-controls-panel {
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  position: relative;
+}
+.offer_tabs_navs li.active .card_count {
+  background-color: #fff;
+  border: 1px solid;
+  color: #00d9f5;
 }
 .offer_tabs_navs li img {
   background-color: #f3f5fa;
@@ -1377,7 +1383,9 @@ audio::-webkit-media-controls-panel {
   gap: 20px;
 }
 .extra_column_wrapper.expanded {
-  max-height: fit-content;
+  /* max-height: fit-content; */
+  max-height: 400px;
+  overflow: auto;
 }
 /* .offer_tabs_wrapper .recent_offers_cols {
   flex-direction: column;
@@ -1393,7 +1401,7 @@ audio::-webkit-media-controls-panel {
   align-items: center;
   gap: 15px;
   flex: 2;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .offerForm button[type="submit"] {
   border: transparent;
@@ -2224,6 +2232,7 @@ button.myOrder_cancel_btn {
   }
   .recentOffers_card {
     flex-wrap: wrap;
+    justify-content: space-between;
   }
   .recentOffers_card .recentOffers_card_image {
     width: 100%;
@@ -2312,7 +2321,8 @@ button.myOrder_cancel_btn {
     justify-content: space-between;
     flex-direction: row;
   }
-  .extra_column .recentOffers_card_details {
+  .extra_column .recentOffers_card_details,
+  .recentOffers_card_details {
     margin: 0;
   }
   .css-er3mnb {
@@ -2504,6 +2514,9 @@ button.myOrder_cancel_btn {
   }
   .tabs_lists {
     max-width: 100%;
+  }
+  .offerForm {
+    flex: none;
   }
 }
 @media screen and (max-width: 991px) {

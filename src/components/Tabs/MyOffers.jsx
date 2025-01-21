@@ -324,6 +324,9 @@ const MyOffers = ({ userData }) => {
                 <OfferActive />
               </div>
               <label> Active</label>
+              <span className={`${styles.card_count} card_count`}>
+                <p>{pendingOffersWithFormattedDates.length}</p>
+              </span>
             </li>
             <li
               className={`${activeTab === "declined" ? styles.active : ""}`}
@@ -334,6 +337,9 @@ const MyOffers = ({ userData }) => {
                 <OfferDecline />
               </div>
               <label>Declined</label>
+              <span className={`${styles.card_count} card_count`}>
+                <p>{declinedOffersWithFormattedDates.length}</p>
+              </span>
             </li>
             <li
               className={`${
@@ -346,6 +352,9 @@ const MyOffers = ({ userData }) => {
                 <MyOfferIcon />
               </div>
               <label>Accepted</label>
+              <span className={`${styles.card_count} card_count`}>
+                <p>{acceptedOffersWithFormattedDates.length}</p>
+              </span>
             </li>
           </ul>
           <div className={styles.offerSorts} onClick={handleSort}>
@@ -371,7 +380,7 @@ const MyOffers = ({ userData }) => {
           </div>
         )}
         {counterError && <div className="refunded">{counterError}</div>}
-        {counterSuccess && <div className="completed">{counterSuccess}</div>}
+        {counterSuccess && <div className="success_msg">{counterSuccess}</div>}
 
         {cartLoading && (
           <div>
@@ -386,6 +395,7 @@ const MyOffers = ({ userData }) => {
         <div>
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+              {/* <p>Total Cards: {pendingOffersWithFormattedDates.length}</p> */}
               {pendingOffers.length > 0 ? (
                 pendingOffersWithFormattedDates &&
                 pendingOffersWithFormattedDates.map((offer, index) => (
@@ -862,7 +872,7 @@ const MyOffers = ({ userData }) => {
 
                             return (
                               <div
-                                className={`${styles.extra_column} offer_extra_col`}
+                                className={`${styles.extra_column} offer_extra_col myOffers_extra_col`}
                               >
                                 <div className={styles.recentOffers_card}>
                                   <div
@@ -1078,7 +1088,9 @@ const MyOffers = ({ userData }) => {
                               );
 
                             return (
-                              <div className={`${styles.extra_column} `}>
+                              <div
+                                className={`${styles.extra_column} myOffers_extra_col `}
+                              >
                                 <div
                                   className={`${styles.recentOffers_card} accepted_extra_col_wrap`}
                                 >

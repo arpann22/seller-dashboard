@@ -359,7 +359,7 @@ export default function ManageOffers({
                 >
                   {/* Offer card */}
                   <div
-                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
+                    className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column} ${styles.fw_wrap} manageOffer_recents_wrap_tab_col`}
                   >
                     <div
                       className={`${styles.recentOffers_card} myOffers_flex3`}

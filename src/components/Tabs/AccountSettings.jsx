@@ -478,7 +478,7 @@ const AccountSettings = () => {
                 <ul className={accountstyles.loggedInDevices}>
                   {loginActivity.map((location, index) => (
                     <li>
-                      Device {index + 1} {location}
+                      Device {index + 1}: {location}
                     </li>
                   ))}
                   {/* <li>Device 1: New York, USA</li>
