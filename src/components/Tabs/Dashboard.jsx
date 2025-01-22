@@ -386,10 +386,17 @@ const Dashboard = ({
           </div>
         )}
         {offerError && <div className="cancelled">{offerError}</div>}
+        {offers.length == 0 && offerLoading == false ? (
+          <div className={styles.order_error_msg}>
+            <div>No Offers at the Moment. </div>
+          </div>
+        ) : (
+          ""
+        )}
         <div
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}
         >
-          {offers.length > 0 ? (
+          {offersWithFormattedDates &&
             offersWithFormattedDates.map((offer, index) => {
               let status = "";
               if (offer?.status == "pending") {
@@ -457,14 +464,7 @@ const Dashboard = ({
                   </div>
                 </div>
               );
-            })
-          ) : offerLoading == false ? (
-            <div className={styles.order_error_msg}>
-              <div>No Offers at the Moment. </div>
-            </div>
-          ) : (
-            ""
-          )}
+            })}
 
           {/* stataic add domain  */}
           <div
