@@ -27,7 +27,7 @@ const MyOffers = ({ userData }) => {
   // Offers section starts ----------------------------------------------
   const [offers, setOffers] = useState([]);
   const [offerError, setOfferError] = useState("");
-  const [offerLoading, setOfferLoading] = useState(false);
+  const [offerLoading, setOfferLoading] = useState(true);
 
   const [sortValue, setSortValue] = useState("");
   const [isReversed, setIsReversed] = useState(true); // Track the reversal state
@@ -396,8 +396,14 @@ const MyOffers = ({ userData }) => {
           {activeTab === "active" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
               {/* <p>Total Cards: {pendingOffersWithFormattedDates.length}</p> */}
-              {pendingOffers.length > 0 ? (
-                pendingOffersWithFormattedDates &&
+              {!offerLoading && pendingOffers.length == 0 ? (
+                <div className={styles.order_error_msg}>
+                  No Active Offers at the Moment.{" "}
+                </div>
+              ) : (
+                ""
+              )}
+              {pendingOffersWithFormattedDates &&
                 pendingOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
@@ -717,23 +723,20 @@ const MyOffers = ({ userData }) => {
                       )}
                     </div>
                   </div>
-                ))
-              ) : offerLoading == false ? (
-                // <div className={styles.order_error_msg_wrapper}>
-                <div className={styles.order_error_msg}>
-                  No Active Offers at the Moment.{" "}
-                </div>
-              ) : (
-                // </div>
-                ""
-              )}
+                ))}
             </div>
           )}
 
           {activeTab === "declined" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-              {declinedOffers.length > 0 ? (
-                declinedOffersWithFormattedDates &&
+              {!offerLoading && declinedOffers.length == 0 ? (
+                <div className={styles.order_error_msg}>
+                  <div>No Offers Have Been Declined.</div>
+                </div>
+              ) : (
+                ""
+              )}
+              {declinedOffersWithFormattedDates &&
                 declinedOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
@@ -824,21 +827,9 @@ const MyOffers = ({ userData }) => {
                       <div
                         className={`${styles.recentOffers_card} ${styles.offer_status_cards} myOffers_flex1`}
                       >
-                        {/* <div className={styles.recentOffers_card_titles}>
-             <p>Status</p>
-             <h5
-               className={`${styles.offer_status} ${styles.pending}`}
-             >
-               <FaCircle />
-               Pending
-             </h5>
-           </div> */}
                         <div
                           className={`${styles.recentOffers_card_details} myOffers_icons`}
                         >
-                          {/* <div className={styles.svg_wrapper_bg_grey}>
-               <FiMail />
-             </div> */}
                           <div
                             className={`${styles.svg_wrapper_bg_grey} ${
                               expanded[index]
@@ -852,14 +843,6 @@ const MyOffers = ({ userData }) => {
                         </div>
                       </div>
                     </div>
-                    {/* Expanded content as a new column below */}
-
-                    {/* {
-         offer?.counter_offers.forEach((counter_offer, index) => {
-         })
-         // offer?.counter_offers.foreach()
-       } */}
-                    {/* changes by sunder */}
 
                     <div
                       className={`${styles.extra_column_wrapper} ${
@@ -867,9 +850,9 @@ const MyOffers = ({ userData }) => {
                       }`}
                     >
                       {/*
-        mapping through the counter offers
-        checking the first index of the counter offer sent by the seller
-       */}
+                  mapping through the counter offers
+                  checking the first index of the counter offer sent by the seller
+                */}
                       {offer?.counter_offers &&
                         offer?.counter_offers.map(
                           (counter_offer, counter_offer_index) => {
@@ -962,18 +945,19 @@ const MyOffers = ({ userData }) => {
                       )}
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className={styles.order_error_msg}>
-                  <div>No Offers Have Been Declined.</div>
-                </div>
-              )}
+                ))}
             </div>
           )}
           {activeTab === "accepted" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
-              {acceptedOffers.length > 0 ? (
-                acceptedOffersWithFormattedDates &&
+              {!offerLoading && acceptedOffers.length == 0 ? (
+                <div className={styles.order_error_msg}>
+                  <div>No Offers Have Been Accepted.</div>
+                </div>
+              ) : (
+                ""
+              )}
+              {acceptedOffersWithFormattedDates &&
                 acceptedOffersWithFormattedDates.map((offer, index) => (
                   <div
                     key={index}
@@ -1242,12 +1226,7 @@ const MyOffers = ({ userData }) => {
                       )}
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className={styles.order_error_msg}>
-                  <div>No Offers Have Been Accepted.</div>
-                </div>
-              )}
+                ))}
             </div>
           )}
         </div>
