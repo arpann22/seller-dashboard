@@ -113,9 +113,11 @@
   top: -10px;
   padding: 2px;
   border-radius: 20px;
-  padding: 2px 6px;
+  /* padding: 2px 6px; */
+  padding: 5px;
   aspect-ratio: 1;
   background: #00d9f5;
+  /* background-color: #f00073; */
   color: #fff;
   display: flex;
   align-items: center;

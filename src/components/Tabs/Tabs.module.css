@@ -204,6 +204,11 @@ body.page-id-5782 {
   border-radius: 15px;
   padding: 10px;
 }
+.dash_error_wrap {
+  background-color: #f3f5fa;
+  padding: 10px;
+  border-radius: 15px;
+}
 .order_error_msg {
   display: flex;
   align-items: center;
@@ -1222,13 +1227,14 @@ audio::-webkit-media-controls-panel {
   border-radius: 20px;
   padding: 30px 30px;
 }
-.recent_offers_cols {
+.recent_offers_cols .recentOffers_wrapper {
   background-color: #f7f8fd;
   /* background-color: #fff; */
   padding: 10px;
   border-radius: 15px;
   gap: 15px;
   flex-direction: column;
+  width: 100%;
 }
 /* .recent_offers_cols .recentOffers_wrapper {
   background-color: #f7f8fd;
@@ -1349,6 +1355,8 @@ audio::-webkit-media-controls-panel {
 }
 .offer_tabs_navs li.active .card_count {
   background-color: #fff;
+  /* background-color: #f00073; */
+  /* color: #fff; */
   border: 1px solid;
   color: #00d9f5;
 }
@@ -1442,8 +1450,10 @@ audio::-webkit-media-controls-panel {
 .extra_column_wrapper .recentOffers_card {
   background-color: transparent;
 }
-.offer_tabs_wrapper .recent_offers_cols {
+.offer_tabs_wrapper .recent_offers_cols,
+.recent_offers_cols {
   flex-direction: column;
+  gap: 5px;
 }
 .offerSorts {
   display: flex;

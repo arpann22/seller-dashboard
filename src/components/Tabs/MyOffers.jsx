@@ -397,8 +397,10 @@ const MyOffers = ({ userData }) => {
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
               {/* <p>Total Cards: {pendingOffersWithFormattedDates.length}</p> */}
               {!offerLoading && pendingOffers.length == 0 ? (
-                <div className={styles.order_error_msg}>
-                  No Active Offers at the Moment.{" "}
+                <div className={styles.dash_error_wrap}>
+                  <div className={styles.order_error_msg}>
+                    No Active Offers at the Moment.{" "}
+                  </div>
                 </div>
               ) : (
                 ""
@@ -730,8 +732,10 @@ const MyOffers = ({ userData }) => {
           {activeTab === "declined" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
               {!offerLoading && declinedOffers.length == 0 ? (
-                <div className={styles.order_error_msg}>
-                  <div>No Offers Have Been Declined.</div>
+                <div className={styles.dash_error_wrap}>
+                  <div className={styles.order_error_msg}>
+                    <div>No Offers Have Been Declined.</div>
+                  </div>
                 </div>
               ) : (
                 ""
@@ -951,8 +955,10 @@ const MyOffers = ({ userData }) => {
           {activeTab === "accepted" && (
             <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
               {!offerLoading && acceptedOffers.length == 0 ? (
-                <div className={styles.order_error_msg}>
-                  <div>No Offers Have Been Accepted.</div>
+                <div className={styles.dash_error_wrap}>
+                  <div className={styles.order_error_msg}>
+                    <div>No Offers Have Been Accepted.</div>
+                  </div>
                 </div>
               ) : (
                 ""

@@ -538,8 +538,10 @@ const OfferTabs = ({
                 </div>
               ))
             ) : offerLoading == false ? (
-              <div className={styles.order_error_msg}>
-                <div>No Offers at the Moment. </div>
+              <div className={styles.dash_error_wrap}>
+                <div className={styles.order_error_msg}>
+                  <div>No Offers at the Moment. </div>
+                </div>
               </div>
             ) : (
               ""
@@ -920,8 +922,10 @@ const OfferTabs = ({
                 </div>
               ))
             ) : offerLoading == false ? (
-              <div className={styles.order_error_msg}>
-                <div>No Offers at the Moment. </div>
+              <div className={styles.dash_error_wrap}>
+                <div className={styles.order_error_msg}>
+                  <div>No Offers at the Moment. </div>
+                </div>
               </div>
             ) : (
               ""
