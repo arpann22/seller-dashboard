@@ -95,6 +95,7 @@
   padding: 10px 15px;
   border-radius: 50px;
   border: 2px solid #00d9f5;
+  max-width: 25%;
 }
 /* .preferneces_settings select {
   -moz-appearance: none;
@@ -166,5 +167,6 @@
   }
   .preferneces_settings select {
     width: 100%;
+    max-width: 100%;
   }
 }

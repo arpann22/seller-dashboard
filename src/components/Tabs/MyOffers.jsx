@@ -636,6 +636,7 @@ const MyOffers = ({ userData }) => {
                                       <button
                                         type="button"
                                         className={styles.acceptButton}
+                                        title="Add to Cart"
                                         onClick={() =>
                                           handleOfferCart(
                                             offer.offer_id,
@@ -1151,6 +1152,7 @@ const MyOffers = ({ userData }) => {
                                           <button
                                             type="button"
                                             className={styles.acceptButton}
+                                            title="Add to Cart"
                                             onClick={() =>
                                               handleOfferCart(
                                                 offer.offer_id,
@@ -1211,6 +1213,7 @@ const MyOffers = ({ userData }) => {
                               <button
                                 type="button"
                                 className={styles.acceptButton}
+                                title="Add to Cart"
                                 onClick={() =>
                                   handleOfferCart(
                                     offer.offer_id,

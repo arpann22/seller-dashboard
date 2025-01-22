@@ -1393,7 +1393,7 @@ audio::-webkit-media-controls-panel {
 .extra_column_wrapper.expanded {
   /* max-height: fit-content; */
   max-height: 500px;
-  overflow: auto;
+  overflow-y: auto;
 }
 .expandedBorder {
   border: 2px solid #00d9f5;
@@ -1466,7 +1466,7 @@ audio::-webkit-media-controls-panel {
   border: 1px solid #edf0f7;
 }
 .offerSorts:hover {
-  background-color: #eff2fa;
+  background-color: #f7f9ff;
 }
 .offerSorts img {
   width: 15px;
