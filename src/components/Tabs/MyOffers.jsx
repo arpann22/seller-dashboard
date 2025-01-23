@@ -621,6 +621,7 @@ const MyOffers = ({ userData }) => {
                                       <button
                                         type="button"
                                         className={styles.declineButton}
+                                        title="Decline"
                                         onClick={() =>
                                           handelOfferDecline(
                                             offer.offer_id,

@@ -225,7 +225,7 @@ export default function Orders({ userData }) {
           </table> */}
           {/* new order table structure */}
           <div
-            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table}`}
+            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table} my_orders_details_table`}
           >
             {subscriptionLoading && (
               <div>

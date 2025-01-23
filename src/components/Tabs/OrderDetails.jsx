@@ -116,7 +116,7 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
             <div className={styles.order_details_popup}>
               <p>
                 Order&nbsp;<span className={styles.fw_600}>#{order.id}</span>
-                &nbsp;was placed on &nbsp;
+                &nbsp;was placed on
                 <span className={styles.fw_600}>
                   {" "}
                   {new Date(order.meta._date_created[0]).toLocaleDateString(
@@ -136,7 +136,19 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                 </span>
                 &nbsp;
               </p>
-              <h2>Order details</h2>
+              <div
+                className={`${styles.ws_flex} ${styles.justify_space_between} ${styles.ai_center}`}
+              >
+                <h2>Order details</h2>
+                {invoice_url && ( // Invoice
+                  <small>
+                    <a href={invoice_url} target="_blank" rel="noreferrer">
+                      Download Invoice
+                      <i class="fa-solid fa-download ml_5"></i>
+                    </a>
+                  </small>
+                )}
+              </div>
               <div>
                 {/* <table>
                   <thead>
@@ -222,14 +234,6 @@ export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
                   })}
                 </div>
               </div>
-              {invoice_url && ( // Invoice
-                <small>
-                  <a href={invoice_url} target="_blank" rel="noreferrer">
-                    {" "}
-                    Download Invoice
-                  </a>
-                </small>
-              )}
               <div className={styles.orderDeatilsModalFooter}>
                 <div className={styles.orderDetailPopupBilling}>
                   <h2>Billing address</h2>

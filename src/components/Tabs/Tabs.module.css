@@ -1317,7 +1317,7 @@ audio::-webkit-media-controls-panel {
 /* offfer sections tabs */
 .offers_tab_offer_wrap {
   background-color: #fff;
-  margin: 20px 0;
+  margin: 30px 0;
   border-radius: 15px;
 }
 .offers_tab_offer_wrap .add_domain_media_setup_tile_wrapper {
@@ -1869,6 +1869,7 @@ audio::-webkit-media-controls-panel {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .order_details_popup td {
@@ -2497,9 +2498,10 @@ button.myOrder_cancel_btn:hover {
   border: 1px solid #00d9f5;
 }
 .become_seller_form p {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   gap: 5px;
+  text-align: center;
 }
 .become_seller_form {
   background-color: #fff;
