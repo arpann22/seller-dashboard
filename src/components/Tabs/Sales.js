@@ -890,8 +890,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => handleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${selectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    selectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -959,8 +960,9 @@ const Sales = ({
                 <button
                   key={tab.label}
                   onClick={() => AveragehandleTabClick(tab.label)}
-                  className={`${styles.tabButton} ${AverageSelectedTab === tab.label ? styles.active : ""
-                    }`}
+                  className={`${styles.tabButton} ${
+                    AverageSelectedTab === tab.label ? styles.active : ""
+                  }`}
                 >
                   {tab.label}
                 </button>
@@ -1087,7 +1089,10 @@ const Sales = ({
           </div>
         </div>
         <div className={styles.dashboard_small_margin}>
-          <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
+          <div
+            className={`${styles.ws_flex} ${styles.recent_offers_cols}`}
+            id="sales-details"
+          >
             {orderDetails.map((order, index) => {
               // Extract the customer ID from the order
               const customerId = order?.meta?._customer[0];
@@ -1127,8 +1132,8 @@ const Sales = ({
               // Ensure ordered_products is an array before calling .filter
               const NotSellerProducts = Array.isArray(ordered_products)
                 ? ordered_products.filter(
-                  (product) => product.seller_id != userData.id
-                )
+                    (product) => product.seller_id != userData.id
+                  )
                 : [];
 
               // Ensure allOrderdProductPrice is an array before calling .filter
@@ -1162,7 +1167,11 @@ const Sales = ({
               // calculating total ends
 
               return (
-                <div key={index} className={styles.recentOffers_wrapper}>
+                <div
+                  key={index}
+                  className={styles.recentOffers_wrapper}
+                  id={`order-${order?.id}`}
+                >
                   {/* Offer card */}
                   <div
                     className={`${styles.ws_flex} ${styles.gap_10} ${styles.fd_column}`}
@@ -1213,10 +1222,11 @@ const Sales = ({
                       </div>
                       <div className={styles.recentOffers_card_details}>
                         <div
-                          className={`${styles.svg_wrapper_bg_grey} ${expanded[index]
+                          className={`${styles.svg_wrapper_bg_grey} ${
+                            expanded[index]
                               ? styles.icon_close_wrapper
                               : styles.icon_add_wrapper
-                            }`}
+                          }`}
                           onClick={() => toggleExpanded(index)}
                         >
                           {expanded[index] ? <FaTimes /> : <FaPlus />}
@@ -1227,8 +1237,9 @@ const Sales = ({
 
                   {/* Expanded content as a new column below */}
                   <div
-                    className={`${styles.extra_column_wrapper} ${expanded[index] ? styles.expanded : ""
-                      }`}
+                    className={`${styles.extra_column_wrapper} ${
+                      expanded[index] ? styles.expanded : ""
+                    }`}
                   >
                     {/* test js starts  */}
                     {(() => {

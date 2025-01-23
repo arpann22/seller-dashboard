@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 // import React from 'react';
 import styles from "./Tabs.module.css"; // Import styles
 import Sales from "./Sales";
@@ -31,6 +31,25 @@ const SellerCentralTabContent = ({
   const [isPaypalPopupOpen, setPaypalPopupOpen] = useState(false);
   const [isBankPopupOpen, setBankPopupOpen] = useState(false);
   const [isCryptoPopupOpen, setCryptoPopupOpen] = useState(false);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    // Redirect to the correct tab if "order" is in the URL
+    if (url.href.indexOf("order") > -1) {
+      setSellerCentralTab("Sales");
+    }
+
+    // Scroll to the specific order ID if hash is present
+    if (url.hash) {
+      const elementId = url.hash.substring(1); // Remove the "#" to get the ID
+      const element = document.getElementById(elementId);
+      console.log(element);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
 
   switch (activeInnerTab) {
     case "Add New Domain":

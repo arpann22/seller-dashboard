@@ -101,9 +101,11 @@ const TabContent = ({
   refreshTabs,
   refreshApp,
 }) => {
-  // tabs for sellercentral years months
+  //section for redirect from the notifications starts
+  // const query = new URLSearchParams(this.props.location.search);
+  // console.log("queryere", query);
+  //section for redirect from the notifications ends
 
-  // tabs for sellercentral end
   const [selectedTab, setSelectedTab] = useState("1 m");
 
   const [prices, setPrices] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
