@@ -728,6 +728,36 @@ const Sales = ({
     }
   }, [domainNames]);
 
+  // notifications redirect starts
+  useEffect(() => {
+    // Execute only after the page fully loads
+    const url = new URL(window.location.href);
+    const handleScrollToHash = () => {
+      // Scroll to the specific order ID if hash is present
+      if (url.hash) {
+        const elementId = url.hash.substring(1); // Remove the "#" to get the ID
+        const element = document.getElementById(elementId);
+        console.log(element);
+
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          // Highlight the element
+          element.classList.add("notification-highlight");
+
+          // Remove the highlight after a delay
+          setTimeout(() => {
+            element.classList.remove("notification-highlight");
+          }, 5000); // Highlight duration in milliseconds
+        }
+      }
+    };
+
+    if (orderDetails.length > 0 && url.href.indexOf("order") > -1) {
+      handleScrollToHash();
+    }
+  }, [orderDetails]);
+  // notifications redirect ends
+
   const sizing = {
     // margin: { right: 5 },
     // width: 400,
@@ -1077,6 +1107,7 @@ const Sales = ({
       {/* sales details section */}
       <div
         className={`${styles.offers_tab_recent_offer_wrap} ${styles.dashboard_sales_details} ${styles.dashboard_small_margin} `}
+        id="sales-details"
       >
         <div
           className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -1089,10 +1120,7 @@ const Sales = ({
           </div>
         </div>
         <div className={styles.dashboard_small_margin}>
-          <div
-            className={`${styles.ws_flex} ${styles.recent_offers_cols}`}
-            id="sales-details"
-          >
+          <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
             {orderDetails.map((order, index) => {
               // Extract the customer ID from the order
               const customerId = order?.meta?._customer[0];

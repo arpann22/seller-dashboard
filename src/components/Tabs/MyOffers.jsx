@@ -153,7 +153,7 @@ const MyOffers = ({ userData }) => {
   const [counterError, setCounterError] = useState("");
   const [counterSuccess, setCounterSuccess] = useState("");
 
-  const handleCounterOfferSubmit = async (offer_id) => {
+  const handleCounterOfferSubmit = async (offer_id, domain_id) => {
     try {
       setCounterError("");
       setCounterSuccess("");
@@ -167,6 +167,7 @@ const MyOffers = ({ userData }) => {
           },
           body: JSON.stringify({
             counter_offer: counterOffer,
+            domain_id: domain_id,
           }),
         }
       );
@@ -288,6 +289,36 @@ const MyOffers = ({ userData }) => {
   };
 
   // Offers section ends ----------------------------------------------
+
+  useEffect(() => {
+    // Execute only after the page fully loads
+    const url = new URL(window.location.href);
+    const handleScrollToHash = () => {
+      // Scroll to the specific order ID if hash is present
+      if (url.hash) {
+        const elementId = url.hash.substring(1); // Remove the "#" to get the ID
+        const element = document.getElementById(elementId);
+
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          // Highlight the element
+          element.classList.add("notification-highlight");
+
+          // Remove the highlight after a delay
+          setTimeout(() => {
+            element.classList.remove("notification-highlight");
+          }, 5000); // Highlight duration in milliseconds
+        }
+      }
+    };
+
+    if (
+      pendingOffersWithFormattedDates.length > 0 &&
+      url.href.indexOf("offer") > -1
+    ) {
+      handleScrollToHash();
+    }
+  }, [pendingOffersWithFormattedDates]);
 
   // Function to toggle the expanded state for each card
   const toggleExpanded = (index) => {
@@ -414,6 +445,7 @@ const MyOffers = ({ userData }) => {
                     } myOffers_wrapper ${
                       expanded[index] ? styles.expandedBorder : ""
                     }`}
+                    id={`offer-${offer.offer_id}`}
                   >
                     {/* Offer card */}
                     <div
@@ -603,7 +635,8 @@ const MyOffers = ({ userData }) => {
                                         className={styles.submitButton}
                                         onClick={() =>
                                           handleCounterOfferSubmit(
-                                            offer.offer_id
+                                            offer.offer_id,
+                                            offer?.domain_id
                                           )
                                         }
                                       >

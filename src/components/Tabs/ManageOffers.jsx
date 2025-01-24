@@ -305,6 +305,35 @@ export default function ManageOffers({
   };
 
   // manage offers section ends ============================================
+  // notifications redirect starts
+  useEffect(() => {
+    // Execute only after the page fully loads
+    const url = new URL(window.location.href);
+    const handleScrollToHash = () => {
+      // Scroll to the specific order ID if hash is present
+      if (url.hash) {
+        const elementId = url.hash.substring(1); // Remove the "#" to get the ID
+        const element = document.getElementById(elementId);
+        console.log(element);
+
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          // Highlight the element
+          element.classList.add("notification-highlight");
+
+          // Remove the highlight after a delay
+          setTimeout(() => {
+            element.classList.remove("notification-highlight");
+          }, 5000); // Highlight duration in milliseconds
+        }
+      }
+    };
+
+    if (offersWithFormattedDates.length > 0 && url.href.indexOf("offer") > -1) {
+      handleScrollToHash();
+    }
+  }, [offersWithFormattedDates]);
+  // notifications redirect ends
 
   // Function to toggle the expanded state for each card
   const toggleExpanded = (index) => {
@@ -358,6 +387,7 @@ export default function ManageOffers({
                   className={`${styles.recentOffers_wrapper} myOffers_wrapper ${
                     expanded[index] ? styles.expandedBorder : ""
                   } `}
+                  id={`offer-${offer?.offer_id}`}
                 >
                   {/* Offer card */}
                   <div

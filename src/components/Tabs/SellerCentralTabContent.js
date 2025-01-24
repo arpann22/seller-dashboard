@@ -38,17 +38,19 @@ const SellerCentralTabContent = ({
     // Redirect to the correct tab if "order" is in the URL
     if (url.href.indexOf("order") > -1) {
       setSellerCentralTab("Sales");
+    } else if (url.href.indexOf("offer") > -1) {
+      setSellerCentralTab("Manage Offers");
     }
 
-    // Scroll to the specific order ID if hash is present
-    if (url.hash) {
-      const elementId = url.hash.substring(1); // Remove the "#" to get the ID
-      const element = document.getElementById(elementId);
-      console.log(element);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+    // // Scroll to the specific order ID if hash is present
+    // if (url.hash) {
+    //   const elementId = url.hash.substring(1); // Remove the "#" to get the ID
+    //   const element = document.getElementById("sales-details");
+    //   console.log(element);
+    //   if (element) {
+    //     element.scrollIntoView({ behavior: "smooth" });
+    //   }
+    // }
   }, []);
 
   switch (activeInnerTab) {

@@ -177,6 +177,7 @@ const OfferTabs = ({
                   } myOffers_wrapper manageOffer_recents_wrap ${
                     expanded[index] ? styles.expandedBorder : ""
                   } `}
+                  id={`offer-#${offer.offer_id}`}
                 >
                   {/* Offer card */}
                   <div
