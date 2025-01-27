@@ -1113,11 +1113,15 @@ export default function AddDomain({ styles, userData }) {
               <div
                 className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
               >
-                <img
+                <div className={styles.renderedDomainText}>
+                  {/* <h4>Arpan.com</h4> */}
+                  <h4>{domainName}</h4>
+                </div>
+                {/* <img
                   src={selectedImage || domain_img}
                   alt="attach logo image"
                   className={styles.media_image}
-                />
+                /> */}
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
                     <h5>Show Off your Brand!</h5>

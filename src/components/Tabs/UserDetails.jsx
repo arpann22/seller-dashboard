@@ -212,12 +212,14 @@ export default function UserDetails({ userData, setUserData }) {
       {isPopupOpen && (
         <div className={styles.popupOverlay}>
           <div className={`${styles.popupContent} ${styles.editProfilePopup}`}>
-            {/* Close icon in top-right */}
-            <AiOutlineClose
-              className={styles.closeIcon}
-              onClick={togglePopup} // Close popup when clicked
-            />
-            <h2>Edit Profile</h2>
+            <div className={styles.editProfileHeader}>
+              {/* Close icon in top-right */}
+              <AiOutlineClose
+                className={styles.closeIcon}
+                onClick={togglePopup} // Close popup when clicked
+              />
+              <h2>Edit Profile</h2>
+            </div>
             <form onSubmit={handleSubmit}>
               <label>
                 First name
@@ -293,7 +295,7 @@ export default function UserDetails({ userData, setUserData }) {
                 <span>Add your profile picture</span>
               </label>
               <div className={styles.edit_password_wrapper}>
-                <h2>Password Changed</h2>
+                <h4>Password Changed</h4>
                 <label>
                   Current Password (leave blank to leave unchanged)
                   <input

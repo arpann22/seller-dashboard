@@ -590,6 +590,15 @@ button.active svg path {
   flex-direction: column;
   gap: 8px;
 }
+.media_content_wrapper .renderedDomainText {
+  min-height: 160px;
+  border-radius: 15px 15px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0e0161;
+  color: #fff;
+}
 .media_content_wrapper .text_column p {
   color: #67748e;
 }
@@ -1087,9 +1096,18 @@ audio::-webkit-media-controls-panel {
   max-height: 80%;
   overflow: auto;
   margin: 0 20px;
+  max-width: 650px;
+}
+.editProfileHeader {
+  position: sticky;
+  top: -20px;
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #edf0f7;
 }
 .edit_password_wrapper {
   margin-top: 25px;
+  width: 100%;
 }
 .edit_password_wrapper h2 {
   margin-bottom: 15px;
@@ -1108,8 +1126,10 @@ audio::-webkit-media-controls-panel {
 }
 .editProfilePopup form {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 .editProfilePopup label {
   margin-bottom: 30px;
@@ -1117,7 +1137,12 @@ audio::-webkit-media-controls-panel {
   flex-direction: column;
   gap: 10px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
+  width: calc(50% - 8px);
+}
+
+.editProfilePopup form button {
+  width: 100%;
 }
 .editProfilePopup input:not(input[type="file"]) {
   padding: 15px;
@@ -1126,6 +1151,12 @@ audio::-webkit-media-controls-panel {
 }
 .editProfilePopup input {
   font-size: 14px;
+  border: 1px solid #e1e7ff;
+  background-color: #f8f7fc;
+}
+.editProfilePopup input[type="file"] {
+  padding: 14px;
+  border-radius: 50px;
 }
 .editProfilePopup label span {
   color: #888888;

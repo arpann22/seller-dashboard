@@ -164,7 +164,7 @@
   padding: 30px;
 }
 .description_tags_wrapper .cardContent svg {
-  margin-right: 10px;
+  /* margin-right: 10px; */
   margin-left: 0px;
 }
 .description_tags_wrapper .cardSelector_aiPicks {
