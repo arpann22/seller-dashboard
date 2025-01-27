@@ -88,8 +88,6 @@ import BecomeSeller from "./BecomeSeller.jsx";
 const TabContent = ({
   activeTab,
   userData,
-  setUserData,
-  soldDomains,
   salesAllTime,
   salesCurrentYear,
   orderTotal,
@@ -99,7 +97,6 @@ const TabContent = ({
   fiveYearOrders,
   maxOrder,
   refreshTabs,
-  refreshApp,
 }) => {
   //section for redirect from the notifications starts
   // const query = new URLSearchParams(this.props.location.search);
