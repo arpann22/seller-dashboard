@@ -298,7 +298,6 @@ const MyOffers = ({ userData }) => {
       if (url.hash) {
         const elementId = url.hash.substring(1); // Remove the "#" to get the ID
         const element = document.getElementById(elementId);
-
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
           // Highlight the element
@@ -313,12 +312,18 @@ const MyOffers = ({ userData }) => {
     };
 
     if (
-      pendingOffersWithFormattedDates.length > 0 &&
-      url.href.indexOf("offer") > -1
+      pendingOffersWithFormattedDates.length > 0 ||
+      acceptedOffersWithFormattedDates.length > 0 ||
+      (declinedOffersWithFormattedDates.length > 0 &&
+        url.href.indexOf("offer") > -1)
     ) {
       handleScrollToHash();
     }
-  }, [pendingOffersWithFormattedDates]);
+  }, [
+    pendingOffersWithFormattedDates,
+    acceptedOffersWithFormattedDates,
+    declinedOffersWithFormattedDates,
+  ]);
 
   // Function to toggle the expanded state for each card
   const toggleExpanded = (index) => {
@@ -784,6 +789,7 @@ const MyOffers = ({ userData }) => {
                     } myOffers_wrapper ${
                       expanded[index] ? styles.expandedBorder : ""
                     }  `}
+                    id={`offer-${offer.offer_id}`}
                   >
                     {/* Offer card */}
                     <div
@@ -1007,6 +1013,7 @@ const MyOffers = ({ userData }) => {
                     } myOffers_wrapper acceptedOfferWrap ${
                       expanded[index] ? styles.expandedBorder : ""
                     } `}
+                    id={`offer-${offer.offer_id}`}
                   >
                     {/* Offer card */}
                     <div
