@@ -387,7 +387,7 @@ const Dashboard = ({
         )}
         {offerError && <div className="cancelled">{offerError}</div>}
         {offers.length == 0 && offerLoading == false ? (
-          <div className={styles.order_error_msg}>
+          <div className={`${styles.order_error_msg} error_msg`}>
             <div>No Offers at the Moment. </div>
           </div>
         ) : (

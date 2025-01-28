@@ -19,6 +19,7 @@ export default function Orders({ userData }) {
   const [modalOpen, setModalOpen] = useState(false); // Modal is initially closed
   const [selectedOrder, setSelectedOrder] = useState(null); // To track which order is selected
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("pending");
 
   // Fetch order IDs through API based on the user's ID
   async function fetchOrderIds() {
@@ -176,9 +177,64 @@ export default function Orders({ userData }) {
 
   return (
     <div>
+      <div
+        className={`${styles.salesOverViewTitle} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}
+                          } myOffersTitle`}
+      >
+        <div>{/* <MyOfferIcon /> */}</div>
+        <h4>My Orders</h4>
+      </div>
       {subsPopup && <OrderSubscriptionCancelPopup />}
       {!isLoading && (
-        <div>
+        <div className={styles.order_tabs_wrapper}>
+          {/* Nav tabs */}
+          <div
+            className={`${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between} ${styles.gap_10} ${styles.dashboard_small_margin}`}
+          >
+            <ul className={`${styles.nav_tabs} ${styles.offer_tabs_navs}`}>
+              <li
+                className={`${activeTab === "pending" ? styles.active : ""}`}
+                onClick={() => setActiveTab("pending")}
+              >
+                {/* <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} /> */}
+                <div className={styles.svg_wrapper_bg_white}>
+                  {/* <OfferActive /> */}
+                </div>
+                <label> Pending</label>
+                <span className={`${styles.card_count} card_count`}>
+                  {/* <p>{pendingOffersWithFormattedDates.length}</p> */}
+                </span>
+              </li>
+              <li
+                className={`${activeTab === "completed" ? styles.active : ""}`}
+                onClick={() => setActiveTab("completed")}
+              >
+                {/* <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} /> */}
+                <div className={styles.svg_wrapper_bg_white}>
+                  {/* <OfferDecline /> */}
+                </div>
+                <label>Completed</label>
+                <span className={`${styles.card_count} card_count`}>
+                  {/* <p>{declinedOffersWithFormattedDates.length}</p> */}
+                </span>
+              </li>
+              <li
+                className={`${
+                  activeTab === "cancelled" ? styles.active : ""
+                } my_offer_accepted_tab`}
+                onClick={() => setActiveTab("cancelled")}
+              >
+                {/* <img src={save_draft_icon} alt="Save Draft Icon" className={styles.tab_icon} /> */}
+                <div className={styles.svg_wrapper_bg_white}>
+                  {/* <MyOfferIcon /> */}
+                </div>
+                <label>Cancelled</label>
+                <span className={`${styles.card_count} card_count`}>
+                  {/* <p>{acceptedOffersWithFormattedDates.length}</p> */}
+                </span>
+              </li>
+            </ul>
+          </div>
           {/* <table className={styles.my_orders_table}>
             <thead>
               <tr>
@@ -224,28 +280,29 @@ export default function Orders({ userData }) {
             </tbody>
           </table> */}
           {/* new order table structure */}
-          <div
-            className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table} my_orders_details_table`}
-          >
-            {subscriptionLoading && (
-              <div>
-                <div className="loading_overlay">
-                  <FaSpinner className="loading" />
+          {activeTab === "pending" && (
+            <div
+              className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table} my_orders_details_table`}
+            >
+              {subscriptionLoading && (
+                <div>
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
                 </div>
-              </div>
-            )}
-            {subscriptionSuccess && (
-              <div className="success_msg">{subscriptionSuccess}</div>
-            )}
-            {subscriptionError && (
-              <div className="refunded">{subscriptionError}</div>
-            )}
-            {orderDetails.map((order) => {
-              let orderStatus = order?.meta?._order_status[0]
-                ? order.meta._order_status
-                : "";
-              {
-                /* <select id="orderStatus" name="order_status" class="widefat">
+              )}
+              {subscriptionSuccess && (
+                <div className="success_msg">{subscriptionSuccess}</div>
+              )}
+              {subscriptionError && (
+                <div className="refunded">{subscriptionError}</div>
+              )}
+              {orderDetails.map((order) => {
+                let orderStatus = order?.meta?._order_status[0]
+                  ? order.meta._order_status
+                  : "";
+                {
+                  /* <select id="orderStatus" name="order_status" class="widefat">
                     <option value="pending">Pending</option>
                     <option value="processing">Processing</option>
                     <option value="completed">Completed</option>
@@ -253,155 +310,522 @@ export default function Orders({ userData }) {
                     <option value="onhold">On hold</option>
                     <option value="refunded">Refunded</option>
                 </select> */
-              }
-              let orderStatusClass = "";
-              if (
-                orderStatus == "pending" ||
-                orderStatus == "processing" ||
-                orderStatus == "onhold"
-              ) {
-                orderStatusClass = "pending";
-              } else if (
-                orderStatus == "cancelled" ||
-                orderStatus == "refunded"
-              ) {
-                orderStatusClass = "cancelled";
-              } else if (orderStatus == "completed") {
-                orderStatusClass = "completed";
-              }
-              return (
-                <div
-                  key={order.id}
-                  className={styles.recentOffers_wrapper}
-                  id={
-                    order?.meta && !order.meta._parent_order_id ? order.id : ""
-                  }
-                >
-                  <div className={styles.recentOffers_card}>
-                    {/* Group Order and Date */}
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Order</p>
-                      <h5>{order.id}</h5>
-                      {order?.meta?._parent_order_id ? (
-                        <>
-                          <small className={styles.parentID_orders}>
-                            <a href={`#${order.meta._parent_order_id}`}>
-                              {/* { "("{order.meta._parent_order_id}")"} */}
-                              {"("}
-                              {order.meta._parent_order_id}
-                              {")"}
-                            </a>
-                          </small>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Date</p>
-                      <h5>
-                        {new Date(
-                          order.meta._date_created[0]
-                        ).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </h5>
-                    </div>
-
-                    {/* Group Status,Type, Total, and View */}
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Type</p>
-                      <h5
-                        className={`${styles.offer_status} ${order?.meta?._order_type?.[0]}`}
-                      >
-                        {(() => {
-                          if (order?.meta?._order_type?.[0]) {
-                            if (order.meta._order_type[0] == "offer") {
-                              return "Offer";
-                            } else if (
-                              order.meta._order_type[0] == "lease_to_own"
-                            ) {
-                              return "Lease To Own";
-                            } else if (
-                              order.meta._order_type[0] == "one_time"
-                            ) {
-                              return "One Time";
-                            }
-                          }
-                        })()}
-                      </h5>
-                    </div>
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Status</p>
-                      <h5
-                        className={`${styles.offer_status} ${orderStatusClass}`}
-                      >
-                        {order.meta._order_status[0]}
-                      </h5>
-                    </div>
-                    <div className={styles.recentOffers_card_titles}>
-                      <p>Total</p>
-                      <h5>
-                        {order.meta._currency_symbol?.[0]}
-                        {order.meta._order_total[0]}
-                      </h5>
-                    </div>
-                    <div
-                      className={`${styles.ws_flex} ${styles.gap_5} ${styles.orderTable_btn_wrapper}`}
-                    >
+                }
+                let orderStatusClass = "";
+                if (
+                  orderStatus == "pending" ||
+                  orderStatus == "processing" ||
+                  orderStatus == "onhold"
+                ) {
+                  orderStatusClass = "pending";
+                } else if (
+                  orderStatus == "cancelled" ||
+                  orderStatus == "refunded"
+                ) {
+                  orderStatusClass = "cancelled";
+                } else if (orderStatus == "completed") {
+                  orderStatusClass = "completed";
+                }
+                return (
+                  <div
+                    key={order.id}
+                    className={styles.recentOffers_wrapper}
+                    id={
+                      order?.meta && !order.meta._parent_order_id
+                        ? order.id
+                        : ""
+                    }
+                  >
+                    <div className={styles.recentOffers_card}>
+                      {/* Group Order and Date */}
                       <div className={styles.recentOffers_card_titles}>
-                        <button
-                          className={styles.hover_white}
-                          onClick={() => {
-                            setSelectedOrder(order);
-                            setModalOpen(true);
-                          }}
-                        >
-                          View
-                        </button>
+                        <p>Order</p>
+                        <h5>{order.id}</h5>
+                        {order?.meta?._parent_order_id ? (
+                          <>
+                            <small className={styles.parentID_orders}>
+                              <a href={`#${order.meta._parent_order_id}`}>
+                                {/* { "("{order.meta._parent_order_id}")"} */}
+                                {"("}
+                                {order.meta._parent_order_id}
+                                {")"}
+                              </a>
+                            </small>
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </div>
 
-                      {(() => {
-                        const order_type = order?.meta?._order_type?.[0];
-                        const subscription_id =
-                          order?.meta?._subscription_id?.[0];
-                        // leas to own AND parent id chaina AND cancelled == 0
-                        const parent_order_id =
-                          order?.meta?._parent_order_id?.[0];
-                        const cancelled = order?.meta?._cancelled?.[0];
-                        if (
-                          order_type == "lease_to_own" &&
-                          !parent_order_id &&
-                          cancelled == 0 &&
-                          order?.meta?._order_status != "cancelled" &&
-                          order?.meta?._order_status != "refunded"
-                        ) {
-                          return (
-                            <div className={styles.recentOffers_card_titles}>
-                              <button
-                                className={styles.myOrder_cancel_btn}
-                                // onClick={() => {
-                                //   handleCancelSubscription(subscription_id);
-                                // }}
-                                onClick={() => {
-                                  handleSubsPopup(subscription_id);
-                                }}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          );
-                        }
-                      })()}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Date</p>
+                        <h5>
+                          {new Date(
+                            order.meta._date_created[0]
+                          ).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </h5>
+                      </div>
+
+                      {/* Group Status,Type, Total, and View */}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Type</p>
+                        <h5
+                          className={`${styles.offer_status} ${order?.meta?._order_type?.[0]}`}
+                        >
+                          {(() => {
+                            if (order?.meta?._order_type?.[0]) {
+                              if (order.meta._order_type[0] == "offer") {
+                                return "Offer";
+                              } else if (
+                                order.meta._order_type[0] == "lease_to_own"
+                              ) {
+                                return "Lease To Own";
+                              } else if (
+                                order.meta._order_type[0] == "one_time"
+                              ) {
+                                return "One Time";
+                              }
+                            }
+                          })()}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Status</p>
+                        <h5
+                          className={`${styles.offer_status} ${orderStatusClass}`}
+                        >
+                          {order.meta._order_status[0]}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Total</p>
+                        <h5>
+                          {order.meta._currency_symbol?.[0]}
+                          {order.meta._order_total[0]}
+                        </h5>
+                      </div>
+                      <div
+                        className={`${styles.ws_flex} ${styles.gap_5} ${styles.orderTable_btn_wrapper}`}
+                      >
+                        <div className={styles.recentOffers_card_titles}>
+                          <button
+                            className={styles.hover_white}
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setModalOpen(true);
+                            }}
+                          >
+                            View
+                          </button>
+                        </div>
+
+                        {(() => {
+                          const order_type = order?.meta?._order_type?.[0];
+                          const subscription_id =
+                            order?.meta?._subscription_id?.[0];
+                          // leas to own AND parent id chaina AND cancelled == 0
+                          const parent_order_id =
+                            order?.meta?._parent_order_id?.[0];
+                          const cancelled = order?.meta?._cancelled?.[0];
+                          if (
+                            order_type == "lease_to_own" &&
+                            !parent_order_id &&
+                            cancelled == 0 &&
+                            order?.meta?._order_status != "cancelled" &&
+                            order?.meta?._order_status != "refunded"
+                          ) {
+                            return (
+                              <div className={styles.recentOffers_card_titles}>
+                                <button
+                                  className={styles.myOrder_cancel_btn}
+                                  // onClick={() => {
+                                  //   handleCancelSubscription(subscription_id);
+                                  // }}
+                                  onClick={() => {
+                                    handleSubsPopup(subscription_id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            );
+                          }
+                        })()}
+                      </div>
                     </div>
                   </div>
+                );
+              })}
+            </div>
+          )}
+          {activeTab === "completed" && (
+            <div
+              className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table} my_orders_details_table`}
+            >
+              {subscriptionLoading && (
+                <div>
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
                 </div>
-              );
-            })}
-          </div>
+              )}
+              {subscriptionSuccess && (
+                <div className="success_msg">{subscriptionSuccess}</div>
+              )}
+              {subscriptionError && (
+                <div className="refunded">{subscriptionError}</div>
+              )}
+              {orderDetails.map((order) => {
+                let orderStatus = order?.meta?._order_status[0]
+                  ? order.meta._order_status
+                  : "";
+                {
+                  /* <select id="orderStatus" name="order_status" class="widefat">
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="onhold">On hold</option>
+                    <option value="refunded">Refunded</option>
+                </select> */
+                }
+                let orderStatusClass = "";
+                if (
+                  orderStatus == "pending" ||
+                  orderStatus == "processing" ||
+                  orderStatus == "onhold"
+                ) {
+                  orderStatusClass = "pending";
+                } else if (
+                  orderStatus == "cancelled" ||
+                  orderStatus == "refunded"
+                ) {
+                  orderStatusClass = "cancelled";
+                } else if (orderStatus == "completed") {
+                  orderStatusClass = "completed";
+                }
+                return (
+                  <div
+                    key={order.id}
+                    className={styles.recentOffers_wrapper}
+                    id={
+                      order?.meta && !order.meta._parent_order_id
+                        ? order.id
+                        : ""
+                    }
+                  >
+                    <div className={styles.recentOffers_card}>
+                      {/* Group Order and Date */}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Order</p>
+                        <h5>{order.id}</h5>
+                        {order?.meta?._parent_order_id ? (
+                          <>
+                            <small className={styles.parentID_orders}>
+                              <a href={`#${order.meta._parent_order_id}`}>
+                                {/* { "("{order.meta._parent_order_id}")"} */}
+                                {"("}
+                                {order.meta._parent_order_id}
+                                {")"}
+                              </a>
+                            </small>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Date</p>
+                        <h5>
+                          {new Date(
+                            order.meta._date_created[0]
+                          ).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </h5>
+                      </div>
+
+                      {/* Group Status,Type, Total, and View */}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Type</p>
+                        <h5
+                          className={`${styles.offer_status} ${order?.meta?._order_type?.[0]}`}
+                        >
+                          {(() => {
+                            if (order?.meta?._order_type?.[0]) {
+                              if (order.meta._order_type[0] == "offer") {
+                                return "Offer";
+                              } else if (
+                                order.meta._order_type[0] == "lease_to_own"
+                              ) {
+                                return "Lease To Own";
+                              } else if (
+                                order.meta._order_type[0] == "one_time"
+                              ) {
+                                return "One Time";
+                              }
+                            }
+                          })()}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Status</p>
+                        <h5
+                          className={`${styles.offer_status} ${orderStatusClass}`}
+                        >
+                          {order.meta._order_status[0]}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Total</p>
+                        <h5>
+                          {order.meta._currency_symbol?.[0]}
+                          {order.meta._order_total[0]}
+                        </h5>
+                      </div>
+                      <div
+                        className={`${styles.ws_flex} ${styles.gap_5} ${styles.orderTable_btn_wrapper}`}
+                      >
+                        <div className={styles.recentOffers_card_titles}>
+                          <button
+                            className={styles.hover_white}
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setModalOpen(true);
+                            }}
+                          >
+                            View Completed
+                          </button>
+                        </div>
+
+                        {(() => {
+                          const order_type = order?.meta?._order_type?.[0];
+                          const subscription_id =
+                            order?.meta?._subscription_id?.[0];
+                          // leas to own AND parent id chaina AND cancelled == 0
+                          const parent_order_id =
+                            order?.meta?._parent_order_id?.[0];
+                          const cancelled = order?.meta?._cancelled?.[0];
+                          if (
+                            order_type == "lease_to_own" &&
+                            !parent_order_id &&
+                            cancelled == 0 &&
+                            order?.meta?._order_status != "cancelled" &&
+                            order?.meta?._order_status != "refunded"
+                          ) {
+                            return (
+                              <div className={styles.recentOffers_card_titles}>
+                                <button
+                                  className={styles.myOrder_cancel_btn}
+                                  // onClick={() => {
+                                  //   handleCancelSubscription(subscription_id);
+                                  // }}
+                                  onClick={() => {
+                                    handleSubsPopup(subscription_id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            );
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {activeTab === "cancelled" && (
+            <div
+              className={`${styles.ws_flex} ${styles.recent_offers_cols} ${styles.my_orders_details_table} my_orders_details_table`}
+            >
+              {subscriptionLoading && (
+                <div>
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
+                </div>
+              )}
+              {subscriptionSuccess && (
+                <div className="success_msg">{subscriptionSuccess}</div>
+              )}
+              {subscriptionError && (
+                <div className="refunded">{subscriptionError}</div>
+              )}
+              {orderDetails.map((order) => {
+                let orderStatus = order?.meta?._order_status[0]
+                  ? order.meta._order_status
+                  : "";
+                {
+                  /* <select id="orderStatus" name="order_status" class="widefat">
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="onhold">On hold</option>
+                    <option value="refunded">Refunded</option>
+                </select> */
+                }
+                let orderStatusClass = "";
+                if (
+                  orderStatus == "pending" ||
+                  orderStatus == "processing" ||
+                  orderStatus == "onhold"
+                ) {
+                  orderStatusClass = "pending";
+                } else if (
+                  orderStatus == "cancelled" ||
+                  orderStatus == "refunded"
+                ) {
+                  orderStatusClass = "cancelled";
+                } else if (orderStatus == "completed") {
+                  orderStatusClass = "completed";
+                }
+                return (
+                  <div
+                    key={order.id}
+                    className={styles.recentOffers_wrapper}
+                    id={
+                      order?.meta && !order.meta._parent_order_id
+                        ? order.id
+                        : ""
+                    }
+                  >
+                    <div className={styles.recentOffers_card}>
+                      {/* Group Order and Date */}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Order</p>
+                        <h5>{order.id}</h5>
+                        {order?.meta?._parent_order_id ? (
+                          <>
+                            <small className={styles.parentID_orders}>
+                              <a href={`#${order.meta._parent_order_id}`}>
+                                {/* { "("{order.meta._parent_order_id}")"} */}
+                                {"("}
+                                {order.meta._parent_order_id}
+                                {")"}
+                              </a>
+                            </small>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Date</p>
+                        <h5>
+                          {new Date(
+                            order.meta._date_created[0]
+                          ).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </h5>
+                      </div>
+
+                      {/* Group Status,Type, Total, and View */}
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Type</p>
+                        <h5
+                          className={`${styles.offer_status} ${order?.meta?._order_type?.[0]}`}
+                        >
+                          {(() => {
+                            if (order?.meta?._order_type?.[0]) {
+                              if (order.meta._order_type[0] == "offer") {
+                                return "Offer";
+                              } else if (
+                                order.meta._order_type[0] == "lease_to_own"
+                              ) {
+                                return "Lease To Own";
+                              } else if (
+                                order.meta._order_type[0] == "one_time"
+                              ) {
+                                return "One Time";
+                              }
+                            }
+                          })()}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Status</p>
+                        <h5
+                          className={`${styles.offer_status} ${orderStatusClass}`}
+                        >
+                          {order.meta._order_status[0]}
+                        </h5>
+                      </div>
+                      <div className={styles.recentOffers_card_titles}>
+                        <p>Total</p>
+                        <h5>
+                          {order.meta._currency_symbol?.[0]}
+                          {order.meta._order_total[0]}
+                        </h5>
+                      </div>
+                      <div
+                        className={`${styles.ws_flex} ${styles.gap_5} ${styles.orderTable_btn_wrapper}`}
+                      >
+                        <div className={styles.recentOffers_card_titles}>
+                          <button
+                            className={styles.hover_white}
+                            onClick={() => {
+                              setSelectedOrder(order);
+                              setModalOpen(true);
+                            }}
+                          >
+                            View Cancelled
+                          </button>
+                        </div>
+
+                        {(() => {
+                          const order_type = order?.meta?._order_type?.[0];
+                          const subscription_id =
+                            order?.meta?._subscription_id?.[0];
+                          // leas to own AND parent id chaina AND cancelled == 0
+                          const parent_order_id =
+                            order?.meta?._parent_order_id?.[0];
+                          const cancelled = order?.meta?._cancelled?.[0];
+                          if (
+                            order_type == "lease_to_own" &&
+                            !parent_order_id &&
+                            cancelled == 0 &&
+                            order?.meta?._order_status != "cancelled" &&
+                            order?.meta?._order_status != "refunded"
+                          ) {
+                            return (
+                              <div className={styles.recentOffers_card_titles}>
+                                <button
+                                  className={styles.myOrder_cancel_btn}
+                                  // onClick={() => {
+                                  //   handleCancelSubscription(subscription_id);
+                                  // }}
+                                  onClick={() => {
+                                    handleSubsPopup(subscription_id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            );
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 

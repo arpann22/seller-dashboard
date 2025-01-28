@@ -377,7 +377,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
           {draftDomains.map(renderDomainCard)}
           {/* static card */}
           <div
-            className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_last_card} draft_domain_last_card`}
+            className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_last_card} draft_domain_last_card ws-cards-container-noHover`}
           >
             {/* <img src={media_setup_last_card} alt="attach audio image" className={styles.media_image} /> */}
             <div className={styles.media_setup_contents_footer}>

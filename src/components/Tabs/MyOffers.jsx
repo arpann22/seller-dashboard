@@ -406,7 +406,7 @@ const MyOffers = ({ userData }) => {
             </div>
           </div>
         )}
-        {offerError && <div className="cancelled">{offerError}</div>}
+        {offerError && <div className="error_msg">{offerError}</div>}
         {/* Tab content */}
         {counterLoading && (
           <div>

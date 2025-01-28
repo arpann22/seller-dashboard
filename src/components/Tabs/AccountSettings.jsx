@@ -428,8 +428,12 @@ const AccountSettings = () => {
           </div>
           {activeAccordion === "password-management" && (
             <div className={accountstyles.accordionContent}>
-              {twoFaSucessMessage && <div> {twoFaSucessMessage} </div>}
-              {twoFaErrorMessage && <div> {twoFaErrorMessage} </div>}
+              {twoFaSucessMessage && (
+                <div class="success_msg"> {twoFaSucessMessage} </div>
+              )}
+              {twoFaErrorMessage && (
+                <div class="error_msg"> {twoFaErrorMessage} </div>
+              )}
               {twoFaLoading && (
                 <div>
                   <div className="loading_overlay">

@@ -7,6 +7,7 @@ import profileImage from "./images/profile.jpg";
 import editProfileIcon from "./images/edit-profile.png";
 import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
 import { ReactComponent as EmailIcon } from "./image/email.svg";
+import { FaSpinner } from "react-icons/fa";
 export default function UserDetails({ userData, setUserData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
@@ -14,6 +15,7 @@ export default function UserDetails({ userData, setUserData }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
   const [successMessage, setSuccessMessage] = useState(""); // Success message state
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -105,11 +107,13 @@ export default function UserDetails({ userData, setUserData }) {
     event.preventDefault();
     setErrorMessage(""); // Clear any previous error messages
     setSuccessMessage("");
+    setIsLoading(true);
 
     // Check if the current password is provided when new password is being set
     if (formData.new_password || formData.confirm_password) {
       if (!formData.current_password) {
         setErrorMessage("Current Password is required to change the password.");
+        setIsLoading(false);
         return;
       }
     }
@@ -117,12 +121,14 @@ export default function UserDetails({ userData, setUserData }) {
     const passwordValidationError = validatePassword(formData.new_password);
     if (passwordValidationError) {
       setErrorMessage(passwordValidationError);
+      setIsLoading(false);
       return; // Prevent form submission
     }
 
     // Check if new password and confirm password match
     if (formData.new_password !== formData.confirm_password) {
       setErrorMessage("New Password and Confirm Password do not match");
+      setIsLoading(false);
       return; // Prevent form submission
     }
     // Send the form data to the server (or process it)
@@ -155,10 +161,15 @@ export default function UserDetails({ userData, setUserData }) {
         return response.json();
       })
       .then((data) => {
+        setIsLoading(false);
         // setIsPopupOpen(false);
         setSuccessMessage("Profile updated successfully!"); // Set success message
+        setTimeout(() => {
+          setIsPopupOpen(false);
+        }, 1500);
       })
       .catch((error) => {
+        setIsLoading(false);
         console.error("Error updating profile:", error);
         setErrorMessage(error.message); // Display the error message to the user
       });
@@ -243,7 +254,7 @@ export default function UserDetails({ userData, setUserData }) {
                 />
               </label>
 
-              <label>
+              <label className={styles.fw_100}>
                 Display Name:
                 <input
                   type="text"
@@ -258,7 +269,7 @@ export default function UserDetails({ userData, setUserData }) {
                 </span>
               </label>
 
-              <label>
+              <label className={styles.fw_100}>
                 Email:
                 <input
                   type="email"
@@ -269,13 +280,20 @@ export default function UserDetails({ userData, setUserData }) {
                 />
               </label>
 
-              <label>
+              <label className={styles.fw_100}>
                 Profile Picture
-                <input
-                  type="file"
-                  name="profile_picture"
-                  onChange={handleFileChange} // File input change handler
-                />
+                <div className={styles.customFileInput}>
+                  <input
+                    type="file"
+                    name="profile_picture"
+                    onChange={handleFileChange} // File input change handler
+                    id="fileInput"
+                    className={styles.hiddenInput}
+                  />
+                  <label htmlFor="fileInput" className={styles.customFileLabel}>
+                    <i className="fas fa-upload"></i> Upload Your Photo
+                  </label>
+                </div>
                 {/* Image preview */}
                 {imagePreview && (
                   <div>
@@ -294,10 +312,13 @@ export default function UserDetails({ userData, setUserData }) {
                 )}
                 <span>Add your profile picture</span>
               </label>
+              <h4>Change Password:</h4>
               <div className={styles.edit_password_wrapper}>
-                <h4>Password Changed</h4>
-                <label>
-                  Current Password (leave blank to leave unchanged)
+                <label className={styles.fw_100}>
+                  <p>
+                    Current Password{" "}
+                    <span>(leave blank to leave unchanged)</span>
+                  </p>
                   <input
                     type="password"
                     value={formData.current_password}
@@ -305,8 +326,11 @@ export default function UserDetails({ userData, setUserData }) {
                     onChange={handleChange}
                   />
                 </label>
-                <label>
-                  New Password (leave blank to leave unchanged)
+                <label className={styles.fw_100}>
+                  {" "}
+                  <p>
+                    New Password <span>(leave blank to leave unchanged)</span>
+                  </p>
                   <input
                     type="password"
                     value={formData.new_password}
@@ -314,7 +338,7 @@ export default function UserDetails({ userData, setUserData }) {
                     onChange={handleChange}
                   />
                 </label>
-                <label>
+                <label className={styles.fw_100}>
                   Confirm New Password
                   <input
                     type="password"
@@ -323,22 +347,17 @@ export default function UserDetails({ userData, setUserData }) {
                     onChange={handleChange}
                   />
                 </label>
+                {isLoading && (
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
+                )}
                 {errorMessage && (
-                  <p
-                    class="error_msg"
-                    style={{ color: "red", fontWeight: "bold" }}
-                  >
+                  <p class="error_msg" style={{ color: "red" }}>
                     {errorMessage}
                   </p>
                 )}
-                {successMessage && (
-                  <p
-                    class="success_msg"
-                    style={{ color: "green", fontWeight: "bold" }}
-                  >
-                    {successMessage}
-                  </p>
-                )}
+                {successMessage && <p class="success_msg">{successMessage}</p>}
               </div>
               <button type="submit" className="hover-white">
                 Save Changes
