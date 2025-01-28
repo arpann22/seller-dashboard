@@ -527,7 +527,7 @@ const AccountSettings = () => {
                 <ul>
                   {notificationData &&
                   notificationData?.preferences == "domain_enquery" ? (
-                    <div class="completed">{notificationData.message}</div>
+                    <div class="success_msg">{notificationData.message}</div>
                   ) : (
                     ""
                   )}
@@ -561,7 +561,7 @@ const AccountSettings = () => {
                   </li>
                   {notificationData &&
                   notificationData?.preferences == "payment_update" ? (
-                    <div class="completed"> {notificationData.message}</div>
+                    <div class="success_msg"> {notificationData.message}</div>
                   ) : (
                     ""
                   )}
@@ -609,7 +609,7 @@ const AccountSettings = () => {
                     Choose preferred language or region for localized features.
                   </p>
                   {languageData && languageData.preferences == "language" ? (
-                    <div class="completed"> {languageData.message}</div>
+                    <div class="success_msg"> {languageData.message}</div>
                   ) : (
                     ""
                   )}
@@ -938,7 +938,7 @@ const AccountSettings = () => {
                 <div>
                   <p>Choose standard currency option globally:</p>
                   {languageData && languageData.preferences == "currency" ? (
-                    <div class="completed"> {languageData.message}</div>
+                    <div class="success_msg"> {languageData.message}</div>
                   ) : (
                     ""
                   )}

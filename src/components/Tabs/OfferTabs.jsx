@@ -163,8 +163,8 @@ const OfferTabs = ({
             </div>
           </div>
         )}
-        {pastError && <div className="cancelled">{pastError}</div>}
-        {pastSuccess && <div className="completed">{pastSuccess}</div>}
+        {pastError && <div className="error_msg">{pastError}</div>}
+        {pastSuccess && <div className="success_msg">{pastSuccess}</div>}
         {activeTab === "active" && (
           <div className={`${styles.ws_flex} ${styles.recent_offers_cols}`}>
             {pendingAcceptedOffers.length > 0 ? (

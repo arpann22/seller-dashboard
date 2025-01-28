@@ -378,7 +378,9 @@ export default function ManageOffers({
               </div>
             )}
             {manageError && <div className="refunded">{manageError}</div>}
-            {manageSuccess && <div className="completed">{manageSuccess}</div>}
+            {manageSuccess && (
+              <div className="success_msg">{manageSuccess}</div>
+            )}
             {offers.length > 0 ? (
               offersWithFormattedDates &&
               offersWithFormattedDates.map((offer, index) => (

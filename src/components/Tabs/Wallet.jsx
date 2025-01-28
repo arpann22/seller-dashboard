@@ -415,7 +415,7 @@ export default function Wallet({
                       </div>
                     )}
                     {paypalSuccess && (
-                      <div className="completed">{paypalSuccess}</div>
+                      <div className="success_msg">{paypalSuccess}</div>
                     )}
                     {paypalError && (
                       <div className="refunded">{paypalError}</div>
@@ -462,7 +462,7 @@ export default function Wallet({
                       </div>
                     )}
                     {bankSuccess && (
-                      <div className="completed">{bankSuccess}</div>
+                      <div className="success_msg">{bankSuccess}</div>
                     )}
                     {bankError && <div className="refunded">{bankError}</div>}
                     <input
@@ -892,7 +892,7 @@ export default function Wallet({
                       </div>
                     )}
                     {cryptoSuccess && (
-                      <div className="completed">{cryptoSuccess}</div>
+                      <div className="success_msg">{cryptoSuccess}</div>
                     )}
                     {cryptoError && (
                       <div className="refunded">{cryptoError}</div>
