@@ -2056,7 +2056,13 @@ button.myOrder_cancel_btn:hover {
 .my_orders_details_table .recentOffers_card:first-child {
   flex: 1;
 }
-
+.myOrders_container .myOrders_title svg path {
+  fill: #119ffb !important;
+  color: #119ffb;
+}
+.order_tabs_navs svg {
+  fill: #67748e;
+}
 .my_orders_details_table .recentOffers_card:last-child {
   flex: 1;
 }
@@ -2310,7 +2316,8 @@ button.myOrder_cancel_btn:hover {
     label:not(.sellerCentralInnerTabs button:first-child label),
   .offer_tabs_wrapper label,
   .offers_tab_recent_offer_wrap label,
-  .tabs_list_footer {
+  .tabs_list_footer,
+  .order_tabs_wrapper label {
     display: none; /* Hide all labels on mobile screens */
   }
   .profileEmail {
