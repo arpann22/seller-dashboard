@@ -45,8 +45,64 @@ const WalletBalance = ({ userData, paymentMethod }) => {
     }
   }, [userData]);
 
+  // handling request payout
+  const [showPopup, setShowPopup] = useState(false);
+  const [requestError, setRequestError] = useState(false);
+  const [requestAmount, setRequestAmount] = useState("");
+  const handlePayoutPopup = (amount) => {
+    if (amount <= 0) {
+      setRequestError("You don't have any balance to request payout");
+      return;
+    }
+
+    setRequestError("");
+    setShowPopup(true);
+  };
+
+  const handleRequestPayout = async (total_commission) => {
+    if (requestAmount > total_commission) {
+      setRequestError("You can't request more than your total amount");
+    }
+    console.log(requestAmount);
+  };
+  const PayoutPopup = () => {
+    return (
+      <div className={styles.success_popup_overlay}>
+        <div className={styles.success_popup}>
+          <div>
+            <input
+              type="number"
+              placeholder="Enter Amount"
+              onChange={(e) => setRequestAmount(e.target.value)}
+              value={requestAmount}
+            />
+          </div>
+          <div>
+            <input
+              type="submit"
+              value="Ok"
+              onClick={() =>
+                handleRequestPayout(
+                  commission?.total_commission ? commission.total_commission : 0
+                )
+              }
+              className={`${styles.okButton} ${styles.hover_blue_white}`}
+            />
+            <input
+              type="button"
+              value="Cancel"
+              onClick={() => setShowPopup(false)} // Close the popup
+              className={`${styles.cancelButton} ${styles.hover_blue_white}`}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
+      {showPopup && <PayoutPopup />}
       <div
         className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
       >
@@ -55,6 +111,7 @@ const WalletBalance = ({ userData, paymentMethod }) => {
         </div>
         <h4>Available Balance</h4>
       </div>
+      {requestError && <div class="cancelled">{requestError}</div>}
       <div className={styles.available_balance_card}>
         <div
           className={`${styles.available_balance_card_shapes} ${styles.justify_space_between} ${styles.ws_flex}`}
@@ -91,7 +148,15 @@ const WalletBalance = ({ userData, paymentMethod }) => {
             <h5>{paymentMethod}</h5>
           </div>
           <div>
-            <button>Request Payout</button>
+            <button
+              onClick={() =>
+                handlePayoutPopup(
+                  commission?.total_commission ? commission.total_commission : 0
+                )
+              }
+            >
+              Request Payout
+            </button>
           </div>
         </div>
       </div>

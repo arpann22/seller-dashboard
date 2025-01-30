@@ -199,10 +199,7 @@ const PaymentStatus = ({ userData }) => {
                 <div className={styles.recentOffers_card_titles}>
                   <p>Product</p>
                   <a href={item?.domain_link} target="_blank">
-                    <h5>
-                      {item?.currency ? item.currency : ""}
-                      {item?.domain_title}
-                    </h5>
+                    <h5>{item?.domain_title}</h5>
                   </a>
                 </div>
                 <div className={styles.recentOffers_card_details}>
@@ -219,7 +216,10 @@ const PaymentStatus = ({ userData }) => {
                     Total Commission
                     <FaCircle />
                   </p>
-                  <h5>{item?.amount}</h5>
+                  <h5>
+                    {item?.amount ? item?.currency : "$"}
+                    {item?.amount}
+                  </h5>
                 </div>
                 <div className={styles.recentOffers_card_details}>
                   <p>Date</p>
