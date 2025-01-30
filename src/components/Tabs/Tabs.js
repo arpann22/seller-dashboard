@@ -28,7 +28,7 @@ const Tabs = ({ userData, setUserData }) => {
   // const [userTab, setUserTab] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   useEffect(() => {
-    const updateUserTabs = () => {};
+    const updateUserTabs = () => { };
 
     if (userData) {
       updateUserTabs();
@@ -123,12 +123,12 @@ const Tabs = ({ userData, setUserData }) => {
   const [sellerCentralTab, setSellerCentralTab] = useState(
     sellerCentralTabs[0].label
   );
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [dropdownOpen, setDropdownOpen] = useState(false); // Track dropdown open state
 
   // Handle responsive changes
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -474,9 +474,9 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
             ? calculateOrderTotal(
-                allOtherCurrenciesOrders,
-                "_usd_products_price"
-              )
+              allOtherCurrenciesOrders,
+              "_usd_products_price"
+            )
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
@@ -511,9 +511,8 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
-                  styles.dashboard_main_tabs_button
-                } ${tab.label === activeTab ? styles.active : ""}`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${styles.dashboard_main_tabs_button
+                  } ${tab.label === activeTab ? styles.active : ""}`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -547,9 +546,8 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${
-                      styles.dashboard_main_tabs_button
-                    } ${tab.label === activeTab ? styles.active : ""}`}
+                    className={`${styles.dropdownOption} ${styles.dashboard_main_tabs_button
+                      } ${tab.label === activeTab ? styles.active : ""}`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -628,9 +626,8 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${
-                    styles.button_icon_wrapper
-                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${styles.button_icon_wrapper
+                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>

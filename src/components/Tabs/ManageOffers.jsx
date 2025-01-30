@@ -282,7 +282,7 @@ export default function ManageOffers({
       const data = await res.json();
       if (data) {
         // setCounterSuccess(data);
-        setManageSuccess(data || "Offer Sent Successfully.");
+        setManageSuccess(data || "Offer Sent");
         refreshOrderData();
       }
     } catch (error) {
