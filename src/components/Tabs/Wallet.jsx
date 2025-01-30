@@ -268,7 +268,7 @@ export default function Wallet({
         className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.fw_wrap}`}
       >
         <div className={styles.wallet_available_balance}>
-          <WalletBalance />
+          <WalletBalance userData={userData} />
         </div>
         {/* Payment Method */}
         <div className={styles.wallet_available_balance}>
@@ -945,7 +945,7 @@ export default function Wallet({
           <img src={mediaSetupIcon} alt="Media Setup Icon" />
           <h4>Payment Status</h4>
         </div>
-        <PaymentStatusTabs />
+        <PaymentStatusTabs userData={userData} />
       </div>
     </>
   );

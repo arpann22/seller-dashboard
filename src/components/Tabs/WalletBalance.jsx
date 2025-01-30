@@ -1,10 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 import available_balance_circle from "./images/SHAPES_available_balance.png";
 import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 // import available_balance_right_icon from "./images/available_balance_right_icon.png";
 import { IoMdInformationCircle } from "react-icons/io";
-const WalletBalance = () => {
+import { FaSpinner } from "react-icons/fa";
+// const currentUrl = "https://new-webstarter.codepixelz.tech";
+const currentUrl = window.location.origin;
+const WalletBalance = ({ userData }) => {
+  const [commissionLoader, setCommissionLoader] = useState(true);
+  const [commissionError, setCommissionError] = useState(false);
+  const [commission, setcommission] = useState("$000");
+
+  async function getCommission() {
+    try {
+      setCommissionLoader(true);
+      setCommissionError("");
+      const response = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/total-commission/${userData.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setcommission(data);
+      console.log(data);
+    } catch (err) {
+      console.error("Error fetching total-commissions:", err);
+      setCommissionError(err.message); // Set the error state
+      console.log(err);
+    } finally {
+      setCommissionLoader(false);
+    }
+  }
+  useEffect(() => {
+    if (userData) {
+      getCommission();
+    }
+  }, [userData]);
+
   return (
     <>
       <div
@@ -27,8 +68,18 @@ const WalletBalance = () => {
         </div>
         <div>
           <h5>Account Balance</h5>
+          {commissionLoader && (
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          )}
           <h2 className="ws_text_center">
-            205,700 <span>USD</span>
+            {commission[0]?.total_commission
+              ? commission[0].total_commission
+              : "0000"}
+            <span>
+              {commission[0]?.total_commission ? commission[0].currency : "USD"}
+            </span>
           </h2>
         </div>
         <div

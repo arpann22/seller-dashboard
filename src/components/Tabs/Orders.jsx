@@ -419,7 +419,7 @@ export default function Orders({ userData }) {
               {pendingOrders.length === 0 ? (
                 <div className={styles.dash_error_wrap}>
                   <div className={styles.order_error_msg}>
-                    <p>No pending orders found.</p>
+                    <p>No pending orders yet!</p>
                   </div>
                 </div>
               ) : (
@@ -448,7 +448,7 @@ export default function Orders({ userData }) {
               {completedOrders.length === 0 ? (
                 <div className={styles.dash_error_wrap}>
                   <div className={styles.order_error_msg}>
-                    <p>No completed orders found.</p>
+                    <p>No completed orders yet!</p>
                   </div>
                 </div>
               ) : (
@@ -477,7 +477,7 @@ export default function Orders({ userData }) {
               {cancelledOrders.length === 0 ? (
                 <div className={styles.dash_error_wrap}>
                   <div className={styles.order_error_msg}>
-                    <p>No cancelled orders found.</p>
+                    <p>No cancelled orders yet!</p>
                   </div>
                 </div>
               ) : (
