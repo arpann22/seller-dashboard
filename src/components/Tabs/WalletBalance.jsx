@@ -7,7 +7,7 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { FaSpinner } from "react-icons/fa";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
-const WalletBalance = ({ userData }) => {
+const WalletBalance = ({ userData, paymentMethod }) => {
   const [commissionLoader, setCommissionLoader] = useState(true);
   const [commissionError, setCommissionError] = useState(false);
   const [commission, setcommission] = useState("$000");
@@ -88,7 +88,7 @@ const WalletBalance = ({ userData }) => {
           </div>
           <div>
             <h6>Payment Method</h6>
-            <h5>PAYPAL</h5>
+            <h5>{paymentMethod}</h5>
           </div>
           <div>
             <button>Request Payout</button>
