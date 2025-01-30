@@ -262,13 +262,80 @@ export default function Wallet({
   /**
    * payment method section starts
    */
-  const handleCardSelect = (cardId) => {
+
+  const [loading, setLoading] = useState(false);
+  const [success_msg, setSuccess_msg] = useState("");
+  const [error_msg, setError_msg] = useState("");
+  const [type, setType] = useState("");
+
+  async function save_prefereed_payment_method(cardId, type) {
+    try {
+      setSuccess_msg(" ");
+      setError_msg(" ");
+      setLoading(true);
+      if (type) {
+        setType(type);
+      } else {
+        setType("");
+      }
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/save-preferred-payment-method/${userData.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/JSON",
+          },
+          body: JSON.stringify({ payment_method: cardId }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("HTTP error! status: " + res.status);
+      }
+      const data = await res.json();
+      if (data) {
+        setSuccess_msg(data.message || "Payment method saved successfully.");
+      }
+    } catch (error) {
+      setError_msg(
+        "Error saving preferred payment method. Please try again later."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleCardSelect = async (cardId) => {
     setSelectedCard(cardId); // Set the selected card
+    await save_prefereed_payment_method(cardId);
+    if (cardId === "bank") {
+      setPaymentMethod("Bank Transfer");
+    } else if (cardId === "crypto") {
+      setPaymentMethod("Crypto Wallet");
+    } else {
+      setPaymentMethod("Paypal");
+    }
   };
 
+  const [paymentMethod, setPaymentMethod] = useState(null);
   useEffect(() => {
-    setSelectedCard(1);
-  }, []);
+    if (userData) {
+      if (userData?.preferred_payment_method) {
+        if (userData?.preferred_payment_method === "bank") {
+          setPaymentMethod("Bank Transfer");
+        } else if (userData?.preferred_payment_method === "crypto") {
+          setPaymentMethod("Crypto Wallet");
+        } else {
+          setPaymentMethod("Paypal");
+        }
+        setSelectedCard(userData.preferred_payment_method);
+      } else {
+        setSelectedCard("paypal"); // At first, paypal is selected by default
+        save_prefereed_payment_method("paypal", "first");
+        setPaymentMethod("Paypal");
+      }
+    }
+  }, [userData]);
   /**
    * payment method section ends
    */
@@ -279,7 +346,7 @@ export default function Wallet({
         className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.fw_wrap}`}
       >
         <div className={styles.wallet_available_balance}>
-          <WalletBalance userData={userData} />
+          <WalletBalance userData={userData} paymentMethod={paymentMethod} />
         </div>
         {/* Payment Method */}
         <div className={styles.wallet_available_balance}>
@@ -290,6 +357,13 @@ export default function Wallet({
             {/* <PaymentMethodIcon /> */}
             <h4>Payment Method</h4>
           </div>
+          {loading && (
+            <div className="loading_overlay">
+              <FaSpinner className="loading" />
+            </div>
+          )}
+          {!type && success_msg && <div class="completed">{success_msg}</div>}
+          {error_msg && <div class="cancelled">{error_msg}</div>}
           <form>
             <div
               className={`${styles.paymentMethodcard_section} ${styles.fd_column}`}
@@ -297,19 +371,19 @@ export default function Wallet({
               {/* Card 1 */}
               <label
                 className={`${styles.card} ${
-                  selectedCard === 1 ? styles.selected : ""
+                  selectedCard === "paypal" ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
                   name="paymentMethod"
                   value="paypal"
-                  checked={selectedCard === 1}
-                  onChange={() => handleCardSelect(1)}
+                  checked={selectedCard === "paypal"}
+                  onChange={() => handleCardSelect("paypal")}
                   className={styles.radio_input}
                 />
                 <div className={styles.card_content}>
-                  {selectedCard === 1 && (
+                  {selectedCard === "paypal" && (
                     <span className={styles.check_icon}>
                       <FaCheckCircle />
                     </span>
@@ -334,19 +408,19 @@ export default function Wallet({
               {/* Card 2 */}
               <label
                 className={`${styles.card} ${
-                  selectedCard === 2 ? styles.selected : ""
+                  selectedCard === "bank" ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
                   name="paymentMethod"
                   value="bankTransfer"
-                  checked={selectedCard === 2}
-                  onChange={() => handleCardSelect(2)}
+                  checked={selectedCard === "bank"}
+                  onChange={() => handleCardSelect("bank")}
                   className={styles.radio_input}
                 />
                 <div className={styles.card_content}>
-                  {selectedCard === 2 && (
+                  {selectedCard === "bank" && (
                     <span className={styles.check_icon}>
                       <FaCheckCircle />
                     </span>
@@ -372,19 +446,19 @@ export default function Wallet({
               {/* Card 3 */}
               <label
                 className={`${styles.card} ${
-                  selectedCard === 3 ? styles.selected : ""
+                  selectedCard === "crypto" ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
                   name="paymentMethod"
                   // value="bankTransfer"
-                  checked={selectedCard === 3}
-                  onChange={() => handleCardSelect(3)}
+                  checked={selectedCard === "crypto"}
+                  onChange={() => handleCardSelect("crypto")}
                   className={styles.radio_input}
                 />
                 <div className={styles.card_content}>
-                  {selectedCard === 3 && (
+                  {selectedCard === "crypto" && (
                     <span className={styles.check_icon}>
                       <FaCheckCircle />
                     </span>
