@@ -19,20 +19,17 @@ const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 
 export default function Wallet({
-  selectedCard,
   isPaypalPopupOpen,
   isBankPopupOpen,
   isCryptoPopupOpen,
-  setSelectedCard,
   setPaypalPopupOpen,
   setBankPopupOpen,
   setCryptoPopupOpen,
   mediaSetupIcon,
   userData,
 }) {
-  const handleCardSelect = (cardId) => {
-    setSelectedCard(cardId); // Set the selected card
-  };
+  const [selectedCard, setSelectedCard] = useState(null);
+
   const handleClosePopup = () => {
     setPaypalPopupOpen(false);
     setBankPopupOpen(false);
@@ -261,6 +258,20 @@ export default function Wallet({
       setCryptoLoading(false);
     }
   };
+
+  /**
+   * payment method section starts
+   */
+  const handleCardSelect = (cardId) => {
+    setSelectedCard(cardId); // Set the selected card
+  };
+
+  useEffect(() => {
+    setSelectedCard(1);
+  }, []);
+  /**
+   * payment method section ends
+   */
 
   return (
     <>

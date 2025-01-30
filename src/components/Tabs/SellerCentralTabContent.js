@@ -27,7 +27,6 @@ const SellerCentralTabContent = ({
   currentYearSales,
   AllTimeSales,
 }) => {
-  const [selectedCard, setSelectedCard] = useState(null);
   const [isPaypalPopupOpen, setPaypalPopupOpen] = useState(false);
   const [isBankPopupOpen, setBankPopupOpen] = useState(false);
   const [isCryptoPopupOpen, setCryptoPopupOpen] = useState(false);
@@ -111,11 +110,9 @@ const SellerCentralTabContent = ({
       return (
         <>
           <Wallet
-            selectedCard={selectedCard}
             isPaypalPopupOpen={isPaypalPopupOpen}
             isCryptoPopupOpen={isCryptoPopupOpen}
             isBankPopupOpen={isBankPopupOpen}
-            setSelectedCard={setSelectedCard}
             setPaypalPopupOpen={setPaypalPopupOpen}
             setBankPopupOpen={setBankPopupOpen}
             setCryptoPopupOpen={setCryptoPopupOpen}

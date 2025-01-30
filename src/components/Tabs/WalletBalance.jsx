@@ -31,7 +31,6 @@ const WalletBalance = ({ userData }) => {
       }
       const data = await response.json();
       setcommission(data);
-      console.log(data);
     } catch (err) {
       console.error("Error fetching total-commissions:", err);
       setCommissionError(err.message); // Set the error state
@@ -74,12 +73,10 @@ const WalletBalance = ({ userData }) => {
             </div>
           )}
           <h2 className="ws_text_center">
-            {commission[0]?.total_commission
-              ? commission[0].total_commission
+            {commission?.total_commission
+              ? commission.total_commission
               : "0000"}
-            <span>
-              {commission[0]?.total_commission ? commission[0].currency : "USD"}
-            </span>
+            <span>USD</span>
           </h2>
         </div>
         <div
@@ -87,7 +84,7 @@ const WalletBalance = ({ userData }) => {
         >
           <div>
             <h6>Holder</h6>
-            <h5>Jenny Remigton</h5>
+            <h5>{userData?.first_name + " " + userData?.last_name}</h5>
           </div>
           <div>
             <h6>Payment Method</h6>
