@@ -31,7 +31,6 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
       }
       const data = await response.json();
       setcommission(data);
-      console.log("totoa", data);
     } catch (err) {
       console.error("Error fetching total-commissions:", err);
       setCommissionError(err.message); // Set the error state
@@ -120,7 +119,9 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
       }
     };
     return (
-      <div className={styles.success_popup_overlay}>
+      <div
+        className={`${styles.success_popup_overlay} ${styles.withdrawl_popup}`}
+      >
         <div className={styles.success_popup}>
           {requestLoader && (
             <div>
@@ -129,15 +130,19 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
               </div>
             </div>
           )}
-          {request_error && <div class="cancelled">{request_error} </div>}
-          {requestSuccess && <div class="completed">{requestSuccess}</div>}
+          {request_error && <div class="error_msg">{request_error} </div>}
+          {requestSuccess && <div class="success_msg">{requestSuccess}</div>}
           {!requestSuccess && (
             <>
-              <p>
-                Withdrawable Amount: $
-                {commission?.withdrawable_amount
-                  ? commission.withdrawable_amount
-                  : 0}
+              <p className={styles.withdraw_popup_amt}>
+                Withdrawable Amount:{" "}
+                <span>
+                  {" "}
+                  $
+                  {commission?.withdrawable_amount
+                    ? commission.withdrawable_amount
+                    : 0}
+                </span>
               </p>
               <div>
                 <input

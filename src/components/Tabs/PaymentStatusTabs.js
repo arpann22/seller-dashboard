@@ -125,6 +125,9 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
       setPayoutsLoading(false); // Set loading to false when the request completes
     }
   }
+
+
+  const [activeTab, setActiveTab] = useState("active");
   // for commissions
   const [commissions, setComissions] = useState([]);
   const [commissionsError, setComissionsError] = useState(null);
@@ -163,9 +166,10 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
       get_payouts();
       get_commissions();
     }
+    if (getPayouts) {
+      setActiveTab("active");
+    }
   }, [userData, getPayouts]);
-
-  const [activeTab, setActiveTab] = useState("active");
 
   function payoutsCommissionContent(items, type) {
     {
@@ -187,7 +191,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
         }
 
         return (
-          <div key={index} className={styles.recentOffers_wrapper}>
+          <div key={index} className={`${styles.recentOffers_wrapper} ${styles.payouts_card_wrapper}`}>
             {/* Offer card */}
             <div
               className={`${styles.ws_flex} ${styles.gap_5} ${styles.fd_column}`}
