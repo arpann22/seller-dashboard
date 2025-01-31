@@ -91,7 +91,7 @@ const handleExportPDF = (paymentStatusData, isSingle = true) => {
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
 
-const PaymentStatus = ({ userData }) => {
+const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
   // for payouts
   const [payouts, setPayouts] = useState([]);
   const [payoutsError, setPayoutsError] = useState(null);
@@ -163,11 +163,11 @@ const PaymentStatus = ({ userData }) => {
       get_payouts();
       get_commissions();
     }
-  }, [userData]);
+  }, [userData, getPayouts]);
 
   const [activeTab, setActiveTab] = useState("active");
 
-  function payoutsCommissionContent(items) {
+  function payoutsCommissionContent(items, type) {
     {
       return items.map((item, index) => {
         let status_class = "";
@@ -192,21 +192,23 @@ const PaymentStatus = ({ userData }) => {
             <div
               className={`${styles.ws_flex} ${styles.gap_5} ${styles.fd_column}`}
             >
-              <div className={styles.recentOffers_card}>
-                <div className={styles.recentOffers_card_image}>
-                  <img src={item?.domain_image} alt={item?.domain_title} />
+              {type !== "payout" && (
+                <div className={styles.recentOffers_card}>
+                  <div className={styles.recentOffers_card_image}>
+                    <img src={item?.domain_image} alt={item?.domain_title} />
+                  </div>
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Product</p>
+                    <a href={item?.domain_link} target="_blank">
+                      <h5>{item?.domain_title}</h5>
+                    </a>
+                  </div>
+                  <div className={styles.recentOffers_card_details}>
+                    <p>Order ID</p>
+                    <h5>{item?.order_id}</h5>
+                  </div>
                 </div>
-                <div className={styles.recentOffers_card_titles}>
-                  <p>Product</p>
-                  <a href={item?.domain_link} target="_blank">
-                    <h5>{item?.domain_title}</h5>
-                  </a>
-                </div>
-                <div className={styles.recentOffers_card_details}>
-                  <p>Order ID</p>
-                  <h5>{item?.order_id}</h5>
-                </div>
-              </div>
+              )}
               <div className={styles.recentOffers_card}>
                 <div
                   className={`${styles.recentOffers_card_titles} ${styles.offers_card_customers}`}
@@ -226,19 +228,22 @@ const PaymentStatus = ({ userData }) => {
                   <h6>{item?.created_at}</h6>
                 </div>
               </div>
+
               <div
                 className={`${styles.recentOffers_card} ${styles.offer_status_cards}`}
               >
-                <div className={styles.recentOffers_card_titles}>
-                  <p>Status</p>
-                  <h5
-                    className={`${styles.offer_status} ${styles.pending}`}
-                    class={status_class}
-                  >
-                    <FaCircle />
-                    {status}
-                  </h5>
-                </div>
+                {type !== "commission" && (
+                  <div className={styles.recentOffers_card_titles}>
+                    <p>Status</p>
+                    <h5
+                      className={`${styles.offer_status} ${styles.pending}`}
+                      class={status_class}
+                    >
+                      <FaCircle />
+                      {status}
+                    </h5>
+                  </div>
+                )}
                 <div className={styles.recentOffers_card_details}>
                   <div
                     className={`${styles.svg_wrapper_bg_grey} ${styles.export_icon_wrapper}`}
@@ -315,7 +320,7 @@ const PaymentStatus = ({ userData }) => {
             )}
             {payoutsError && <div class="error_msg">{payoutsError}</div>}
             {!payoutsError && payouts.length > 0 ? (
-              payoutsCommissionContent(payouts)
+              payoutsCommissionContent(payouts, "payout")
             ) : (
               <div className={styles.dash_error_wrap}>
                 <div className={styles.order_error_msg}>No payouts yet! </div>
@@ -335,7 +340,7 @@ const PaymentStatus = ({ userData }) => {
             )}
             {commissionsError && <div>{commissionsError}</div>}
             {!payoutsError && commissions.length > 0 ? (
-              payoutsCommissionContent(commissions)
+              payoutsCommissionContent(commissions, "commission")
             ) : (
               <div className={styles.dash_error_wrap}>
                 <div className={styles.order_error_msg}>

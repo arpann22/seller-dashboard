@@ -30,6 +30,8 @@ export default function Wallet({
 }) {
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const [getPayouts, setGetPayouts] = useState(null);
+
   const handleClosePopup = () => {
     setPaypalPopupOpen(false);
     setBankPopupOpen(false);
@@ -346,7 +348,12 @@ export default function Wallet({
         className={`${styles.wallet_top_wrapper} ${styles.ws_flex} ${styles.fw_wrap}`}
       >
         <div className={styles.wallet_available_balance}>
-          <WalletBalance userData={userData} paymentMethod={paymentMethod} />
+          <WalletBalance
+            userData={userData}
+            paymentMethod={paymentMethod}
+            setGetPayouts={setGetPayouts}
+            getPayouts={getPayouts}
+          />
         </div>
         {/* Payment Method */}
         <div className={styles.wallet_available_balance}>
@@ -1030,7 +1037,11 @@ export default function Wallet({
           <img src={mediaSetupIcon} alt="Media Setup Icon" />
           <h4>Payment Status</h4>
         </div>
-        <PaymentStatusTabs userData={userData} />
+        <PaymentStatusTabs
+          userData={userData}
+          setGetPayouts={setGetPayouts}
+          getPayouts={getPayouts}
+        />
       </div>
     </>
   );

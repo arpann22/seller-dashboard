@@ -7,7 +7,7 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { FaSpinner } from "react-icons/fa";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
-const WalletBalance = ({ userData, paymentMethod }) => {
+const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
   const [commissionLoader, setCommissionLoader] = useState(true);
   const [commissionError, setCommissionError] = useState(false);
   const [commission, setcommission] = useState("$000");
@@ -31,6 +31,7 @@ const WalletBalance = ({ userData, paymentMethod }) => {
       }
       const data = await response.json();
       setcommission(data);
+      console.log("totoa", data);
     } catch (err) {
       console.error("Error fetching total-commissions:", err);
       setCommissionError(err.message); // Set the error state
@@ -48,53 +49,127 @@ const WalletBalance = ({ userData, paymentMethod }) => {
   // handling request payout
   const [showPopup, setShowPopup] = useState(false);
   const [requestError, setRequestError] = useState(false);
-  const [requestAmount, setRequestAmount] = useState("");
+
   const handlePayoutPopup = (amount) => {
     if (amount <= 0) {
       setRequestError("You don't have any balance to request payout");
       return;
     }
-
+    setRequestSuccess("");
     setRequestError("");
     setShowPopup(true);
   };
+  const [requestSuccess, setRequestSuccess] = useState("");
 
-  const handleRequestPayout = async (total_commission) => {
-    if (requestAmount > total_commission) {
-      setRequestError("You can't request more than your total amount");
-    }
-    console.log(requestAmount);
-  };
   const PayoutPopup = () => {
+    const [requestAmount, setRequestAmount] = useState("");
+
+    const [request_error, setRequest_error] = useState("");
+    const [requestLoader, setRequestLoader] = useState(false);
+
+    const handleRequestPayout = async (total_commission) => {
+      if (requestAmount > total_commission) {
+        setRequest_error(
+          "You can't request more than your withdrawable amount"
+        );
+        return;
+      }
+      if (requestAmount < 50) {
+        setRequest_error("You can't requeset less than $50");
+        return;
+      }
+      try {
+        setRequestLoader(true);
+        setRequestError("");
+        setRequestSuccess("");
+        const response = await fetch(
+          `${currentUrl}/wp-json/wstr/v1/request-payout/`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userData.token}`,
+            },
+            body: JSON.stringify({
+              // user_id: userData.id,
+              user_id: userData.id,
+              amount: requestAmount,
+            }),
+          }
+        );
+
+        // Parse response JSON once
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+        setRequestSuccess(data.message);
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 2000);
+        setGetPayouts(true);
+      } catch (err) {
+        setRequest_error(
+          err.message
+            ? err.message
+            : "Something went wrong. Please try again later"
+        );
+      } finally {
+        setRequestLoader(false);
+      }
+    };
     return (
       <div className={styles.success_popup_overlay}>
         <div className={styles.success_popup}>
-          <div>
-            <input
-              type="number"
-              placeholder="Enter Amount"
-              onChange={(e) => setRequestAmount(e.target.value)}
-              value={requestAmount}
-            />
-          </div>
-          <div>
-            <input
-              type="submit"
-              value="Ok"
-              onClick={() =>
-                handleRequestPayout(
-                  commission?.total_commission ? commission.total_commission : 0
-                )
-              }
-              className={`${styles.okButton} ${styles.hover_blue_white}`}
-            />
-            <input
-              type="button"
-              value="Cancel"
-              onClick={() => setShowPopup(false)} // Close the popup
-              className={`${styles.cancelButton} ${styles.hover_blue_white}`}
-            />
-          </div>
+          {requestLoader && (
+            <div>
+              <div className="loading_overlay">
+                <FaSpinner className="loading" />
+              </div>
+            </div>
+          )}
+          {request_error && <div class="cancelled">{request_error} </div>}
+          {requestSuccess && <div class="completed">{requestSuccess}</div>}
+          {!requestSuccess && (
+            <>
+              <p>
+                Withdrawable Amount: $
+                {commission?.withdrawable_amount
+                  ? commission.withdrawable_amount
+                  : 0}
+              </p>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Enter Amount"
+                  value={requestAmount}
+                  onChange={(e) => setRequestAmount(e.target.value)} // Directly updating state
+                />
+              </div>
+
+              <div>
+                <input
+                  type="submit"
+                  value="Ok"
+                  onClick={() =>
+                    handleRequestPayout(
+                      commission?.withdrawable_amount
+                        ? commission.withdrawable_amount
+                        : 0
+                    )
+                  }
+                  className={`${styles.okButton} ${styles.hover_blue_white}`}
+                />
+                <input
+                  type="button"
+                  value="Cancel"
+                  onClick={() => setShowPopup(false)} // Close the popup
+                  className={`${styles.cancelButton} ${styles.hover_blue_white}`}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
