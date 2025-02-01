@@ -1645,6 +1645,37 @@ audio::-webkit-media-controls-panel {
 .wallet_top_wrapper {
   gap: 30px;
 }
+.withdrawl_popup .withdraw_popup_amt {
+  font-weight: 400;
+}
+.withdrawl_popup input[type="number"] {
+  border: transparent;
+  background-color: #f8f7fc;
+  border-radius: 50px;
+  width: 80%;
+  margin: 15px 0;
+  padding: 12px 20px;
+}
+.withdrawl_popup .cancelButton {
+  background-color: #ff1f3e;
+  padding: 5px 20px;
+  border-radius: 50px;
+  color: #fff;
+  border: transparent;
+  margin-left: 10px;
+  border: 1px solid #ff1f3e;
+}
+.withdraw_popup_amt span {
+  font-weight: 600;
+}
+.payouts_card_wrapper .offer_status_cards h5 {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 5px;
+}
 /* payment method */
 .paymentMethodcard_section {
   display: flex;
