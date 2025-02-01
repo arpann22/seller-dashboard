@@ -106,8 +106,9 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
         setRequestSuccess(data.message);
         setTimeout(() => {
           setShowPopup(false);
-        }, 2000);
+        }, 1500);
         setGetPayouts(true);
+        await getCommission();
       } catch (err) {
         setRequest_error(
           err.message
@@ -150,6 +151,7 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
                   placeholder="Enter Amount"
                   value={requestAmount}
                   onChange={(e) => setRequestAmount(e.target.value)} // Directly updating state
+                  min="50"
                 />
               </div>
 

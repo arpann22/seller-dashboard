@@ -68,7 +68,6 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
     // Details
     doc.setFontSize(12);
 
-    console.log("paymentStatusData", paymentStatusData);
     if (isSingle) {
       // Single Order
       const selectedData = paymentStatusData;
