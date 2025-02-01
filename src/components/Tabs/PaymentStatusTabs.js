@@ -26,43 +26,7 @@ const handleReset = () => {
   }
   // You can add more logic if needed, such as resetting state or other form elements
 };
-// export as pdf start
-const handleExportPDF = (paymentStatusData, isSingle = true) => {
-  const doc = new jsPDF();
 
-  // Title
-  doc.setFontSize(16);
-  doc.text(isSingle ? "Order Details" : "All Order Details", 10, 10);
-
-  // Details
-  doc.setFontSize(12);
-
-  console.log("paymentStatusData", paymentStatusData);
-  if (isSingle) {
-    // Single Order
-    const selectedData = paymentStatusData;
-    doc.text(`Product: ${selectedData.domain_title}`, 10, 20);
-    doc.text(`Order ID: ${selectedData.order_id}`, 10, 30);
-    doc.text(`Total Commission: ${selectedData.amount}`, 10, 40);
-    doc.text(`Date: ${selectedData.created_at}`, 10, 50);
-    doc.text(`Status: ${selectedData.status}`, 10, 60);
-  } else {
-    // All Orders
-    paymentStatusData.forEach((item, index) => {
-      doc.text(`Product: ${item.product}`, 10, 20 + index * 60);
-      doc.text(`Order ID: ${item.orderId}`, 10, 30 + index * 60);
-      doc.text(`Total Commission: ${item.commission}`, 10, 40 + index * 60);
-      doc.text(`Date: ${item.date}`, 10, 50 + index * 60);
-      doc.text(`Status: ${item.status}`, 10, 60 + index * 60);
-    });
-  }
-
-  // Save PDF
-  const filename = isSingle
-    ? `${paymentStatusData.domain_title}_Payment_status.pdf`
-    : "AllPaymentsDetails.pdf";
-  doc.save(filename);
-};
 // const paymentStatusData = [
 //   {
 //     product: "debugbot.com",
@@ -92,6 +56,80 @@ const handleExportPDF = (paymentStatusData, isSingle = true) => {
 const currentUrl = window.location.origin;
 
 const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
+  const [activeTab, setActiveTab] = useState("active");
+  // export as pdf start
+  const handleExportPDF = (paymentStatusData, isSingle = true) => {
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(16);
+    doc.text(isSingle ? "Order Details" : "All Order Details", 10, 10);
+
+    // Details
+    doc.setFontSize(12);
+
+    console.log("paymentStatusData", paymentStatusData);
+    if (isSingle) {
+      // Single Order
+      const selectedData = paymentStatusData;
+
+      if (activeTab == "declined") {
+        doc.text(
+          `Product: ${
+            selectedData?.domain_title ? selectedData.domain_title : ""
+          }`,
+          10,
+          20
+        );
+        doc.text(
+          `Order ID: ${selectedData?.order_id ? selectedData.order_id : ""} `,
+          10,
+          30
+        );
+      }
+
+      doc.text(
+        `Total Commission: ${selectedData.currency} ${
+          selectedData?.amount ? selectedData.amount : 0
+        }`,
+        10,
+        40
+      );
+      doc.text(
+        `Date: ${selectedData?.created_at ? selectedData?.created_at : ""}`,
+        10,
+        50
+      );
+      doc.text(
+        `Status: ${selectedData?.status ? selectedData.status : ""}`,
+        10,
+        60
+      );
+    } else {
+      // All Orders
+      paymentStatusData.forEach((item, index) => {
+        if (activeTab == "declined") {
+          doc.text(`Product: ${item.domain_title}`, 10, 20 + index * 60);
+          doc.text(`Order ID: ${item.order_id}`, 10, 30 + index * 60);
+        }
+
+        doc.text(
+          `Total Amount: ${item.currency}${item.amount}`,
+          10,
+          40 + index * 60
+        );
+        doc.text(`Date: ${item.created_at}`, 10, 50 + index * 60);
+        doc.text(`Status: ${item.status}`, 10, 60 + index * 60);
+      });
+    }
+
+    // Save PDF
+    const filename = isSingle
+      ? `${paymentStatusData?.created_at}_Payment_status.pdf`
+      : "AllPaymentsDetails.pdf";
+    doc.save(filename);
+  };
+
   // for payouts
   const [payouts, setPayouts] = useState([]);
   const [payoutsError, setPayoutsError] = useState(null);
@@ -117,6 +155,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
 
       const data = await response.json();
       setPayouts(data); // Update the payouts state with the fetched data
+      console.log(data);
       setPayoutsError(null); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching payouts:", error);
@@ -126,7 +165,6 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
     }
   }
 
-  const [activeTab, setActiveTab] = useState("active");
   // for commissions
   const [commissions, setComissions] = useState([]);
   const [commissionsError, setComissionsError] = useState(null);
@@ -275,7 +313,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
                 <div className={styles.recentOffers_card_details}>
                   <div
                     className={`${styles.svg_wrapper_bg_grey} ${styles.export_icon_wrapper}`}
-                    onClick={() => handleExportPDF(item[index], true)}
+                    onClick={() => handleExportPDF(item, true)}
                   >
                     <ExportIcon />
                   </div>
@@ -328,7 +366,12 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
                     </div> */}
           <div
             className={`${styles.offerSorts} ${styles.payment_status_export_all}`}
-            onClick={() => handleExportPDF(payouts, false)}
+            onClick={() =>
+              handleExportPDF(
+                activeTab == "active" ? payouts : commissions,
+                false
+              )
+            }
           >
             <ExportIcon />
             <label> Export</label>
