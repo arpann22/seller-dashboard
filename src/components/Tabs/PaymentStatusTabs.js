@@ -167,6 +167,28 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
 
   const [activeTab, setActiveTab] = useState("active");
 
+  const [isReversed, setIsReversed] = useState(true); // Track the reversal state
+
+  function handleSort() {
+    setIsReversed(!isReversed);
+    if (activeTab == "active") {
+      const sortedOffers = [...payouts].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setPayouts(sortedOffers);
+    }
+    if (activeTab == "declined") {
+      const sortedOffers = [...commissions].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setComissions(sortedOffers);
+    }
+  }
+
   function payoutsCommissionContent(items, type) {
     {
       return items.map((item, index) => {
@@ -290,7 +312,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
         <div
           className={`${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
         >
-          <div className={styles.offerSorts}>
+          <div className={styles.offerSorts} onClick={handleSort}>
             <SortIcon />
             <label> Sort</label>
           </div>
