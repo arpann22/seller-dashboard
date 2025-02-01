@@ -125,6 +125,8 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
       setPayoutsLoading(false); // Set loading to false when the request completes
     }
   }
+
+  const [activeTab, setActiveTab] = useState("active");
   // for commissions
   const [commissions, setComissions] = useState([]);
   const [commissionsError, setComissionsError] = useState(null);
@@ -163,9 +165,32 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
       get_payouts();
       get_commissions();
     }
+    if (getPayouts) {
+      setActiveTab("active");
+    }
   }, [userData, getPayouts]);
 
-  const [activeTab, setActiveTab] = useState("active");
+  const [isReversed, setIsReversed] = useState(true); // Track the reversal state
+
+  function handleSort() {
+    setIsReversed(!isReversed);
+    if (activeTab == "active") {
+      const sortedOffers = [...payouts].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setPayouts(sortedOffers);
+    }
+    if (activeTab == "declined") {
+      const sortedOffers = [...commissions].sort((a, b) => {
+        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        return 0;
+      });
+      setComissions(sortedOffers);
+    }
+  }
 
   function payoutsCommissionContent(items, type) {
     {
@@ -187,7 +212,10 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
         }
 
         return (
-          <div key={index} className={styles.recentOffers_wrapper}>
+          <div
+            key={index}
+            className={`${styles.recentOffers_wrapper} ${styles.payouts_card_wrapper}`}
+          >
             {/* Offer card */}
             <div
               className={`${styles.ws_flex} ${styles.gap_5} ${styles.fd_column}`}
@@ -290,7 +318,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
         <div
           className={`${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
         >
-          <div className={styles.offerSorts}>
+          <div className={styles.offerSorts} onClick={handleSort}>
             <SortIcon />
             <label> Sort</label>
           </div>
