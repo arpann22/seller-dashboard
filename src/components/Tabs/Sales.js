@@ -477,19 +477,11 @@ const Sales = ({
   const [sortValue, setSortValue] = useState("");
   const [isReversed, setIsReversed] = useState(true); // Track the reversal state
 
-  // function handleSort() {
-  //   setSortValue("sort");
-  //   setIsReversed(!isReversed);
-  //   if (isReversed == false) {
-  //     setSortValue("");
-  //   }
-  // }
-
   function handleSort() {
     setIsReversed(!isReversed);
     const sortedOffers = [...orderDetails].sort((a, b) => {
-      if (a.id < b.id) return isReversed ? 1 : -1;
-      if (a.id > b.id) return isReversed ? -1 : 1;
+      if (a.id > b.id) return isReversed ? 1 : -1;
+      if (a.id < b.id) return isReversed ? -1 : 1;
       return 0;
     });
     setOrderDetails(sortedOffers);

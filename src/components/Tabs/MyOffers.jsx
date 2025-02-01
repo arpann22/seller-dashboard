@@ -67,23 +67,12 @@ const MyOffers = ({ userData }) => {
     }
   }, [userData.id]);
 
-  // function for handeling sort
-  // function handleSort() {
-  //   setIsReversed(!isReversed);
-  //   if (activeTab === "active") {
-  //     setSortValue(isReversed ? "sort" : "");
-  //   } else if (activeTab === "declined") {
-  //     setSortValue(isReversed ? "sort" : "");
-  //   } else if (activeTab === "accepted") {
-  //     setSortValue(isReversed ? "sort" : "");
-  //   }
-  // }
   // Function for handling sort
   function handleSort() {
     setIsReversed(!isReversed);
     const sortedOffers = [...offers].sort((a, b) => {
-      if (a.created_at < b.created_at) return isReversed ? 1 : -1;
-      if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+      if (a.created_at > b.created_at) return isReversed ? 1 : -1;
+      if (a.created_at < b.created_at) return isReversed ? -1 : 1;
       return 0;
     });
     setOffers(sortedOffers);

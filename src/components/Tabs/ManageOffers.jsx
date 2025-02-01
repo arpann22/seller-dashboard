@@ -121,60 +121,21 @@ export default function ManageOffers({
     setIsReversed(!isReversed);
     if (activeTab == "active") {
       const sortedOffers = [...pendingAcceptedOffers].sort((a, b) => {
-        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
-        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        if (a.created_at > b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at < b.created_at) return isReversed ? -1 : 1;
         return 0;
       });
       setPendingAcceptedOffers(sortedOffers);
     }
     if (activeTab == "declined") {
       const sortedOffers = [...declinedOffers].sort((a, b) => {
-        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
-        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        if (a.created_at > b.created_at) return isReversed ? 1 : -1;
+        if (a.created_at < b.created_at) return isReversed ? -1 : 1;
         return 0;
       });
       setDeclinedOffers(sortedOffers);
     }
   }
-
-  // const pendingOffers = offers.filter((offer) => offer.status == "pending");
-  // // Map pending offers to include formatted expiry dates
-  // const pendingOffersWithFormattedDates = pendingOffers.map((offer) => {
-  //   const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
-  //   const date = new Date(dateString);
-  //   const options = { year: "numeric", month: "short", day: "numeric" };
-  //   const formattedDate = date.toLocaleDateString("en-US", options);
-
-  //   // Calculate days left until expiry
-  //   const currentDate = new Date();
-  //   const timeDiff = date - currentDate;
-  //   const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-  //   return {
-  //     ...offer,
-  //     formattedDate,
-  //     isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
-  //   };
-  // });
-
-  // const acceptedOffers = offers.filter((offer) => offer.status == "accepted");
-  // const acceptedOffersWithFormattedDates = acceptedOffers.map((offer) => {
-  //   const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";
-  //   const date = new Date(dateString);
-  //   const options = { year: "numeric", month: "short", day: "numeric" };
-  //   const formattedDate = date.toLocaleDateString("en-US", options);
-
-  //   // Calculate days left until expiry
-  //   const currentDate = new Date();
-  //   const timeDiff = date - currentDate;
-  //   const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-  //   return {
-  //     ...offer,
-  //     formattedDate,
-  //     isExpiringSoon: daysLeft <= 7 && daysLeft >= 0,
-  //   };
-  // });
 
   const declinedOffersWithFormattedDates = declinedOffers.map((offer) => {
     const dateString = offer?.offer_expiry_date ? offer.offer_expiry_date : "";

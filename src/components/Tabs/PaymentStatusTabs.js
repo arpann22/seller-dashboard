@@ -176,16 +176,16 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
     setIsReversed(!isReversed);
     if (activeTab == "active") {
       const sortedOffers = [...payouts].sort((a, b) => {
-        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
-        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        if (a.id > b.id) return isReversed ? 1 : -1;
+        if (a.id < b.id) return isReversed ? -1 : 1;
         return 0;
       });
       setPayouts(sortedOffers);
     }
     if (activeTab == "declined") {
       const sortedOffers = [...commissions].sort((a, b) => {
-        if (a.created_at < b.created_at) return isReversed ? 1 : -1;
-        if (a.created_at > b.created_at) return isReversed ? -1 : 1;
+        if (a.id > b.id) return isReversed ? 1 : -1;
+        if (a.id < b.id) return isReversed ? -1 : 1;
         return 0;
       });
       setComissions(sortedOffers);
