@@ -599,7 +599,6 @@ const Tabs = ({ userData, setUserData }) => {
         <TabContent
           activeTab={activeTab}
           userData={userData}
-          setUserData={setUserData}
           // soldDomains={soldDomains}
           salesAllTime={salesAllTime}
           salesCurrentYear={salesCurrentYear}

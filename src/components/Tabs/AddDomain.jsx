@@ -1464,7 +1464,7 @@ export default function AddDomain({ styles, userData }) {
               /> */}
               <CKEditor
                 editor={ClassicEditor}
-                data="<p>Welcome to dsfgdfgfdgfrdgdfg 5!</p>"
+                data="<p> </p>"
                 config={{
                   toolbar: [
                     "heading",
