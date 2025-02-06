@@ -343,7 +343,7 @@ const Sales = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );

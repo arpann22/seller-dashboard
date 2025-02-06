@@ -132,7 +132,7 @@ const TabContent = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );
@@ -256,7 +256,7 @@ const TabContent = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );
@@ -371,7 +371,7 @@ const TabContent = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );
@@ -476,7 +476,7 @@ const TabContent = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );
@@ -592,7 +592,7 @@ const TabContent = ({
             order?.meta?._ordered_products?.[0]
           );
           let sold_products_price = [];
-          if (currency == "USD") {
+          if (currency != "USD") {
             sold_products_price = unserialize(
               order?.meta?._products_price?.[0]
             );
@@ -742,6 +742,8 @@ const TabContent = ({
 
   const currentMonth = new Date().getMonth() + 1;
 
+  console.log("current month", currentMonth);
+  console.log("sales currenc year", salesCurrentYear);
   var average_monthly_sales = salesCurrentYear / currentMonth;
 
   switch (activeTab) {

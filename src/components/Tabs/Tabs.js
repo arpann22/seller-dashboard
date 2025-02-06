@@ -28,7 +28,7 @@ const Tabs = ({ userData, setUserData }) => {
   // const [userTab, setUserTab] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   useEffect(() => {
-    const updateUserTabs = () => { };
+    const updateUserTabs = () => {};
 
     if (userData) {
       updateUserTabs();
@@ -366,13 +366,13 @@ const Tabs = ({ userData, setUserData }) => {
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = calculateSales(
             allOtherCurrenciesOrders,
-            "_usd_products_price"
+            "_products_price"
           );
           sale_total += otherCurrenciesSales.total;
           sale_current_year += otherCurrenciesSales.currentYearTotal;
 
           // Calculate sales for USD orders (using a different meta key)
-          const usdSales = calculateSales(allUsdOrders, "_products_price");
+          const usdSales = calculateSales(allUsdOrders, "_usd_products_price");
           sale_total += usdSales.total;
           sale_current_year += usdSales.currentYearTotal;
 
@@ -473,16 +473,13 @@ const Tabs = ({ userData, setUserData }) => {
 
           // Calculate sales for orders in other currencies
           const otherCurrenciesSales = allOtherCurrenciesOrders
-            ? calculateOrderTotal(
-              allOtherCurrenciesOrders,
-              "_usd_products_price"
-            )
+            ? calculateOrderTotal(allOtherCurrenciesOrders, "_products_price")
             : 0;
           order_total += otherCurrenciesSales.orderTotal;
 
           // Calculate sales for USD orders (using a different meta key)
           const usdSales = allUsdOrders
-            ? calculateOrderTotal(allUsdOrders, "_products_price")
+            ? calculateOrderTotal(allUsdOrders, "_usd_products_price")
             : 0;
           order_total += usdSales.orderTotal;
 
@@ -511,8 +508,9 @@ const Tabs = ({ userData, setUserData }) => {
               <button
                 key={tab.label}
                 onClick={() => handleTabClick(tab)}
-                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${styles.dashboard_main_tabs_button
-                  } ${tab.label === activeTab ? styles.active : ""}`}
+                className={`${styles.tabButton} ${styles.button_icon_wrapper} ${
+                  styles.dashboard_main_tabs_button
+                } ${tab.label === activeTab ? styles.active : ""}`}
                 role="tab"
                 aria-selected={tab.label === activeTab}
               >
@@ -546,8 +544,9 @@ const Tabs = ({ userData, setUserData }) => {
                 {tabs.map((tab) => (
                   <div
                     key={tab.label}
-                    className={`${styles.dropdownOption} ${styles.dashboard_main_tabs_button
-                      } ${tab.label === activeTab ? styles.active : ""}`}
+                    className={`${styles.dropdownOption} ${
+                      styles.dashboard_main_tabs_button
+                    } ${tab.label === activeTab ? styles.active : ""}`}
                     onClick={() => {
                       handleTabClick(tab); // Set the active tab
                       setDropdownOpen(false); // Close the dropdown after selection
@@ -626,8 +625,9 @@ const Tabs = ({ userData, setUserData }) => {
                 <button
                   key={tab.label}
                   onClick={() => handleSellerCentralTab(tab.label)}
-                  className={`${styles.tabButton} ${styles.button_icon_wrapper
-                    } ${sellerCentralTab === tab.label ? styles.active : ""}`}
+                  className={`${styles.tabButton} ${
+                    styles.button_icon_wrapper
+                  } ${sellerCentralTab === tab.label ? styles.active : ""}`}
                 >
                   <div className={styles.svg_bg_white}>{tab.icon}</div>
                   <label>{tab.label}</label>
