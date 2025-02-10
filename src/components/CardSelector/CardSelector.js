@@ -10,6 +10,7 @@ const CardSelector = ({
   selectedItems,
   setSelectedItems,
   generateTaxonomies,
+  type,
 }) => {
   const [imageUrls, setImageUrls] = useState({});
 
@@ -47,67 +48,69 @@ const CardSelector = ({
 
   return (
     <div className={styles.cardSelectorWrapper}>
-      {items.map((item, index) => (
-        <div
-          key={index}
-          className={`${styles.card} ${
-            !item.meta?.taxonomy_image_id &&
-            !imageUrls[item.meta?.taxonomy_image_id]
-              ? styles.tagsItemsCards
-              : ""
-          }
+      {items.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className={`${styles.card} ${
+              !item.meta?.taxonomy_image_id &&
+              !imageUrls[item.meta?.taxonomy_image_id]
+                ? styles.tagsItemsCards
+                : ""
+            }
           ${
             selectedItems.some((selectedItem) => selectedItem.id === item.id)
               ? styles.selected
               : ""
           }`}
-          onClick={() => toggleSelect(item)}
-        >
-          <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>
-            {/* Conditionally render for tagsItems */}
-            {!item.meta?.taxonomy_image_id &&
-            !imageUrls[item.meta?.taxonomy_image_id] ? (
-              <>
-                <div className={styles.cardSelector_aiPicks}>
-                  <RxCross2 />
-                  <GoPlus />
-                </div>
-                <h5>{item.name}</h5>
-                {generateTaxonomies &&
-                  generateTaxonomies.includes(item.id) &&
-                  selectedItems.some(
-                    (selectedItem) => selectedItem.id === item.id
-                  ) && <span>Ai-Pick</span>}
-              </>
-            ) : (
-              <>
-                <h5>{item.name}</h5>
-                <div className={styles.cardSelector_aiPicks}>
+            onClick={() => toggleSelect(item)}
+          >
+            <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>
+              {/* Conditionally render for tagsItems */}
+              {!item.meta?.taxonomy_image_id &&
+              !imageUrls[item.meta?.taxonomy_image_id] ? (
+                <>
+                  <div className={styles.cardSelector_aiPicks}>
+                    <RxCross2 />
+                    <GoPlus />
+                  </div>
+                  <h5>{item.name.replace("&amp;", "&")}</h5>
                   {generateTaxonomies &&
                     generateTaxonomies.includes(item.id) &&
                     selectedItems.some(
                       (selectedItem) => selectedItem.id === item.id
                     ) && <span>Ai-Pick</span>}
+                </>
+              ) : (
+                <>
+                  <h5>{item.name.replace("&amp;", "&")}</h5>
+                  <div className={styles.cardSelector_aiPicks}>
+                    {generateTaxonomies &&
+                      generateTaxonomies.includes(item.id) &&
+                      selectedItems.some(
+                        (selectedItem) => selectedItem.id === item.id
+                      ) && <span>Ai-Pick</span>}
 
-                  <RxCross2 />
-                  <GoPlus />
+                    <RxCross2 />
+                    <GoPlus />
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Conditionally render the icon only if item.icon exists */}
+            {item.meta?.taxonomy_image_id &&
+              imageUrls[item.meta?.taxonomy_image_id] && (
+                <div className={styles.icon}>
+                  <img
+                    src={imageUrls[item.meta?.taxonomy_image_id]}
+                    alt={`${item.name}`}
+                  />
                 </div>
-              </>
-            )}
+              )}
           </div>
-
-          {/* Conditionally render the icon only if item.icon exists */}
-          {item.meta?.taxonomy_image_id &&
-            imageUrls[item.meta?.taxonomy_image_id] && (
-              <div className={styles.icon}>
-                <img
-                  src={imageUrls[item.meta?.taxonomy_image_id]}
-                  alt={`${item.name}`}
-                />
-              </div>
-            )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Tabs.module.css"; // Import styles
 const currentUrl = window.location.origin;
+//const currentUrl = window.location.origin;
 export default function BecomeSeller({ userData, refreshTabs }) {
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");

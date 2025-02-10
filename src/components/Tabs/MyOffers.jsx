@@ -21,6 +21,7 @@ const handleSubmit = (event) => {
 const MyOffers = ({ userData }) => {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
+  //const currentUrl = window.location.origin;
   const [activeTab, setActiveTab] = useState("active");
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
 

@@ -5,8 +5,9 @@ import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 // import available_balance_right_icon from "./images/available_balance_right_icon.png";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaSpinner } from "react-icons/fa";
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+
 const currentUrl = window.location.origin;
+
 const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
   const [commissionLoader, setCommissionLoader] = useState(true);
   const [commissionError, setCommissionError] = useState(false);

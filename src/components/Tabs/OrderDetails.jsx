@@ -8,6 +8,7 @@ import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import unserialize from "locutus/php/var/unserialize";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
+//const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 

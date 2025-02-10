@@ -46,7 +46,7 @@ import { ReactComponent as GenerateStars } from "./image/cta.svg";
 // ck editor end
 const md = new MarkdownIt();
 
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+//const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
 export default function AddDomain({ styles, userData }) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
@@ -904,7 +904,7 @@ export default function AddDomain({ styles, userData }) {
           <div
             className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
           >
-            <form onSubmit={handleGenerate}>
+            <form onSubmit={handleGenerate} class="add_domain_form">
               <input
                 type="text"
                 value={domainName}
@@ -1464,7 +1464,7 @@ export default function AddDomain({ styles, userData }) {
               /> */}
               <CKEditor
                 editor={ClassicEditor}
-                data="<p> </p>"
+                data={content ? content : ""}
                 config={{
                   toolbar: [
                     "heading",
@@ -1580,6 +1580,7 @@ export default function AddDomain({ styles, userData }) {
                 selectedItems={selectedIndustries}
                 setSelectedItems={setSelectedIndustries}
                 generateTaxonomies={generateTaxonomies}
+                type="industry"
               />
             )}
           </div>

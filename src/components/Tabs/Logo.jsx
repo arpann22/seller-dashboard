@@ -8,6 +8,8 @@ export default function LogoImage({
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
 
+  //const currentUrl = window.location.origin;
+
   const [logoUrl, setLogoUrl] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");

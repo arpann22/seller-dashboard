@@ -101,7 +101,7 @@ const handleReset = () => {
   }
 };
 const currentUrl = window.location.origin;
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+
 const Sales = ({
   userData,
   currentMonthCompletedSales,

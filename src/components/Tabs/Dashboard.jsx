@@ -22,6 +22,8 @@ const progress = 50; //
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 
+//const currentUrl = window.location.origin;
+
 const Dashboard = ({
   userData,
   soldDomains,

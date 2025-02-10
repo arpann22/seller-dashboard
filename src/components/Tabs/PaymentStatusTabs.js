@@ -27,33 +27,8 @@ const handleReset = () => {
   // You can add more logic if needed, such as resetting state or other form elements
 };
 
-// const paymentStatusData = [
-//   {
-//     product: "debugbot.com",
-//     orderId: "VLX245789",
-//     commission: "$4850.00",
-//     date: "Oct 20, 2024",
-//     status: "Pending",
-//   },
-//   {
-//     product: "anotherproduct.com",
-//     orderId: "XYZ123456",
-//     commission: "$3500.00",
-//     date: "Nov 05, 2024",
-//     status: "Completed",
-//   },
-//   {
-//     product: "thirdproduct.com",
-//     orderId: "XYZ123456555",
-//     commission: "$2500.00",
-//     date: "Nov 09, 2024",
-//     status: "Completed",
-//   },
-// ];
-// export as pdf end
-
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
 const currentUrl = window.location.origin;
+//const currentUrl = window.location.origin;
 
 const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
   const [activeTab, setActiveTab] = useState("active");

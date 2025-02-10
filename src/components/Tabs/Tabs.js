@@ -21,6 +21,7 @@ import unserialize from "locutus/php/var/unserialize";
 const logoutUrl = "/wp-login.php?action=logout&redirect_to=/login";
 
 const currentUrl = window.location.origin;
+//const currentUrl = window.location.origin;
 
 const Tabs = ({ userData, setUserData }) => {
   // Main tabs and seller central tabs

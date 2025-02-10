@@ -16,7 +16,6 @@ import { FaCheckCircle, FaSpinner } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import WalletBalance from "./WalletBalance.jsx";
 const currentUrl = window.location.origin;
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
 
 export default function Wallet({
   isPaypalPopupOpen,
