@@ -48,7 +48,12 @@ jQuery(document).ready(function ($) {
   $(".img_producto")
     .on("mouseover", function () {
       // Scale the image
-      $(this).css({ transform: "scale(" + $(this).closest(".img_producto_container").attr("data-scale") + ")" });
+      $(this).css({
+        transform:
+          "scale(" +
+          $(this).closest(".img_producto_container").attr("data-scale") +
+          ")",
+      });
     })
     .on("mouseout", function () {
       // Reset the scale
@@ -62,7 +67,6 @@ jQuery(document).ready(function ($) {
 
       $(this).css({ "transform-origin": x + "% " + y + "%" });
     });
-
 
   // TESTIMONIAL SLIDER
   $(".ws-testimonial-container").slick({
@@ -251,7 +255,6 @@ jQuery(document).ready(function ($) {
       },
       success: function (response) {
         if (response.success == true) {
-          // console.log(response.data);
           if (response.data.count == "deduct") {
             count = Math.max(0, count - 1); // Prevent negative count
           } else {
@@ -272,14 +275,13 @@ jQuery(document).ready(function ($) {
       },
     });
     // single product add class to checked element on payment option
-    $('.payment-option').on('change', function () {
+    $(".payment-option").on("change", function () {
       // Remove 'active' class from all groups
-      $('.payment_form_group').removeClass('active');
+      $(".payment_form_group").removeClass("active");
 
       // Add 'active' class to the parent of the currently checked input
       // $(this).closest('.payment_form_group').addClass('active');
     });
-
   });
 
   // // password validation
@@ -366,5 +368,3 @@ document.addEventListener("DOMContentLoaded", function () {
     itemSelectText: "", // Removes the "Press to select" text
   });
 });
-
-

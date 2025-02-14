@@ -174,7 +174,7 @@ export default function UserDetails({ userData, setUserData }) {
         setErrorMessage(error.message); // Display the error message to the user
       });
   };
-  // console.log(userData);
+
   return (
     <div className={styles.profileSection}>
       <div className={`${styles.profileDetails} ${styles.ws_flex}`}>

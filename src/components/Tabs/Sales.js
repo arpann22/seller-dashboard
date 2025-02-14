@@ -27,6 +27,9 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { colors } from "@mui/material";
 import date from "locutus/php/datetime/date";
 
+const currentUrl = window.location.origin;
+// const currentUrl = "https://webstarter.com/";
+
 // progress bar sales stattus
 const ProgressBar = ({
   value,
@@ -100,8 +103,6 @@ const handleReset = () => {
     inputField.value = "";
   }
 };
-const currentUrl = window.location.origin;
-
 const Sales = ({
   userData,
   currentMonthCompletedSales,
@@ -608,6 +609,7 @@ const Sales = ({
           }
           return res.json(); // Return the order data
         });
+
         const allCustomerDetails = await Promise.all(customerDetailsPormises);
         setCustomerDetails(allCustomerDetails);
 
@@ -641,9 +643,6 @@ const Sales = ({
           const customerImage = matchedCustomer?.user_image || null;
           setPaidImage(customerImage);
         }
-        // setProgressImage;
-        // setPendingImage;
-        // setPaidImage;
       } catch (err) {
         console.log(err);
       } finally {
@@ -729,7 +728,6 @@ const Sales = ({
       if (url.hash) {
         const elementId = url.hash.substring(1); // Remove the "#" to get the ID
         const element = document.getElementById(elementId);
-        console.log(element);
 
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
@@ -1269,7 +1267,7 @@ const Sales = ({
                       );
 
                       const order_products_price = unserialize(
-                        order?.meta?._products_price[0]
+                        order?.meta?._products_price?.[0]
                       );
 
                       // Render the mapped elements
@@ -1278,10 +1276,17 @@ const Sales = ({
                           {domainDetails.map((domainDetail) => {
                             const domainIdString = domainDetail?.id.toString();
 
-                            const order_product_price =
-                              order_products_price.filter(
-                                (order) => order.product_id === domainIdString
-                              );
+                            // const order_product_price =
+                            //   order_products_price.filter(
+                            //     (order) => order.product_id === domainIdString
+                            //   );
+                            const order_product_price = Array.isArray(
+                              order_products_price
+                            )
+                              ? order_products_price.filter(
+                                  (order) => order.product_id === domainIdString
+                                )
+                              : [];
 
                             const order_product_registar =
                               registarDetails.filter(

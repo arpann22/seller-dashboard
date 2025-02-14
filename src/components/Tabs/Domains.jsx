@@ -50,7 +50,6 @@ export default function Domains({ userData, setSellerCentralTab }) {
       }
       const data = await res.json();
       setDomains(data);
-      // console.log(data);
     } catch (err) {
       setErrorMessage(err.message);
     } finally {

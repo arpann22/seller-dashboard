@@ -129,7 +129,7 @@ const PaymentStatus = ({ userData, setGetPayouts, getPayouts }) => {
 
       const data = await response.json();
       setPayouts(data); // Update the payouts state with the fetched data
-      console.log(data);
+
       setPayoutsError(null); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching payouts:", error);

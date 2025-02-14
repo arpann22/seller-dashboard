@@ -31,7 +31,7 @@ const TabContent = ({
 }) => {
   //section for redirect from the notifications starts
   // const query = new URLSearchParams(this.props.location.search);
-  // console.log("queryere", query);
+
   //section for redirect from the notifications ends
 
   const [selectedTab, setSelectedTab] = useState("1 m");
