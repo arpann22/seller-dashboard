@@ -17,6 +17,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { ReactComponent as Sales_status_icon } from "./image/sales_status.svg";
 import { ReactComponent as SortIcon } from "./image/sort.svg";
 import unserialize from "locutus/php/var/unserialize";
+import Logo from "./Logo";
 
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 
@@ -655,12 +656,13 @@ const Sales = ({
 
   const [domainDetails, setDomainDetails] = useState([]);
   const [domainNames, setDomainNames] = useState([]);
+
   useEffect(() => {
     async function fetchDomainDetails() {
       try {
         const domainDetailsPromises = domainIds.map(async (domainId) => {
           const res = await fetch(
-            `${currentUrl}/wp-json/wp/v2/domain/${domainId}`
+            `${currentUrl}/wp-json/wp/v2/domain/${domainId}?_embed`
           );
           if (!res.ok) {
             const errorData = await res.json();
@@ -672,6 +674,7 @@ const Sales = ({
         const allDomainDetails = await Promise.all(domainDetailsPromises);
 
         setDomainDetails(allDomainDetails);
+        console.log(allDomainDetails);
 
         const domain_names = allDomainDetails.map((domainDetails) => {
           return domainDetails?.title?.rendered;
@@ -705,6 +708,7 @@ const Sales = ({
         });
 
         const allDomainsRegistar = await Promise.all(domainRegistarPromises);
+
         setRegistartDetails(allDomainsRegistar);
 
         // setDomainDetails(allDomainDetails);
@@ -1259,15 +1263,13 @@ const Sales = ({
                       expanded[index] ? styles.expanded : ""
                     }`}
                   >
-                    {/* test js starts  */}
                     {(() => {
                       // Unserialize the data from the order object (do this once)
                       const order_products_serialized = unserialize(
                         order?.meta?._domain_ids?.[0]
                       );
 
-                      const ordered_currency =
-                        order?.meta?._currency_symbol?.[0];
+                      const ordered_currency = order?.meta?._currency?.[0];
                       let order_products_price;
                       if (ordered_currency == "USD") {
                         order_products_price = unserialize(
@@ -1284,13 +1286,20 @@ const Sales = ({
                         <div>
                           {domainDetails.map((domainDetail) => {
                             const domainIdString = domainDetail?.id.toString();
-
+                            const logoImageId =
+                              domainDetail.meta?._logo_image?.[0] || null;
+                            const fetaured_image =
+                              domainDetail._embedded &&
+                              domainDetail._embedded["wp:featuredmedia"]
+                                ? domainDetail._embedded["wp:featuredmedia"][0]
+                                    .source_url
+                                : null;
                             // const order_product_price =
                             //   order_products_price.filter(
                             //     (order) => order.product_id === domainIdString
                             //   );
 
-                            const order_product_price = Array.isArray(
+                            const ordered_product_price = Array.isArray(
                               order_products_price
                             )
                               ? order_products_price.filter(
@@ -1313,7 +1322,15 @@ const Sales = ({
                                     <div
                                       className={styles.recentOffers_card_image}
                                     >
-                                      <img src={domain_img} alt="Domain" />
+                                      {/* <img src={domain_img} alt="Domain" />
+                                       */}
+                                      <Logo
+                                        logoImageId={logoImageId}
+                                        domain_title={
+                                          domainDetail.title.rendered
+                                        }
+                                        featuredImageUrl={fetaured_image}
+                                      />
                                     </div>
                                     <div
                                       className={
@@ -1331,7 +1348,7 @@ const Sales = ({
                                       <p>Offer Amount</p>
                                       <h6>
                                         {order?.meta?._currency_symbol?.[0]}
-                                        {order_product_price?.[0]?.price}
+                                        {ordered_product_price?.[0]?.price}
                                       </h6>
                                     </div>
                                   </div>
@@ -1400,7 +1417,6 @@ const Sales = ({
                         </div>
                       );
                     })()}
-                    {/* test js ends  */}
                   </div>
                 </div>
               );
