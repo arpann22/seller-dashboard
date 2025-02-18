@@ -1266,9 +1266,18 @@ const Sales = ({
                         order?.meta?._domain_ids?.[0]
                       );
 
-                      const order_products_price = unserialize(
-                        order?.meta?._products_price?.[0]
-                      );
+                      const ordered_currency =
+                        order?.meta?._currency_symbol?.[0];
+                      let order_products_price;
+                      if (ordered_currency == "USD") {
+                        order_products_price = unserialize(
+                          order?.meta?._usd_products_price?.[0]
+                        );
+                      } else {
+                        order_products_price = unserialize(
+                          order?.meta?._products_price?.[0]
+                        );
+                      }
 
                       // Render the mapped elements
                       return (
@@ -1280,6 +1289,7 @@ const Sales = ({
                             //   order_products_price.filter(
                             //     (order) => order.product_id === domainIdString
                             //   );
+
                             const order_product_price = Array.isArray(
                               order_products_price
                             )
