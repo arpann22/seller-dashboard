@@ -48,7 +48,12 @@ const md = new MarkdownIt();
 
 //const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
-export default function AddDomain({ styles, userData }) {
+export default function AddDomain({
+  styles,
+  userData,
+  activeInnerTab,
+  setSellerCentralTab,
+}) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
@@ -566,9 +571,11 @@ export default function AddDomain({ styles, userData }) {
 
       return;
     }
+
     if (!content) {
       setSubmitLoading(false);
       setErrorMessage("Required domain description.");
+      return;
     }
     if (selectedIndustries.length < 1) {
       setSubmitLoading(false);
@@ -722,8 +729,11 @@ export default function AddDomain({ styles, userData }) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
-          setSubmitLoading(false);
-          setSuccessMessage("Domain Added Successfully.");
+          if (data) {
+            setSubmitLoading(false);
+            setSuccessMessage("Domain Added Successfully.");
+            setSellerCentralTab("Domains");
+          }
         } catch (error) {
           console.log(error);
         }
@@ -884,6 +894,12 @@ export default function AddDomain({ styles, userData }) {
     button_label = "Update Product";
   }
   //-------------------------edit section ends
+  const formRef = useRef(null);
+  useEffect(() => {
+    if (activeInnerTab == "Add New Domain") {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [activeInnerTab]);
 
   return (
     <>
@@ -892,7 +908,7 @@ export default function AddDomain({ styles, userData }) {
           className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}
         >
           <img src={addDomaintitleImage} alt="stars" />
-          <h2>
+          <h2 ref={formRef}>
             {" "}
             Add New <span>Domain</span>
           </h2>
@@ -1527,9 +1543,12 @@ export default function AddDomain({ styles, userData }) {
                     uploadUrl: "/your-upload-endpoint", // Replace with your server URL
                   },
                 }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                }}
+                // onChange={(event, editor) => {
+                //   const data = editor.getData();
+                // }}
+                onChange={(event, editor) =>
+                  handleEditorChange(editor.getData())
+                }
               />
             </div>
             <div

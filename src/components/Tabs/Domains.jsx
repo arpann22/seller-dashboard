@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import styles from "./Tabs.module.css"; // Import styles
 import "./Domains.css";
@@ -17,11 +17,23 @@ const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
-export default function Domains({ userData, setSellerCentralTab }) {
+export default function Domains({
+  userData,
+  setSellerCentralTab,
+  activeInnerTab,
+}) {
   const [domains, setDomains] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [draftDomains, setDraftDomains] = useState([]);
+
+  //scroll to draft domain at the ends
+  const draftRef = useRef(null);
+  useEffect(() => {
+    if (activeInnerTab == "Domains") {
+      draftRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [activeInnerTab, domains]);
 
   // fetching active domains
 
@@ -368,7 +380,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
         >
           {/* <img src={domain_drafts_icon}></img> */}
           <DraftsDomainsIcon />
-          <h4>Draft Domains</h4>
+          <h4 ref={draftRef}>Draft Domains</h4>
         </div>
         <div
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}

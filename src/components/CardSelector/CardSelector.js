@@ -99,7 +99,7 @@ const CardSelector = ({
             </div>
 
             {/* Conditionally render the icon only if item.icon exists */}
-            {item.meta?.taxonomy_image_id &&
+            {/* {item.meta?.taxonomy_image_id &&
               imageUrls[item.meta?.taxonomy_image_id] && (
                 <div className={styles.icon}>
                   <img
@@ -107,7 +107,7 @@ const CardSelector = ({
                     alt={`${item.name}`}
                   />
                 </div>
-              )}
+              )} */}
           </div>
         );
       })}

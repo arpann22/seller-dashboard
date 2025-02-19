@@ -56,7 +56,12 @@ const SellerCentralTabContent = ({
     case "Add New Domain":
       return (
         <>
-          <AddDomain styles={styles} userData={userData} />
+          <AddDomain
+            styles={styles}
+            userData={userData}
+            activeInnerTab={activeInnerTab}
+            setSellerCentralTab={setSellerCentralTab}
+          />
         </>
       );
 
@@ -91,6 +96,7 @@ const SellerCentralTabContent = ({
             mediaSetupIcon={mediaSetupIcon}
             domain_img={domain_img}
             setSellerCentralTab={setSellerCentralTab}
+            activeInnerTab={activeInnerTab}
           />
         </>
       );
