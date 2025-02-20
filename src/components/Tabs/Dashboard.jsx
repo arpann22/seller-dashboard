@@ -143,6 +143,44 @@ const Dashboard = ({
   });
   // manage offers section ends ----------------------------------------------
 
+  // community sections starts -----------------------------------------------
+  const [communityDetails, setCommunityDetails] = useState([]);
+  const [communityLoading, setCommunityLoading] = useState(true);
+  const [communityError, setCommunityError] = useState("");
+  async function get_community_details() {
+    try {
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/community/${userData.id}`
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setCommunityError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCommunityDetails(data);
+      }
+      console.log("community", data);
+    } catch (error) {
+      setCommunityError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCommunityLoading(false);
+    }
+  }
+  useEffect(() => {
+    if (userData.id) {
+      get_community_details();
+    }
+  }, [userData]);
+
+  // community sections ends -----------------------------------------------
+
   return (
     <>
       <div
@@ -427,7 +465,6 @@ const Dashboard = ({
                   key={index}
                   className="swiper-slide ws-cards-container-noHover p_relative ws_cards_domains_active_draft"
                 >
-                  {console.log(offer)}
                   {/* Premium Icon */}
                   <div className="premium_icon status">
                     <h6 className={`${styles.offer_status} ${offer.status}`}>
@@ -528,11 +565,20 @@ const Dashboard = ({
             </div>
             <div className="dashboard_community_card community_followers">
               <div class="reviews_images_lists ws_flex jc_center ai_center">
-                <img src={cust_img} />
-                <img src={cust_img} />
-                <img src={cust_img} />
-                <img src={cust_img} />
-                <span>+3</span>
+                {communityDetails.offered_images &&
+                  communityDetails.offered_images
+                    .slice(0, 4)
+                    .map((details, index) => (
+                      <img
+                        key={index}
+                        src={details}
+                        alt={`Offer ${index + 1}`}
+                      />
+                    ))}
+                {communityDetails.offered_images &&
+                  communityDetails.offered_images.length > 4 && (
+                    <span>+{communityDetails.offered_images.length - 4}</span>
+                  )}
               </div>
               <div
                 className={`${styles.community_card_content_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_20} community_card_content_wrapper`}
@@ -541,9 +587,13 @@ const Dashboard = ({
                   <Followers />
                 </div>
                 <div className={styles.community_card_detail_wrapper}>
-                  <h2 className="ws_text_start">74</h2>
+                  <h2 className="ws_text_start">
+                    {communityDetails?.buyer_count
+                      ? communityDetails.buyer_count
+                      : 0}
+                  </h2>
                   <p>
-                    {/* Followers <span>+5 This Month</span> */}
+                    {/* F</h2>ollowers <span>+5 This Month</span> */}
                     People have sent an offer.
                   </p>
                 </div>

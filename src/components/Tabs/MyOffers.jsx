@@ -274,7 +274,7 @@ const MyOffers = ({ userData }) => {
       const data = await res.json();
       if (data) {
         setCartSuccess(data || "Added to the cart successfully");
-        // refreshOrderData();
+        window.location.reload(); // Reload the page
       }
     } catch (error) {
       setCartError(
