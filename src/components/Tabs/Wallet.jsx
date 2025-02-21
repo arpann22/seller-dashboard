@@ -26,10 +26,12 @@ export default function Wallet({
   setCryptoPopupOpen,
   mediaSetupIcon,
   userData,
+  getPayouts,
+  setGetPayouts,
+  paymentMethod,
+  setPaymentMethod,
 }) {
   const [selectedCard, setSelectedCard] = useState(null);
-
-  const [getPayouts, setGetPayouts] = useState(null);
 
   const handleClosePopup = () => {
     setPaypalPopupOpen(false);
@@ -306,37 +308,70 @@ export default function Wallet({
     }
   }
 
+  const [preferredLoading, setPreferredLoading] = useState(true);
+
+  const get_preferred_payment_method = async () => {
+    try {
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/get-preferred-payment-method/${userData.id}`
+      );
+      if (!res.ok) {
+        throw new Error("HTTP error! status: " + res.status);
+      }
+      const data = await res.json();
+      if (data) {
+        if (data?.preferred_payment_method) {
+          let payment_method = data?.preferred_payment_method;
+          if (payment_method === "bank") {
+            setPaymentMethod("Bank Transfer");
+          } else if (payment_method === "crypto") {
+            setPaymentMethod("Crypto Wallet");
+          } else {
+            setPaymentMethod("Paypal");
+          }
+          setSelectedCard(payment_method);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPreferredLoading(false);
+    }
+  };
+  useEffect(() => {
+    get_preferred_payment_method();
+  }, [userData]);
   const handleCardSelect = async (cardId) => {
     setSelectedCard(cardId); // Set the selected card
     await save_prefereed_payment_method(cardId);
-    if (cardId === "bank") {
-      setPaymentMethod("Bank Transfer");
-    } else if (cardId === "crypto") {
-      setPaymentMethod("Crypto Wallet");
-    } else {
-      setPaymentMethod("Paypal");
-    }
+    await get_preferred_payment_method();
+    // if (cardId === "bank") {
+    //   setPaymentMethod("Bank Transfer");
+    // } else if (cardId === "crypto") {
+    //   setPaymentMethod("Crypto Wallet");
+    // } else {
+    //   setPaymentMethod("Paypal");
+    // }
   };
 
-  const [paymentMethod, setPaymentMethod] = useState(null);
-  useEffect(() => {
-    if (userData) {
-      if (userData?.preferred_payment_method) {
-        if (userData?.preferred_payment_method === "bank") {
-          setPaymentMethod("Bank Transfer");
-        } else if (userData?.preferred_payment_method === "crypto") {
-          setPaymentMethod("Crypto Wallet");
-        } else {
-          setPaymentMethod("Paypal");
-        }
-        setSelectedCard(userData.preferred_payment_method);
-      } else {
-        setSelectedCard("paypal"); // At first, paypal is selected by default
-        save_prefereed_payment_method("paypal", "first");
-        setPaymentMethod("Paypal");
-      }
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData) {
+  //     if (userData?.preferred_payment_method) {
+  //       if (userData?.preferred_payment_method === "bank") {
+  //         setPaymentMethod("Bank Transfer");
+  //       } else if (userData?.preferred_payment_method === "crypto") {
+  //         setPaymentMethod("Crypto Wallet");
+  //       } else {
+  //         setPaymentMethod("Paypal");
+  //       }
+  //       setSelectedCard(userData.preferred_payment_method);
+  //     } else {
+  //       setSelectedCard("paypal"); // At first, paypal is selected by default
+  //       save_prefereed_payment_method("paypal", "first");
+  //       setPaymentMethod("Paypal");
+  //     }
+  //   }
+  // }, [userData]);
   /**
    * payment method section ends
    */
@@ -352,6 +387,7 @@ export default function Wallet({
             paymentMethod={paymentMethod}
             setGetPayouts={setGetPayouts}
             getPayouts={getPayouts}
+            preferredLoading={preferredLoading}
           />
         </div>
         {/* Payment Method */}

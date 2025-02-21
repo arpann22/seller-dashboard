@@ -30,6 +30,10 @@ const Dashboard = ({
   salesAllTime,
   salesCurrentYear,
   setSellerCentralTab,
+  getPayouts,
+  setGetPayouts,
+  paymentMethod,
+  setPaymentMethod,
 }) => {
   function handleManageOffers() {
     setSellerCentralTab("Manage Offers");
@@ -605,7 +609,12 @@ const Dashboard = ({
           className={`${styles.wallet_available_balance} dashboard_cust_reviews_wrapper`}
         >
           {/* <CustReviews /> */}
-          <WalletBalance />
+          <WalletBalance
+            userData={userData}
+            paymentMethod={paymentMethod}
+            setGetPayouts={setGetPayouts}
+            getPayouts={getPayouts}
+          />
         </div>
       </div>
     </>

@@ -30,6 +30,8 @@ const SellerCentralTabContent = ({
   const [isPaypalPopupOpen, setPaypalPopupOpen] = useState(false);
   const [isBankPopupOpen, setBankPopupOpen] = useState(false);
   const [isCryptoPopupOpen, setCryptoPopupOpen] = useState(false);
+  const [getPayouts, setGetPayouts] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -74,6 +76,10 @@ const SellerCentralTabContent = ({
             salesAllTime={salesAllTime}
             salesCurrentYear={salesCurrentYear}
             setSellerCentralTab={setSellerCentralTab}
+            getPayouts={getPayouts}
+            setGetPayouts={setGetPayouts}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
           />
         </>
       );
@@ -124,6 +130,10 @@ const SellerCentralTabContent = ({
             setCryptoPopupOpen={setCryptoPopupOpen}
             mediaSetupIcon={mediaSetupIcon}
             userData={userData}
+            getPayouts={getPayouts}
+            setGetPayouts={setGetPayouts}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
           />
         </>
       );
