@@ -545,13 +545,13 @@ const Dashboard = ({
           </div>
           <div className={`${styles.tablet_fd_col} dashboard_community_cards `}>
             <div className="dashboard_community_card community_reviews">
-              <div class="reviews_images_lists ws_flex jc_center ai_center">
+              {/* <div class="reviews_images_lists ws_flex jc_center ai_center">
                 <img src={cust_img} />
                 <img src={cust_img} />
                 <img src={cust_img} />
                 <img src={cust_img} />
                 <span>+3</span>
-              </div>
+              </div> */}
               <div
                 className={`${styles.community_card_content_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_20} community_card_content_wrapper`}
               >
@@ -559,7 +559,11 @@ const Dashboard = ({
                   <Reviews />
                 </div>
                 <div className={styles.community_card_detail_wrapper}>
-                  <h2 className="ws_text_start">74</h2>
+                  <h2 className="ws_text_start">
+                    {communityDetails?.total_view
+                      ? communityDetails.total_view
+                      : 0}
+                  </h2>
                   <p>
                     {/* People have viewed <span>your domains</span> */}
                     People have viewed your domains.

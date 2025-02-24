@@ -65,7 +65,8 @@ const CardSelector = ({
           }`}
             onClick={() => toggleSelect(item)}
           >
-            <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>
+            {/*  <div className={` ${styles.cardContent} ${tabstyles.flex_column}`}>*/}
+            <div className={` ${styles.cardContent}`}>
               {/* Conditionally render for tagsItems */}
               {!item.meta?.taxonomy_image_id &&
               !imageUrls[item.meta?.taxonomy_image_id] ? (
@@ -83,6 +84,8 @@ const CardSelector = ({
                 </>
               ) : (
                 <>
+                  <RxCross2 />
+                  <GoPlus />
                   <h5>{item.name.replace("&amp;", "&")}</h5>
                   <div className={styles.cardSelector_aiPicks}>
                     {generateTaxonomies &&
@@ -90,9 +93,6 @@ const CardSelector = ({
                       selectedItems.some(
                         (selectedItem) => selectedItem.id === item.id
                       ) && <span>Ai-Pick</span>}
-
-                    <RxCross2 />
-                    <GoPlus />
                   </div>
                 </>
               )}

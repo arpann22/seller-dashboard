@@ -689,6 +689,7 @@ export default function AddDomain({
           const data = await res.json();
           setSubmitLoading(false);
           setSuccessMessage("Domain Updated Successfully.");
+          setSellerCentralTab("Domains");
         } catch (error) {
           console.log(error);
         }
