@@ -205,7 +205,10 @@ export default function Domains({
         ? Math.round(((regularPrice - salePrice) / regularPrice) * 100)
         : 0;
 
-    const favouriteCount = domain.meta._favourite_count?.[0] || "0";
+    // const favouriteCount = domain.meta._favourite_count?.[0] || "0";
+    const favouriteCount = domain.meta.ws_product_view_count?.[0] || "0";
+    const formattedFavouriteCount =
+      favouriteCount >= 1000 ? (favouriteCount / 1000).toFixed(1) + "k" : 0;
     const logoImageId = domain.meta?._logo_image?.[0] || null;
     const featuredImageUrl =
       domain._embedded && domain._embedded["wp:featuredmedia"]
@@ -313,7 +316,7 @@ export default function Domains({
             </span>
             <div className="ws-card-likes disable-favourite">
               <h6>
-                <span>{favouriteCount}</span>
+                <span>{formattedFavouriteCount}</span>
                 <i className="fa-solid fa-heart"></i>
               </h6>
             </div>
