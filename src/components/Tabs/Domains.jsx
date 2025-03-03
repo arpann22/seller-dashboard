@@ -208,7 +208,9 @@ export default function Domains({
     // const favouriteCount = domain.meta._favourite_count?.[0] || "0";
     const favouriteCount = domain.meta.ws_product_view_count?.[0] || "0";
     const formattedFavouriteCount =
-      favouriteCount >= 1000 ? (favouriteCount / 1000).toFixed(1) + "k" : 0;
+      favouriteCount >= 1000
+        ? (favouriteCount / 1000).toFixed(1) + "k"
+        : favouriteCount.toString();
     const logoImageId = domain.meta?._logo_image?.[0] || null;
     const featuredImageUrl =
       domain._embedded && domain._embedded["wp:featuredmedia"]

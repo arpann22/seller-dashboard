@@ -18,7 +18,6 @@ import domains_add_domain_img from "./images/domains_add_domain_img.png";
 import WalletBalance from "./WalletBalance.jsx";
 // import CustReviews from "./CustReviews";
 
-const progress = 50; //
 const currentUrl = window.location.origin;
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
 
@@ -185,6 +184,44 @@ const Dashboard = ({
 
   // community sections ends -----------------------------------------------
 
+  // commission section starts ----------------------------------------------
+  const [commissionDetails, setCommissionDetails] = useState([]);
+  const [commissionLoading, setCommissionLoading] = useState(true);
+  const [commissionError, setCommissionError] = useState("");
+
+  async function get_commission_details() {
+    try {
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/dashboard-commission/${userData.id}`
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData?.message || "Something went wrong. Please try again later.";
+        setCommissionError(errorMessage);
+        throw new Error(errorMessage);
+      }
+      const data = await res.json();
+      if (data) {
+        setCommissionDetails(data);
+      }
+    } catch (error) {
+      setCommissionError(
+        error.message || "Something went wrong. Please try again later."
+      );
+    } finally {
+      setCommissionLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (userData.id) {
+      get_commission_details();
+    }
+  }, [userData.id]);
+  // commission section ends ----------------------------------------------
+
   return (
     <>
       <div
@@ -267,6 +304,13 @@ const Dashboard = ({
             className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.justify_space_between}`}
           >
             <h4>Commissions</h4>
+            {commissionLoading && (
+              <div>
+                <div className="loading_overlay">
+                  <FaSpinner className="loading" />
+                </div>
+              </div>
+            )}
             {/* <HiDotsVertical /> */}
           </div>
           <div className="dashboard_commission_cards">
@@ -278,9 +322,14 @@ const Dashboard = ({
                 <div className="commission_details">
                   <div className={`${styles.ws_flex} ${styles.gap_20}`}>
                     <h6>Total Paid:</h6>
-                    <h6>$20,000.00</h6>
+                    <h6>
+                      $
+                      {commissionDetails?.[0]?.paid_amount
+                        ? commissionDetails[0].paid_amount
+                        : 0}
+                    </h6>
                   </div>
-                  <div
+                  {/* <div
                     className={`${styles.ws_flex} ${styles.gap_20} ${styles.mt_5}`}
                   >
                     <h6>Last Paid:</h6>
@@ -292,12 +341,8 @@ const Dashboard = ({
                       <h6>Top Buyer</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    {/* <div
-                      className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
-                    >
-                      <FiMail />
-                    </div> */}
-                  </div>
+             
+                  </div> */}
                 </div>
               </div>
               <div className="dashboard_commission_card_right">
@@ -318,24 +363,32 @@ const Dashboard = ({
                       fill="none"
                       stroke="rgb(245, 185, 3)"
                       strokeWidth="3.2"
-                      strokeDasharray={`${progress}, 100`}
+                      strokeDasharray={`${
+                        commissionDetails?.[0]?.paid_percentage
+                          ? commissionDetails[0].paid_percentage
+                          : 0
+                      }, 100`}
                     />
                     <foreignObject x="9" y="12" width="20" height="16">
                       <h2
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_text"
                       >
-                        {`${progress}%`}
+                        {`${
+                          commissionDetails?.[0]?.paid_percentage
+                            ? commissionDetails[0].paid_percentage
+                            : 0
+                        }%`}
                       </h2>
                     </foreignObject>
-                    <foreignObject x="5" y="22" width="20" height="10">
+                    {/* <foreignObject x="5" y="22" width="20" height="10">
                       <h6
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_subtext"
                       >
                         #Paid 21
                       </h6>
-                    </foreignObject>
+                    </foreignObject> */}
                   </svg>
                 </div>
               </div>
@@ -348,9 +401,14 @@ const Dashboard = ({
                 <div className="commission_details">
                   <div className={`${styles.ws_flex} ${styles.gap_20}`}>
                     <h6>Total Due:</h6>
-                    <h6>$20,000.00</h6>
+                    <h6>
+                      $
+                      {commissionDetails?.[0]?.pending_amount
+                        ? commissionDetails[0].pending_amount
+                        : 0}
+                    </h6>
                   </div>
-                  <div className={`${styles.ws_flex} ${styles.gap_20}`}>
+                  {/* <div className={`${styles.ws_flex} ${styles.gap_20}`}>
                     <h6>Next Due:</h6>
                     <h6>24 July, 2024</h6>
                   </div>
@@ -360,12 +418,7 @@ const Dashboard = ({
                       <h6>Top Owed</h6>
                       <h5>Charles Bedford</h5>
                     </div>
-                    {/* <div
-                      className={`${styles.svg_wrapper_bg_grey} commissions_profile_mail`}
-                    >
-                      <FiMail />
-                    </div> */}
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="dashboard_commission_card_right">
@@ -386,24 +439,32 @@ const Dashboard = ({
                       fill="none"
                       stroke="#00d9f5"
                       strokeWidth="3.2"
-                      strokeDasharray={`${progress}, 100`}
+                      strokeDasharray={`${
+                        commissionDetails?.[0]?.pending_percentage
+                          ? commissionDetails[0].pending_percentage
+                          : 0
+                      }, 100`}
                     />
                     <foreignObject x="9" y="12" width="20" height="16">
                       <h2
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_text"
                       >
-                        {`${progress}%`}
+                        {`${
+                          commissionDetails?.[0]?.pending_percentage
+                            ? commissionDetails[0].pending_percentage
+                            : 0
+                        }%`}
                       </h2>
                     </foreignObject>
-                    <foreignObject x="5" y="22" width="20" height="10">
+                    {/* <foreignObject x="5" y="22" width="20" height="10">
                       <h6
                         xmlns="http://www.w3.org/1999/xhtml"
                         className="progress_subtext"
                       >
                         #Due 7
                       </h6>
-                    </foreignObject>
+                    </foreignObject> */}
                   </svg>
                 </div>
               </div>
