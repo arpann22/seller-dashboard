@@ -31,7 +31,7 @@ export default function Wallet({
   paymentMethod,
   setPaymentMethod,
 }) {
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState("");
 
   const handleClosePopup = () => {
     setPaypalPopupOpen(false);
@@ -329,7 +329,11 @@ export default function Wallet({
           } else {
             setPaymentMethod("Paypal");
           }
+
           setSelectedCard(payment_method);
+        } else {
+          setPaymentMethod("Paypal");
+          setSelectedCard("paypal");
         }
       }
     } catch (error) {
