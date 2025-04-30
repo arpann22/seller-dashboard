@@ -921,6 +921,11 @@ export default function AddDomain({
   function handlePronounciation(pronounciation_id) {
     setAiAudioUrl(pronounciation_id); // Update state
   }
+
+  const [industrySearchQuery, setIndustrySearchQuery] = useState("");
+  const [tagsSearchQuery, setTagsSearchQuery] = useState("");
+  const [categoriesSearchQuery, setCategoriesSearchQuery] = useState("");
+
   return (
     <>
       <div className={styles.add_domain_background_wrapper}>
@@ -1499,6 +1504,13 @@ export default function AddDomain({
               {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
               <CategoriesIcon />
               <h4>Categories</h4>
+              <input
+                type="text"
+                placeholder="Search Categories"
+                value={categoriesSearchQuery}
+                onChange={(e) => setCategoriesSearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
             {catError ? (
               catError
@@ -1510,6 +1522,7 @@ export default function AddDomain({
                 selectedItems={selectedCategories}
                 setSelectedItems={setSelectedCategories}
                 generateTaxonomies={generateTaxonomies}
+                searchQuery={categoriesSearchQuery}
               />
             )}
           </div>
@@ -1629,6 +1642,13 @@ export default function AddDomain({
               {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
               <TagsIcon />
               <h4>Tags</h4>
+              <input
+                type="text"
+                placeholder="Search Tags"
+                value={tagsSearchQuery}
+                onChange={(e) => setTagsSearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
             <div className={cardstyles.description_tags_wrapper}>
               {/* <CardSelector items={tagsItems} /> */}
@@ -1642,6 +1662,7 @@ export default function AddDomain({
                   selectedItems={selectedTags}
                   setSelectedItems={setSelectedTags}
                   generateTaxonomies={generateTaxonomies}
+                  searchQuery={tagsSearchQuery}
                 />
               )}
             </div>
@@ -1658,6 +1679,13 @@ export default function AddDomain({
               <h4>
                 Industries<sup className="required">*</sup>
               </h4>
+              <input
+                type="text"
+                placeholder="Search Industries"
+                value={industrySearchQuery}
+                onChange={(e) => setIndustrySearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
 
             {/* <CardSelector items={industryItems} /> */}
@@ -1672,6 +1700,7 @@ export default function AddDomain({
                 setSelectedItems={setSelectedIndustries}
                 generateTaxonomies={generateTaxonomies}
                 type="industry"
+                searchQuery={industrySearchQuery}
               />
             )}
           </div>

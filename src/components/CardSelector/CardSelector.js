@@ -10,6 +10,7 @@ const CardSelector = ({
   selectedItems,
   setSelectedItems,
   generateTaxonomies,
+  searchQuery, // Pass search query
   type,
 }) => {
   const [imageUrls, setImageUrls] = useState({});
@@ -21,6 +22,10 @@ const CardSelector = ({
       setSelectedItems([...selectedItems, item]); // for passing whole item data
     }
   };
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // setSelectedItems(obj);
   const fetchImageUrl = async (imageId) => {
@@ -48,7 +53,7 @@ const CardSelector = ({
 
   return (
     <div className={styles.cardSelectorWrapper}>
-      {items.map((item, index) => {
+      {filteredItems.map((item, index) => {
         return (
           <div
             key={index}
