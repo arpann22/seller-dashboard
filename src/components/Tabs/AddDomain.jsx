@@ -460,8 +460,8 @@ export default function AddDomain({
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null); // For the actual file object
   const [audioFile, setAudioFile] = useState(null);
-  const [audioURL, setAudioURL] = useState(null); // Holds the audio URL for display
-  const audioInputRef = useRef(null); // Reference to the file input element
+  // const [audioURL, setAudioURL] = useState(null); // Holds the audio URL for display
+  // const audioInputRef = useRef(null); // Reference to the file input element
   const [thumbnailId, setThumbnailId] = useState(null); // For existing thumbnail ID
   const [audioId, setAudioId] = useState(null); // For existing audio ID
 
@@ -473,21 +473,21 @@ export default function AddDomain({
     }
   };
 
-  const handleAudioChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setAudioFile(file); // Store audio file for API request
-      setAudioURL(URL.createObjectURL(file)); // Generate and store audio URL
-    }
-  };
-  const handleRemoveAudio = () => {
-    setAudioFile(null); // Clear audio file
-    setAudioURL(null); // Clear audio URL
-    setAudioId(null);
-    if (audioInputRef.current) {
-      audioInputRef.current.value = ""; // Reset file input value
-    }
-  };
+  // const handleAudioChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     setAudioFile(file); // Store audio file for API request
+  //     setAudioURL(URL.createObjectURL(file)); // Generate and store audio URL
+  //   }
+  // };
+  // const handleRemoveAudio = () => {
+  //   setAudioFile(null); // Clear audio file
+  //   setAudioURL(null); // Clear audio URL
+  //   setAudioId(null);
+  //   if (audioInputRef.current) {
+  //     audioInputRef.current.value = ""; // Reset file input value
+  //   }
+  // };
   // getting tld from domain name
   function getTLD(domain) {
     const parts = domain.split(".");
@@ -877,22 +877,22 @@ export default function AddDomain({
               console.log(err);
             }
           }
-          if (audio_id) {
-            try {
-              const audio_res = await fetch(
-                `${currentUrl}/wp-json/wp/v2/media/${audio_id}`
-              );
-              if (!audio_res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-              }
-              const audio_data = await audio_res.json();
+          // if (audio_id) {
+          //   try {
+          //     const audio_res = await fetch(
+          //       `${currentUrl}/wp-json/wp/v2/media/${audio_id}`
+          //     );
+          //     if (!audio_res.ok) {
+          //       throw new Error(`HTTP error! status: ${res.status}`);
+          //     }
+          //     const audio_data = await audio_res.json();
 
-              setAudioFile(audio_data.source_url);
-              setAudioURL(audio_data.source_url);
-            } catch (err) {
-              console.log(err);
-            }
-          }
+          //     setAudioFile(audio_data.source_url);
+          //     setAudioURL(audio_data.source_url);
+          //   } catch (err) {
+          //     console.log(err);
+          //   }
+          // }
 
           const value_estimated = data?.meta?._estimated_value
             ? data.meta._estimated_value[0]
@@ -1086,7 +1086,7 @@ export default function AddDomain({
                 </div> */}
 
                 <form className={styles.pronounce_add_form}>
-                  {audioUrl && audioUrl.length === 0 && aiAudioUrl && (
+                  {audioUrl.length === 0 && aiAudioUrl && (
                     <div className={styles.audioWrapper}>
                       <audio
                         controls
