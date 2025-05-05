@@ -369,7 +369,7 @@ export default function Wallet({
               <FaSpinner className="loading" />
             </div>
           )}
-          {!type && success_msg && <div class="completed">{success_msg}</div>}
+          {!type && success_msg && <div class="success_msg">{success_msg}</div>}
           {error_msg && <div class="cancelled">{error_msg}</div>}
           <form>
             <div

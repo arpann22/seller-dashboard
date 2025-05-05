@@ -193,7 +193,7 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
         </div>
         <h4>Available Balance</h4>
       </div>
-      {requestError && <div class="cancelled">{requestError}</div>}
+      {requestError && <div class="error_msg">{requestError}</div>}
       <div className={styles.available_balance_card}>
         <div
           className={`${styles.available_balance_card_shapes} ${styles.justify_space_between} ${styles.ws_flex}`}
