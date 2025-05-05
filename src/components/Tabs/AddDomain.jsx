@@ -987,8 +987,7 @@ export default function AddDomain({
               className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
             >
               {/* first card */}
-              <div className={styles.media_content_wrapper}>
-                {/* Conditionally render audio player or initial image */}
+              {/* <div className={styles.media_content_wrapper}>
                 {audioURL ? (
                   <div className={styles.audioWrapper}>
                     <audio
@@ -1005,7 +1004,7 @@ export default function AddDomain({
                       />
                       Your browser does not support the audio element.
                     </audio>
-                    {/* Remove Button */}
+      
                     <button
                       onClick={handleRemoveAudio}
                       className={styles.removeAudioButton}
@@ -1056,6 +1055,10 @@ export default function AddDomain({
                     />
                   </div>
                 </div>
+              </div> */}
+
+              <div className={styles.media_content_wrapper}>
+                redirect domain
               </div>
               {/* second card */}
               <div
@@ -1173,16 +1176,16 @@ export default function AddDomain({
                 </div>
               </div>
               {/* third card */}
-              <div
+              {/* <div
                 className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
               >
-                {/* {selectedImage && (
+                {selectedImage && (
                   <img
                     src={selectedImage || domain_img}
                     alt="attach logo image"
                     className={styles.media_image}
                   />
-                )} */}
+                )}
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
                     <h5>Show Off your Brand!</h5>
@@ -1197,7 +1200,7 @@ export default function AddDomain({
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div
                 className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
