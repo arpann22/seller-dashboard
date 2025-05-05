@@ -25,6 +25,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdLanguage } from "react-icons/md";
 
 const currentUrl = window.location.origin;
+//const currentUrl = window.location.origin;
 // const AccountSettings = ({ userData }) => {
 const AccountSettings = () => {
   // fetching userdata again so there will be no need of site reloading after setting changes.

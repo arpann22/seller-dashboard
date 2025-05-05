@@ -13,6 +13,7 @@ import { ReactComponent as OrderPending } from "./image/order_pending.svg";
 export default function Orders({ userData }) {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
+  //const currentUrl = window.location.origin;
   // return <div>Current URL is {location.pathname}</div>;
   const url = `${currentUrl}/wp-json/wstr/v1/orders/`;
   const order_url = `${currentUrl}/wp-json/wp/v2/domain_order/`;
@@ -89,7 +90,7 @@ export default function Orders({ userData }) {
     setSubsPopup(false);
     setSubscriptionSuccess("");
     setSubscriptionError("");
-    // console.log(subscription_id);
+
     const cancel_subscription_url = `${currentUrl}/wp-json/wstr/v1/cancel-subscription/`;
     const cancel_data = {
       subscription_id: subscriptionId,
@@ -364,10 +365,18 @@ export default function Orders({ userData }) {
                 <div className={styles.svg_wrapper_bg_white}>
                   <OrderPending />
                 </div>
-                <label> Pending</label>
-                <span className={`${styles.card_count} card_count`}>
+                <label>
+                  {" "}
+                  Pending{" "}
+                  <span>
+                    {pendingOrders.length > 0
+                      ? `(${pendingOrders.length})`
+                      : ""}
+                  </span>
+                </label>
+                {/* <span className={`${styles.card_count} card_count`}>
                   {pendingOrders.length}
-                </span>
+                </span> */}
               </li>
               <li
                 className={`${activeTab === "completed" ? styles.active : ""}`}
@@ -376,10 +385,17 @@ export default function Orders({ userData }) {
                 <div className={styles.svg_wrapper_bg_white}>
                   <OrderAccepted />
                 </div>
-                <label>Completed</label>
-                <span className={`${styles.card_count} card_count`}>
+                <label>
+                  Completed{" "}
+                  <span>
+                    {completedOrders.length > 0
+                      ? `(${completedOrders.length})`
+                      : ""}
+                  </span>
+                </label>
+                {/* <span className={`${styles.card_count} card_count`}>
                   {completedOrders.length}
-                </span>
+                </span> */}
               </li>
               <li
                 className={`${
@@ -390,10 +406,17 @@ export default function Orders({ userData }) {
                 <div className={styles.svg_wrapper_bg_white}>
                   <OrderCancelled />
                 </div>
-                <label>Cancelled</label>
-                <span className={`${styles.card_count} card_count`}>
+                <label>
+                  Cancelled{" "}
+                  <span>
+                    {cancelledOrders.length > 0
+                      ? `(${cancelledOrders.length})`
+                      : ""}
+                  </span>
+                </label>
+                {/* <span className={`${styles.card_count} card_count`}>
                   {cancelledOrders.length}
-                </span>
+                </span> */}
               </li>
             </ul>
           </div>

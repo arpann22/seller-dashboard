@@ -21,6 +21,7 @@ const handleSubmit = (event) => {
 const MyOffers = ({ userData }) => {
   // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
+  //const currentUrl = window.location.origin;
   const [activeTab, setActiveTab] = useState("active");
   const [expanded, setExpanded] = useState({}); // Track which card is expanded
 
@@ -236,7 +237,13 @@ const MyOffers = ({ userData }) => {
   const [cartSuccess, setCartSuccess] = useState("");
   const [cartLoading, setCartLoading] = useState(false);
   // Add to the cart for offer section
-  const handleOfferCart = async (offer_id, domain_id, amount, type) => {
+  const handleOfferCart = async (
+    offer_id,
+    currency,
+    domain_id,
+    amount,
+    type
+  ) => {
     try {
       setCartError("");
       setCartSuccess("");
@@ -250,6 +257,7 @@ const MyOffers = ({ userData }) => {
           },
           body: JSON.stringify({
             offer_id: offer_id,
+            currency: currency,
             domain_id: domain_id,
             amount: amount,
             type: type,
@@ -266,7 +274,7 @@ const MyOffers = ({ userData }) => {
       const data = await res.json();
       if (data) {
         setCartSuccess(data || "Added to the cart successfully");
-        // refreshOrderData();
+        window.location.reload(); // Reload the page
       }
     } catch (error) {
       setCartError(
@@ -348,10 +356,18 @@ const MyOffers = ({ userData }) => {
               <div className={styles.svg_wrapper_bg_white}>
                 <OfferActive />
               </div>
-              <label> Active</label>
-              <span className={`${styles.card_count} card_count`}>
-                <p>{pendingOffersWithFormattedDates.length}</p>
-              </span>
+              <label>
+                {" "}
+                Active{" "}
+                <span>
+                  {pendingOffersWithFormattedDates.length > 0
+                    ? `(${pendingOffersWithFormattedDates.length})`
+                    : ""}
+                </span>
+              </label>
+
+              {/* <span className={`${styles.card_count} card_count`}>
+              </span> */}
             </li>
             <li
               className={`${activeTab === "declined" ? styles.active : ""}`}
@@ -361,10 +377,17 @@ const MyOffers = ({ userData }) => {
               <div className={styles.svg_wrapper_bg_white}>
                 <OfferDecline />
               </div>
-              <label>Declined</label>
-              <span className={`${styles.card_count} card_count`}>
+              <label>
+                Declined{" "}
+                <span>
+                  {declinedOffersWithFormattedDates.length > 0
+                    ? `(${declinedOffersWithFormattedDates.length})`
+                    : ""}
+                </span>
+              </label>
+              {/* <span className={`${styles.card_count} card_count`}>
                 <p>{declinedOffersWithFormattedDates.length}</p>
-              </span>
+              </span> */}
             </li>
             <li
               className={`${
@@ -376,10 +399,17 @@ const MyOffers = ({ userData }) => {
               <div className={styles.svg_wrapper_bg_white}>
                 <MyOfferIcon />
               </div>
-              <label>Accepted</label>
-              <span className={`${styles.card_count} card_count`}>
+              <label>
+                Accepted{" "}
+                <span>
+                  {acceptedOffersWithFormattedDates.length > 0
+                    ? `(${acceptedOffersWithFormattedDates.length})`
+                    : ""}
+                </span>
+              </label>
+              {/* <span className={`${styles.card_count} card_count`}>
                 <p>{acceptedOffersWithFormattedDates.length}</p>
-              </span>
+              </span> */}
             </li>
           </ul>
           <div className={styles.offerSorts} onClick={handleSort}>
@@ -668,6 +698,7 @@ const MyOffers = ({ userData }) => {
                                         onClick={() =>
                                           handleOfferCart(
                                             offer.offer_id,
+                                            offer.currency,
                                             offer.domain_id,
                                             counter_offer.counter_price,
                                             "offer"
@@ -1186,6 +1217,7 @@ const MyOffers = ({ userData }) => {
                                             onClick={() =>
                                               handleOfferCart(
                                                 offer.offer_id,
+                                                offer.currency,
                                                 offer.domain_id,
                                                 counter_offer.counter_price,
                                                 "offer"
@@ -1247,6 +1279,7 @@ const MyOffers = ({ userData }) => {
                                 onClick={() =>
                                   handleOfferCart(
                                     offer.offer_id,
+                                    offer.currency,
                                     offer.domain_id,
                                     offer.offer_amount,
                                     "offer"

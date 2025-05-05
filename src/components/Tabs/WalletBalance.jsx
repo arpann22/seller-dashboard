@@ -5,9 +5,15 @@ import { ReactComponent as AvailableBalanceIcon } from "./image/balance.svg";
 // import available_balance_right_icon from "./images/available_balance_right_icon.png";
 import { IoMdInformationCircle } from "react-icons/io";
 import { FaSpinner } from "react-icons/fa";
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+
 const currentUrl = window.location.origin;
-const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
+
+const WalletBalance = ({
+  userData,
+  paymentMethod,
+  setGetPayouts,
+  preferredLoading,
+}) => {
   const [commissionLoader, setCommissionLoader] = useState(true);
   const [commissionError, setCommissionError] = useState(false);
   const [commission, setcommission] = useState("$000");
@@ -227,7 +233,15 @@ const WalletBalance = ({ userData, paymentMethod, setGetPayouts }) => {
           </div>
           <div>
             <h6>Payment Method</h6>
-            <h5>{paymentMethod}</h5>
+            {preferredLoading && preferredLoading == true ? (
+              <div>
+                <div className="loading_overlay">
+                  <FaSpinner className="loading" />
+                </div>
+              </div>
+            ) : (
+              <h5>{paymentMethod}</h5>
+            )}
           </div>
           <div>
             <button

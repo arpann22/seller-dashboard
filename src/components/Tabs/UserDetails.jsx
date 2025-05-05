@@ -9,8 +9,8 @@ import { ReactComponent as EditProfileIcon } from "./image/edit_profil.svg";
 import { ReactComponent as EmailIcon } from "./image/email.svg";
 import { FaSpinner } from "react-icons/fa";
 export default function UserDetails({ userData, setUserData }) {
-  // const currentUrl = "https://new-webstarter.codepixelz.tech";
   const currentUrl = window.location.origin;
+
   // const [userData, setUserData] = useState({});
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
@@ -174,7 +174,7 @@ export default function UserDetails({ userData, setUserData }) {
         setErrorMessage(error.message); // Display the error message to the user
       });
   };
-  // console.log(userData);
+
   return (
     <div className={styles.profileSection}>
       <div className={`${styles.profileDetails} ${styles.ws_flex}`}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import styles from "./Tabs.module.css"; // Import styles
 import "./Domains.css";
@@ -12,16 +12,28 @@ import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
 import { ReactComponent as ActiveDomainsIcon } from "./image/active_domains.svg";
 import { ReactComponent as DraftsDomainsIcon } from "./image/domain_drafts.svg";
 import { FaSpinner } from "react-icons/fa";
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+//const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
 const domain_url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 const draft_domain_url = `${currentUrl}/wp-json/wp/v2/domain/`;
 
-export default function Domains({ userData, setSellerCentralTab }) {
+export default function Domains({
+  userData,
+  setSellerCentralTab,
+  activeInnerTab,
+}) {
   const [domains, setDomains] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [draftDomains, setDraftDomains] = useState([]);
+
+  //scroll to draft domain at the ends
+  const draftRef = useRef(null);
+  useEffect(() => {
+    if (activeInnerTab == "Domains") {
+      draftRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [activeInnerTab, domains]);
 
   // fetching active domains
 
@@ -50,7 +62,6 @@ export default function Domains({ userData, setSellerCentralTab }) {
       }
       const data = await res.json();
       setDomains(data);
-      // console.log(data);
     } catch (err) {
       setErrorMessage(err.message);
     } finally {
@@ -194,7 +205,12 @@ export default function Domains({ userData, setSellerCentralTab }) {
         ? Math.round(((regularPrice - salePrice) / regularPrice) * 100)
         : 0;
 
-    const favouriteCount = domain.meta._favourite_count?.[0] || "0";
+    // const favouriteCount = domain.meta._favourite_count?.[0] || "0";
+    const favouriteCount = domain.meta.ws_product_view_count?.[0] || "0";
+    const formattedFavouriteCount =
+      favouriteCount >= 1000
+        ? (favouriteCount / 1000).toFixed(1) + "k"
+        : favouriteCount.toString();
     const logoImageId = domain.meta?._logo_image?.[0] || null;
     const featuredImageUrl =
       domain._embedded && domain._embedded["wp:featuredmedia"]
@@ -302,7 +318,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
             </span>
             <div className="ws-card-likes disable-favourite">
               <h6>
-                <span>{favouriteCount}</span>
+                <span>{formattedFavouriteCount}</span>
                 <i className="fa-solid fa-heart"></i>
               </h6>
             </div>
@@ -369,7 +385,7 @@ export default function Domains({ userData, setSellerCentralTab }) {
         >
           {/* <img src={domain_drafts_icon}></img> */}
           <DraftsDomainsIcon />
-          <h4>Draft Domains</h4>
+          <h4 ref={draftRef}>Draft Domains</h4>
         </div>
         <div
           className={`${styles.dashboard_small_margin} dashboard_domains_cards_wrapper`}

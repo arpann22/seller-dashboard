@@ -8,6 +8,7 @@ import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import unserialize from "locutus/php/var/unserialize";
 // const currentUrl = "https://new-webstarter.codepixelz.tech";
+//const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
 const url = `${currentUrl}/wp-json/wp/v2/domain/`; // for getting domains
 
@@ -19,9 +20,19 @@ const parseSerializedArray = (serialized) => {
 
 export default function OrderDetails({ order, isModalOpen, setIsModalOpen }) {
   const domainIdString = order.meta._domain_ids[0];
-  const products_price = order?.meta?._products_price
-    ? order.meta._products_price[0]
-    : "";
+  const currency = order?.meta?._currency?.[0]
+    ? order.meta._currency[0]
+    : "USD";
+  let products_price = [];
+  if (currency == "USD") {
+    products_price = order?.meta?._usd_products_price
+      ? order.meta._usd_products_price[0]
+      : "";
+  } else {
+    products_price = order?.meta?._products_price
+      ? order.meta._products_price[0]
+      : "";
+  }
 
   const deserializedData = unserialize(products_price);
 

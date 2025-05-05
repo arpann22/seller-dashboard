@@ -46,9 +46,14 @@ import { ReactComponent as GenerateStars } from "./image/cta.svg";
 // ck editor end
 const md = new MarkdownIt();
 
-// const currentUrl = "https://new-webstarter.codepixelz.tech";
+//const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
-export default function AddDomain({ styles, userData }) {
+export default function AddDomain({
+  styles,
+  userData,
+  activeInnerTab,
+  setSellerCentralTab,
+}) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
@@ -192,7 +197,7 @@ export default function AddDomain({ styles, userData }) {
   const [isLoading, setIsLoading] = useState(false);
   const [postStatus, setPostStatus] = useState("");
 
-  // select audion form handle
+  const [audioUrl, setAudioUrl] = useState([]);
 
   const [selected, setSelected] = useState("play"); // Default selected value
   const handleSubmit = (e) => {
@@ -249,18 +254,13 @@ export default function AddDomain({ styles, userData }) {
       }
       setShowAddDomain(true);
       const data = await res.json();
-      const da_pa = data[0].da_pa.split("/");
+      const da_pa = data[0].da_pa.split("/") ? data[0].da_pa.split("/") : "0/0";
+
       const da = da_pa[0];
       const pa = da_pa[1];
       const age = ageToDecimal(data[0].age);
 
       setApiData(data);
-
-      const value_estimated = data[0]?.estimated_value
-        ? parseInt(data[0].estimated_value)
-        : "00000";
-
-      setEstimatedValue(value_estimated.toLocaleString());
 
       setDomainLength(data[0].length);
 
@@ -269,6 +269,14 @@ export default function AddDomain({ styles, userData }) {
 
       setDomainAge(age);
       setSaveDomainAge(data[0].age); // for saving years and days in string
+
+      setAudioUrl(data[0].audio);
+
+      const value_estimated = data[0]?.estimated_value
+        ? parseInt(data[0].estimated_value)
+        : "00000";
+
+      setEstimatedValue(value_estimated.toLocaleString());
 
       let cat_array = [];
       let tag_array = [
@@ -475,6 +483,7 @@ export default function AddDomain({ styles, userData }) {
   const handleRemoveAudio = () => {
     setAudioFile(null); // Clear audio file
     setAudioURL(null); // Clear audio URL
+    setAudioId(null);
     if (audioInputRef.current) {
       audioInputRef.current.value = ""; // Reset file input value
     }
@@ -541,6 +550,7 @@ export default function AddDomain({ styles, userData }) {
   }, [domainAge]);
 
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [aiAudioUrl, setAiAudioUrl] = useState("");
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
@@ -566,9 +576,11 @@ export default function AddDomain({ styles, userData }) {
 
       return;
     }
+
     if (!content) {
       setSubmitLoading(false);
       setErrorMessage("Required domain description.");
+      return;
     }
     if (selectedIndustries.length < 1) {
       setSubmitLoading(false);
@@ -632,6 +644,7 @@ export default function AddDomain({ styles, userData }) {
       _length: domainLength,
       _da_pa: da_pa,
       _pronounce_audio: audioMediaId,
+      _ai_audio_url: aiAudioUrl,
       _logo_image: imageId,
       _regular_price: formData.regular_price,
       _sale_price: formData.sale_price,
@@ -682,6 +695,7 @@ export default function AddDomain({ styles, userData }) {
           const data = await res.json();
           setSubmitLoading(false);
           setSuccessMessage("Domain Updated Successfully.");
+          setSellerCentralTab("Domains");
         } catch (error) {
           console.log(error);
         }
@@ -722,8 +736,11 @@ export default function AddDomain({ styles, userData }) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
-          setSubmitLoading(false);
-          setSuccessMessage("Domain Added Successfully.");
+          if (data) {
+            setSubmitLoading(false);
+            setSuccessMessage("Domain Added Successfully.");
+            setSellerCentralTab("Domains");
+          }
         } catch (error) {
           console.log(error);
         }
@@ -757,6 +774,13 @@ export default function AddDomain({ styles, userData }) {
           if (lease_to_own == 1) {
             setLeaseToOwnEnabled((prevState) => !prevState);
           }
+          const aiAudioUrl = data?.meta?._ai_audio_url
+            ? data.meta._ai_audio_url[0]
+            : "";
+
+          if (aiAudioUrl) {
+            setAiAudioUrl(aiAudioUrl);
+          }
 
           const _enable_offers = data?.meta?._enable_offers
             ? data.meta._enable_offers[0]
@@ -779,11 +803,13 @@ export default function AddDomain({ styles, userData }) {
           setDomainAge(ageToDecimal(data?.meta?._age ? data.meta._age[0] : ""));
           setSaveDomainAge(data?.meta?._age ? data.meta._age[0] : "");
           const da_pa = data?.meta?._da_pa ? data.meta._da_pa[0] : "";
-          const da_pa_split = da_pa.toString().split("/");
+          const da_pa_split = da_pa.toString().split("/")
+            ? da_pa.split("/")
+            : "0/0";
           const da = parseInt(da_pa_split[0]);
           const pa = parseInt(da_pa_split[1]);
-          setPageTrustScore(pa);
-          setDomainTrustScore(da);
+          da ? setDomainTrustScore(da) : setDomainTrustScore(0);
+          pa ? setPageTrustScore(pa) : setPageTrustScore(0);
 
           const domain_length = data?.meta?._length ? data.meta._length[0] : "";
           setDomainLength(domain_length);
@@ -861,7 +887,8 @@ export default function AddDomain({ styles, userData }) {
               }
               const audio_data = await audio_res.json();
 
-              // setAudioFile(audio_data.source_url);
+              setAudioFile(audio_data.source_url);
+              setAudioURL(audio_data.source_url);
             } catch (err) {
               console.log(err);
             }
@@ -884,6 +911,20 @@ export default function AddDomain({ styles, userData }) {
     button_label = "Update Product";
   }
   //-------------------------edit section ends
+  const formRef = useRef(null);
+  useEffect(() => {
+    if (activeInnerTab == "Add New Domain") {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [activeInnerTab]);
+
+  function handlePronounciation(pronounciation_id) {
+    setAiAudioUrl(pronounciation_id); // Update state
+  }
+
+  const [industrySearchQuery, setIndustrySearchQuery] = useState("");
+  const [tagsSearchQuery, setTagsSearchQuery] = useState("");
+  const [categoriesSearchQuery, setCategoriesSearchQuery] = useState("");
 
   return (
     <>
@@ -892,7 +933,7 @@ export default function AddDomain({ styles, userData }) {
           className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}
         >
           <img src={addDomaintitleImage} alt="stars" />
-          <h2>
+          <h2 ref={formRef}>
             {" "}
             Add New <span>Domain</span>
           </h2>
@@ -904,7 +945,7 @@ export default function AddDomain({ styles, userData }) {
           <div
             className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
           >
-            <form onSubmit={handleGenerate}>
+            <form onSubmit={handleGenerate} class="add_domain_form">
               <input
                 type="text"
                 value={domainName}
@@ -946,8 +987,7 @@ export default function AddDomain({ styles, userData }) {
               className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
             >
               {/* first card */}
-              <div className={styles.media_content_wrapper}>
-                {/* Conditionally render audio player or initial image */}
+              {/* <div className={styles.media_content_wrapper}>
                 {audioURL ? (
                   <div className={styles.audioWrapper}>
                     <audio
@@ -964,7 +1004,7 @@ export default function AddDomain({ styles, userData }) {
                       />
                       Your browser does not support the audio element.
                     </audio>
-                    {/* Remove Button */}
+      
                     <button
                       onClick={handleRemoveAudio}
                       className={styles.removeAudioButton}
@@ -1015,6 +1055,10 @@ export default function AddDomain({ styles, userData }) {
                     />
                   </div>
                 </div>
+              </div> */}
+
+              <div className={styles.media_content_wrapper}>
+                redirect domain
               </div>
               {/* second card */}
               <div
@@ -1042,61 +1086,83 @@ export default function AddDomain({ styles, userData }) {
                 </div> */}
 
                 <form className={styles.pronounce_add_form}>
-                  {/* First Option */}
-                  <div
-                    className={`${styles.pronounc_add} ${
-                      selected === "play" ? styles.active : ""
-                    }`}
-                    onClick={() => setSelected("play")}
-                  >
-                    <input
-                      type="radio"
-                      id="play"
-                      name="selection"
-                      value="play"
-                      checked={selected === "play"}
-                      onChange={() => setSelected("play")}
-                      className={styles.hidden_radio} // Hidden using CSS
-                    />
-                    <label htmlFor="play">
-                      <FaPlay />
-                      <div>
-                        <h5>James</h5>
-                        <p>0.01</p>
-                      </div>
-                      <span>AI-PICK</span>
-                      <img src={profileImage} alt="Profile" />
-                      <RxCrossCircled />
-                    </label>
-                  </div>
+                  {audioUrl.length === 0 && aiAudioUrl && (
+                    <div className={styles.audioWrapper}>
+                      <audio
+                        controls
+                        className={styles.media_audio}
+                        style={{
+                          width: "100%",
+                          height: "40px",
+                        }}
+                        onPlay={() => handlePronounciation(aiAudioUrl)}
+                      >
+                        <source src={aiAudioUrl} type="audio/wav" />
+                        Your browser does not support the audio tag.
+                      </audio>
 
-                  {/* Second Option */}
-                  <div
-                    className={`${styles.pronounc_add} ${
-                      selected === "pause" ? styles.active : ""
-                    }`}
-                    onClick={() => setSelected("pause")}
-                  >
-                    <input
-                      type="radio"
-                      id="pause"
-                      name="selection"
-                      value="pause"
-                      checked={selected === "pause"}
-                      onChange={() => setSelected("pause")}
-                      className={styles.hidden_radio} // Hidden using CSS
-                    />
-                    <label htmlFor="pause">
-                      <IoIosPause />
-                      <div>
-                        <h5>James</h5>
-                        <p>0.01</p>
-                      </div>
-                      <span>AI-PICK</span>
-                      <img src={profileImage} alt="Profile" />
-                      <FiPlusCircle />
-                    </label>
-                  </div>
+                      <button
+                        onClick={() => setAiAudioUrl("")}
+                        className={styles.removeAudioButton}
+                        style={{
+                          position: "absolute",
+                          top: "-10px",
+                          right: "-10px",
+                          background: "#00d9f5",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "50%",
+                          width: "20px",
+                          height: "20px",
+                          cursor: "pointer",
+                          padding: "3px",
+                        }}
+                      >
+                        <RxCross2 />
+                      </button>
+                    </div>
+                  )}
+                  {audioUrl && audioUrl.length > 1 && (
+                    <div
+                      className={
+                        aiAudioUrl == audioUrl[1].url ? styles.audioWrapper : ""
+                      }
+                    >
+                      <audio
+                        controls
+                        className={styles.media_audio}
+                        style={{
+                          width: "100%",
+                          height: "40px",
+                        }}
+                        onPlay={() => handlePronounciation(audioUrl[1].url)}
+                      >
+                        <source src={audioUrl[1].url} type="audio/wav" />
+                        Your browser does not support the audio tag.
+                      </audio>
+                    </div>
+                  )}
+                  {audioUrl && audioUrl.length > 0 && (
+                    // <div className={styles.audioWrapper}>
+                    <div
+                      className={
+                        aiAudioUrl == audioUrl[0].url ? styles.audioWrapper : ""
+                      }
+                    >
+                      <audio
+                        controls
+                        className={styles.media_audio}
+                        style={{
+                          width: "100%",
+                          height: "40px",
+                        }}
+                        onPlay={() => handlePronounciation(audioUrl[0].url)}
+                      >
+                        <source src={audioUrl[0].url} type="audio/wav" />
+                        Your browser does not support the audio tag.
+                      </audio>
+                    </div>
+                  )}
                 </form>
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
@@ -1104,24 +1170,54 @@ export default function AddDomain({ styles, userData }) {
                     <p>AI will Perfect it!</p>
                   </div>
 
-                  <div className={styles.audio_column}>
+                  {/* <div className={styles.audio_column}>
                     <input type="file" accept="audio/*" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               {/* third card */}
+              {/* <div
+                className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
+              >
+                {selectedImage && (
+                  <img
+                    src={selectedImage || domain_img}
+                    alt="attach logo image"
+                    className={styles.media_image}
+                  />
+                )}
+                <div className={styles.media_setup_contents_footer}>
+                  <div className={styles.text_column}>
+                    <h5>Show Off your Brand!</h5>
+                    <p>Upload your Logo to Customize!</p>
+                  </div>
+
+                  <div className={styles.image_column}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </div>
+              </div> */}
+
               <div
                 className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
               >
-                <div className={styles.renderedDomainText}>
-                  {/* <h4>Arpan.com</h4> */}
-                  <h4>{domainName}</h4>
-                </div>
-                {/* <img
-                  src={selectedImage || domain_img}
-                  alt="attach logo image"
-                  className={styles.media_image}
-                /> */}
+                {!selectedImage && (
+                  <div className={styles.renderedDomainText}>
+                    {/* <h4>Arpan.com</h4> */}
+                    <h4>{domainName}</h4>
+                  </div>
+                )}
+                {selectedImage && (
+                  <img
+                    src={selectedImage || domain_img}
+                    alt="attach logo image"
+                    className={styles.media_image}
+                  />
+                )}
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
                     <h5>Show Off your Brand!</h5>
@@ -1411,6 +1507,13 @@ export default function AddDomain({ styles, userData }) {
               {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
               <CategoriesIcon />
               <h4>Categories</h4>
+              <input
+                type="text"
+                placeholder="Search Categories"
+                value={categoriesSearchQuery}
+                onChange={(e) => setCategoriesSearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
             {catError ? (
               catError
@@ -1422,6 +1525,7 @@ export default function AddDomain({ styles, userData }) {
                 selectedItems={selectedCategories}
                 setSelectedItems={setSelectedCategories}
                 generateTaxonomies={generateTaxonomies}
+                searchQuery={categoriesSearchQuery}
               />
             )}
           </div>
@@ -1464,7 +1568,7 @@ export default function AddDomain({ styles, userData }) {
               /> */}
               <CKEditor
                 editor={ClassicEditor}
-                data="<p>Welcome to dsfgdfgfdgfrdgdfg 5!</p>"
+                data={content ? content : ""}
                 config={{
                   toolbar: [
                     "heading",
@@ -1527,9 +1631,12 @@ export default function AddDomain({ styles, userData }) {
                     uploadUrl: "/your-upload-endpoint", // Replace with your server URL
                   },
                 }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                }}
+                // onChange={(event, editor) => {
+                //   const data = editor.getData();
+                // }}
+                onChange={(event, editor) =>
+                  handleEditorChange(editor.getData())
+                }
               />
             </div>
             <div
@@ -1538,6 +1645,13 @@ export default function AddDomain({ styles, userData }) {
               {/* <img src={mediaSetupIcon} alt="Media Setup Icon" /> */}
               <TagsIcon />
               <h4>Tags</h4>
+              <input
+                type="text"
+                placeholder="Search Tags"
+                value={tagsSearchQuery}
+                onChange={(e) => setTagsSearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
             <div className={cardstyles.description_tags_wrapper}>
               {/* <CardSelector items={tagsItems} /> */}
@@ -1551,6 +1665,7 @@ export default function AddDomain({ styles, userData }) {
                   selectedItems={selectedTags}
                   setSelectedItems={setSelectedTags}
                   generateTaxonomies={generateTaxonomies}
+                  searchQuery={tagsSearchQuery}
                 />
               )}
             </div>
@@ -1567,6 +1682,13 @@ export default function AddDomain({ styles, userData }) {
               <h4>
                 Industries<sup className="required">*</sup>
               </h4>
+              <input
+                type="text"
+                placeholder="Search Industries"
+                value={industrySearchQuery}
+                onChange={(e) => setIndustrySearchQuery(e.target.value)}
+                className="add-domain-search-taxonomy"
+              />
             </div>
 
             {/* <CardSelector items={industryItems} /> */}
@@ -1580,6 +1702,8 @@ export default function AddDomain({ styles, userData }) {
                 selectedItems={selectedIndustries}
                 setSelectedItems={setSelectedIndustries}
                 generateTaxonomies={generateTaxonomies}
+                type="industry"
+                searchQuery={industrySearchQuery}
               />
             )}
           </div>
