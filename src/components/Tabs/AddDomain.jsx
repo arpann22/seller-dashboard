@@ -1086,8 +1086,7 @@ export default function AddDomain({
                 </div> */}
 
                 <form className={styles.pronounce_add_form}>
-                  {/* {audioUrl.length === 0 && aiAudioUrl && ( */}
-                  {aiAudioUrl && (
+                  {audioUrl && audioUrl.length === 0 && aiAudioUrl && (
                     <div className={styles.audioWrapper}>
                       <audio
                         controls
