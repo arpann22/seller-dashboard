@@ -1,47 +1,47 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 // ckeditors
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 // import { CKEditor } from "@ckeditor/ckeditor5-react";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import addDomaintitleImage from './images/add-domain-pre-image.png';
-import attachAudioimg from './images/attach_audio_img.png';
-import starswhite from './images/stars-white.png';
-import profileImage from './images/profile.jpg';
-import { IoIosPause } from 'react-icons/io';
-import { RxCrossCircled } from 'react-icons/rx';
-import { FiPlusCircle } from 'react-icons/fi';
-import { FaPlay } from 'react-icons/fa';
-import { FaSpinner } from 'react-icons/fa';
-import add_product_icon from './images/add_product.png';
-import save_draft_icon from './images/save_draft.png';
-import mediaSetupIcon from './images/media_setup_icon.png';
-import { RxCross2 } from 'react-icons/rx';
-import domain_img from './images/chatseek.com.png';
-import mobstyles from './Tabs.module.mobile.css';
-import { IoMdInformationCircle } from 'react-icons/io';
-import domainAppraisalHeadingImage from './images/domain_appraisal_heading_image.png';
-import { IoCheckmarkOutline } from 'react-icons/io5';
-import CardSelector from '../CardSelector/CardSelector.js';
-import categories_icon from './images/categories-icon.png';
-import cardstyles from '../CardSelector/CardSelector.module.css';
-import { Editor } from '@tinymce/tinymce-react';
+import addDomaintitleImage from "./images/add-domain-pre-image.png";
+import attachAudioimg from "./images/attach_audio_img.png";
+import starswhite from "./images/stars-white.png";
+import profileImage from "./images/profile.jpg";
+import { IoIosPause } from "react-icons/io";
+import { RxCrossCircled } from "react-icons/rx";
+import { FiPlusCircle } from "react-icons/fi";
+import { FaPlay } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
+import add_product_icon from "./images/add_product.png";
+import save_draft_icon from "./images/save_draft.png";
+import mediaSetupIcon from "./images/media_setup_icon.png";
+import { RxCross2 } from "react-icons/rx";
+import domain_img from "./images/chatseek.com.png";
+import mobstyles from "./Tabs.module.mobile.css";
+import { IoMdInformationCircle } from "react-icons/io";
+import domainAppraisalHeadingImage from "./images/domain_appraisal_heading_image.png";
+import { IoCheckmarkOutline } from "react-icons/io5";
+import CardSelector from "../CardSelector/CardSelector.js";
+import categories_icon from "./images/categories-icon.png";
+import cardstyles from "../CardSelector/CardSelector.module.css";
+import { Editor } from "@tinymce/tinymce-react";
 
-import { createRoot } from 'react-dom/client';
-import Markdown from 'react-markdown';
-import MarkdownIt from 'markdown-it';
-import { ReactComponent as DomainAppraisalIcon } from './image/domain_appraisal.svg';
-import { ReactComponent as PricingSetupIcon } from './image/pricing_setup.svg';
-import { ReactComponent as AddProductIcon } from './image/add_product.svg';
-import { ReactComponent as SaveDraftIcon } from './image/save_draft.svg';
-import { ReactComponent as MediaSetupIcon } from './image/media_setup.svg';
-import { ReactComponent as CategoriesIcon } from './image/categories.svg';
-import { ReactComponent as DomainDescIcon } from './image/domain_desc.svg';
-import { ReactComponent as TagsIcon } from './image/tags.svg';
-import { ReactComponent as IndustriesIcon } from './image/industries.svg';
-import RedirectDomain from './image/media_setup_last_card.png';
-import { ReactComponent as GenerateStars } from './image/cta.svg';
+import { createRoot } from "react-dom/client";
+import Markdown from "react-markdown";
+import MarkdownIt from "markdown-it";
+import { ReactComponent as DomainAppraisalIcon } from "./image/domain_appraisal.svg";
+import { ReactComponent as PricingSetupIcon } from "./image/pricing_setup.svg";
+import { ReactComponent as AddProductIcon } from "./image/add_product.svg";
+import { ReactComponent as SaveDraftIcon } from "./image/save_draft.svg";
+import { ReactComponent as MediaSetupIcon } from "./image/media_setup.svg";
+import { ReactComponent as CategoriesIcon } from "./image/categories.svg";
+import { ReactComponent as DomainDescIcon } from "./image/domain_desc.svg";
+import { ReactComponent as TagsIcon } from "./image/tags.svg";
+import { ReactComponent as IndustriesIcon } from "./image/industries.svg";
+import RedirectDomain from "./image/media_setup_last_card.png";
+import { ReactComponent as GenerateStars } from "./image/cta.svg";
 
 // ckeditor
 // ck editor end
@@ -49,14 +49,19 @@ const md = new MarkdownIt();
 
 //const currentUrl = window.location.origin;
 const currentUrl = window.location.origin;
-export default function AddDomain({ styles, userData, activeInnerTab, setSellerCentralTab }) {
+export default function AddDomain({
+  styles,
+  userData,
+  activeInnerTab,
+  setSellerCentralTab,
+}) {
   const [isSalePriceEnabled, setIsSalePriceEnabled] = useState(false);
   const [isLeaseToOwnEnabled, setLeaseToOwnEnabled] = useState(false);
   const [isAcceptOffersEnabled, setAcceptOffersEnabled] = useState(false);
   const [generateTaxonomies, setIsGenerated] = useState([]);
   // const [content, setContent] = useState("");
 
-  const [domainName, setDomainName] = useState('');
+  const [domainName, setDomainName] = useState("");
 
   const handleToggle = () => {
     setIsSalePriceEnabled(!isSalePriceEnabled);
@@ -73,7 +78,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   // };
 
   // tinymce editor
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
 
   const handleEditorChange = (newContent) => {
     setContent(newContent);
@@ -82,9 +87,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   const handleImageUpload = (blobInfo, progress) => {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
-      formData.append('file', blobInfo.blob(), blobInfo.filename());
+      formData.append("file", blobInfo.blob(), blobInfo.filename());
       fetch(`${currentUrl}/my-account/?tab=sellers-central/upload`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       })
         .then((response) => response.json())
@@ -93,28 +98,39 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
           resolve(result.imageUrl);
         })
         .catch((error) => {
-          console.error('Image upload failed:', error);
-          reject('Image upload failed');
+          console.error("Image upload failed:", error);
+          reject("Image upload failed");
         });
     });
   };
   // tinymce editor end
 
   // progress scores
-  const CircularProgressCard = ({ title, value, onChange, strokeColor, label }) => {
+  const CircularProgressCard = ({
+    title,
+    value,
+    onChange,
+    strokeColor,
+    label,
+  }) => {
     const radius = 50;
     const circumference = 2 * Math.PI * radius;
     const strokeDasharray = (value / 100) * circumference;
-    const strokeDashoffset = value > 0 ? circumference - strokeDasharray : circumference;
+    const strokeDashoffset =
+      value > 0 ? circumference - strokeDasharray : circumference;
 
     return (
-      <div className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} ${styles.mob_card_padding_30} `}>
+      <div
+        className={`${styles.domain_appraisal_body_card} ${styles.ws_flex} ${styles.mob_card_padding_30} `}
+      >
         <div>
           <h5>{title}</h5>
           <input
             type="text"
             value={value}
-            onChange={(e) => onChange(Math.max(0, Math.min(100, Number(e.target.value))))} // Clamp between 0 and 100
+            onChange={(e) =>
+              onChange(Math.max(0, Math.min(100, Number(e.target.value))))
+            } // Clamp between 0 and 100
             className={styles.input_field}
             readOnly
           />
@@ -122,7 +138,14 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
         <div className={`${styles.progress_card_add_domain} circular-progress`}>
           <svg width="120" height="120" viewBox="0 0 120 120">
             {/* Background Circle - Light Gray */}
-            <circle cx="60" cy="60" r={radius} fill="none" stroke="#f3f5fa" strokeWidth="10" />
+            <circle
+              cx="60"
+              cy="60"
+              r={radius}
+              fill="none"
+              stroke="#f3f5fa"
+              strokeWidth="10"
+            />
             {/* Progress Circle */}
             <circle
               cx="60"
@@ -136,7 +159,14 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               strokeLinecap="round"
             />
             {/* Display Value with Label */}
-            <text x="50%" y="50%" alignmentBaseline="middle" textAnchor="middle" fontSize="20" fill="#333">
+            <text
+              x="50%"
+              y="50%"
+              alignmentBaseline="middle"
+              textAnchor="middle"
+              fontSize="20"
+              fill="#333"
+            >
               {/* {value} {label} */}
               <tspan x="50%" dy="0em" className={styles.value_style}>
                 {value}
@@ -153,11 +183,11 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
   const [pageTrustScore, setPageTrustScore] = useState(0);
   const [domainAge, setDomainAge] = useState(0);
-  const [saveDomainAge, setSaveDomainAge] = useState('');
+  const [saveDomainAge, setSaveDomainAge] = useState("");
   const [domainTrustScore, setDomainTrustScore] = useState(0);
   const [domainLength, setDomainLength] = useState(0);
   const [da_pa, setDaPa] = useState();
-  const [estimated_value, setEstimatedValue] = useState('00000');
+  const [estimated_value, setEstimatedValue] = useState("00000");
 
   // progress scores end
 
@@ -166,16 +196,12 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   // upload logo handler end
   const [apidata, setApiData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [postStatus, setPostStatus] = useState('');
+  const [postStatus, setPostStatus] = useState("");
 
   const [audioUrl, setAudioUrl] = useState([]);
 
-  const [selected, setSelected] = useState('play'); // Default selected value
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add form submission logic here
-  };
-  // sunder jss
+  const [selected, setSelected] = useState("play"); // Default selected value
+
   function ageToDecimal(ageString) {
     if (!ageString) {
       return 0;
@@ -198,7 +224,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     return Math.round(decimalAge * 100) / 100;
   }
 
-  const [domainNameError, setDomainNameError] = useState('');
+  const [domainNameError, setDomainNameError] = useState("");
   // url validation
   function isValidDomain(domain) {
     const domainRegex = /^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/;
@@ -210,20 +236,22 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     e.preventDefault();
 
     if (isValidDomain(domainName) == false) {
-      setDomainNameError('Invalid Domain Name');
+      setDomainNameError("Invalid Domain Name");
       return;
     }
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${currentUrl}/wp-json/wstr/v1/domain_fields?domain_name=${domainName}`);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/domain_fields?domain_name=${domainName}`
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message);
       }
       setShowAddDomain(true);
       const data = await res.json();
-      const da_pa = data[0].da_pa.split('/') ? data[0].da_pa.split('/') : '0/0';
+      const da_pa = data[0].da_pa.split("/") ? data[0].da_pa.split("/") : "0/0";
 
       const da = da_pa[0];
       const pa = da_pa[1];
@@ -241,7 +269,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
       setAudioUrl(data[0].audio);
 
-      const value_estimated = data[0]?.estimated_value ? parseInt(data[0].estimated_value) : '00000';
+      const value_estimated = data[0]?.estimated_value
+        ? parseInt(data[0].estimated_value)
+        : "00000";
 
       setEstimatedValue(value_estimated.toLocaleString());
 
@@ -249,23 +279,25 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       let tag_array = [
         {
           id: 49,
-          taxonomy: 'domain_tag',
+          taxonomy: "domain_tag",
         },
       ];
 
       if (data[0].length <= 5) {
         cat_array.push({
           id: 67,
-          taxonomy: 'domain_cat',
+          taxonomy: "domain_cat",
         });
 
         tag_array.push({
           id: 66,
-          taxonomy: 'domain_tag',
+          taxonomy: "domain_tag",
         });
       } else {
         // Remove the category with id: 67 if it exists
-        setSelectedCategories((prevObj) => prevObj.filter((cat) => cat.id !== 67));
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 67)
+        );
 
         setSelectedTags((prevObj) => prevObj.filter((cat) => cat.id !== 66));
       }
@@ -273,19 +305,23 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       if (da > 70) {
         cat_array.push({
           id: 84,
-          taxonomy: 'domain_cat',
+          taxonomy: "domain_cat",
         });
       } else {
-        setSelectedCategories((prevObj) => prevObj.filter((cat) => cat.id !== 67));
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 67)
+        );
       }
 
       if (age > 5) {
         cat_array.push({
           id: 78,
-          taxonomy: 'domain_cat',
+          taxonomy: "domain_cat",
         });
       } else {
-        setSelectedCategories((prevObj) => prevObj.filter((cat) => cat.id !== 78));
+        setSelectedCategories((prevObj) =>
+          prevObj.filter((cat) => cat.id !== 78)
+        );
       }
 
       setSelectedCategories((prevObj) => [...prevObj, ...cat_array]); // handeling category
@@ -294,7 +330,10 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       // Set the generated flag to true
 
       const generate_taxonomy_id = [
-        ...new Set([...tag_array.map((item) => item.id), ...cat_array.map((item) => item.id)]),
+        ...new Set([
+          ...tag_array.map((item) => item.id),
+          ...cat_array.map((item) => item.id),
+        ]),
       ];
       setIsGenerated(generate_taxonomy_id);
     } catch (err) {
@@ -310,7 +349,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     e.preventDefault();
     setDescLoading(true);
     try {
-      const res = await fetch(`${currentUrl}/wp-json/wstr/v1/domain_description?domain_name=${domainName}`);
+      const res = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/domain_description?domain_name=${domainName}`
+      );
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message);
@@ -328,13 +369,15 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
   // fetching category list for select option
   const [category, setCategory] = useState();
-  const [catError, setCatError] = useState('');
+  const [catError, setCatError] = useState("");
   const [catLoading, setCatLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCategory() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_cat/?per_page=99&hide_empty=1`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_cat/?per_page=99&hide_empty=1`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -352,12 +395,14 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
   // fetching industry
   const [industry, setIndustry] = useState();
-  const [industryError, setIndustryError] = useState('');
+  const [industryError, setIndustryError] = useState("");
   const [industryLoading, setIndustryLoading] = useState(true);
   useEffect(() => {
     async function fetchIndustry() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_industry/?per_page=99`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_industry/?per_page=99`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -375,12 +420,14 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
   // fetching tags
   const [tags, setTags] = useState();
-  const [tagError, setTagError] = useState('');
+  const [tagError, setTagError] = useState("");
   const [tagLoading, setTagLoading] = useState(true);
   useEffect(() => {
     async function fetchTags() {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain_tag/?per_page=99`);
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain_tag/?per_page=99`
+        );
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.message);
@@ -400,10 +447,10 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedIndustries, setSelectedIndustries] = useState([]);
   const [formData, setFormData] = useState({
-    regular_price: '',
-    sale_price: '',
-    start_date: '',
-    end_date: '',
+    regular_price: "",
+    sale_price: "",
+    start_date: "",
+    end_date: "",
   });
 
   // for image and audio
@@ -438,37 +485,123 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   //     audioInputRef.current.value = ""; // Reset file input value
   //   }
   // };
+
+  const [redirectLoader, setRedirectLoader] = useState(false);
+  const [redirectError, setRedirectError] = useState("");
+  const [redirectSuccess, setRedirectSuccess] = useState("");
+
+  const [redirectData, setRedirectData] = useState(false);
+  // redirect domain submit
+  const handleRedirectSubmit = async (e) => {
+    e.preventDefault();
+    setRedirectError("");
+    setRedirectSuccess("");
+
+    try {
+      setRedirectLoader(true);
+      const response = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/domain-redirect/${domainName}`
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to verify domain");
+      }
+
+      const data = await response.json();
+      if (data == true) {
+        setRedirectData(true);
+        setRedirectSuccess("Verified");
+      }
+      if (data == false) {
+        setRedirectData(false);
+        setRedirectSuccess("Not Verified");
+      }
+      console.log("Redirect response:", data);
+    } catch (error) {
+      console.error("Error verifying domain:", error);
+      setRedirectError(error.message || "Failed to verify domain");
+    } finally {
+      setRedirectLoader(false);
+    }
+  };
+
+  const [logoRequestLoading, setLogoRequestLoading] = useState(false);
+  const [logoRequestError, setLogoRequestError] = useState("");
+  const [logoRequestSuccess, setLogoRequestSuccess] = useState("");
+  const handleLogoRequest = async (e) => {
+    e.preventDefault();
+    setLogoRequestError(""); // Clear previous error
+    setLogoRequestSuccess(""); // Clear previous success
+    setLogoRequestLoading(true);
+    if (!domainName) {
+      setSubmitLoading(false);
+      setErrorMessage("Domain name is empty.");
+      return;
+    }
+    if (redirectData == false) {
+      setLogoRequestLoading(false);
+      setLogoRequestError("Domain is not verified.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        `${currentUrl}/wp-json/wstr/v1/logo-request`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ domain_name: domainName }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to submit logo request");
+      }
+
+      const data = await response.json();
+      setLogoRequestSuccess("Logo request submitted successfully!");
+    } catch (error) {
+      setLogoRequestError(error.message || "Failed to submit logo request");
+    } finally {
+      setLogoRequestLoading(false);
+    }
+  };
+
   // getting tld from domain name
   function getTLD(domain) {
-    const parts = domain.split('.');
+    const parts = domain.split(".");
     return parts.length > 1 ? `.${parts[parts.length - 1]}` : null;
   }
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isRedirectEnabled, setIsRedirectEnabled] = useState(false);
   const RedirectToggle = () => {
     setIsRedirectEnabled(!isRedirectEnabled);
   };
+
   async function handleImageAudioUpload(mediaFile) {
     if (mediaFile) {
       const formData = new FormData();
-      formData.append('file', mediaFile);
+      formData.append("file", mediaFile);
 
       try {
         const mediaResponse = await fetch(`${currentUrl}/wp-json/wp/v2/media`, {
-          method: 'POST',
+          method: "POST",
           body: formData,
         });
 
         if (!mediaResponse.ok) {
-          throw new Error('Media upload failed');
+          throw new Error("Media upload failed");
         }
 
         const mediaData = await mediaResponse.json();
         return mediaData.id; // Get the media ID for the uploaded image
       } catch (error) {
-        console.error('Error uploading media:', error);
+        console.error("Error uploading media:", error);
         // return;
       }
     }
@@ -476,7 +609,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
 
   const [domain_id, setDomainId] = useState();
   useEffect(() => {
-    const getDomainId = localStorage.getItem('editable_domain_id');
+    const getDomainId = localStorage.getItem("editable_domain_id");
     if (getDomainId) {
       setDomainId(getDomainId);
     }
@@ -503,44 +636,44 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
   }, [domainAge]);
 
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [aiAudioUrl, setAiAudioUrl] = useState('');
+  const [aiAudioUrl, setAiAudioUrl] = useState("");
   // for getting selected category id so that can be send via post request
   async function handelFormSubmit(e) {
     e.preventDefault();
-    setErrorMessage(''); // Clear previous error
-    setSuccessMessage(''); // Clear previous success
+    setErrorMessage(""); // Clear previous error
+    setSuccessMessage(""); // Clear previous success
 
     setSubmitLoading(true);
     if (!domainName) {
       setSubmitLoading(false);
-      setErrorMessage('Domain name is empty.');
+      setErrorMessage("Domain name is empty.");
 
       return;
     }
     if (isValidDomain(domainName) == false) {
       setSubmitLoading(false);
-      setErrorMessage('Invalid Domain Name');
+      setErrorMessage("Invalid Domain Name");
 
       return;
     }
     if (parseInt(formData.regular_price) < parseInt(formData.sale_price)) {
       setSubmitLoading(false);
-      setErrorMessage('Sale price cannot be greater than regular price.');
+      setErrorMessage("Sale price cannot be greater than regular price.");
 
       return;
     }
 
     if (!content) {
       setSubmitLoading(false);
-      setErrorMessage('Required domain description.');
+      setErrorMessage("Required domain description.");
       return;
     }
     if (selectedIndustries.length < 1) {
       setSubmitLoading(false);
-      setErrorMessage('Industries cannot be empty.');
+      setErrorMessage("Industries cannot be empty.");
       return;
     }
-    setErrorMessage('');
+    setErrorMessage("");
     let categoryIds = [];
     if (selectedCategories) {
       categoryIds = selectedCategories.map((category) => {
@@ -561,10 +694,10 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     }
 
     const lease_to_own = isLeaseToOwnEnabled;
-    const offer = isAcceptOffersEnabled ? 'yes' : 'no';
+    const offer = isAcceptOffersEnabled ? "yes" : "no";
     const page_trust = pageTrustScore.toString();
     const domain_trust = domainTrustScore.toString();
-    const da_pa = domain_trust.concat('/', page_trust);
+    const da_pa = domain_trust.concat("/", page_trust);
 
     let imageId = thumbnailId; // Default to existing thumbnail ID
     let audioMediaId = audioId; // Default to existing audio ID
@@ -579,7 +712,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       audioMediaId = await handleImageAudioUpload(audioFile);
     }
 
-    const estimatedValue = parseInt(estimated_value.replace(/,/g, ''), 10);
+    const estimatedValue = parseInt(estimated_value.replace(/,/g, ""), 10);
 
     const domainInfo = {
       title: domainName,
@@ -593,7 +726,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     };
     const domaimMetaInfo = {
       _thumbnail_id: imageId,
-      _age: saveDomainAge ? saveDomainAge : '',
+      _age: saveDomainAge ? saveDomainAge : "",
       _length: domainLength,
       _da_pa: da_pa,
       _pronounce_audio: audioMediaId,
@@ -603,22 +736,26 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       _sale_price: formData.sale_price,
       _sale_price_dates_from: formData.start_date,
       _sale_price_dates_to: formData.end_date,
-      _stock_status: 'instock',
+      _stock_status: "instock",
       _enable_offers: offer,
       _tld: getTLD(domainName),
       _lease_to_own: lease_to_own,
       _estimated_value: estimatedValue,
+      _domain_verfied: redirectData,
     };
 
     if (domain_id) {
       try {
-        const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain/${domain_id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'Application/JSON',
-          },
-          body: JSON.stringify(domainInfo),
-        });
+        const res = await fetch(
+          `${currentUrl}/wp-json/wp/v2/domain/${domain_id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "Application/JSON",
+            },
+            body: JSON.stringify(domainInfo),
+          }
+        );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -629,20 +766,23 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       }
       if (domainId) {
         try {
-          const res = await fetch(`${currentUrl}/wp-json/wstr/v1/domain_meta/${domain_id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON',
-            },
-            body: JSON.stringify(domaimMetaInfo),
-          });
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain_meta/${domain_id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "Application/JSON",
+              },
+              body: JSON.stringify(domaimMetaInfo),
+            }
+          );
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
           setSubmitLoading(false);
-          setSuccessMessage('Domain Updated Successfully.');
-          setSellerCentralTab('Domains');
+          setSuccessMessage("Domain Updated Successfully.");
+          setSellerCentralTab("Domains");
         } catch (error) {
           console.log(error);
         }
@@ -652,9 +792,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     if (!domain_id) {
       try {
         const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'Application/JSON',
+            "Content-Type": "Application/JSON",
           },
           body: JSON.stringify(domainInfo),
         });
@@ -669,21 +809,24 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       }
       if (domainId) {
         try {
-          const res = await fetch(`${currentUrl}/wp-json/wstr/v1/domain_meta/${domainId}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON',
-            },
-            body: JSON.stringify(domaimMetaInfo),
-          });
+          const res = await fetch(
+            `${currentUrl}/wp-json/wstr/v1/domain_meta/${domainId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "Application/JSON",
+              },
+              body: JSON.stringify(domaimMetaInfo),
+            }
+          );
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
           const data = await res.json();
           if (data) {
             setSubmitLoading(false);
-            setSuccessMessage('Domain Added Successfully.');
-            setSellerCentralTab('Domains');
+            setSuccessMessage("Domain Added Successfully.");
+            setSellerCentralTab("Domains");
           }
         } catch (error) {
           console.log(error);
@@ -700,7 +843,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       setShowAddDomain(true);
       try {
         async function fetchDomainDetails() {
-          const res = await fetch(`${currentUrl}/wp-json/wp/v2/domain/${domain_id}`);
+          const res = await fetch(
+            `${currentUrl}/wp-json/wp/v2/domain/${domain_id}`
+          );
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
@@ -710,86 +855,113 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
           if (data?.meta?._sale_price[0]) {
             setIsSalePriceEnabled(!isSalePriceEnabled);
           }
-          const lease_to_own = data?.meta?._lease_to_own ? data.meta._lease_to_own[0] : '';
+          const lease_to_own = data?.meta?._lease_to_own
+            ? data.meta._lease_to_own[0]
+            : "";
           if (lease_to_own == 1) {
             setLeaseToOwnEnabled((prevState) => !prevState);
           }
-          const aiAudioUrl = data?.meta?._ai_audio_url ? data.meta._ai_audio_url[0] : '';
+          const aiAudioUrl = data?.meta?._ai_audio_url
+            ? data.meta._ai_audio_url[0]
+            : "";
 
           if (aiAudioUrl) {
             setAiAudioUrl(aiAudioUrl);
           }
+          const redirectData = data?.meta?._domain_verfied
+            ? data.meta._domain_verfied[0]
+            : "";
+          if (redirectData) {
+            setRedirectData(redirectData);
+            setIsRedirectEnabled(true);
+          }
 
-          const _enable_offers = data?.meta?._enable_offers ? data.meta._enable_offers[0] : '';
-          if (_enable_offers == 'yes') {
+          const _enable_offers = data?.meta?._enable_offers
+            ? data.meta._enable_offers[0]
+            : "";
+          if (_enable_offers == "yes") {
             setAcceptOffersEnabled((prevState) => !prevState);
           }
           setFormData((prevFormData) => ({
             ...prevFormData,
-            regular_price: data?.meta?._regular_price?.[0] || '',
-            sale_price: data?.meta?._sale_price[0] || '',
-            start_date: data?.meta?._sale_price_dates_from ? data.meta._sale_price_dates_from[0] : '',
-            end_date: data?.meta?._sale_price_dates_to ? data.meta._sale_price_dates_to[0] : '',
+            regular_price: data?.meta?._regular_price?.[0] || "",
+            sale_price: data?.meta?._sale_price[0] || "",
+            start_date: data?.meta?._sale_price_dates_from
+              ? data.meta._sale_price_dates_from[0]
+              : "",
+            end_date: data?.meta?._sale_price_dates_to
+              ? data.meta._sale_price_dates_to[0]
+              : "",
           }));
 
-          setDomainAge(ageToDecimal(data?.meta?._age ? data.meta._age[0] : ''));
-          setSaveDomainAge(data?.meta?._age ? data.meta._age[0] : '');
-          const da_pa = data?.meta?._da_pa ? data.meta._da_pa[0] : '';
-          const da_pa_split = da_pa.toString().split('/') ? da_pa.split('/') : '0/0';
+          setDomainAge(ageToDecimal(data?.meta?._age ? data.meta._age[0] : ""));
+          setSaveDomainAge(data?.meta?._age ? data.meta._age[0] : "");
+          const da_pa = data?.meta?._da_pa ? data.meta._da_pa[0] : "";
+          const da_pa_split = da_pa.toString().split("/")
+            ? da_pa.split("/")
+            : "0/0";
           const da = parseInt(da_pa_split[0]);
           const pa = parseInt(da_pa_split[1]);
           da ? setDomainTrustScore(da) : setDomainTrustScore(0);
           pa ? setPageTrustScore(pa) : setPageTrustScore(0);
 
-          const domain_length = data?.meta?._length ? data.meta._length[0] : '';
+          const domain_length = data?.meta?._length ? data.meta._length[0] : "";
           setDomainLength(domain_length);
 
-          const domain_description = data?.content?.rendered ? data.content.rendered : '';
+          const domain_description = data?.content?.rendered
+            ? data.content.rendered
+            : "";
 
           setContent(domain_description);
 
           const categories_array = [];
-          const categories = data?.domain_cat ? data.domain_cat : '';
+          const categories = data?.domain_cat ? data.domain_cat : "";
           categories.map((cat_id) => {
             return categories_array.push({
               id: cat_id,
-              taxonomy: 'domain_cat',
+              taxonomy: "domain_cat",
             });
           });
 
           setSelectedCategories(categories_array); // Set selected categories
 
           const industries_array = [];
-          const industries = data?.domain_industry ? data.domain_industry : '';
+          const industries = data?.domain_industry ? data.domain_industry : "";
           industries.map((ind_id) => {
             return industries_array.push({
               id: ind_id,
-              taxonomy: 'domain_industry',
+              taxonomy: "domain_industry",
             });
           });
 
           setSelectedIndustries(industries_array); // Set selected categories
 
           const tags_array = [];
-          const tags = data?.domain_tag ? data.domain_tag : '';
+          const tags = data?.domain_tag ? data.domain_tag : "";
           tags.map((tag_id) => {
             return tags_array.push({
               id: tag_id,
-              taxonomy: 'domain_industry',
+              taxonomy: "domain_industry",
             });
           });
 
           setSelectedTags(tags_array); // Set selected categories
 
-          const audio_id = data?.meta?._pronounce_audio ? data.meta._pronounce_audio[0] : '';
-          const thumbnail_id = data?.meta?._thumbnail_id ? data.meta._thumbnail_id[0] : '';
+          const audio_id = data?.meta?._pronounce_audio
+            ? data.meta._pronounce_audio[0]
+            : "";
+          const thumbnail_id = data?.meta?._thumbnail_id
+            ? data.meta._thumbnail_id[0]
+            : "";
           setThumbnailId(thumbnail_id);
           setAudioId(audio_id);
           if (thumbnail_id) {
             // Set initial data including thumbnail and audio IDs
 
             try {
-              const img_res = await fetch(`${currentUrl}/wp-json/wp/v2/media/${thumbnail_id}`);
+              const img_res = await fetch(
+                `${currentUrl}/wp-json/wp/v2/media/${thumbnail_id}`
+              );
               if (!img_res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
               }
@@ -816,7 +988,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
           //   }
           // }
 
-          const value_estimated = data?.meta?._estimated_value ? data.meta._estimated_value[0] : '';
+          const value_estimated = data?.meta?._estimated_value
+            ? data.meta._estimated_value[0]
+            : "";
           setEstimatedValue(value_estimated.toLocaleString());
         }
         fetchDomainDetails();
@@ -826,15 +1000,15 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     }
   }, [domain_id]);
 
-  let button_label = 'Add Product';
+  let button_label = "Add Product";
   if (domain_id) {
-    button_label = 'Update Product';
+    button_label = "Update Product";
   }
   //-------------------------edit section ends
   const formRef = useRef(null);
   useEffect(() => {
-    if (activeInnerTab == 'Add New Domain') {
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (activeInnerTab == "Add New Domain") {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [activeInnerTab]);
 
@@ -842,29 +1016,42 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
     setAiAudioUrl(pronounciation_id); // Update state
   }
 
-  const [industrySearchQuery, setIndustrySearchQuery] = useState('');
-  const [tagsSearchQuery, setTagsSearchQuery] = useState('');
-  const [categoriesSearchQuery, setCategoriesSearchQuery] = useState('');
+  const [industrySearchQuery, setIndustrySearchQuery] = useState("");
+  const [tagsSearchQuery, setTagsSearchQuery] = useState("");
+  const [categoriesSearchQuery, setCategoriesSearchQuery] = useState("");
 
   return (
     <>
       <div className={styles.add_domain_background_wrapper}>
-        <div className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}>
+        {console.log(redirectData)}
+        <div
+          className={`${styles.add_domain_wrapper} ${styles.dashboard_section_margin}`}
+        >
           <img src={addDomaintitleImage} alt="stars" />
           <h2 ref={formRef}>
-            {' '}
+            {" "}
             Add New <span>Domain</span>
           </h2>
           <p>
-            Get a detailed domain breakdown, ranking insights, estimate, and even audio pronunciations – all in one go!
+            Get a detailed domain breakdown, ranking insights, estimate, and
+            even audio pronunciations – all in one go!
           </p>
           <div>{domainNameError && domainNameError}</div>
-          <div className={`${styles.add_domain_generate_field} ${styles.p_relative}`}>
+          <div
+            className={`${styles.add_domain_generate_field} ${styles.p_relative}`}
+          >
             <form onSubmit={handleGenerate} class="add_domain_form">
-              <input type="text" value={domainName} onChange={(e) => setDomainName(e.target.value)} required />
+              <input
+                type="text"
+                value={domainName}
+                onChange={(e) => setDomainName(e.target.value)}
+                required
+              />
               {/* <input type="submit" value="Generate" class="hover_white_dark">
               </input> */}
-              <div className={`${styles.submit_container} ${styles.hover_white_dark} ${styles.animatedButton}`}>
+              <div
+                className={`${styles.submit_container} ${styles.hover_white_dark} ${styles.animatedButton}`}
+              >
                 <input type="submit" value="Generate" />
                 <GenerateStars />
               </div>
@@ -881,7 +1068,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
       )}
       {showAddDomain && (
         <form onSubmit={handelFormSubmit}>
-          <div className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}>
+          <div
+            className={`${styles.add_domain_media_setup_wrapper} ${styles.dashboard_small_margin}`}
+          >
             <div
               className={`${styles.add_domain_media_setup_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
@@ -889,7 +1078,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               <MediaSetupIcon />
               <h4>Media Setup</h4>
             </div>
-            <div className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}>
+            <div
+              className={`${styles.mediaSetupCardsWrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
+            >
               {/* first card */}
               {/* <div className={styles.media_content_wrapper}>
                 {audioURL ? (
@@ -902,7 +1093,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                         height: "40px",
                       }}
                     >
-                      <source
+                      <</div>source
                         src={audioURL}
                         type={audioFile?.type || "audio/mpeg"}
                       />
@@ -940,7 +1131,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                 )}
 
                 <div className={styles.media_setup_contents_footer}>
-                  <div className={styles.text_column}>
+                </div>  <div className={styles.text_column}>
                     <h5>{audioURL ? "Audio Uploaded" : "Attach My Audio"}</h5>
                     <p>
                       {audioURL
@@ -963,14 +1154,34 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               <div
                 className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${styles.media_setup_first_card}`}
               >
+                {redirectLoader && (
+                  <div className="loading_overlay">
+                    <FaSpinner className="loading" />
+                  </div>
+                )}
+                {redirectError && <div>{redirectError}</div>}
+                {redirectSuccess && <div>{redirectSuccess}</div>}
                 {!isRedirectEnabled && (
-                  <img src={RedirectDomain} alt="Redirect Domain" className={styles.media_image} />
+                  <img
+                    src={RedirectDomain}
+                    alt="Redirect Domain"
+                    className={styles.media_image}
+                  />
                 )}
                 <div className={styles.after_redirect}>
                   {isRedirectEnabled && (
                     <div className={styles.redirect_form}>
-                      <input type="text" placeholder="Enter URL" className={styles.redirect_input} />
-                      <button onClick={handleSubmit} className={styles.redirect_button}>
+                      <input
+                        type="text"
+                        placeholder="Enter URL"
+                        className={styles.redirect_input}
+                        value={domainName}
+                        readonly
+                      />
+                      <button
+                        onClick={handleRedirectSubmit}
+                        className={styles.redirect_button}
+                      >
                         Submit
                       </button>
                     </div>
@@ -983,8 +1194,15 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   </div>
 
                   <div className={styles.image_column}>
-                    <div className={styles.toggle_button} onClick={RedirectToggle}>
-                      <div className={`${styles.toggle_switch} ${isRedirectEnabled ? styles.on : styles.off}`}>
+                    <div
+                      className={styles.toggle_button}
+                      onClick={RedirectToggle}
+                    >
+                      <div
+                        className={`${styles.toggle_switch} ${
+                          isRedirectEnabled ? styles.on : styles.off
+                        }`}
+                      >
                         <div className={styles.toggle_indicator}>
                           <RxCross2 />
                           <IoCheckmarkOutline />
@@ -995,7 +1213,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                 </div>
               </div>
               {/* second card */}
-              <div className={`${styles.media_content_wrapper} ${styles.media_setup_second_card}`}>
+              <div
+                className={`${styles.media_content_wrapper} ${styles.media_setup_second_card}`}
+              >
                 {/* <div className={`${styles.pronounc_add} ${styles.active}`}>
                   <FaPlay />
                   <div>
@@ -1024,8 +1244,8 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                         controls
                         className={styles.media_audio}
                         style={{
-                          width: '100%',
-                          height: '40px',
+                          width: "100%",
+                          height: "40px",
                         }}
                         onPlay={() => handlePronounciation(aiAudioUrl)}
                       >
@@ -1034,20 +1254,20 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                       </audio>
 
                       <button
-                        onClick={() => setAiAudioUrl('')}
+                        onClick={() => setAiAudioUrl("")}
                         className={styles.removeAudioButton}
                         style={{
-                          position: 'absolute',
-                          top: '-10px',
-                          right: '-10px',
-                          background: '#00d9f5',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '50%',
-                          width: '20px',
-                          height: '20px',
-                          cursor: 'pointer',
-                          padding: '3px',
+                          position: "absolute",
+                          top: "-10px",
+                          right: "-10px",
+                          background: "#00d9f5",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "50%",
+                          width: "20px",
+                          height: "20px",
+                          cursor: "pointer",
+                          padding: "3px",
                         }}
                       >
                         <RxCross2 />
@@ -1055,13 +1275,17 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                     </div>
                   )}
                   {audioUrl && audioUrl.length > 1 && (
-                    <div className={aiAudioUrl == audioUrl[1].url ? styles.audioWrapper : ''}>
+                    <div
+                      className={
+                        aiAudioUrl == audioUrl[1].url ? styles.audioWrapper : ""
+                      }
+                    >
                       <audio
                         controls
                         className={styles.media_audio}
                         style={{
-                          width: '100%',
-                          height: '40px',
+                          width: "100%",
+                          height: "40px",
                         }}
                         onPlay={() => handlePronounciation(audioUrl[1].url)}
                       >
@@ -1072,13 +1296,17 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   )}
                   {audioUrl && audioUrl.length > 0 && (
                     // <div className={styles.audioWrapper}>
-                    <div className={aiAudioUrl == audioUrl[0].url ? styles.audioWrapper : ''}>
+                    <div
+                      className={
+                        aiAudioUrl == audioUrl[0].url ? styles.audioWrapper : ""
+                      }
+                    >
                       <audio
                         controls
                         className={styles.media_audio}
                         style={{
-                          width: '100%',
-                          height: '40px',
+                          width: "100%",
+                          height: "40px",
                         }}
                         onPlay={() => handlePronounciation(audioUrl[0].url)}
                       >
@@ -1126,7 +1354,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                 </div>
               </div> */}
 
-              <div className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}>
+              <div
+                className={`${styles.media_content_wrapper} ${styles.media_card_no_padding}`}
+              >
                 {!selectedImage && (
                   <div className={styles.renderedDomainText}>
                     {/* <h4>Arpan.com</h4> */}
@@ -1134,7 +1364,11 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   </div>
                 )}
                 {selectedImage && (
-                  <img src={selectedImage || domain_img} alt="attach logo image" className={styles.media_image} />
+                  <img
+                    src={selectedImage || domain_img}
+                    alt="attach logo image"
+                    className={styles.media_image}
+                  />
                 )}
                 <div className={styles.media_setup_contents_footer}>
                   <div className={styles.text_column}>
@@ -1143,29 +1377,45 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   </div>
 
                   <div className={styles.image_column}>
-                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
                   </div>
                 </div>
               </div>
               {/* fourth card */}
               <div
-                className={`${styles.media_content_wrapper} ${styles.media_card_no_padding} ${
-                  styles.media_setup_last_card
-                } ${isRedirectEnabled ? styles.toggle_active : ''}`}
+                className={`${styles.media_content_wrapper} ${
+                  styles.media_card_no_padding
+                } ${styles.media_setup_last_card} ${
+                  isRedirectEnabled ? styles.toggle_active : ""
+                }`}
               >
                 {/* <img src={media_setup_last_card} alt="attach audio image" className={styles.media_image} /> */}
                 <div className={styles.media_setup_contents_footer}>
+                  {logoRequestLoading && (
+                    <div className="loading_overlay">
+                      <FaSpinner className="loading" />
+                    </div>
+                  )}
+                  {logoRequestError && <div>{logoRequestError}</div>}
+                  {logoRequestSuccess && <div>{logoRequestSuccess}</div>}
                   <h5>
                     Get Your <span>FREE </span> Custom Logo in Just 72 Hours!
                   </h5>
-
-                  <a href="/services">Get Started</a>
+                  <a href="#" onClick={handleLogoRequest}>
+                    Get Started
+                  </a>
                 </div>
               </div>
             </div>
           </div>
           {/* Domain Appraisal */}
-          <div className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}>
+          <div
+            className={`${styles.dashboard_domain_setup_wrapper} ${styles.ws_flex} ${styles.mob_fd_col}`}
+          >
             <div className={styles.domain_appraisal_wrapper}>
               <div
                 className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
@@ -1182,7 +1432,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   className={`${styles.domain_appraisal_inner_wrapper_heading} ${styles.ws_flex} ${styles.mob_fd_col} ${styles.mob_card_padding_30}`}
                 >
                   <div>
-                    <h2>{domainName ? domainName : 'example.com'}</h2>
+                    <h2>{domainName ? domainName : "example.com"}</h2>
                     <h5>Estimated Value</h5>
                     <h3>
                       ${estimated_value && estimated_value}
@@ -1190,14 +1440,17 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                       <span>USD</span>
                     </h3>
                     <p>
-                      <span>Calculated By AI</span>Using hundreds of predictive data points.
+                      <span>Calculated By AI</span>Using hundreds of predictive
+                      data points.
                     </p>
                   </div>
                   <div>
                     <img src={domainAppraisalHeadingImage}></img>
                   </div>
                 </div>
-                <div className={`${styles.domain_appraisal_body_wrapper} ${styles.mob_card_padding_20}`}>
+                <div
+                  className={`${styles.domain_appraisal_body_wrapper} ${styles.mob_card_padding_20}`}
+                >
                   <div className={styles.domain_appraisal_body_cards}>
                     {/* Page Trust Score */}
                     <CircularProgressCard
@@ -1253,7 +1506,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               </div>
 
               {/* Regular Price Input */}
-              <div className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} ${styles.gap_10}`}>
+              <div
+                className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column} ${styles.gap_10}`}
+              >
                 <label htmlFor="regularPrice">
                   Regular Price<sup className="required">*</sup>
                 </label>
@@ -1275,14 +1530,24 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               </div>
 
               {/* Sale Price Input with Toggle */}
-              <div className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column}`}>
-                <div className={`${styles.ws_flex} ${styles.salePrice_heading_wrapper}`}>
+              <div
+                className={`${styles.input_group} ${styles.ws_flex} ${styles.flex_column}`}
+              >
+                <div
+                  className={`${styles.ws_flex} ${styles.salePrice_heading_wrapper}`}
+                >
                   <div>
                     <label htmlFor="salePrice">Sale Price</label>
-                    <p className={styles.subtitle}>Set your Sale Price for a Limited Time</p>
+                    <p className={styles.subtitle}>
+                      Set your Sale Price for a Limited Time
+                    </p>
                   </div>
                   <div className={styles.toggle_button} onClick={handleToggle}>
-                    <div className={`${styles.toggle_switch} ${isSalePriceEnabled ? styles.on : styles.off}`}>
+                    <div
+                      className={`${styles.toggle_switch} ${
+                        isSalePriceEnabled ? styles.on : styles.off
+                      }`}
+                    >
                       <div className={styles.toggle_indicator}>
                         <RxCross2 />
                         <IoCheckmarkOutline />
@@ -1291,21 +1556,27 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                   </div>
                 </div>
 
-                <div className={`${styles.sale_price_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+                <div
+                  className={`${styles.sale_price_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+                >
                   <input
                     type="number"
                     id="salePrice"
                     className={styles.input_field}
                     placeholder="Enter sale price"
                     value={formData.sale_price}
-                    onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, sale_price: e.target.value })
+                    }
                     min="0"
                     disabled={!isSalePriceEnabled}
                   />
                 </div>
 
                 {/* Date Input Fields */}
-                <div className={`${styles.date_fields_wrapper} ${styles.ws_flex} ${styles.gap_10}`}>
+                <div
+                  className={`${styles.date_fields_wrapper} ${styles.ws_flex} ${styles.gap_10}`}
+                >
                   <div className={`${styles.date_field} ${styles.flex_column}`}>
                     <label htmlFor="startSale">Start Sale</label>
                     <input
@@ -1328,7 +1599,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                       type="date"
                       id="endSale"
                       value={formData.end_date}
-                      onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, end_date: e.target.value })
+                      }
                       className={styles.input_field}
                       disabled={!isSalePriceEnabled} // Disable based on toggle
                     />
@@ -1336,13 +1609,24 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                 </div>
               </div>
               {/* Lease-To-Own Section */}
-              <div className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+              <div
+                className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+              >
                 <div>
                   <h5>Lease-To-Own</h5>
-                  <p className={styles.subtitle}>Flexible Payment Option to Attract Buyers.</p>
+                  <p className={styles.subtitle}>
+                    Flexible Payment Option to Attract Buyers.
+                  </p>
                 </div>
-                <div className={styles.toggle_button} onClick={handleLeaseToOwnToggle}>
-                  <div className={`${styles.toggle_switch} ${isLeaseToOwnEnabled ? styles.on : styles.off}`}>
+                <div
+                  className={styles.toggle_button}
+                  onClick={handleLeaseToOwnToggle}
+                >
+                  <div
+                    className={`${styles.toggle_switch} ${
+                      isLeaseToOwnEnabled ? styles.on : styles.off
+                    }`}
+                  >
                     <div className={styles.toggle_indicator}>
                       <RxCross2 />
                       <IoCheckmarkOutline />
@@ -1352,13 +1636,22 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               </div>
 
               {/* Flexible Payment Section */}
-              <div className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}>
+              <div
+                className={`${styles.toggle_section} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
+              >
                 <div>
                   <h5>Accept Offers</h5>
                   <p className={styles.subtitle}>Let Buyers Name Their Price</p>
                 </div>
-                <div className={styles.toggle_button} onClick={handleAcceptOffersToggle}>
-                  <div className={`${styles.toggle_switch} ${isAcceptOffersEnabled ? styles.on : styles.off}`}>
+                <div
+                  className={styles.toggle_button}
+                  onClick={handleAcceptOffersToggle}
+                >
+                  <div
+                    className={`${styles.toggle_switch} ${
+                      isAcceptOffersEnabled ? styles.on : styles.off
+                    }`}
+                  >
                     <div className={styles.toggle_indicator}>
                       <RxCross2 />
                       <IoCheckmarkOutline />
@@ -1418,7 +1711,11 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
                 className={`${styles.starsWhite} ${styles.gradient_hover} ${styles.animatedButton}`}
                 onClick={(e) => handelDomainDesc(e)}
               >
-                <img src={starswhite} alt="Star Icon" className={styles.starsWhiteIcon} />
+                <img
+                  src={starswhite}
+                  alt="Star Icon"
+                  className={styles.starsWhiteIcon}
+                />
                 Ask AI
               </a>
             </div>
@@ -1435,69 +1732,75 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               /> */}
               <CKEditor
                 editor={ClassicEditor}
-                data={content ? content : ''}
+                data={content ? content : ""}
                 config={{
                   toolbar: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'underline', // Underline
-                    '|',
-                    'alignment', // Text alignment
-                    'bulletedList',
-                    'numberedList',
-                    '|',
-                    'link',
-                    'imageUpload', // Image upload
-                    'blockQuote',
-                    'insertTable',
-                    '|',
-                    'undo',
-                    'redo',
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "underline", // Underline
+                    "|",
+                    "alignment", // Text alignment
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "link",
+                    "imageUpload", // Image upload
+                    "blockQuote",
+                    "insertTable",
+                    "|",
+                    "undo",
+                    "redo",
                   ],
                   heading: {
                     options: [
                       {
-                        model: 'paragraph',
-                        title: 'Paragraph',
-                        class: 'ck-heading_paragraph',
+                        model: "paragraph",
+                        title: "Paragraph",
+                        class: "ck-heading_paragraph",
                       },
                       {
-                        model: 'heading1',
-                        view: 'h1',
-                        title: 'Heading 1',
-                        class: 'ck-heading_heading1',
+                        model: "heading1",
+                        view: "h1",
+                        title: "Heading 1",
+                        class: "ck-heading_heading1",
                       },
                       {
-                        model: 'heading2',
-                        view: 'h2',
-                        title: 'Heading 2',
-                        class: 'ck-heading_heading2',
+                        model: "heading2",
+                        view: "h2",
+                        title: "Heading 2",
+                        class: "ck-heading_heading2",
                       },
                       {
-                        model: 'heading3',
-                        view: 'h3',
-                        title: 'Heading 3',
-                        class: 'ck-heading_heading3',
+                        model: "heading3",
+                        view: "h3",
+                        title: "Heading 3",
+                        class: "ck-heading_heading3",
                       },
                     ],
                   },
                   alignment: {
-                    options: ['left', 'center', 'right', 'justify'], // Alignment options
+                    options: ["left", "center", "right", "justify"], // Alignment options
                   },
                   image: {
-                    toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+                    toolbar: [
+                      "imageTextAlternative",
+                      "imageStyle:full",
+                      "imageStyle:side",
+                    ],
                   },
                   ckfinder: {
                     // Image upload backend endpoint
-                    uploadUrl: '/your-upload-endpoint', // Replace with your server URL
+                    uploadUrl: "/your-upload-endpoint", // Replace with your server URL
                   },
                 }}
                 // onChange={(event, editor) => {
                 //   const data = editor.getData();
                 // }}
-                onChange={(event, editor) => handleEditorChange(editor.getData())}
+                onChange={(event, editor) =>
+                  handleEditorChange(editor.getData())
+                }
               />
             </div>
             <div
@@ -1532,7 +1835,9 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
             </div>
           </div>
           {/* industries */}
-          <div className={`${styles.cardSelectorWrapper} ${cardstyles.cardSelectorIndustriesWrapper}`}>
+          <div
+            className={`${styles.cardSelectorWrapper} ${cardstyles.cardSelectorIndustriesWrapper}`}
+          >
             <div
               className={`${styles.add_domain_domain_appraisal_tile_wrapper} ${styles.ws_flex} ${styles.ai_center} ${styles.gap_10}`}
             >
@@ -1566,19 +1871,23 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
               />
             )}
           </div>
-          {errorMessage && <div className={styles.error_message}>{errorMessage}</div>}
-          {successMessage && <div className={styles.success_message}>{successMessage}</div>}
+          {errorMessage && (
+            <div className={styles.error_message}>{errorMessage}</div>
+          )}
+          {successMessage && (
+            <div className={styles.success_message}>{successMessage}</div>
+          )}
           {submitLoading && (
             <div className={styles.loading_message}>
               {/* Saving...</div> */}
               <div className="loading_overlay">
                 <FaSpinner className="loading" />
-              </div>{' '}
+              </div>{" "}
             </div>
           )}
           <div className={styles.save_button_wrappers}>
             <button
-              onClick={() => setPostStatus('publish')}
+              onClick={() => setPostStatus("publish")}
               className={`${styles.add_product_button} ${styles.hover_white_dark} ${styles.animatedButton}`}
             >
               <span className={styles.icon}>
@@ -1589,7 +1898,7 @@ export default function AddDomain({ styles, userData, activeInnerTab, setSellerC
             </button>
 
             <button
-              onClick={() => setPostStatus('draft')}
+              onClick={() => setPostStatus("draft")}
               className={`${styles.save_draft_button} ${styles.hover_white} ${styles.animatedButton}`}
             >
               <span className={styles.icon}>
