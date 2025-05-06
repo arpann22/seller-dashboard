@@ -599,7 +599,9 @@ button.active svg path {
   background-color: #0e0161;
   color: #fff;
 }
-.media_content_wrapper .text_column p {
+.media_content_wrapper .text_column p,
+.media_content_wrapper .first_column p
+{
   color: #67748e;
 }
 .media_content_wrapper ::file-selector-button {
@@ -669,6 +671,7 @@ audio::-webkit-media-controls-panel {
 .media_setup_last_card .media_setup_contents_footer {
   flex-direction: column;
 }
+
 .media_setup_last_card {
   background-image: url("images/media_setup_last_card.png");
   justify-content: end;
@@ -676,6 +679,14 @@ audio::-webkit-media-controls-panel {
   background-repeat: no-repeat;
   min-height: 300px;
   background-size: cover;
+  filter: grayscale(1);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.media_setup_last_card.toggle_active{
+  cursor: pointer;
+  pointer-events: auto;
+  filter: none;
 }
 .media_setup_last_card .media_setup_contents_footer a {
   background-color: #00d9f5;
